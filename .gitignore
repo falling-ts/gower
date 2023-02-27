@@ -12,4 +12,28 @@
 *.out
 
 # Dependency directories (remove the comment below to include it)
-# vendor/
+vendor/
+node_modules/
+
+# IDE files
+.idea/
+.vscode/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Logs and databases
+*.log
+*.sqlite
+*.db
+
+# System files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+ehthumbs_vista.db
+*.stackdump
