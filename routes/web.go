@@ -1,7 +1,13 @@
 package routes
 
-import "gower/app/http/controllers"
+import . "gower/app/http/controllers"
 
 func init() {
-	route.GET("/", controllers.Pong.Ping)
+	route.Static("/public/static", "public/static")
+
+	route.GET("/ping", Pong.Ping)
+
+	route.GET("/", Home.Index)
+
+	route.GET("/test", Home.Test)
 }

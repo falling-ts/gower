@@ -1,8 +1,5 @@
 package routes
 
-import (
-	"gower/app"
-	"gower/app/services"
-)
+import "gower/app/services"
 
-var route = app.Get("route").(*services.Route)
+var route = services.Route

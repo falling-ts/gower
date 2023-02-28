@@ -1,6 +1,6 @@
 package controllers
 
-import "github.com/gin-gonic/gin"
+import "gower/app/services/route"
 
 type PongController struct {
 	Controllers
@@ -8,8 +8,8 @@ type PongController struct {
 
 var Pong = new(PongController)
 
-func (p *PongController) Ping(c *gin.Context) {
-	c.JSON(200, gin.H{
+func (p *PongController) Ping(c route.Context) {
+	c.JSON(200, map[string]any{
 		"message": "pong",
 	})
 }
