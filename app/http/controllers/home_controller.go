@@ -12,13 +12,13 @@ type HomeController struct {
 var Home = new(HomeController)
 
 func (h *HomeController) Index(c route.Context) {
-	c.HTML(http.StatusOK, "home/index", map[string]any{
-		"title": "Main website",
+	c.HTML(http.StatusOK, "home/index", data{
+		"Title": "Main website",
 	})
 }
 
 func (h *HomeController) Test(c route.Context) {
-	c.HTML(http.StatusOK, "home/test", map[string]any{
-		"title": "Main website",
+	c.HTML(http.StatusOK, "home/test", data{
+		"Title": "Main website",
 	})
 }

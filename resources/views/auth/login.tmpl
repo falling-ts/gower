@@ -1,0 +1,57 @@
+{{define "auth/login"}}
+    {{template "head" .}}
+    {{template "loading" .}}
+    <div id="auth-login" class="h-full hidden">
+      <img src="/static/images/login-bg.jpg" alt="" class="absolute  w-full h-full">
+      <div class="w-2/5 h-full px-24 relative z-10 bg-white shadow-2xl float-right animate__animated animate__fadeInRight">
+        <div class="h-full flex flex-col justify-center">
+          <a href="/">
+            <img class="h-16" src="/static/images/logo.png" alt="">
+          </a>
+          <div class="mt-6">
+            <span class="text-4xl text-black font-bold">Login your account</span>
+          </div>
+          <div class="divider my-8">Account info</div>
+          <div class="form-control w-full">
+            <label class="label" for="account">
+              <span class="label-text text-black text-2xl">Account</span>
+            </label>
+            <input
+              id="account"
+              type="text"
+              placeholder="username or email"
+              class="input input-bordered input-info w-full input-md"/>
+          </div>
+          <div class="form-control w-full">
+            <label class="label" for="password">
+              <span class="label-text text-black text-2xl">Password</span>
+            </label>
+            <input
+              id="password"
+              type="text"
+              placeholder="Password"
+              class="input input-bordered input-info w-full input-md"/>
+          </div>
+          <div class="divider my-8">Login button</div>
+          <div class="form-control w-full mt-4">
+            <button class="btn btn-primary w-full">Login</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{template "foot" .}}
+    <script type="module">
+      import { createApp } from "/static/main.js"
+
+      createApp({
+        compilerOptions: {
+          delimiters: ['${', '}']
+        },
+        data() {
+          return {
+            test: "test"
+          }
+        }
+      }).mount("#auth-login")
+    </script>
+{{end}}

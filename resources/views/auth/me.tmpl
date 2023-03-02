@@ -1,0 +1,27 @@
+{{define "me"}}
+
+{{template "head" .}}
+<div id="auth-register" class="bg-gray-100 h-full" data-simplebar>
+  <div class="px-6 pt-6 lg:px-8">
+    <nav class="flex items-center justify-between" aria-label="Global">
+      <div class="flex lg:flex-1">
+        <a href="/" class="-m-1.5 p-1.5">
+          <img class="h-12 animate__animated animate__fadeInLeft" src="/static/images/logo.png" alt="">
+        </a>
+      </div>
+      <div class="flex lg:hidden">
+        <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+      <div class="hidden lg:flex lg:flex-1 lg:justify-end animate__animated animate__fadeInDown">
+        <a href="/" class="btn btn-active btn-link w-24">Home</a>
+      </div>
+    </nav>
+  </div>
+</div>
+{{template "foot" .}}
+
+{{end}}

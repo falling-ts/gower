@@ -1,114 +1,327 @@
 {{define "home/index"}}
-
-{{template "head" .}}
-
-<div class="isolate bg-white">
-  <div class="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]">
-    <svg class="relative left-[calc(50%-11rem)] -z-10 h-[21.1875rem] max-w-none -translate-x-1/2 rotate-[30deg] sm:left-[calc(50%-30rem)] sm:h-[42.375rem]" viewBox="0 0 1155 678">
-      <path fill="url(#45de2b6b-92d5-4d68-a6a0-9b9b2abad533)" fill-opacity=".3" d="M317.219 518.975L203.852 678 0 438.341l317.219 80.634 204.172-286.402c1.307 132.337 45.083 346.658 209.733 145.248C936.936 126.058 882.053-94.234 1031.02 41.331c119.18 108.451 130.68 295.337 121.53 375.223L855 299l21.173 362.054-558.954-142.079z" />
-      <defs>
-        <linearGradient id="45de2b6b-92d5-4d68-a6a0-9b9b2abad533" x1="1155.49" x2="-78.208" y1=".177" y2="474.645" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#9089FC" />
-          <stop offset="1" stop-color="#FF80B5" />
-        </linearGradient>
-      </defs>
+    {{template "head" .}}
+    <div id="home-index" class="isolate bg-gray-100 h-full" data-simplebar>
+      <div class="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu blur-3xl sm:top-[-20rem] bottom-0">
+        <svg
+          class="relative opacity-50 left-[calc(50%-11rem)] -z-10 h-[21.1875rem] max-w-none -translate-x-1/2 rotate-[30deg] sm:left-[calc(50%-30rem)] sm:h-[42.375rem]"
+          id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          viewBox="0 0 285 114" xml:space="preserve">
+      <image class="h-40" width="600" height="600" href="data:image/png;base64,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
+4ayrm2UKUQkhRt/AUkpFyvZYbW3DZArVbddfP1Wa5k3E/E4A6zE6iVYcwPNM9GcGnqwpKTmYrebl
+v/lmjxIOX0VE70CiHNKqFB/tBtHLJOWzRLQn7vHsn4gTmaEwQNvWr59Bpnk1A7UArkT6rWgTgGcA
+PCulfEH6fIcyGfPWdeumM9FNgijn8tIspU7A3o179rw6EfYc4AISOiPZcsMNhYquzyPmahCtEszF
+Iz8jiXrBfEBRlKMa0Jhr2WKb/MIA3Xf99VUwDJnO8TAf/Wxbt26aIPLGTfO0v67ugs8B5K+trdIU
+pVL3eE5OtDC0sbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGx
+sbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbGxsbG5wPh/OSLYpdeTUT4AAAAldEVYdGRh
+dGU6Y3JlYXRlADIwMjMtMDMtMDFUMTI6NTc6MjMrMDA6MDAlzyJsAAAAJXRFWHRkYXRlOm1vZGlm
+eQAyMDIzLTAzLTAxVDEyOjU3OjIzKzAwOjAwVJKa0AAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAy
+My0wMy0wMVQxMjo1NzoyNCswMDowMMYghYEAAAAASUVORK5CYII="/>
     </svg>
-  </div>
-  <div class="px-6 pt-6 lg:px-8">
-    <nav class="flex items-center justify-between" aria-label="Global">
-      <div class="flex lg:flex-1">
-        <a href="#" class="-m-1.5 p-1.5">
-          <span class="sr-only">Your Company</span>
-          <img class="h-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="">
-        </a>
       </div>
-      <div class="flex lg:hidden">
-        <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
-          <span class="sr-only">Open main menu</span>
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-          </svg>
-        </button>
-      </div>
-      <div class="hidden lg:flex lg:gap-x-12">
-        <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Product</a>
+      <div class="px-6 pt-6 lg:px-8">
+        <nav class="flex items-center justify-between" aria-label="Global">
+          <div class="flex lg:flex-1">
+            <a href="/" class="-m-1.5 p-1.5">
+              <img class="h-12 animate__animated animate__fadeInLeft" src="/static/images/logo.png" alt="">
+            </a>
+          </div>
+          <div class="flex lg:hidden">
+            <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                   aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+              </svg>
+            </button>
+          </div>
+          <div class="hidden lg:flex lg:gap-x-12 animate__animated animate__fadeInDown">
+            <a href="https://github.com/falling-ts/gower" target="_blank"
+               class="text-sm font-semibold leading-6 text-gray-900">GitHub</a>
+            <a href="#" target="_blank" class="text-sm font-semibold leading-6 text-gray-900">...</a>
+            <a href="#" target="_blank" class="text-sm font-semibold leading-6 text-gray-900">...</a>
+            <a href="#" target="_blank" class="text-sm font-semibold leading-6 text-gray-900">...</a>
+          </div>
+          <div class="hidden lg:flex lg:flex-1 lg:justify-end animate__animated animate__fadeInDown">
+            <a href="/auth/register" class="btn btn-active btn-secondary mr-4 w-24">Register</a>
+            <a href="/auth/login" class="btn btn-outline btn-accent">Log in <span aria-hidden="true">&rarr;</span></a>
+          </div>
+        </nav>
 
-        <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Features</a>
-
-        <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Marketplace</a>
-
-        <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Company</a>
-      </div>
-      <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-        <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Log in <span aria-hidden="true">&rarr;</span></a>
-      </div>
-    </nav>
-    <!-- Mobile menu, show/hide based on menu open state. -->
-    <div role="dialog" aria-modal="true">
-      <div class="fixed inset-0 z-10 overflow-y-auto bg-white px-6 py-6 lg:hidden">
-        <div class="flex items-center justify-between">
-          <a href="#" class="-m-1.5 p-1.5">
-            <span class="sr-only">Your Company</span>
-            <img class="h-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="">
-          </a>
-          <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700">
-            <span class="sr-only">Close menu</span>
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        <div class="mt-6 flow-root">
-          <div class="-my-6 divide-y divide-gray-500/10">
-            <div class="space-y-2 py-6">
-              <a href="#" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">Product</a>
-
-              <a href="#" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">Features</a>
-
-              <a href="#" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">Marketplace</a>
-
-              <a href="#" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">Company</a>
+          {{/* mobile main */}}
+        <div role="dialog" aria-modal="true">
+          <div class="fixed inset-0 z-10 overflow-y-auto bg-white px-6 py-6 lg:hidden">
+            <div class="flex items-center justify-between">
+              <a href="#" class="-m-1.5 p-1.5">
+                <img class="h-8" src="/static/images/favicon.png" alt="">
+              </a>
+              <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                     aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+              </button>
             </div>
-            <div class="py-6">
-              <a href="#" class="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-6 text-gray-900 hover:bg-gray-400/10">Log in</a>
+            <div class="mt-6 flow-root">
+              <div class="-my-6 divide-y divide-gray-500/10">
+                <div class="space-y-2 py-6">
+                  <a href="https://github.com/falling-ts/gower" target="_blank"
+                     class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">GitHub</a>
+                  <a href="#" target="_blank"
+                     class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">...</a>
+                  <a href="#" target="_blank"
+                     class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">...</a>
+                  <a href="#" target="_blank"
+                     class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">...</a>
+                </div>
+                <div class="py-6 flex flex-col space-y-4">
+                  <a href="/auth/register" class="btn btn-active btn-secondary">Register</a>
+                  <a href="/auth/login" class="btn btn-outline btn-accent">Log in</a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
       </div>
-    </div>
-  </div>
-  <main>
-    <div class="relative px-6 lg:px-8">
-      <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
-        <div class="hidden sm:mb-8 sm:flex sm:justify-center">
-          <div class="relative rounded-full py-1 px-3 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-            Announcing our next round of funding. <a href="#" class="font-semibold text-indigo-600"><span class="absolute inset-0" aria-hidden="true"></span>Read more <span aria-hidden="true">&rarr;</span></a>
+      <main>
+        <div class="relative px-6 lg:px-8 animate__animated animate__jackInTheBox">
+          <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+            <div class="hidden sm:mb-8 sm:flex sm:justify-center"></div>
+            <div class="text-center">
+              <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Go/Gin Gower Web Frame Struct</h1>
+              <p class="mt-6 text-lg leading-8 text-gray-600">Go language development Web a quick start directory, the
+                default use of template integration mode, not front-end separation.</p>
+              <div class="mt-10 flex items-center justify-center gap-x-6">
+                <a href="#" class="btn btn-primary">Get started</a>
+                <a href="#" class="btn btn-outline btn-info text-sm font-semibold leading-6 text-gray-900"> learn more
+                  <span aria-hidden="true">→</span></a>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="text-center">
-          <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">A Data to enrich your online business</h1>
-          <p class="mt-6 text-lg leading-8 text-gray-600">Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.</p>
-          <div class="mt-10 flex items-center justify-center gap-x-6">
-            <a href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Get started</a>
-            <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Learn more <span aria-hidden="true">→</span></a>
-          </div>
-        </div>
-      </div>
-      <div class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]">
-        <svg class="relative left-[calc(50%+3rem)] h-[21.1875rem] max-w-none -translate-x-1/2 sm:left-[calc(50%+36rem)] sm:h-[42.375rem]" viewBox="0 0 1155 678">
-          <path fill="url(#ecb5b0c9-546c-4772-8c71-4d3f06d544bc)" fill-opacity=".3" d="M317.219 518.975L203.852 678 0 438.341l317.219 80.634 204.172-286.402c1.307 132.337 45.083 346.658 209.733 145.248C936.936 126.058 882.053-94.234 1031.02 41.331c119.18 108.451 130.68 295.337 121.53 375.223L855 299l21.173 362.054-558.954-142.079z" />
-          <defs>
-            <linearGradient id="ecb5b0c9-546c-4772-8c71-4d3f06d544bc" x1="1155.49" x2="-78.208" y1=".177" y2="474.645" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#9089FC" />
-              <stop offset="1" stop-color="#FF80B5" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
+      </main>
     </div>
-  </main>
-</div>
-
-{{template "foot" .}}
-
+    {{template "foot" .}}
 {{end}}

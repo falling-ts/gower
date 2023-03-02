@@ -1,0 +1,20 @@
+{{define "loading"}}
+  <div id="loading" class="fixed inset-0 z-50 bg-slate-500 flex justify-center items-center">
+    <div class="sk-chase">
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+    </div>
+  </div>
+  <script type="module">
+    import { $ } from "/static/main.js"
+
+    setTimeout(() => {
+      $("#loading").hide()
+      $(".hidden").show()
+    }, 800)
+  </script>
+{{end}}

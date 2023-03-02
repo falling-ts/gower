@@ -1,0 +1,86 @@
+{{define "auth/register"}}
+    {{template "head" .}}
+    {{template "loading" .}}
+    <div id="auth-register" class="h-full flex hidden">
+      <img src="/static/images/register-bg.jpg" alt="" class="absolute w-full h-full">
+      <div class="w-2/5 h-full px-24 relative z-10 bg-white shadow-2xl animate__animated animate__fadeInLeft"
+           data-simplebar>
+        <div class="h-full flex flex-col justify-center">
+          <a href="/">
+            <img class="h-16" src="/static/images/logo.png" alt="">
+          </a>
+          <div class="mt-6">
+            <span class="text-4xl text-black font-bold">Register your account</span>
+          </div>
+          <div class="divider my-8">Account info</div>
+          <div class="form-control w-full">
+            <label class="label" for="username">
+              <span class="label-text text-black text-2xl">Username</span>
+            </label>
+            <input
+              id="username"
+              type="text"
+              placeholder="username or email"
+              v-model="form.username"
+              class="input input-bordered input-info w-full input-md"/>
+          </div>
+          <div class="form-control w-full">
+            <label class="label" for="password">
+              <span class="label-text text-black text-2xl">Password</span>
+            </label>
+            <input
+              id="password"
+              type="text"
+              placeholder="Password"
+              v-model="form.password"
+              class="input input-bordered input-info w-full input-md"/>
+          </div>
+          <div class="form-control w-full">
+            <label class="label" for="password-rep">
+              <span class="label-text text-black text-2xl">Password Repetition</span>
+            </label>
+            <input
+              id="password-rep"
+              type="text"
+              placeholder="Password Repetition"
+              v-model="form.passwordRep"
+              class="input input-bordered input-info w-full input-md"/>
+          </div>
+          <div class="divider my-8">Register button</div>
+          <div class="form-control w-full mt-4">
+            <button class="btn btn-primary w-full" @click="register">Register</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{template "foot" .}}
+    <script type="module">
+      import { createApp, api } from "/static/main.js"
+
+      createApp({
+        compilerOptions: {
+          delimiters: ['${', '}']
+        },
+        data() {
+          return {
+            form: {
+              username: "",
+              password: "",
+              passwordRep: ""
+            }
+          }
+        },
+        methods: {
+          async register() {
+            if (this.form.password !== this.form.passwordRep) {
+              console.log('Error')
+              return
+            }
+            const res = await api.auth.register(this.form)
+            console.log("Res: ", res)
+
+          }
+        }
+      }).mount("#auth-register")
+    </script>
+{{end}}

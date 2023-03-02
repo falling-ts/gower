@@ -1,17 +1,19 @@
 {{define "head"}}
 <!doctype html>
-<html lang="zh-cn">
+<html lang="zh-cn" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ .Title }}</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{.Title}}</title>
     {{template "css" .}}
 </head>
 <body>
-{{end}}
+<div id="app" class="fixed inset-0">
+  {{end}}
 
-{{define "foot"}}
-</body>
+  {{define "foot"}}
+</div>
 {{template "js" .}}
+</body>
 </html>
 {{end}}

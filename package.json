@@ -1,19 +1,39 @@
 {
   "name": "gower",
+  "type": "module",
   "version": "0.0.1",
   "description": "",
-  "main": "resources/js/main.js",
+  "files": [
+    "public/static"
+  ],
+  "module": "public/static/main.js",
+  "main": "public/static/main.umd.js",
+  "exports": {
+    ".": {
+      "import": "./dist/main.js",
+      "require": "./dist/main.umd.cjs"
+    }
+  },
   "scripts": {
-    "b": "pnpm vite build",
+    "build": "pnpm vite build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "falling-ts",
   "license": "ISC",
   "devDependencies": {
+    "@rollup/plugin-replace": "^5.0.2",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "animate.css": "^4.1.1",
     "autoprefixer": "^10.4.13",
+    "daisyui": "^2.51.2",
+    "jquery": "^3.6.3",
     "postcss": "^8.4.21",
+    "resize-observer-polyfill": "^1.5.1",
+    "simplebar": "^6.2.1",
+    "stylus": "^0.59.0",
     "tailwindcss": "^3.2.7",
-    "vite": "^4.1.4"
+    "vite": "^4.1.4",
+    "vue": "^3.2.47"
   }
 }

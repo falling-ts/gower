@@ -16,13 +16,38 @@ type Service interface {
 	Run()
 }
 
-type ErrorType uint64
-
 // HandlerFunc defines the handler used by gin middleware as return value.
 type HandlerFunc func(Context)
 
 // HandlersChain defines a HandlerFunc slice.
 type HandlersChain []HandlerFunc
+
+// IRouter defines all router handle interface includes single and group router.
+type IRouter interface {
+	IRoutes
+	Group(string, ...HandlerFunc) *Route
+}
+
+// IRoutes defines all router handle interface.
+type IRoutes interface {
+	Use(...HandlerFunc) IRoutes
+
+	Handle(string, string, ...HandlerFunc) IRoutes
+	Any(string, ...HandlerFunc) IRoutes
+	GET(string, ...HandlerFunc) IRoutes
+	POST(string, ...HandlerFunc) IRoutes
+	DELETE(string, ...HandlerFunc) IRoutes
+	PATCH(string, ...HandlerFunc) IRoutes
+	PUT(string, ...HandlerFunc) IRoutes
+	OPTIONS(string, ...HandlerFunc) IRoutes
+	HEAD(string, ...HandlerFunc) IRoutes
+	Match([]string, string, ...HandlerFunc) IRoutes
+
+	StaticFile(string, string) IRoutes
+	StaticFileFS(string, string, http.FileSystem) IRoutes
+	Static(string, string) IRoutes
+	StaticFS(string, http.FileSystem) IRoutes
+}
 
 // Context http request and response.
 type Context interface {
