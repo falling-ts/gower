@@ -8,7 +8,7 @@ func init() {
 
 	route.GET("/", Home.Index)
 
-	// authentication routes
+	// 注册与登录
 	auth := route.Group("/auth")
 	{
 		auth.GET("/register", Auth.RegisterForm)

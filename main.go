@@ -1,8 +1,8 @@
 /*
 Copyright (c) 2023 Falling TS
 
-This source code uses the MIT license,
-You can find the MIT license in the root directory.
+该源码使用 MIT 授权协议,
+你可以在根目录下找到 MIT 授权协议.
 */
 
 package main

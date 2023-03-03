@@ -11,46 +11,46 @@ type AuthController struct {
 
 var Auth = new(AuthController)
 
-// RegisterForm get register form
+// RegisterForm 注册页面
 func (a *AuthController) RegisterForm(c route.Context) {
 	c.HTML(http.StatusOK, "auth/register", data{
-		"Title": "register",
+		"Title": "注册",
 	})
 }
 
-// Register exec register
+// Register 执行注册
 func (a *AuthController) Register(c route.Context) {
 	c.JSON(http.StatusOK, data{
 		"code": 0,
-		"msg":  "SUCCESS",
+		"msg":  "注册成功",
 		"data": nil,
 	})
 }
 
-// LoginForm get login form
+// LoginForm 登录页面
 func (a *AuthController) LoginForm(c route.Context) {
 	c.HTML(http.StatusOK, "auth/login", data{
-		"Title": "login",
+		"Title": "登录",
 	})
 }
 
-// Login exec login
+// Login 执行登录
 func (a *AuthController) Login(c route.Context) {
 	c.HTML(http.StatusOK, "auth/login", data{
-		"Title": "login",
+		"Title": "登录",
 	})
 }
 
-// Me get personal center
+// Me 获取个人信息
 func (a *AuthController) Me(c route.Context) {
 	c.HTML(http.StatusOK, "auth/me", data{
-		"Title": "me",
+		"Title": "我",
 	})
 }
 
-// Logout exec logout
+// Logout 执行退出
 func (a *AuthController) Logout(c route.Context) {
 	c.HTML(http.StatusOK, "auth/login", data{
-		"Title": "login",
+		"Title": "退出",
 	})
 }
