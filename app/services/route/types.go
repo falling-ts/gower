@@ -17,7 +17,7 @@ type Service interface {
 }
 
 // HandlerFunc defines the handler used by gin middleware as return value.
-type HandlerFunc func(Context)
+type HandlerFunc any
 
 // HandlersChain defines a HandlerFunc slice.
 type HandlersChain []HandlerFunc

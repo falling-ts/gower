@@ -11,13 +11,13 @@
           <div class="mt-6">
             <span class="text-4xl text-black font-bold">Login your account</span>
           </div>
-          <div class="divider my-8">Account info</div>
+          <div class="divider my-8">Username info</div>
           <div class="form-control w-full">
-            <label class="label" for="account">
-              <span class="label-text text-black text-2xl">Account</span>
+            <label class="label" for="username">
+              <span class="label-text text-black text-2xl">Username</span>
             </label>
             <input
-              id="account"
+              id="username"
               type="text"
               placeholder="username or email"
               class="input input-bordered input-info w-full input-md"/>
@@ -41,7 +41,8 @@
     </div>
     {{template "foot" .}}
     <script type="module">
-      import { createApp } from "/static/main.js"
+      import { createApp, api } from "/static/main.js"
+      const { auth } = api
 
       createApp({
         compilerOptions: {
@@ -49,7 +50,20 @@
         },
         data() {
           return {
-            test: "test"
+            form: {
+              username: "",
+              password: ""
+            }
+          }
+        },
+        methods: {
+          async login() {
+            try {
+              const res = await auth.login(this.form)
+              console.log(res)
+            } catch (error) {
+              console.log("Error: ", error)
+            }
           }
         }
       }).mount("#auth-login")

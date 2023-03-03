@@ -156,6 +156,13 @@ func toGinHandlers(handlers HandlersChain) gin.HandlersChain {
 
 func toGinHandler(handler HandlerFunc) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		handler(c)
+		if fn, ok := handler.(func(*gin.Context)); ok {
+			fn(c)
+			return
+		}
+		if fn, ok := handler.(func(Context)); ok {
+			fn(c)
+			return
+		}
 	}
 }

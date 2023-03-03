@@ -6,7 +6,11 @@ import ResizeObserver from "resize-observer-polyfill"
 
 window.ResizeObserver = ResizeObserver
 
-export { createApp, $, api }
+export {
+    createApp,
+    $,
+    api
+}
 
 // Style
 import "animate.css"
