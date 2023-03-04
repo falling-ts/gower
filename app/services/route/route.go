@@ -1,6 +1,7 @@
 package route
 
 import (
+	"gower/app/services/config"
 	"net/http"
 	"sync"
 
@@ -12,19 +13,27 @@ type Route struct {
 }
 
 var (
-	route *Route
-	once  sync.Once
+	route  *Route
+	once   sync.Once
+	Config = config.New()
 )
 
 // New 单例路由服务
 func New() *Route {
 	once.Do(func() {
-		route = &Route{
-			gin.Default(),
-		}
+		route = build()
 	})
 
 	return route
+}
+
+func build() *Route {
+	engine := gin.New()
+	setLogger(engine)
+	setRecovery(engine)
+	return &Route{
+		engine,
+	}
 }
 
 // Use 将中间件添加到组中, 参见GitHub中的示例代码.

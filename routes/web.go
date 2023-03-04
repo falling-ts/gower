@@ -7,6 +7,7 @@ func init() {
 	route.Static("/static", "public/static")
 
 	route.GET("/", Home.Index)
+	route.GET("/test", Home.Test)
 
 	// 注册与登录
 	auth := route.Group("/auth")
