@@ -29,8 +29,10 @@ func New() *Route {
 
 func build() *Route {
 	engine := gin.New()
+
 	setLogger(engine)
 	setRecovery(engine)
+
 	return &Route{
 		engine,
 	}
@@ -162,6 +164,8 @@ func toGinHandlers(handlers HandlersChain) gin.HandlersChain {
 
 func toGinHandler(handler HandlerFunc) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		setWriter(c)
+
 		if fn, ok := handler.(func(*gin.Context)); ok {
 			fn(c)
 			return
