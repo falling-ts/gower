@@ -1,9 +1,9 @@
 package config
 
 import (
+	"gower/services"
 	"sync"
 
-	"gower/app/providers"
 	"gower/configs"
 
 	"github.com/caarlos0/env/v7"
@@ -27,8 +27,11 @@ func New() *Config {
 	return cfg
 }
 
-func (c *Config) Register(services *providers.Services) {
-	services.ConfigService = c
+// Config 服务名称
+func (c *Config) Config() {}
+
+func (c *Config) Register(s services.Services) {
+	s.SetService(c)
 }
 
 func (c *Config) Configs() *configs.Configs {
@@ -36,7 +39,9 @@ func (c *Config) Configs() *configs.Configs {
 }
 
 func build() {
-	cfg = new(Config)
+	cfg = &Config{
+		new(configs.Configs),
+	}
 	if err := env.Parse(cfg.configs); err != nil {
 		panic(err)
 	}

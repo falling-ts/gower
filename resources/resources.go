@@ -1,10 +1,10 @@
 package resources
 
 import (
-	"gower/app/services"
+	"gower/app"
 )
 
-var route = services.Route
+var route = app.Route()
 
 func init() {
 	route.LoadHTMLGlob("resources/views/**/*.tmpl")

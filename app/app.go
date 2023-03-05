@@ -21,7 +21,9 @@ type Application struct {
 var App *Application
 
 func init() {
-	App = new(Application)
+	App = &Application{
+		Services: new(providers.Services),
+	}
 	App.Services.Mount()
 }
 

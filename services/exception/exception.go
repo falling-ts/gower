@@ -1,8 +1,13 @@
 package exception
 
-type Err struct {
+import "gower/services"
+
+type Exception struct {
 }
 
-func New() *Err {
-	return &Err{}
+// Exception 服务名称
+func (e *Exception) Exception() {}
+
+func (e *Exception) Register(s services.Services) {
+	s.SetService(e)
 }

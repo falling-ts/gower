@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"gower/app/http/requests"
-	"gower/app/services/route"
+	"gower/services/route"
 	"net/http"
 )
 

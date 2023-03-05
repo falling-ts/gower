@@ -1,6 +1,7 @@
 package providers
 
 import (
+	"gower/services"
 	"html/template"
 	"net"
 	"net/http"
@@ -11,7 +12,8 @@ import (
 var _ RouteService = (*route.Route)(nil)
 
 type RouteService interface {
-	Service
+	Route() // 用以区分其它服务
+	services.Service
 
 	Delims(left, right string) *route.Route
 	LoadHTMLGlob(pattern string)

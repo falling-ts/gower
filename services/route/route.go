@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"sync"
 
-	"gower/app/providers"
+	"gower/services"
 	"gower/services/config"
 
 	"github.com/gin-gonic/gin"
@@ -42,9 +42,12 @@ func build() {
 	}
 }
 
+// Route 服务名称
+func (r *Route) Route() {}
+
 // Register 注册进服务提供者中
-func (r *Route) Register(services *providers.Services) {
-	services.RouteService = r
+func (r *Route) Register(s services.Services) {
+	s.SetService(r)
 }
 
 // Delims 设置模板的左右界限, 并返回一个引擎实例.
