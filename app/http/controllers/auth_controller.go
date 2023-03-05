@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"gower/app/http/requests"
 	"gower/app/services/route"
 	"net/http"
 )
@@ -19,8 +20,8 @@ func (a *AuthController) RegisterForm(c route.Context) {
 }
 
 // Register 执行注册
-func (a *AuthController) Register(c route.Context) {
-	c.JSON(http.StatusOK, data{
+func (a *AuthController) Register(req requests.RegisterRequest, test *requests.LoginRequest) {
+	req.JSON(http.StatusOK, data{
 		"code": 0,
 		"msg":  "注册成功",
 		"data": nil,

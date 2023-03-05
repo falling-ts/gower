@@ -1,9 +1,13 @@
 package route
 
 import (
-	"gower/app/services/config"
 	"net/http"
+	"path"
+	"reflect"
 	"sync"
+
+	"gower/app/providers"
+	"gower/services/config"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,40 +17,51 @@ type Route struct {
 }
 
 var (
-	route  *Route
-	once   sync.Once
-	Config = config.New()
+	route *Route
+	once  sync.Once
+	cfg   = config.New()
 )
 
 // New 单例路由服务
 func New() *Route {
 	once.Do(func() {
-		route = build()
+		build()
 	})
 
 	return route
 }
 
-func build() *Route {
+func build() {
 	engine := gin.New()
 
 	setLogger(engine)
 	setRecovery(engine)
 
-	return &Route{
+	route = &Route{
 		engine,
 	}
 }
 
+// Register 注册进服务提供者中
+func (r *Route) Register(services *providers.Services) {
+	services.RouteService = r
+}
+
+// Delims 设置模板的左右界限, 并返回一个引擎实例.
+func (r *Route) Delims(left, right string) *Route {
+	r.Engine.Delims(left, right)
+	return r
+}
+
 // Use 将中间件添加到组中, 参见GitHub中的示例代码.
-func (r *Route) Use(middleware ...HandlerFunc) IRoutes {
+func (r *Route) Use(middleware ...Handler) IRoutes {
 	r.Engine.Use(toGinHandlers(middleware)...)
 	return r
 }
 
 // Group 创建一个新的路由器组, 您应该添加所有具有公共中间件或相同路径前缀的路由.
 // 例如, 所有使用公共中间件进行授权的路由都可以分组.
-func (r *Route) Group(relativePath string, handlers ...HandlerFunc) *Route {
+func (r *Route) Group(relativePath string, handlers ...Handler) *Route {
 	group := r.Engine.Group(relativePath, toGinHandlers(handlers)...)
 	r.Engine.RouterGroup = *group
 	return r
@@ -59,62 +74,62 @@ func (r *Route) Group(relativePath string, handlers ...HandlerFunc) *Route {
 // 对于 GET, POST, PUT, PATCH 和 DELETE 请求各自的快捷方式可以使用函数.
 //
 // 此功能用于批量加载, 并允许使用不常用的、非标准化的或自定义的方法(例如, 用于内部与代理的通信).
-func (r *Route) Handle(httpMethod, relativePath string, handlers ...HandlerFunc) IRoutes {
+func (r *Route) Handle(httpMethod, relativePath string, handlers ...Handler) IRoutes {
 	r.Engine.Handle(httpMethod, relativePath, toGinHandlers(handlers)...)
 	return r
 }
 
 // Any 注册一个匹配所有HTTP方法的路由。
 // GET, POST, PUT, PATCH, HEAD, OPTIONS, DELETE, CONNECT, TRACE.
-func (r *Route) Any(relativePath string, handlers ...HandlerFunc) IRoutes {
+func (r *Route) Any(relativePath string, handlers ...Handler) IRoutes {
 	r.Engine.Any(relativePath, toGinHandlers(handlers)...)
 	return r
 }
 
 // GET 是 route.Handle("GET", path, handlers) 的短语形式.
-func (r *Route) GET(relativePath string, handlers ...HandlerFunc) IRoutes {
+func (r *Route) GET(relativePath string, handlers ...Handler) IRoutes {
 	r.Engine.GET(relativePath, toGinHandlers(handlers)...)
 	return r
 }
 
 // POST 是 route.Handle("POST", path, handlers) 的短语形式.
-func (r *Route) POST(relativePath string, handlers ...HandlerFunc) IRoutes {
+func (r *Route) POST(relativePath string, handlers ...Handler) IRoutes {
 	r.Engine.POST(relativePath, toGinHandlers(handlers)...)
 	return r
 }
 
 // DELETE 是 route.Handle("DELETE", path, handlers) 的短语形式.
-func (r *Route) DELETE(relativePath string, handlers ...HandlerFunc) IRoutes {
+func (r *Route) DELETE(relativePath string, handlers ...Handler) IRoutes {
 	r.Engine.DELETE(relativePath, toGinHandlers(handlers)...)
 	return r
 }
 
 // PATCH 是 route.Handle("PATCH", path, handlers) 的短语形式.
-func (r *Route) PATCH(relativePath string, handlers ...HandlerFunc) IRoutes {
+func (r *Route) PATCH(relativePath string, handlers ...Handler) IRoutes {
 	r.Engine.PATCH(relativePath, toGinHandlers(handlers)...)
 	return r
 }
 
 // PUT 是 route.Handle("PUT", path, handlers) 的短语形式.
-func (r *Route) PUT(relativePath string, handlers ...HandlerFunc) IRoutes {
+func (r *Route) PUT(relativePath string, handlers ...Handler) IRoutes {
 	r.Engine.PUT(relativePath, toGinHandlers(handlers)...)
 	return r
 }
 
 // OPTIONS 是 route.Handle("OPTIONS", path, handlers) 的短语形式.
-func (r *Route) OPTIONS(relativePath string, handlers ...HandlerFunc) IRoutes {
+func (r *Route) OPTIONS(relativePath string, handlers ...Handler) IRoutes {
 	r.Engine.OPTIONS(relativePath, toGinHandlers(handlers)...)
 	return r
 }
 
 // HEAD 是 route.Handle("HEAD", path, handlers) 的短语形式.
-func (r *Route) HEAD(relativePath string, handlers ...HandlerFunc) IRoutes {
+func (r *Route) HEAD(relativePath string, handlers ...Handler) IRoutes {
 	r.Engine.HEAD(relativePath, toGinHandlers(handlers)...)
 	return r
 }
 
 // Match 注册与您声明的指定方法匹配的路由.
-func (r *Route) Match(methods []string, relativePath string, handlers ...HandlerFunc) IRoutes {
+func (r *Route) Match(methods []string, relativePath string, handlers ...Handler) IRoutes {
 	r.Engine.Match(methods, relativePath, toGinHandlers(handlers)...)
 	return r
 }
@@ -153,7 +168,7 @@ func (r *Route) StaticFS(relativePath string, fs http.FileSystem) IRoutes {
 	return r
 }
 
-func toGinHandlers(handlers HandlersChain) gin.HandlersChain {
+func toGinHandlers(handlers Handlers) gin.HandlersChain {
 	ginHandlers := make(gin.HandlersChain, len(handlers))
 	for i, handler := range handlers {
 		ginHandlers[i] = toGinHandler(handler)
@@ -162,17 +177,44 @@ func toGinHandlers(handlers HandlersChain) gin.HandlersChain {
 	return ginHandlers
 }
 
-func toGinHandler(handler HandlerFunc) gin.HandlerFunc {
+func toGinHandler(handler Handler) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		setWriter(c)
 
-		if fn, ok := handler.(func(*gin.Context)); ok {
-			fn(c)
+		if handle, ok := handler.(func(*gin.Context)); ok {
+			handle(c)
 			return
 		}
-		if fn, ok := handler.(func(Context)); ok {
-			fn(c)
+		if handle, ok := handler.(func(Context)); ok {
+			handle(c)
 			return
 		}
+
+		handleValue := reflect.ValueOf(handler)
+		handleType := handleValue.Type()
+
+		args := make([]reflect.Value, handleType.NumIn())
+		for i := 0; i < handleType.NumIn(); i++ {
+			argType := handleType.In(i)
+			var argValue reflect.Value
+
+			switch argType.Kind() {
+			case reflect.Struct, reflect.Pointer:
+				pkgPath := argType.PkgPath()
+				pkg := path.Base(pkgPath)
+				switch pkg {
+				case "requests":
+					argValue = reflect.New(argType).Elem()
+				default:
+					panic("")
+				}
+			default:
+				panic("控制器方法设计错误")
+			}
+
+			args[i] = argValue
+		}
+
+		handleValue.Call(args)
 	}
 }

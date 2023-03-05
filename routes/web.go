@@ -1,6 +1,11 @@
 package routes
 
-import . "gower/app/http/controllers"
+import (
+	"gower/app"
+	. "gower/app/http/controllers"
+)
+
+var route = app.Route()
 
 func init() {
 	route.StaticFile("/favicon.ico", "public/static/images/favicon.ico")

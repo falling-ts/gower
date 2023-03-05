@@ -11,37 +11,32 @@ import (
 	"github.com/gin-gonic/gin/render"
 )
 
-// Service 路由服务.
-type Service interface {
-	Run()
-}
+// Handler 将 gin 中间件使用的处理程序定义为返回值.
+type Handler any
 
-// HandlerFunc 将 gin 中间件使用的处理程序定义为返回值.
-type HandlerFunc any
-
-// HandlersChain 定义 HandlerFunc 的切片.
-type HandlersChain []HandlerFunc
+// Handlers HandlersChain 定义 HandlerFunc 的切片.
+type Handlers []Handler
 
 // IRouter 定义所有路由器句柄接口, 包括单路由器和组路由器.
 type IRouter interface {
 	IRoutes
-	Group(string, ...HandlerFunc) *Route
+	Group(string, ...Handler) *Route
 }
 
 // IRoutes 定义所有路由器句柄接口.
 type IRoutes interface {
-	Use(...HandlerFunc) IRoutes
+	Use(...Handler) IRoutes
 
-	Handle(string, string, ...HandlerFunc) IRoutes
-	Any(string, ...HandlerFunc) IRoutes
-	GET(string, ...HandlerFunc) IRoutes
-	POST(string, ...HandlerFunc) IRoutes
-	DELETE(string, ...HandlerFunc) IRoutes
-	PATCH(string, ...HandlerFunc) IRoutes
-	PUT(string, ...HandlerFunc) IRoutes
-	OPTIONS(string, ...HandlerFunc) IRoutes
-	HEAD(string, ...HandlerFunc) IRoutes
-	Match([]string, string, ...HandlerFunc) IRoutes
+	Handle(string, string, ...Handler) IRoutes
+	Any(string, ...Handler) IRoutes
+	GET(string, ...Handler) IRoutes
+	POST(string, ...Handler) IRoutes
+	DELETE(string, ...Handler) IRoutes
+	PATCH(string, ...Handler) IRoutes
+	PUT(string, ...Handler) IRoutes
+	OPTIONS(string, ...Handler) IRoutes
+	HEAD(string, ...Handler) IRoutes
+	Match([]string, string, ...Handler) IRoutes
 
 	StaticFile(string, string) IRoutes
 	StaticFileFS(string, string, http.FileSystem) IRoutes

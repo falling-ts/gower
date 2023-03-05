@@ -7,7 +7,10 @@ Copyright (c) 2023 Falling TS
 
 package main
 
-import "gower/app"
+import (
+	"gower/app"
+	_ "gower/bootstrap"
+)
 
 func main() {
 	app.Run()

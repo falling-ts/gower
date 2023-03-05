@@ -10,10 +10,12 @@ type request struct {
 	*gin.Context
 }
 
-func (r *request) Validate(ctx *gin.Context, req Request) {
+func (r *request) Validate(ctx *gin.Context, req Request) bool {
 	r.Context = ctx
 
 	if err := ctx.ShouldBind(req); err != nil {
-		return
+		return false
 	}
+
+	return true
 }

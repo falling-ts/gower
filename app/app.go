@@ -8,16 +8,35 @@ Copyright (c) 2023 Falling TS
 package app
 
 import (
-	"fmt"
-
-	"gower/app/services"
-	_ "gower/resources"
-	_ "gower/routes"
+	"gower/app/providers"
 )
 
+type Application struct {
+	Name    string
+	Version string
+	*providers.Services
+}
+
+var App *Application
+
+func init() {
+	App = new(Application)
+	App.Services.Mount()
+}
+
 // Run 运行系统
-func Run() {
-	if err := services.Route.Run(); err != nil {
-		panic(fmt.Sprintf("Error: %s", err))
+func Run(addr ...string) {
+	if err := App.Run(addr...); err != nil {
+		panic(err)
 	}
+}
+
+// Route 获取 route 服务
+func Route() providers.RouteService {
+	return App.Services.RouteService
+}
+
+// Config 获取 config 服务
+func Config() providers.ConfigService {
+	return App.Services.ConfigService
 }
