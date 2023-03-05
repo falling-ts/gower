@@ -1,4 +1,4 @@
-package config
+package configs
 
 type App struct {
 	Name    string `env:"APP_NAME" envDefault:"Gower"`

@@ -9,6 +9,7 @@ package app
 
 import (
 	"gower/app/providers"
+	"gower/configs"
 )
 
 type Application struct {
@@ -36,7 +37,7 @@ func Route() providers.RouteService {
 	return App.Services.RouteService
 }
 
-// Config 获取 config 服务
-func Config() providers.ConfigService {
-	return App.Services.ConfigService
+// Configs 获取 config 配置
+func Configs() *configs.Configs {
+	return App.Services.ConfigService.Configs()
 }

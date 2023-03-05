@@ -14,7 +14,7 @@ func setRecovery(engine *gin.Engine) {
 }
 
 func errOutput() io.Writer {
-	dir := cfg.Log.Dir
+	dir := configs.Log.Dir
 	flatDay := time.Now().Local().Format("2006-01-02")
 	logFile := fmt.Sprintf("%s/error.%s.log", dir, flatDay)
 

@@ -1,4 +1,4 @@
-package config
+package configs
 
 type Log struct {
 	SkipPaths []string `env:"SKIP_PATHS" envSeparator:","`

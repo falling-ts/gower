@@ -17,9 +17,9 @@ type Route struct {
 }
 
 var (
-	route *Route
-	once  sync.Once
-	cfg   = config.New()
+	route   *Route
+	once    sync.Once
+	configs = config.New().Configs()
 )
 
 // New 单例路由服务
