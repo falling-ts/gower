@@ -4,8 +4,6 @@ import (
 	"net/http"
 	"sync"
 
-	"gower/app/exceptions"
-	"gower/configs"
 	"gower/services"
 	"gower/services/config"
 	"gower/services/exception"
@@ -20,8 +18,8 @@ type Route struct {
 var (
 	route *Route
 	once  sync.Once
-	cfg   *configs.Configs
-	excp  *exceptions.Exceptions
+	cfg   config.Configs
+	excp  exception.Exceptions
 )
 
 // Build 构建单例模式
@@ -40,8 +38,8 @@ func (r *Route) Register(s services.Services) {
 
 // Bootstrap 初始化路由服务
 func (r *Route) Bootstrap() {
-	cfg = config.Build().Cfg().(*configs.Configs)
-	excp = exception.Build().Excp().(*exceptions.Exceptions)
+	cfg = config.Build().Cfg()
+	excp = exception.Build().Excp()
 	setLogger(r.Engine)
 	setRecovery(r.Engine)
 }

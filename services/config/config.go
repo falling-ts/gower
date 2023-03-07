@@ -8,9 +8,10 @@ import (
 	_ "github.com/joho/godotenv/autoload"
 )
 
-// Configs 配置能力接口
+// Configs 配置能力
 type Configs interface {
 	services.Ability
+	Get(fieldStr string, args ...string) any
 }
 
 // Config 配置主结构体

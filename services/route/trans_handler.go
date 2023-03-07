@@ -2,6 +2,7 @@ package route
 
 import (
 	"fmt"
+	"net/http"
 	"path"
 	"reflect"
 
@@ -50,7 +51,7 @@ func transHandler(handler Handler) gin.HandlerFunc {
 						fmt.Println(excp)
 					}
 				default:
-					excp.BadRequest("参数声明错误")
+					excp.Throw(http.StatusBadRequest, "参数声明错误")
 				}
 			case reflect.Ptr:
 				argType = argType.Elem()
@@ -76,7 +77,7 @@ func transHandler(handler Handler) gin.HandlerFunc {
 						//	fmt.Println(excp)
 						//}
 					default:
-						excp.BadRequest("参数声明错误")
+						excp.Throw(http.StatusBadRequest, "参数声明错误")
 					}
 				}
 			default:

@@ -38,6 +38,11 @@ func (e *Exceptions) SetData(data any) {
 	e.Data = data
 }
 
+// Throw 抛出异常
+func (e *Exceptions) Throw(code uint, args ...any) exception.Exceptions {
+	return e.throw(code, args)
+}
+
 func (e *Exceptions) throw(code uint, args ...any) *Exceptions {
 	temp := *e
 	newE := &temp

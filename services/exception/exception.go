@@ -6,12 +6,13 @@ import (
 	"gower/services"
 )
 
-// Exceptions 异常能力接口
+// Exceptions 异常能力
 type Exceptions interface {
 	services.Ability
 	SetException(exception *Exception)
 	SetMsg(msg string)
 	SetData(data any)
+	Throw(code uint, args ...any) Exceptions
 }
 
 // Exception 异常主结构体
