@@ -4,6 +4,7 @@ import (
 	"errors"
 	"gower/services"
 	"gower/services/config"
+	"gower/services/exception"
 	"gower/services/route"
 )
 
@@ -14,10 +15,13 @@ type Services struct {
 	RouteService
 }
 
+var _ services.Services = (*Services)(nil)
+
 // Mount 挂载注册服务
 func (s *Services) Mount() {
 	config.New().Register(s)
 	route.New().Register(s)
+	exception.New().Register(s)
 }
 
 // SetService 实际挂载操作

@@ -42,10 +42,7 @@ func build() {
 	}
 }
 
-// Route 服务名称
-func (r *Route) Route() {}
-
-// Register 注册进服务提供者中
+// Register 注册服务
 func (r *Route) Register(s services.Services) {
 	s.SetService(r)
 }

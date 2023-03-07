@@ -12,7 +12,6 @@ import (
 var _ RouteService = (*route.Route)(nil)
 
 type RouteService interface {
-	Route() // 用以区分其它服务
 	services.Service
 
 	Delims(left, right string) *route.Route

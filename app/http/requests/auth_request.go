@@ -1,7 +1,7 @@
 package requests
 
 type AuthRequest struct {
-	*request
+	request
 	Username string `form:"username" json:"username" binding:"required"`
 	Password string `form:"password" json:"password" binding:"required"`
 }

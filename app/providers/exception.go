@@ -1,6 +1,7 @@
 package providers
 
 import (
+	"gower/app/exceptions"
 	"gower/services"
 	"gower/services/exception"
 )
@@ -8,6 +9,8 @@ import (
 var _ ExceptionService = (*exception.Exception)(nil)
 
 type ExceptionService interface {
-	Exception() // 用以区分其它服务
 	services.Service
+
+	Clone(code uint, args ...any) ExceptionService
+	Excp() *exceptions.Exception
 }
