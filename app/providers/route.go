@@ -14,6 +14,8 @@ var _ RouteService = (*route.Route)(nil)
 type RouteService interface {
 	services.Service
 
+	Bootstrap()
+
 	Delims(left, right string) *route.Route
 	LoadHTMLGlob(pattern string)
 	LoadHTMLFiles(files ...string)

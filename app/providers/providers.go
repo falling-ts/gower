@@ -2,6 +2,7 @@ package providers
 
 import (
 	"errors"
+
 	"gower/services"
 	"gower/services/config"
 	"gower/services/exception"
@@ -19,9 +20,9 @@ var _ services.Services = (*Services)(nil)
 
 // Mount 挂载注册服务
 func (s *Services) Mount() {
-	config.New().Register(s)
-	route.New().Register(s)
-	exception.New().Register(s)
+	config.Build().Register(s)
+	exception.Build().Register(s)
+	route.Build().Register(s)
 }
 
 // SetService 实际挂载操作

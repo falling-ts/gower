@@ -2,12 +2,13 @@ package route
 
 import (
 	"net/http"
-	"path"
-	"reflect"
 	"sync"
 
+	"gower/app/exceptions"
+	"gower/configs"
 	"gower/services"
 	"gower/services/config"
+	"gower/services/exception"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,13 +18,14 @@ type Route struct {
 }
 
 var (
-	route   *Route
-	once    sync.Once
-	configs = config.New().Configs()
+	route *Route
+	once  sync.Once
+	cfg   *configs.Configs
+	excp  *exceptions.Exceptions
 )
 
-// New 单例路由服务
-func New() *Route {
+// Build 构建单例模式
+func Build() *Route {
 	once.Do(func() {
 		build()
 	})
@@ -31,21 +33,20 @@ func New() *Route {
 	return route
 }
 
-func build() {
-	engine := gin.New()
-
-	setLogger(engine)
-	setRecovery(engine)
-
-	route = &Route{
-		engine,
-	}
-}
-
 // Register 注册服务
 func (r *Route) Register(s services.Services) {
 	s.SetService(r)
 }
+
+// Bootstrap 初始化路由服务
+func (r *Route) Bootstrap() {
+	cfg = config.Build().Cfg().(*configs.Configs)
+	excp = exception.Build().Excp().(*exceptions.Exceptions)
+	setLogger(r.Engine)
+	setRecovery(r.Engine)
+}
+
+func (r *Route) BindAbility(a services.Ability) {}
 
 // Delims 设置模板的左右界限, 并返回一个引擎实例.
 func (r *Route) Delims(left, right string) *Route {
@@ -171,50 +172,14 @@ func (r *Route) StaticFS(relativePath string, fs http.FileSystem) IRoutes {
 func toGinHandlers(handlers Handlers) gin.HandlersChain {
 	ginHandlers := make(gin.HandlersChain, len(handlers))
 	for i, handler := range handlers {
-		ginHandlers[i] = toGinHandler(handler)
+		ginHandlers[i] = transHandler(handler)
 	}
 
 	return ginHandlers
 }
 
-func toGinHandler(handler Handler) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		setWriter(c)
-
-		if handle, ok := handler.(func(*gin.Context)); ok {
-			handle(c)
-			return
-		}
-		if handle, ok := handler.(func(Context)); ok {
-			handle(c)
-			return
-		}
-
-		handleValue := reflect.ValueOf(handler)
-		handleType := handleValue.Type()
-
-		args := make([]reflect.Value, handleType.NumIn())
-		for i := 0; i < handleType.NumIn(); i++ {
-			argType := handleType.In(i)
-			var argValue reflect.Value
-
-			switch argType.Kind() {
-			case reflect.Struct, reflect.Pointer:
-				pkgPath := argType.PkgPath()
-				pkg := path.Base(pkgPath)
-				switch pkg {
-				case "requests":
-					argValue = reflect.New(argType).Elem()
-				default:
-					panic("")
-				}
-			default:
-				panic("控制器方法设计错误")
-			}
-
-			args[i] = argValue
-		}
-
-		handleValue.Call(args)
+func build() {
+	route = &Route{
+		gin.New(),
 	}
 }

@@ -3,13 +3,20 @@ package exception
 import (
 	"sync"
 
-	"gower/app/exceptions"
-	"gower/app/providers"
 	"gower/services"
 )
 
+// Exceptions 异常能力接口
+type Exceptions interface {
+	services.Ability
+	SetException(exception *Exception)
+	SetMsg(msg string)
+	SetData(data any)
+}
+
+// Exception 异常主结构体
 type Exception struct {
-	exceptions.Exception
+	Exceptions
 	RawErr error
 }
 
@@ -18,8 +25,8 @@ var (
 	once      sync.Once
 )
 
-// New 简单工厂与单例创建
-func New() *Exception {
+// Build 构建单例模式
+func Build() *Exception {
 	once.Do(func() {
 		build()
 	})
@@ -27,61 +34,54 @@ func New() *Exception {
 	return exception
 }
 
+// New 创建新异常服务
+func New() *Exception {
+	return new(Exception)
+}
+
 // Register 注册服务
 func (e *Exception) Register(s services.Services) {
 	s.SetService(e)
 }
 
-// Clone 每个请求一份异常
-func (e *Exception) Clone(code uint, args ...any) providers.ExceptionService {
-	temp := *e
-	newE := &temp
-	newE.Exception.Exception = newE
-	newE.Exception.Code = code
-	newE.Exception.Msg = "未知异常"
-
-	argsNum := len(args)
-	if argsNum > 0 {
-		decideType(args[0], newE)
-	}
-	if argsNum > 1 {
-		decideType(args[1], newE)
-	}
-	if argsNum > 2 {
-		decideType(args[2], newE)
-	}
-	if argsNum > 3 {
-		decideType(args[3], newE)
-	}
-	if argsNum > 4 {
-		decideType(args[4], newE)
-	}
-	if argsNum > 5 {
-		decideType(args[5], newE)
-	}
-
-	return newE
+// BindAbility 绑定异常功能
+func (e *Exception) BindAbility(a services.Ability) {
+	e.Exceptions = a.(Exceptions)
+	e.Exceptions.SetException(e)
 }
 
-func decideType(arg any, newE *Exception) {
-	switch arg.(type) {
-	case error:
-		err := arg.(error)
-		newE.Exception.Msg = err.Error()
-		newE.RawErr = err.(error)
-	case string:
-		newE.Exception.Msg = arg.(string)
-	default:
-		newE.Exception.Data = arg
+// Build 构建每个请求的异常
+func (e *Exception) Build(code uint, args ...any) Exceptions {
+	e.Exceptions.SetMsg("未知异常")
+	argsNum := len(args)
+
+	if argsNum > 0 {
+		decideType(args[0], e)
 	}
+	if argsNum > 1 {
+		decideType(args[1], e)
+	}
+	if argsNum > 2 {
+		decideType(args[2], e)
+	}
+	if argsNum > 3 {
+		decideType(args[3], e)
+	}
+	if argsNum > 4 {
+		decideType(args[4], e)
+	}
+	if argsNum > 5 {
+		decideType(args[5], e)
+	}
+
+	return e.Exceptions
 }
 
 // Excp 获取异常实体
-func (e *Exception) Excp() *exceptions.Exception {
-	return &e.Exception
+func (e *Exception) Excp() Exceptions {
+	return e.Exceptions
 }
 
 func build() {
 	exception = new(Exception)
-	exception.Exception.Exception = exception
 }

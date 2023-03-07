@@ -1,18 +1,21 @@
 package config
 
 import (
-	"gower/services"
 	"sync"
 
-	"gower/configs"
+	"gower/services"
 
-	"github.com/caarlos0/env/v7"
 	_ "github.com/joho/godotenv/autoload"
 )
 
-// Config 服务主结构体
+// Configs 配置能力接口
+type Configs interface {
+	services.Ability
+}
+
+// Config 配置主结构体
 type Config struct {
-	configs configs.Configs
+	Configs
 }
 
 var (
@@ -20,8 +23,8 @@ var (
 	once sync.Once
 )
 
-// New 简单工厂与单例创建
-func New() *Config {
+// Build 构建单例模式
+func Build() *Config {
 	once.Do(func() {
 		build()
 	})
@@ -34,14 +37,16 @@ func (c *Config) Register(s services.Services) {
 	s.SetService(c)
 }
 
-// Configs 获取内部配置
-func (c *Config) Configs() configs.Configs {
-	return c.configs
+// BindAbility 绑定配置能力
+func (c *Config) BindAbility(a services.Ability) {
+	c.Configs = a.(Configs)
+}
+
+// Cfg 获取内部配置
+func (c *Config) Cfg() Configs {
+	return c.Configs
 }
 
 func build() {
 	cfg = new(Config)
-	if err := env.Parse(&cfg.configs); err != nil {
-		panic(err)
-	}
 }

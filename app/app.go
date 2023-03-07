@@ -13,41 +13,67 @@ import (
 	"gower/configs"
 )
 
-type Application struct {
+type App struct {
 	Name    string
 	Version string
 	providers.Services
 }
 
-var App *Application
+var Gower *App
 
 func init() {
-	App = new(Application)
-	App.Services.Mount()
-
-	cfg := Configs()
-	App.Name = cfg.App.Name
-	App.Version = cfg.App.Version
+	Gower = new(App)
+	Gower.Services.Mount()
 }
 
-// Run 运行系统
+// Run 启动 App
 func Run(addr ...string) {
-	if err := App.Run(addr...); err != nil {
+	if err := Gower.Run(addr...); err != nil {
 		panic(err)
 	}
 }
 
-// Configs 获取 config 配置
-func Configs() configs.Configs {
-	return App.Services.ConfigService.Configs()
+// Cfg 获取配置功能
+func Cfg() *configs.Configs {
+	if cfg, ok := Gower.Config().Cfg().(*configs.Configs); ok {
+		return cfg
+	}
+
+	panic("配置服务错误")
 }
 
-// Route 获取 route 服务
+// Route 获取路由服务
 func Route() providers.RouteService {
-	return App.Services.RouteService
+	return Gower.Route()
+}
+
+// Excp 获取异常功能
+func Excp() *exceptions.Exceptions {
+	if excp, ok := Gower.Exception().Excp().(*exceptions.Exceptions); ok {
+		return excp
+	}
+
+	panic("异常服务错误")
+}
+
+// Bootstrap 启动, 初始化配置
+func (a *App) Bootstrap() {
+	cfg := Cfg()
+	Gower.Name = cfg.App.Name
+	Gower.Version = cfg.App.Version
+}
+
+// Config 获取配置服务
+func (a *App) Config() providers.ConfigService {
+	return a.Services.ConfigService
+}
+
+// Route 获取路由服务
+func (a *App) Route() providers.RouteService {
+	return a.Services.RouteService
 }
 
 // Exception 获取异常服务
-func Exception() exceptions.Exception {
-	return App.Services.ExceptionService.ExceptionEntity()
+func (a *App) Exception() providers.ExceptionService {
+	return a.Services.ExceptionService
 }

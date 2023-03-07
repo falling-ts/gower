@@ -14,7 +14,7 @@ func setLogger(engine *gin.Engine) {
 	engine.Use(gin.LoggerWithConfig(gin.LoggerConfig{
 		Formatter: logFormatter,
 		Output:    output(),
-		SkipPaths: configs.Log.SkipPaths,
+		SkipPaths: cfg.Log.SkipPaths,
 	}))
 }
 
@@ -22,8 +22,8 @@ func output() io.Writer {
 	var logFile string
 	var logDir string
 
-	channel := configs.Log.Channel
-	dir := configs.Log.Dir
+	channel := cfg.Log.Channel
+	dir := cfg.Log.Dir
 	createDir(dir)
 
 	now := time.Now().Local()
