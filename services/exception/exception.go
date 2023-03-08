@@ -6,9 +6,8 @@ import (
 	"gower/services"
 )
 
-// Exceptions 异常能力
+// Exceptions 异常内容
 type Exceptions interface {
-	services.Ability
 	SetException(exception *Exception)
 	SetMsg(msg string)
 	SetData(data any)
@@ -45,9 +44,9 @@ func (e *Exception) Register(s services.Services) {
 	s.SetService(e)
 }
 
-// BindAbility 绑定异常功能
-func (e *Exception) BindAbility(a services.Ability) {
-	e.Exceptions = a.(Exceptions)
+// BindContent 绑定异常内容
+func (e *Exception) BindContent(exceptions Exceptions) {
+	e.Exceptions = exceptions
 	e.Exceptions.SetException(e)
 }
 

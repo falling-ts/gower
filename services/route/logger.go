@@ -22,7 +22,10 @@ func output() io.Writer {
 	var logFile string
 	var logDir string
 
-	channel := cfg.Get("log.channel").(string)
+	channel, ok := cfg.Get("log.channel", "").(string)
+	if !ok {
+		panic("获取配置错误")
+	}
 	dir := cfg.Get("log.dir").(string)
 	createDir(dir)
 

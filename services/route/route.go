@@ -4,11 +4,11 @@ import (
 	"net/http"
 	"sync"
 
-	"gower/services"
 	"gower/services/config"
 	"gower/services/exception"
 
 	"github.com/gin-gonic/gin"
+	"gower/services"
 )
 
 type Route struct {
@@ -18,8 +18,8 @@ type Route struct {
 var (
 	route *Route
 	once  sync.Once
-	cfg   config.Configs
-	excp  exception.Exceptions
+	cfg   *config.Config
+	excp  *exception.Exception
 )
 
 // Build 构建单例模式
@@ -38,13 +38,11 @@ func (r *Route) Register(s services.Services) {
 
 // Bootstrap 初始化路由服务
 func (r *Route) Bootstrap() {
-	cfg = config.Build().Cfg()
-	excp = exception.Build().Excp()
+	cfg = config.Build()
+	excp = exception.Build()
 	setLogger(r.Engine)
 	setRecovery(r.Engine)
 }
-
-func (r *Route) BindAbility(a services.Ability) {}
 
 // Delims 设置模板的左右界限, 并返回一个引擎实例.
 func (r *Route) Delims(left, right string) *Route {

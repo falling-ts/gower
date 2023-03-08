@@ -23,7 +23,11 @@ var Gower *App
 
 func init() {
 	Gower = new(App)
-	Gower.Services.Mount()
+	Gower.Services.Mount().BindContent()
+
+	cfg := Cfg()
+	Gower.Name = cfg.App.Name
+	Gower.Version = cfg.App.Version
 }
 
 // Run 启动 App
@@ -54,13 +58,6 @@ func Excp() *exceptions.Exceptions {
 	}
 
 	panic("异常服务错误")
-}
-
-// Bootstrap 启动, 初始化配置
-func (a *App) Bootstrap() {
-	cfg := Cfg()
-	Gower.Name = cfg.App.Name
-	Gower.Version = cfg.App.Version
 }
 
 // Config 获取配置服务

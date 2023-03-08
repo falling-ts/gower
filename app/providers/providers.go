@@ -2,7 +2,6 @@ package providers
 
 import (
 	"errors"
-
 	"gower/services"
 	"gower/services/config"
 	"gower/services/exception"
@@ -19,10 +18,18 @@ type Services struct {
 var _ services.Services = (*Services)(nil)
 
 // Mount 挂载注册服务
-func (s *Services) Mount() {
+func (s *Services) Mount() services.Services {
 	config.Build().Register(s)
 	exception.Build().Register(s)
 	route.Build().Register(s)
+	return s
+}
+
+// BindContent 绑定服务的内容
+func (s *Services) BindContent() services.Services {
+	config.Build().BindContent(buildConfigs())
+	exception.Build().BindContent(buildExceptions())
+	return s
 }
 
 // SetService 实际挂载操作

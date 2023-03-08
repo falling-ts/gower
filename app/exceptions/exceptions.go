@@ -1,7 +1,6 @@
 package exceptions
 
 import (
-	"gower/services"
 	"gower/services/exception"
 )
 
@@ -13,14 +12,11 @@ type Exceptions struct {
 	Data any    `json:"data"`
 }
 
+var _ exception.Exceptions = (*Exceptions)(nil)
+
 // 通用错误方法
 func (e *Exceptions) Error() string {
 	return e.Msg
-}
-
-// Link 链接异常服务
-func (e *Exceptions) Link(s services.Service) {
-	s.BindAbility(e)
 }
 
 // SetException 设置异常服务
@@ -40,7 +36,7 @@ func (e *Exceptions) SetData(data any) {
 
 // Throw 抛出异常
 func (e *Exceptions) Throw(code uint, args ...any) exception.Exceptions {
-	return e.throw(code, args)
+	return e.throw(code, args...)
 }
 
 func (e *Exceptions) throw(code uint, args ...any) *Exceptions {
@@ -50,5 +46,5 @@ func (e *Exceptions) throw(code uint, args ...any) *Exceptions {
 	newE.Exception = exception.New()
 	newE.Exception.Exceptions = newE
 	newE.Code = code
-	return newE.Exception.Build(code, args).(*Exceptions)
+	return newE.Exception.Build(code, args...).(*Exceptions)
 }
