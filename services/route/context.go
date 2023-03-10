@@ -11,39 +11,6 @@ import (
 	"github.com/gin-gonic/gin/render"
 )
 
-// Handler 将 gin 中间件使用的处理程序定义为返回值.
-type Handler any
-
-// Handlers HandlersChain 定义 HandlerFunc 的切片.
-type Handlers []Handler
-
-// IRouter 定义所有路由器句柄接口, 包括单路由器和组路由器.
-type IRouter interface {
-	IRoutes
-	Group(string, ...Handler) *Route
-}
-
-// IRoutes 定义所有路由器句柄接口.
-type IRoutes interface {
-	Use(...Handler) IRoutes
-
-	Handle(string, string, ...Handler) IRoutes
-	Any(string, ...Handler) IRoutes
-	GET(string, ...Handler) IRoutes
-	POST(string, ...Handler) IRoutes
-	DELETE(string, ...Handler) IRoutes
-	PATCH(string, ...Handler) IRoutes
-	PUT(string, ...Handler) IRoutes
-	OPTIONS(string, ...Handler) IRoutes
-	HEAD(string, ...Handler) IRoutes
-	Match([]string, string, ...Handler) IRoutes
-
-	StaticFile(string, string) IRoutes
-	StaticFileFS(string, string, http.FileSystem) IRoutes
-	Static(string, string) IRoutes
-	StaticFS(string, http.FileSystem) IRoutes
-}
-
 // Context 提取 *gin.Context 的实现接口.
 type Context interface {
 	Copy() *gin.Context

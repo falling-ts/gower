@@ -8,21 +8,22 @@ import (
 	"github.com/caarlos0/env/v7"
 )
 
-var _ ConfigService = (*config.Config)(nil)
+var _ Config = (*config.Struct)(nil)
 
-type ConfigService interface {
+// Config 适配接口
+type Config interface {
 	services.Service
 
-	BindContent(configs config.Configs)
 	Get(fieldStr string, args ...string) any
-	Cfg() config.Configs
+	Configs() config.Content
 }
 
-func buildConfigs() *configs.Configs {
-	c := new(configs.Configs)
+func init() {
+	c := new(configs.All)
 	if err := env.Parse(c); err != nil {
 		panic(err)
 	}
+	config.Entity.Init(c)
 
-	return c
+	Services.Register("config", config.Entity)
 }

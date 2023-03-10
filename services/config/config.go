@@ -3,7 +3,6 @@ package config
 import (
 	"reflect"
 	"strings"
-	"sync"
 	"unicode"
 
 	"gower/services"
@@ -11,40 +10,32 @@ import (
 	_ "github.com/joho/godotenv/autoload"
 )
 
-// Configs 配置内容
-type Configs interface{}
+type Content interface{}
 
-// Config 配置主结构体
-type Config struct {
-	Configs
+// Struct 配置主结构体
+type Struct struct {
+	Content
 }
 
-var (
-	cfg  *Config
-	once sync.Once
-)
+var Entity = new(Struct)
 
-// Build 构建单例模式
-func Build() *Config {
-	once.Do(func() {
-		build()
-	})
+// Init 服务初始化
+func (c *Struct) Init(args ...any) services.Service {
+	if len(args) == 0 {
+		panic("初始化参数不存在")
+	}
 
-	return cfg
-}
+	content, ok := args[0].(Content)
+	if !ok {
+		panic("配置服务初始化失败")
+	}
+	c.Content = content
 
-// Register 注册服务
-func (c *Config) Register(s services.Services) {
-	s.SetService(c)
-}
-
-// BindContent 绑定配置内容
-func (c *Config) BindContent(configs Configs) {
-	c.Configs = configs
+	return c
 }
 
 // Get 获取配置参数, 包含默认值
-func (c *Config) Get(fieldStr string, args ...string) any {
+func (c *Struct) Get(fieldStr string, args ...string) any {
 	def := ""
 	if len(args) > 0 {
 		def = args[0]
@@ -64,7 +55,7 @@ func (c *Config) Get(fieldStr string, args ...string) any {
 	var cfgValue reflect.Value
 	for i, field := range fields {
 		if i == 0 {
-			cfgValue = reflect.ValueOf(c.Configs).Elem().FieldByName(field)
+			cfgValue = reflect.ValueOf(c.Content).Elem().FieldByName(field)
 		} else {
 			cfgValue = cfgValue.FieldByName(field)
 		}
@@ -77,11 +68,7 @@ func (c *Config) Get(fieldStr string, args ...string) any {
 	return cfgValue.Interface()
 }
 
-// Cfg 获取内部配置
-func (c *Config) Cfg() Configs {
-	return c.Configs
-}
-
-func build() {
-	cfg = new(Config)
+// Configs 获取内部配置
+func (c *Struct) Configs() Content {
+	return c.Content
 }

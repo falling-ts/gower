@@ -6,6 +6,8 @@ import (
 	"path"
 	"reflect"
 
+	"gower/services/exception"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -51,7 +53,7 @@ func transHandler(handler Handler) gin.HandlerFunc {
 						fmt.Println(excp)
 					}
 				default:
-					excp.Throw(http.StatusBadRequest, "参数声明错误")
+					exception.Entity.Throw(http.StatusBadRequest, "参数声明错误").HandleBy(c)
 				}
 			case reflect.Ptr:
 				argType = argType.Elem()
@@ -77,7 +79,7 @@ func transHandler(handler Handler) gin.HandlerFunc {
 						//	fmt.Println(excp)
 						//}
 					default:
-						excp.Throw(http.StatusBadRequest, "参数声明错误")
+						exception.Entity.Throw(http.StatusBadRequest, "参数声明错误").HandleBy(c)
 					}
 				}
 			default:

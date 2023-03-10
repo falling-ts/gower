@@ -1,14 +1,14 @@
 package exception
 
-func decideType(arg any, e *Exception) {
+func decideType(arg any, e *Struct) {
 	switch arg.(type) {
 	case error:
 		err := arg.(error)
-		e.Exceptions.SetMsg(err.Error())
+		e.Content.SetMsg(err.Error())
 		e.RawErr = err.(error)
 	case string:
-		e.Exceptions.SetMsg(arg.(string))
+		e.Content.SetMsg(arg.(string))
 	default:
-		e.Exceptions.SetData(arg)
+		e.Content.SetData(arg)
 	}
 }

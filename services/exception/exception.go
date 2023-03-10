@@ -1,58 +1,66 @@
 package exception
 
 import (
-	"sync"
+	"net/http"
 
 	"gower/services"
+
+	"github.com/gin-gonic/gin"
 )
 
-// Exceptions 异常内容
-type Exceptions interface {
-	SetException(exception *Exception)
+// Content 异常内容
+type Content interface {
+	error
+	SetException(exception *Struct)
 	SetMsg(msg string)
 	SetData(data any)
-	Throw(code uint, args ...any) Exceptions
+	Throw(code uint, args ...any) Content
+	HandleBy(any)
 }
 
-// Exception 异常主结构体
-type Exception struct {
-	Exceptions
-	RawErr error
+// Struct 异常主结构体
+type Struct struct {
+	Content
+	RawErr  error
+	handled bool
 }
 
 var (
-	exception *Exception
-	once      sync.Once
+	Entity  = new(Struct)
+	Accepts = []string{
+		gin.MIMEJSON,
+		gin.MIMEHTML,
+		gin.MIMEXML,
+		gin.MIMEYAML,
+		gin.MIMETOML,
+		gin.MIMEPlain,
+	}
 )
 
-// Build 构建单例模式
-func Build() *Exception {
-	once.Do(func() {
-		build()
-	})
-
-	return exception
-}
-
 // New 创建新异常服务
-func New() *Exception {
-	return new(Exception)
+func New() *Struct {
+	return new(Struct)
 }
 
-// Register 注册服务
-func (e *Exception) Register(s services.Services) {
-	s.SetService(e)
-}
+// Init 服务初始化
+func (e *Struct) Init(args ...any) services.Service {
+	if len(args) == 0 {
+		panic("初始化参数不存在")
+	}
 
-// BindContent 绑定异常内容
-func (e *Exception) BindContent(exceptions Exceptions) {
-	e.Exceptions = exceptions
-	e.Exceptions.SetException(e)
+	content, ok := args[0].(Content)
+	if !ok {
+		panic("异常服务初始化失败")
+	}
+	e.Content = content
+
+	e.Content.SetException(e)
+	return e
 }
 
 // Build 构建每个请求的异常
-func (e *Exception) Build(code uint, args ...any) Exceptions {
-	e.Exceptions.SetMsg("未知异常")
+func (e *Struct) Build(code uint, args ...any) Content {
+	e.Content.SetMsg("未知异常")
 	argsNum := len(args)
 
 	if argsNum > 0 {
@@ -74,14 +82,39 @@ func (e *Exception) Build(code uint, args ...any) Exceptions {
 		decideType(args[5], e)
 	}
 
-	return e.Exceptions
+	return e.Content
 }
 
-// Excp 获取异常实体
-func (e *Exception) Excp() Exceptions {
-	return e.Exceptions
+// Exception 获取异常实体
+func (e *Struct) Exception() Content {
+	return e.Content
 }
 
-func build() {
-	exception = new(Exception)
+// HandleBy 处理异常
+func (e *Struct) HandleBy(arg any) {
+	if e.handled {
+		return
+	}
+
+	c, ok := arg.(*gin.Context)
+	if !ok {
+		panic("处理异常参数错误")
+	}
+
+	_ = c.Error(e.RawErr)
+	switch c.NegotiateFormat(Accepts...) {
+	case gin.MIMEJSON:
+		c.JSON(http.StatusOK, e.Content)
+	case gin.MIMEHTML:
+	case gin.MIMEXML:
+		c.XML(http.StatusOK, e.Content)
+	case gin.MIMEYAML:
+		c.YAML(http.StatusOK, e.Content)
+	case gin.MIMETOML:
+		c.TOML(http.StatusOK, e.Content)
+	default:
+		c.String(http.StatusOK, e.Content.Error())
+	}
+
+	e.handled = true
 }

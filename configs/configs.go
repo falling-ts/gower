@@ -1,6 +1,7 @@
 package configs
 
-type Configs struct {
+// All 总配置 configs.All
+type All struct {
 	App
 	Log
 }

@@ -10,14 +10,12 @@ import (
 	"gower/services/route"
 )
 
-var _ RouteService = (*route.Route)(nil)
+var _ Route = (*route.Struct)(nil)
 
-type RouteService interface {
+type Route interface {
 	services.Service
 
-	Bootstrap()
-
-	Delims(left, right string) *route.Route
+	Delims(left, right string) *route.Struct
 	LoadHTMLGlob(pattern string)
 	LoadHTMLFiles(files ...string)
 	SetHTMLTemplate(tmpl *template.Template)
@@ -30,7 +28,7 @@ type RouteService interface {
 	RunListener(listener net.Listener) (err error)
 
 	Use(middleware ...route.Handler) route.IRoutes
-	Group(relativePath string, handlers ...route.Handler) *route.Route
+	Group(relativePath string, handlers ...route.Handler) *route.Struct
 	Handle(httpMethod, relativePath string, handlers ...route.Handler) route.IRoutes
 	Any(relativePath string, handlers ...route.Handler) route.IRoutes
 	GET(relativePath string, handlers ...route.Handler) route.IRoutes
@@ -46,4 +44,9 @@ type RouteService interface {
 	StaticFileFS(relativePath, filepath string, fs http.FileSystem) route.IRoutes
 	Static(relativePath, root string) route.IRoutes
 	StaticFS(relativePath string, fs http.FileSystem) route.IRoutes
+}
+
+func init() {
+	route.Entity.Init()
+	Services.Register("route", route.Entity)
 }
