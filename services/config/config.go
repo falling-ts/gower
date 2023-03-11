@@ -3,6 +3,7 @@ package config
 import (
 	"reflect"
 	"strings"
+	"sync"
 	"unicode"
 
 	"gower/services"
@@ -15,6 +16,7 @@ type Content interface{}
 // Struct 配置主结构体
 type Struct struct {
 	Content
+	mu sync.RWMutex
 }
 
 var Entity = new(Struct)
@@ -35,8 +37,11 @@ func (c *Struct) Init(args ...any) services.Service {
 }
 
 // Get 获取配置参数, 包含默认值
-func (c *Struct) Get(fieldStr string, args ...string) any {
-	def := ""
+func (c *Struct) Get(fieldStr string, args ...any) any {
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+
+	var def any
 	if len(args) > 0 {
 		def = args[0]
 	}

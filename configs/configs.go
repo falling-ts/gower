@@ -4,4 +4,5 @@ package configs
 type All struct {
 	App
 	Log
+	Cache
 }

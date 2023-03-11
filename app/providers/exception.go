@@ -17,7 +17,7 @@ type Exception interface {
 	HandleBy(any)
 }
 
-func init() {
+func initException() {
 	e := new(exceptions.Exception)
 	exception.Entity.Init(e)
 

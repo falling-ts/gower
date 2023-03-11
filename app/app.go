@@ -21,40 +21,36 @@ type Struct struct {
 	Services providers.ServicesMap
 }
 
-var App = Struct{
+// Entity 核心实体 app.Entity
+var Entity = Struct{
 	Services: providers.Services,
 }
 
 func init() {
 	cfg := Cfg()
-	App.Name = cfg.App.Name
-	App.Version = cfg.App.Version
+	Entity.Name = cfg.App.Name
+	Entity.Version = cfg.App.Version
 }
 
 // Run 启动 App
 func Run(addr ...string) {
-	if err := App.Route().Run(addr...); err != nil {
+	if err := Entity.Route().Run(addr...); err != nil {
 		panic(err)
 	}
 }
 
 // Cfg 获取配置功能
 func Cfg() *configs.All {
-	if cfg, ok := App.Config().Configs().(*configs.All); ok {
+	if cfg, ok := Entity.Config().Configs().(*configs.All); ok {
 		return cfg
 	}
 
 	panic("配置服务错误")
 }
 
-// Route 获取路由服务
-func Route() providers.Route {
-	return App.Route()
-}
-
 // Excp 获取异常功能
 func Excp() *exceptions.Exception {
-	if excp, ok := App.Exception().Exception().(*exceptions.Exception); ok {
+	if excp, ok := Entity.Exception().Exception().(*exceptions.Exception); ok {
 		return excp
 	}
 
@@ -77,6 +73,15 @@ func (a *Struct) Config() providers.Config {
 	}
 
 	panic("配置服务适配失败")
+}
+
+// Cache 获取缓存服务
+func (a *Struct) Cache() providers.Cache {
+	if cache, ok := a.Get("cache").(providers.Cache); ok {
+		return cache
+	}
+
+	panic("缓存服务适配失败")
 }
 
 // Exception 获取异常服务

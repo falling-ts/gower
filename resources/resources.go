@@ -4,7 +4,7 @@ import (
 	"gower/app"
 )
 
-var route = app.Route()
+var route = app.Entity.Route()
 
 func init() {
 	route.LoadHTMLGlob("resources/views/**/*.tmpl")

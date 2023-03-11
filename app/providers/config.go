@@ -14,11 +14,11 @@ var _ Config = (*config.Struct)(nil)
 type Config interface {
 	services.Service
 
-	Get(fieldStr string, args ...string) any
+	Get(fieldStr string, args ...any) any
 	Configs() config.Content
 }
 
-func init() {
+func initConfig() {
 	c := new(configs.All)
 	if err := env.Parse(c); err != nil {
 		panic(err)

@@ -14,3 +14,10 @@ var Services = make(ServicesMap)
 func (s ServicesMap) Register(key string, service services.Service) {
 	s[key] = service
 }
+
+func init() {
+	initConfig()
+	initCache()
+	initException()
+	initRoute()
+}

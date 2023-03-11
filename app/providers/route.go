@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"gower/services"
-
 	"gower/services/route"
 )
 
@@ -46,7 +45,7 @@ type Route interface {
 	StaticFS(relativePath string, fs http.FileSystem) route.IRoutes
 }
 
-func init() {
+func initRoute() {
 	route.Entity.Init()
 	Services.Register("route", route.Entity)
 }
