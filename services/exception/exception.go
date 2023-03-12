@@ -1,6 +1,8 @@
 package exception
 
 import (
+	"gower/services/cache"
+	"gower/services/config"
 	"net/http"
 
 	"gower/services"
@@ -106,6 +108,23 @@ func (e *Struct) HandleBy(arg any) {
 	case gin.MIMEJSON:
 		c.JSON(http.StatusOK, e.Content)
 	case gin.MIMEHTML:
+		key := getKey()
+		cache.Entity.SetDefault(key, e)
+		c.SetCookie(
+			"err-key",
+			key,
+			300,
+			"/",
+			config.Entity.Get("app.domain", "localhost").(string),
+			false,
+			true)
+
+		referer := c.Request.Referer()
+		if referer == "" {
+			c.Redirect(http.StatusMovedPermanently, c.Request.URL.String())
+		} else {
+			c.Redirect(http.StatusFound, referer)
+		}
 	case gin.MIMEXML:
 		c.XML(http.StatusOK, e.Content)
 	case gin.MIMEYAML:

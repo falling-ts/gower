@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/stretchr/testify/assert"
 	"gower/tests"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func Test(t *testing.T) {
