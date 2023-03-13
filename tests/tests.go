@@ -7,11 +7,10 @@ import (
 )
 
 var (
-	App    = app.Entity
-	cfg    = app.Cfg()
-	config = App.Config()
-	excp   = app.Excp()
-	cache  = App.Cache()
+	App   = app.App
+	cfg   = app.App.Configs()
+	excp  = app.App.Exceptions()
+	cache = App.Cache()
 )
 
 func getAssert(t *testing.T) *assert.Assertions {

@@ -9,11 +9,11 @@ func TestException(t *testing.T) {
 	assert := getAssert(t)
 	msg := "test message"
 	err := errors.New(msg)
-	exception := excp.BadRequest(err)
+	exceptions := excp.BadRequest(err)
 
-	assert.Equal(exception.Error(), msg)
-	assert.Equal(exception.Struct.RawErr, err)
+	assert.Equal(exceptions.Error(), msg)
+	assert.Equal(exceptions.Exception.RawErr, err)
 
-	assert.NotEqual(excp, exception)
-	assert.NotEqual(excp.Struct, exception.Struct)
+	assert.NotEqual(excp, exceptions)
+	assert.NotEqual(excp.Exception, exceptions.Exception)
 }
