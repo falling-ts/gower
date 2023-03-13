@@ -54,8 +54,9 @@ func (e *Exceptions) new(code int, args ...any) *Exceptions {
 	temp := *e
 	newE := &temp
 
-	newE.Exception = exception.New()
+	newE.Set(code)
+	newE.Set(exception.New())
 	newE.Exception.Exceptions = newE
-	newE.Code = code
+
 	return newE.Exception.Build(args...).(*Exceptions)
 }

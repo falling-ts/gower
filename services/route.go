@@ -71,4 +71,15 @@ type Route interface {
 	StaticFileFS(relativePath, filepath string, fs http.FileSystem) IRoutes
 	Static(relativePath, root string) IRoutes
 	StaticFS(relativePath string, fs http.FileSystem) IRoutes
+
+	Response(data ResponseData, args ...any) Response
+}
+
+type Response interface {
+	DecideType(data ResponseData, arg any)
+}
+
+// ResponseData 正常响应数据接口
+type ResponseData interface {
+	Set(any) ResponseData
 }

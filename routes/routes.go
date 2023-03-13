@@ -2,4 +2,4 @@ package routes
 
 import "gower/app"
 
-var route = app.App.Route()
+var route = app.Route()

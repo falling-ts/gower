@@ -7,10 +7,9 @@ import (
 )
 
 var (
-	App   = app.App
-	cfg   = app.App.Configs()
-	excp  = app.App.Exceptions()
-	cache = App.Cache()
+	cfg   = app.Configs()
+	excp  = app.Exceptions()
+	cache = app.Cache()
 )
 
 func getAssert(t *testing.T) *assert.Assertions {

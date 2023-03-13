@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var excp = app.App.Exceptions()
+var excp = app.Exceptions()
 
 type Request interface {
 	Validate(ctx *gin.Context, req Request) error

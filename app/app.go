@@ -27,34 +27,34 @@ var App = app{
 }
 
 func init() {
-	c := App.Configs()
+	c := Configs()
 	App.Name = c.App.Name
 	App.Version = c.App.Version
 }
 
 // Run 启动 App
 func Run(addr ...string) {
-	if err := App.Route().Run(addr...); err != nil {
+	if err := Route().Run(addr...); err != nil {
 		panic(err)
 	}
 }
 
 // Configs 获取配置服务
-func (a *app) Configs() *configs.Configs {
-	return a.Services.Configs
+func Configs() *configs.Configs {
+	return App.Services.Configs
 }
 
 // Cache 获取缓存服务
-func (a *app) Cache() services.Cache {
-	return a.Services.Cache
+func Cache() services.Cache {
+	return App.Services.Cache
 }
 
 // Exceptions 获取异常服务
-func (a *app) Exceptions() *exceptions.Exceptions {
-	return a.Services.Exceptions
+func Exceptions() *exceptions.Exceptions {
+	return App.Services.Exceptions
 }
 
 // Route 获取路由服务
-func (a *app) Route() services.Route {
-	return a.Services.Route
+func Route() services.Route {
+	return App.Services.Route
 }

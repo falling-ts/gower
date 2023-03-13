@@ -24,7 +24,7 @@ func output() io.Writer {
 
 	channel, ok := configs.Get("log.channel", "").(string)
 	if !ok {
-		panic("获取配置错误")
+		panic("获取配置错误.")
 	}
 	dir := configs.Get("log.dir").(string)
 	createDir(dir)
