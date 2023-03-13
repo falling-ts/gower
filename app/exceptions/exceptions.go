@@ -7,10 +7,10 @@ import (
 
 // Exceptions 异常响应体
 type Exceptions struct {
-	*exception.Exception
-	Code int    `json:"code"`
-	Msg  string `json:"msg"`
-	Data any    `json:"data"`
+	*exception.Exception `json:"-"`
+	Code                 int    `json:"code"`
+	Msg                  string `json:"msg"`
+	Data                 any    `json:"data"`
 }
 
 var _ services.Exception = (*Exceptions)(nil)

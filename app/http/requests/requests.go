@@ -21,7 +21,6 @@ type request struct {
 func (r *request) Validate(ctx *gin.Context, req Request) error {
 	r.Context = ctx
 
-	return excp.BadRequest("test error")
 	if err := ctx.ShouldBind(req); err != nil {
 		return excp.BadRequest(err)
 	}

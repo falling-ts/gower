@@ -1,7 +1,7 @@
 package route
 
 import (
-	"fmt"
+	"gower/app/responses"
 	"net/http"
 	"path"
 	"reflect"
@@ -85,20 +85,12 @@ func useReflect(handler services.Handler, c *gin.Context) bool {
 
 			switch pkg {
 			case "requests":
-				argValue = reflect.New(argType).Elem()
-				if SetContext := argValue.MethodByName("SetContext"); SetContext.IsValid() {
-					SetContext.Call([]reflect.Value{
-						reflect.ValueOf(c),
-					})
+				argValue = reflect.New(argType)
+				if requestMethod(argValue, c) {
+					return true
 				}
-				if Validate := argValue.MethodByName("Validate"); Validate.IsValid() {
-					excp := Validate.Call([]reflect.Value{
-						reflect.ValueOf(c),
-						argValue,
-					})
 
-					fmt.Println(excp)
-				}
+				argValue = argValue.Elem()
 			default:
 				return false
 			}
@@ -112,18 +104,8 @@ func useReflect(handler services.Handler, c *gin.Context) bool {
 				switch pkg {
 				case "requests":
 					argValue = reflect.New(argType)
-					if SetContext := argValue.Elem().MethodByName("SetContext"); SetContext.IsValid() {
-						SetContext.Call([]reflect.Value{
-							reflect.ValueOf(c),
-						})
-					}
-					if Validate := argValue.Elem().MethodByName("Validate"); Validate.IsValid() {
-						excp := Validate.Call([]reflect.Value{
-							reflect.ValueOf(c),
-							argValue,
-						})
-
-						fmt.Println(excp)
+					if requestMethod(argValue, c) {
+						return true
 					}
 				default:
 					return false
@@ -136,7 +118,31 @@ func useReflect(handler services.Handler, c *gin.Context) bool {
 		args[i] = argValue
 	}
 
-	results := handleValue.Call(args)
+	return handleResults(handleValue.Call(args), c)
+}
+
+func requestMethod(value reflect.Value, c *gin.Context) bool {
+	if SetContext := value.MethodByName("SetContext"); SetContext.IsValid() {
+		SetContext.Call([]reflect.Value{
+			reflect.ValueOf(c),
+		})
+	}
+	if Validate := value.MethodByName("Validate"); Validate.IsValid() {
+		err := Validate.Call([]reflect.Value{
+			reflect.ValueOf(c),
+			value,
+		})[0].Interface()
+		if err != nil {
+			handleException(err.(services.Exceptions), c)
+			return true
+		}
+	}
+
+	return false
+}
+
+func handleResults(results []reflect.Value, c *gin.Context) bool {
+	r := make([]any, 1)
 	for _, result := range results {
 		res := result.Interface()
 		if res == nil {
@@ -145,12 +151,16 @@ func useReflect(handler services.Handler, c *gin.Context) bool {
 		switch res.(type) {
 		case services.Response:
 			handleResponse(res.(services.Response), c)
+			return true
 		case error:
 			handleError(res.(error), c)
+			return true
 		default:
-			c.String(http.StatusOK, result.String())
+			r = append(r, res)
 		}
 	}
+
+	handleResponse(response(new(responses.Responses), r...), c)
 	return true
 }
 

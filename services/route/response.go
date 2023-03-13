@@ -25,12 +25,37 @@ var Accepts = []string{
 }
 
 // Response 设置响应结构体内容
-func (r *Route) Response(data services.ResponseData, args ...any) services.Response {
+func (r *Route) Response(data services.Responses, args ...any) services.Response {
+	return response(data, args...)
+}
+
+// DecideType 判定类型
+func (r *Response) DecideType(data services.Responses, arg any) {
+	switch arg.(type) {
+	case int:
+		code := arg.(int)
+		if code >= http.StatusOK && code < http.StatusMultipleChoices {
+			r.HttpStatus = code
+		} else {
+			data.Set(arg)
+		}
+	case string:
+		data.Set(arg)
+		r.config.HTMLName = arg.(string)
+	default:
+		data.Set(arg)
+		r.config.HTMLData = arg
+	}
+
+	r.config.Data = data
+}
+
+func response(data services.Responses, args ...any) services.Response {
 	res := new(Response)
 	res.HttpStatus = http.StatusOK
 	res.config.Offered = Accepts
 
-	res.DecideType(data, "SUCCESS")
+	res.DecideType(data, "success")
 	if len(args) > 0 {
 		res.DecideType(data, args[0])
 	}
@@ -53,30 +78,10 @@ func (r *Route) Response(data services.ResponseData, args ...any) services.Respo
 	return res
 }
 
-// DecideType 判定类型
-func (r *Response) DecideType(data services.ResponseData, arg any) {
-	switch arg.(type) {
-	case int:
-		code := arg.(int)
-		if code >= http.StatusOK && code < http.StatusMultipleChoices {
-			r.HttpStatus = code
-		} else {
-			data.Set(arg)
-		}
-	case string:
-		data.Set(arg)
-		r.config.HTMLName = arg.(string)
-	default:
-		data.Set(arg)
-		r.config.HTMLData = arg
-	}
-
-	r.config.Data = data
-}
-
 func handleResponse(r services.Response, c *gin.Context) {
 	if response, ok := r.(*Response); ok {
 		c.Negotiate(response.HttpStatus, response.config)
+		return
 	}
 
 	handleException(exceptions.New(http.StatusBadRequest, "响应体错误."), c)

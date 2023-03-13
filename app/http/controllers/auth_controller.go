@@ -24,8 +24,8 @@ func (a *AuthController) RegisterForm(c route.Context) services.Response {
 }
 
 // Register 执行注册
-func (a *AuthController) Register(req requests.RegisterRequest, test *requests.LoginRequest) services.Response {
-	fmt.Println(test)
+func (a *AuthController) Register(req *requests.RegisterRequest) services.Response {
+	fmt.Println(req)
 	return a.response("注册成功")
 }
 

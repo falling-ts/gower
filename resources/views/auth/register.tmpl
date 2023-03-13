@@ -78,8 +78,9 @@
               return
             }
             const res = await auth.register(this.form)
-            console.log("Res: ", res)
-
+            if (!res.code) {
+              console.log("Res: ", res)
+            }
           }
         }
       }).mount("#auth-register")
