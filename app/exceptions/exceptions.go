@@ -13,6 +13,7 @@ type Exceptions struct {
 	Data any    `json:"data"`
 }
 
+var _ services.Exception = (*Exceptions)(nil)
 var _ services.Exceptions = (*Exceptions)(nil)
 
 // 通用错误方法
