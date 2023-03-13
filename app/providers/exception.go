@@ -6,20 +6,9 @@ import (
 	"gower/services/exception"
 )
 
-var _ Exception = (*exception.Struct)(nil)
+var _ services.Exception = (*exception.Exception)(nil)
 
-// Exception 适配接口
-type Exception interface {
-	services.Service
-
-	Build(code uint, args ...any) exception.Content
-	Exception() exception.Content
-	HandleBy(any)
-}
-
-func initException() {
-	e := new(exceptions.Exception)
-	exception.Entity.Init(e)
-
-	Services.Register("exception", exception.Entity)
+func init() {
+	e := new(exceptions.Exceptions)
+	s.Exceptions = exception.Mount(e).(*exceptions.Exceptions)
 }

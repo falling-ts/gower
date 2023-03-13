@@ -1,29 +1,19 @@
 package providers
 
 import (
+	"github.com/caarlos0/env/v7"
 	"gower/configs"
 	"gower/services"
 	"gower/services/config"
-
-	"github.com/caarlos0/env/v7"
 )
 
-var _ Config = (*config.Struct)(nil)
+var _ services.Config = (*config.Config)(nil)
 
-// Config 适配接口
-type Config interface {
-	services.Service
-
-	Get(fieldStr string, args ...any) any
-	Configs() config.Content
-}
-
-func initConfig() {
-	c := new(configs.All)
+func init() {
+	c := new(configs.Configs)
 	if err := env.Parse(c); err != nil {
 		panic(err)
 	}
-	config.Entity.Init(c)
 
-	Services.Register("config", config.Entity)
+	s.Configs = config.Mount(c).(*configs.Configs)
 }

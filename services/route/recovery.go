@@ -6,8 +6,6 @@ import (
 	"os"
 	"time"
 
-	"gower/services/config"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,7 +14,7 @@ func setRecovery(engine *gin.Engine) {
 }
 
 func errOutput() io.Writer {
-	dir := config.Entity.Get("log.dir").(string)
+	dir := configs.Get("log.dir").(string)
 	flatDay := time.Now().Local().Format("2006-01-02")
 	logFile := fmt.Sprintf("%s/error.%s.log", dir, flatDay)
 

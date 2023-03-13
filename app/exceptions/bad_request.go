@@ -2,6 +2,6 @@ package exceptions
 
 import "net/http"
 
-func (e *Exception) BadRequest(args ...any) *Exception {
-	return e.throw(http.StatusBadRequest, args...)
+func (e *Exceptions) BadRequest(args ...any) *Exceptions {
+	return e.new(http.StatusBadRequest, args...)
 }

@@ -1,31 +1,42 @@
 package cache
 
 import (
-	"github.com/patrickmn/go-cache"
-	"gower/services"
-	"gower/services/config"
 	"os"
 	"path"
 	"time"
+
+	"gower/services"
+
+	"github.com/patrickmn/go-cache"
 )
 
-// Struct 缓存核心结构
-type Struct struct {
+// Cache 服务
+type Cache struct {
 	*cache.Cache
 }
 
-var Entity = new(Struct)
+var configs services.Configs
+
+// New 创建服务
+func New() *Cache {
+	return new(Cache)
+}
 
 // Init 初始化
-func (c *Struct) Init(args ...any) services.Service {
-	c.Cache = cache.New(
-		config.Entity.Get("cache.expire", 300).(time.Duration),
-		config.Entity.Get("cache.clean", 600).(time.Duration))
+func (c *Cache) Init(args ...any) {
+	if len(args) == 0 {
+		panic("缓存服务初始化参数不存在.")
+	}
+	configs = args[0].(services.Configs)
 
-	interval := config.Entity.Get("cache.interval", 600).(time.Duration)
+	c.Cache = cache.New(
+		configs.Get("cache.expire", 300).(time.Duration),
+		configs.Get("cache.clean", 600).(time.Duration))
+
+	interval := configs.Get("cache.interval", 600).(time.Duration)
 	if interval != 0 {
-		dir := config.Entity.Get("cache.dir", "storage/caches").(string)
-		file := config.Entity.Get("cache.file", "go.cache").(string)
+		dir := configs.Get("cache.dir", "storage/caches").(string)
+		file := configs.Get("cache.file", "go.cache").(string)
 		filename := path.Join(dir, file)
 		if _, err := os.Stat(filename); err == nil {
 			if err = c.LoadFile(filename); err != nil {
@@ -42,12 +53,10 @@ func (c *Struct) Init(args ...any) services.Service {
 			}
 		}()
 	}
-
-	return c
 }
 
 // Flash 闪存取值
-func (c *Struct) Flash(k string) (any, bool) {
+func (c *Cache) Flash(k string) (any, bool) {
 	value, ok := c.Get(k)
 	c.Delete(k)
 	return value, ok

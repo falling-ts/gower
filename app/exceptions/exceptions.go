@@ -1,53 +1,60 @@
 package exceptions
 
-import "gower/services/exception"
+import (
+	"gower/services"
+	"gower/services/exception"
+)
 
-// Exception 异常响应体
-type Exception struct {
-	*exception.Struct
-	Code uint   `json:"code"`
+// Exceptions 异常响应体
+type Exceptions struct {
+	*exception.Exception
+	Code int    `json:"code"`
 	Msg  string `json:"msg"`
 	Data any    `json:"data"`
 }
 
-var _ exception.Content = (*Exception)(nil)
+var _ services.Exceptions = (*Exceptions)(nil)
 
 // 通用错误方法
-func (e *Exception) Error() string {
+func (e *Exceptions) Error() string {
 	return e.Msg
 }
 
-// SetException 设置异常服务
-func (e *Exception) SetException(exception *exception.Struct) {
-	e.Struct = exception
+// Set 通用设置内容
+func (e *Exceptions) Set(arg any) {
+	switch arg.(type) {
+	case *exception.Exception:
+		e.Exception = arg.(*exception.Exception)
+	case int:
+		e.Code = arg.(int)
+	case string:
+		e.Msg = arg.(string)
+	default:
+		e.Data = arg
+	}
 }
 
-// SetMsg 设置异常消息
-func (e *Exception) SetMsg(msg string) {
-	e.Msg = msg
+// Get 获取异常内容
+func (e *Exceptions) Get(arg string) any {
+	switch arg {
+	case "RawErr":
+		return e.Exception.RawErr
+	default:
+		return nil
+	}
 }
 
-// SetData 设置数据
-func (e *Exception) SetData(data any) {
-	e.Data = data
+// New 抛出异常
+func (e *Exceptions) New(code int, args ...any) services.Exceptions {
+	return e.new(code, args...)
 }
 
-// Throw 抛出异常
-func (e *Exception) Throw(code uint, args ...any) exception.Content {
-	return e.throw(code, args...)
-}
-
-// HandleBy 处理异常
-func (e *Exception) HandleBy(arg any) {
-	e.Struct.HandleBy(arg)
-}
-
-func (e *Exception) throw(code uint, args ...any) *Exception {
+func (e *Exceptions) new(code int, args ...any) *Exceptions {
 	temp := *e
 	newE := &temp
 
-	newE.Struct = exception.New()
-	newE.Struct.Content = newE
+	newE.Exception = exception.New()
+	newE.Exception.Exceptions = newE
 	newE.Code = code
-	return newE.Struct.Build(code, args...).(*Exception)
+	return newE.Exception.Build(args...).(*Exceptions)
 }

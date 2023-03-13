@@ -2,16 +2,15 @@ package route
 
 import (
 	"fmt"
+	"gower/services"
 	"net/http"
 	"path"
 	"reflect"
 
-	"gower/services/exception"
-
 	"github.com/gin-gonic/gin"
 )
 
-func transHandler(handler Handler) gin.HandlerFunc {
+func transHandler(handler services.Handler) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		setWriter(c)
 		if handle, ok := handler.(func(*gin.Context)); ok {
@@ -53,7 +52,7 @@ func transHandler(handler Handler) gin.HandlerFunc {
 						fmt.Println(excp)
 					}
 				default:
-					exception.Entity.Throw(http.StatusBadRequest, "参数声明错误").HandleBy(c)
+					handleException(exceptions.New(http.StatusBadRequest, "参数声明错误"), c)
 				}
 			case reflect.Ptr:
 				argType = argType.Elem()
@@ -79,7 +78,7 @@ func transHandler(handler Handler) gin.HandlerFunc {
 						//	fmt.Println(excp)
 						//}
 					default:
-						exception.Entity.Throw(http.StatusBadRequest, "参数声明错误").HandleBy(c)
+						handleException(exceptions.New(http.StatusBadRequest, "参数声明错误"), c)
 					}
 				}
 			default:

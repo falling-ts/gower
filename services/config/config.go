@@ -11,33 +11,25 @@ import (
 	_ "github.com/joho/godotenv/autoload"
 )
 
-type Content interface{}
-
-// Struct 配置主结构体
-type Struct struct {
-	Content
+// Config 配置主结构体
+type Config struct {
+	services.Configs
 	mu sync.RWMutex
 }
 
-var Entity = new(Struct)
-
-// Init 服务初始化
-func (c *Struct) Init(args ...any) services.Service {
-	if len(args) == 0 {
-		panic("初始化参数不存在")
-	}
-
-	content, ok := args[0].(Content)
-	if !ok {
-		panic("配置服务初始化失败")
-	}
-	c.Content = content
+func Mount(c services.Configs) services.Configs {
+	config := new(Config)
+	config.Configs = c
+	c.Set(config)
 
 	return c
 }
 
+// Init 服务初始化
+func (c *Config) Init(...any) {}
+
 // Get 获取配置参数, 包含默认值
-func (c *Struct) Get(fieldStr string, args ...any) any {
+func (c *Config) Get(fieldStr string, args ...any) any {
 	c.mu.RLock()
 	defer c.mu.RUnlock()
 
@@ -60,7 +52,7 @@ func (c *Struct) Get(fieldStr string, args ...any) any {
 	var cfgValue reflect.Value
 	for i, field := range fields {
 		if i == 0 {
-			cfgValue = reflect.ValueOf(c.Content).Elem().FieldByName(field)
+			cfgValue = reflect.ValueOf(c.Configs).Elem().FieldByName(field)
 		} else {
 			cfgValue = cfgValue.FieldByName(field)
 		}
@@ -71,9 +63,4 @@ func (c *Struct) Get(fieldStr string, args ...any) any {
 	}
 
 	return cfgValue.Interface()
-}
-
-// Configs 获取内部配置
-func (c *Struct) Configs() Content {
-	return c.Content
 }

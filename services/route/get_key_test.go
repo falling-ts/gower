@@ -1,4 +1,4 @@
-package exception
+package route
 
 import (
 	"github.com/stretchr/testify/assert"

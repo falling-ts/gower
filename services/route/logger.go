@@ -7,8 +7,6 @@ import (
 	"path/filepath"
 	"time"
 
-	"gower/services/config"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,7 +14,7 @@ func setLogger(engine *gin.Engine) {
 	engine.Use(gin.LoggerWithConfig(gin.LoggerConfig{
 		Formatter: logFormatter,
 		Output:    output(),
-		SkipPaths: config.Entity.Get("log.skipPaths").([]string),
+		SkipPaths: configs.Get("log.skipPaths").([]string),
 	}))
 }
 
@@ -24,11 +22,11 @@ func output() io.Writer {
 	var logFile string
 	var logDir string
 
-	channel, ok := config.Entity.Get("log.channel", "").(string)
+	channel, ok := configs.Get("log.channel", "").(string)
 	if !ok {
 		panic("获取配置错误")
 	}
-	dir := config.Entity.Get("log.dir").(string)
+	dir := configs.Get("log.dir").(string)
 	createDir(dir)
 
 	now := time.Now().Local()
@@ -87,7 +85,7 @@ var logFormatter = func(param gin.LogFormatterParams) string {
 		param.Latency = param.Latency.Truncate(time.Second)
 	}
 
-	if val, ok := param.Keys["response-body"]; ok && val != nil {
+	if val, ok := param.Keys["body-logger"]; ok && val != nil {
 		ResBody, _ = val.(string)
 		ResBody = fmt.Sprintf("%s\n", ResBody)
 	}

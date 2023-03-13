@@ -38,7 +38,7 @@ func (w *responseWriter) WriteHeaderNow() {
 
 func (w *responseWriter) Write(data []byte) (n int, err error) {
 	if json.Valid(data) {
-		w.ctx.Set("response-body", string(data))
+		w.ctx.Set("body-logger", string(data))
 	}
 	n, err = w.ResponseWriter.Write(data)
 	return
