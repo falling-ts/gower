@@ -2,6 +2,7 @@ package main
 
 import (
 	"gower/tests"
+	"gower/tests/benchmarks"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -11,10 +12,13 @@ func Test(t *testing.T) {
 	t.Run("TestConfig", tests.TestConfig)
 	t.Run("TestException", tests.TestException)
 	t.Run("TestCache", tests.TestCache)
+	t.Run("TestControllers", tests.TestControllers)
 }
 
 func Benchmark(b *testing.B) {
-
+	b.Run("BenchmarkCache", benchmarks.BenchmarkCache)
+	b.Run("BenchmarkConfig", benchmarks.BenchmarkConfig)
+	b.Run("BenchmarkConfigGet", benchmarks.BenchmarkConfigGet)
 }
 
 func Example() {

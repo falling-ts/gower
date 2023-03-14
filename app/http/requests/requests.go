@@ -1,9 +1,10 @@
 package requests
 
 import (
+	"gower/app"
+
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	"gower/app"
 )
 
 var (
@@ -31,7 +32,7 @@ func (r *request) Validate(ctx *gin.Context, req Request) error {
 		}
 
 		errs := err.(validator.ValidationErrors)
-		return excp.BadRequest(errs, errs[0].Translate(valid.GetTrans()), valid.Translate(errs))
+		return excp.UnprocessableEntity(errs, errs[0].Translate(valid.GetTrans()), valid.Translate(errs))
 	}
 
 	return nil

@@ -8,7 +8,7 @@ import (
 
 type Controllers struct{}
 
-// HTML Data
+// Data HTML 数据
 type Data map[string]any
 
 var routeSrv = app.Route()

@@ -7,6 +7,7 @@ import (
 )
 
 var (
+	route = app.Route()
 	cfg   = app.Configs()
 	excp  = app.Exceptions()
 	cache = app.Cache()

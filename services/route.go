@@ -72,6 +72,8 @@ type Route interface {
 	Static(relativePath, root string) IRoutes
 	StaticFS(relativePath string, fs http.FileSystem) IRoutes
 
+	ServeHTTP(w http.ResponseWriter, req *http.Request)
+
 	Response(data Responses, args ...any) Response
 }
 

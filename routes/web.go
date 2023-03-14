@@ -1,13 +1,14 @@
 package routes
 
-import . "gower/app/http/controllers"
+import (
+	. "gower/app/http/controllers"
+)
 
 func init() {
 	route.StaticFile("/favicon.ico", "public/static/images/favicon.ico")
 	route.Static("/static", "public/static")
 
 	route.GET("/", Home.Index)
-	route.GET("/test", Home.Test)
 
 	// 注册与登录
 	auth := route.Group("/auth")

@@ -53,8 +53,10 @@ func (r *Route) Use(middleware ...services.Handler) services.IRoutes {
 // 例如, 所有使用公共中间件进行授权的路由都可以分组.
 func (r *Route) Group(relativePath string, handlers ...services.Handler) services.Route {
 	group := r.Engine.Group(relativePath, toGinHandlers(handlers)...)
-	r.Engine.RouterGroup = *group
-	return r
+
+	route := &Route{gin.New()}
+	route.Engine.RouterGroup = *group
+	return route
 }
 
 // Handle 用给定的路径和方法注册一个新的请求句柄和中间件.
