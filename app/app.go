@@ -58,3 +58,8 @@ func Exceptions() *exceptions.Exceptions {
 func Route() services.Route {
 	return App.Services.Route
 }
+
+// Validator 获取验证器
+func Validator() services.Validator {
+	return App.Services.Validator
+}

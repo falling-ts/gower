@@ -1,21 +1,15 @@
 package requests
 
 import (
-	"reflect"
-	"strings"
-
-	"gower/app"
-	"gower/utils"
-
 	"github.com/gin-gonic/gin"
-	"github.com/gin-gonic/gin/binding"
-	"github.com/go-playground/locales/zh"
-	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
-	zhTrans "github.com/go-playground/validator/v10/translations/zh"
+	"gower/app"
 )
 
-var excp = app.Exceptions()
+var (
+	excp  = app.Exceptions()
+	valid = app.Validator()
+)
 
 // Request 通用请求接口
 type Request interface {
@@ -25,24 +19,6 @@ type Request interface {
 
 type request struct {
 	*gin.Context
-}
-
-var trans ut.Translator
-
-func init() {
-	uni := ut.New(zh.New())
-	trans, _ = uni.GetTranslator("zh")
-	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
-		if err := zhTrans.RegisterDefaultTranslations(v, trans); err != nil {
-			panic(err)
-		}
-		v.RegisterTagNameFunc(func(field reflect.StructField) string {
-			if name := field.Tag.Get("zh"); name != "" {
-				return name
-			}
-			return strings.ToLower(field.Name)
-		})
-	}
 }
 
 // Validate 执行验证
@@ -55,10 +31,7 @@ func (r *request) Validate(ctx *gin.Context, req Request) error {
 		}
 
 		errs := err.(validator.ValidationErrors)
-		return excp.BadRequest(errs, errs[0].Translate(trans), utils.MapStrStr(errs.Translate(trans)).MapKeys(func(key string) string {
-			i := strings.LastIndex(key, ".")
-			return strings.ToLower(key[i+1:])
-		}))
+		return excp.BadRequest(errs, errs[0].Translate(valid.GetTrans()), valid.Translate(errs))
 	}
 
 	return nil
