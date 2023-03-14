@@ -9,7 +9,7 @@ import (
 type Controllers struct{}
 
 // HTML Data
-type data map[string]any
+type Data map[string]any
 
 var routeSrv = app.Route()
 

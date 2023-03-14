@@ -64,6 +64,32 @@ func notUseReflect(handler services.Handler, c *gin.Context) bool {
 			handleResponse(response, c)
 		}
 		return true
+	case func() error:
+		if err := handler.(func() error)(); err != nil {
+			handleError(err, c)
+		}
+		return true
+	case func() services.Response:
+		handleResponse(handler.(func() services.Response)(), c)
+		return true
+	case func() (services.Response, error):
+		response, err := handler.(func() (services.Response, error))()
+		if err != nil {
+			handleError(err, c)
+		} else {
+			handleResponse(response, c)
+		}
+		return true
+	default:
+		handlerType := reflect.TypeOf(handler).Kind()
+		if handlerType != reflect.Func {
+			if args, ok := handler.([]any); ok {
+				handleResponse(response(new(responses.Responses), args...), c)
+			} else {
+				handleResponse(response(new(responses.Responses), handler), c)
+			}
+			return true
+		}
 	}
 
 	return false
@@ -142,7 +168,7 @@ func requestMethod(value reflect.Value, c *gin.Context) bool {
 }
 
 func handleResults(results []reflect.Value, c *gin.Context) bool {
-	r := make([]any, 1)
+	r := make([]any, 0)
 	for _, result := range results {
 		res := result.Interface()
 		if res == nil {
@@ -156,7 +182,11 @@ func handleResults(results []reflect.Value, c *gin.Context) bool {
 			handleError(res.(error), c)
 			return true
 		default:
-			r = append(r, res)
+			if _res, ok := res.([]any); ok {
+				r = append(r, _res...)
+			} else {
+				r = append(r, res)
+			}
 		}
 	}
 

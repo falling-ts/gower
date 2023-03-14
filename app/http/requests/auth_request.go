@@ -2,8 +2,8 @@ package requests
 
 type AuthRequest struct {
 	request
-	Username string `form:"username" json:"username" binding:"required"`
-	Password string `form:"password" json:"password" binding:"required"`
+	Username string `form:"username" json:"username" binding:"required" zh:"用户名"`
+	Password string `form:"password" json:"password" binding:"required" zh:"密码"`
 }
 
 type RegisterRequest struct {
