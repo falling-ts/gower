@@ -33,8 +33,8 @@ func (r *Route) Init(args ...any) {
 	exceptions = args[2].(services.Exceptions)
 
 	r.Engine = gin.New()
-	setLogger(r.Engine)
 	setRecovery(r.Engine)
+	setLogger(r.Engine)
 }
 
 // Delims 设置模板的左右界限, 并返回一个引擎实例.

@@ -87,7 +87,7 @@ var logFormatter = func(param gin.LogFormatterParams) string {
 
 	if val, ok := param.Keys["body-logger"]; ok && val != nil {
 		ResBody, _ = val.(string)
-		ResBody = fmt.Sprintf("%s\n", ResBody)
+		ResBody = fmt.Sprintf("Response-Body: %s\n", ResBody)
 	}
 
 	return fmt.Sprintf("[GIN] %v |%s %3d %s| %13v | %15s |%s %-7s %s %#v\n%s%s",

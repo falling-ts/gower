@@ -4,3 +4,15 @@ services:
     build: ./third_apps/tidb
     ports:
       - "4000:4000"
+#  mysql:
+#    build: ./third_apps/mysql5.7
+#    environment:
+#      MYSQL_ROOT_HOST: "%"
+#      MYSQL_DATABASE: "gower"
+#      MYSQL_DATABASE_CHAR: "utf8mb4,utf8mb4_unicode_ci"
+#      MYSQL_ROOT_PASSWORD: "root"
+#    ports:
+#      - "3306:3306"
+#      - "33060:33060"
+#    volumes:
+#      - ./third_apps/mysql5.7/data:/var/lib/mysql
