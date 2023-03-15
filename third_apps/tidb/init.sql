@@ -1,0 +1,5 @@
+SET PASSWORD = password('root');
+FLUSH PRIVILEGES;
+
+DROP DATABASE IF EXISTS test;
+CREATE DATABASE gower CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
