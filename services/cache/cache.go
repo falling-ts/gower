@@ -30,10 +30,10 @@ func (c *Cache) Init(args ...any) {
 	configs = args[0].(services.Configs)
 
 	c.Cache = cache.New(
-		configs.Get("cache.expire", 300).(time.Duration),
-		configs.Get("cache.clean", 600).(time.Duration))
+		configs.Get("cache.expire", "300s").(time.Duration),
+		configs.Get("cache.clean", "600s").(time.Duration))
 
-	interval := configs.Get("cache.interval", 600).(time.Duration)
+	interval := configs.Get("cache.interval", "600s").(time.Duration)
 	if interval != 0 {
 		dir := configs.Get("cache.dir", "storage/caches").(string)
 		file := configs.Get("cache.file", "go.cache").(string)

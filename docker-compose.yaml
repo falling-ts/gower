@@ -4,6 +4,9 @@ services:
     build: ./third_apps/tidb
     ports:
       - "4000:4000"
+    volumes:
+      - ./third_apps/tidb/data:/var/lib/tidb
+      - ./third_apps/tidb/logs:/var/log/tidb
 #  mysql:
 #    build: ./third_apps/mysql5.7
 #    environment:

@@ -44,6 +44,11 @@ func (c *Config) Get(fieldStr string, args ...any) any {
 	}
 
 	for i, field := range fields {
+		if field == "db" {
+			fields[i] = strings.ToUpper(field)
+			continue
+		}
+
 		r := []rune(field)
 		r[0] = unicode.ToUpper(r[0])
 		fields[i] = string(r)

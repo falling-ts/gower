@@ -17,6 +17,7 @@ var (
 	configs    services.Configs
 	cache      services.Cache
 	exceptions services.Exceptions
+	db         services.DB
 )
 
 func New() services.Route {
@@ -25,12 +26,13 @@ func New() services.Route {
 
 // Init 初始化
 func (r *Route) Init(args ...any) {
-	if len(args) < 3 {
+	if len(args) < 4 {
 		panic("路由服务初始化参数不全.")
 	}
 	configs = args[0].(services.Configs)
 	cache = args[1].(services.Cache)
 	exceptions = args[2].(services.Exceptions)
+	db = args[3].(services.DB)
 
 	r.Engine = gin.New()
 	setRecovery(r.Engine)

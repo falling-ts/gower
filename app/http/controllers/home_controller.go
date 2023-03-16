@@ -5,7 +5,7 @@ import (
 )
 
 type HomeController struct {
-	Controllers
+	Controller
 }
 
 var Home = new(HomeController)

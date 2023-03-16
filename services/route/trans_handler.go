@@ -1,12 +1,13 @@
 package route
 
 import (
+	"errors"
+	"gorm.io/gorm"
 	"gower/app/responses"
+	"gower/services"
 	"net/http"
 	"path"
 	"reflect"
-
-	"gower/services"
 
 	"github.com/gin-gonic/gin"
 )
@@ -117,6 +118,13 @@ func useReflect(handler services.Handler, c *gin.Context) bool {
 				}
 
 				argValue = argValue.Elem()
+			case "models":
+				argValue = reflect.New(argType)
+				if injectDataById(reflect.New(argType), c) {
+					return true
+				}
+
+				argValue = argValue.Elem()
 			default:
 				return false
 			}
@@ -131,6 +139,11 @@ func useReflect(handler services.Handler, c *gin.Context) bool {
 				case "requests":
 					argValue = reflect.New(argType)
 					if requestMethod(argValue, c) {
+						return true
+					}
+				case "models":
+					argValue = reflect.New(argType)
+					if injectDataById(reflect.New(argType), c) {
 						return true
 					}
 				default:
@@ -164,6 +177,22 @@ func requestMethod(value reflect.Value, c *gin.Context) bool {
 		}
 	}
 
+	return false
+}
+
+func injectDataById(value reflect.Value, c *gin.Context) bool {
+	id := c.Param("id")
+	if id != "" {
+		result := db.First(value.Interface(), id)
+		if result.Error != nil {
+			if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+				handleException(exceptions.New(http.StatusNotFound, "没有找到资源."), c)
+			} else {
+				handleException(exceptions.New(http.StatusBadRequest, result.Error), c)
+			}
+			return true
+		}
+	}
 	return false
 }
 

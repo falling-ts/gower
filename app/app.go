@@ -8,6 +8,7 @@ Copyright (c) 2023 Falling TS
 package app
 
 import (
+	"gorm.io/gorm"
 	"gower/app/exceptions"
 	"gower/app/providers"
 	"gower/configs"
@@ -62,4 +63,14 @@ func Route() services.Route {
 // Validator 获取验证器
 func Validator() services.Validator {
 	return App.Services.Validator
+}
+
+// DB 获取数据库服务
+func DB() services.DB {
+	return App.Services.DB
+}
+
+// GormDB 获取 gorm DB
+func GormDB() *gorm.DB {
+	return DB().GormDB()
 }

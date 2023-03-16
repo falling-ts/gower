@@ -3,11 +3,12 @@ package controllers
 import (
 	"fmt"
 	"gower/app/http/requests"
+	"gower/app/models"
 	"gower/services"
 )
 
 type AuthController struct {
-	Controllers
+	Controller
 }
 
 var Auth = new(AuthController)
@@ -20,7 +21,7 @@ func (a *AuthController) RegisterForm() (string, Data) {
 }
 
 // Register 执行注册
-func (a *AuthController) Register(req requests.RegisterRequest) services.Response {
+func (a *AuthController) Register(req requests.RegisterRequest, user *models.User) services.Response {
 	fmt.Println(req)
 	return a.response("注册成功")
 }
