@@ -18,14 +18,14 @@ func driver(driver string) gorm.Dialector {
 
 func getMysqlDriver() gorm.Dialector {
 	dsnConfig := &rawMysql.Config{
-		User:   configs.Get("db.user", "root").(string),
-		Passwd: configs.Get("db.passwd").(string),
-		Net:    configs.Get("db.net", "tcp").(string),
+		User:   config.Get("db.user", "root").(string),
+		Passwd: config.Get("db.passwd").(string),
+		Net:    config.Get("db.net", "tcp").(string),
 		Addr: fmt.Sprintf("%s:%d",
-			configs.Get("db.host", "localhost").(string),
-			configs.Get("db.port", 3306).(int)),
-		DBName:               configs.Get("db.name", "gower").(string),
-		AllowNativePasswords: configs.Get("db.mysql.allowNativePasswords", true).(bool),
+			config.Get("db.host", "localhost").(string),
+			config.Get("db.port", 3306).(int)),
+		DBName:               config.Get("db.name", "gower").(string),
+		AllowNativePasswords: config.Get("db.mysql.allowNativePasswords", true).(bool),
 	}
 	return mysql.New(mysql.Config{
 		DSNConfig:                 dsnConfig,

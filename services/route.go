@@ -15,7 +15,7 @@ type Handlers []Handler
 // IRouter 定义所有路由器句柄接口, 包括单路由器和组路由器.
 type IRouter interface {
 	IRoutes
-	Group(string, ...Handler) *Route
+	Group(string, ...Handler) RouteService
 }
 
 // IRoutes 定义所有路由器句柄接口.
@@ -39,10 +39,10 @@ type IRoutes interface {
 	StaticFS(string, http.FileSystem) IRoutes
 }
 
-type Route interface {
+type RouteService interface {
 	Service
 
-	Delims(left, right string) Route
+	Delims(left, right string) RouteService
 	LoadHTMLGlob(pattern string)
 	LoadHTMLFiles(files ...string)
 	SetHTMLTemplate(tmpl *template.Template)
@@ -55,7 +55,7 @@ type Route interface {
 	RunListener(listener net.Listener) (err error)
 
 	Use(middleware ...Handler) IRoutes
-	Group(relativePath string, handlers ...Handler) Route
+	Group(relativePath string, handlers ...Handler) RouteService
 	Handle(httpMethod, relativePath string, handlers ...Handler) IRoutes
 	Any(relativePath string, handlers ...Handler) IRoutes
 	GET(relativePath string, handlers ...Handler) IRoutes

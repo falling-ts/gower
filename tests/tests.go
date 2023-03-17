@@ -8,8 +8,8 @@ import (
 
 var (
 	route = app.Route()
-	cfg   = app.Configs()
-	excp  = app.Exceptions()
+	cfg   = app.Config()
+	excp  = app.Exception()
 	cache = app.Cache()
 )
 

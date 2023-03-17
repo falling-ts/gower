@@ -12,7 +12,7 @@ func TestException(t *testing.T) {
 	exceptions := excp.BadRequest(err)
 
 	assert.Equal(exceptions.Error(), msg)
-	assert.Equal(exceptions.Exception.RawErr, err)
+	assert.Equal(exceptions.Service.RawErr, err)
 
 	assert.NotEqual(excp, exceptions)
 	assert.NotEqual(excp.Exception, exceptions.Exception)

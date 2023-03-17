@@ -7,50 +7,50 @@ import (
 	"time"
 )
 
-type DB struct {
+type Service struct {
 	*gorm.DB
 }
 
-var configs services.Configs
+var config services.Config
 
 // New 创建 DB
-func New() *DB {
-	return new(DB)
+func New() *Service {
+	return new(Service)
 }
 
 // Init 服务初始化
-func (d *DB) Init(args ...any) {
+func (s *Service) Init(args ...any) {
 	if len(args) == 0 {
 		panic("数据库服务初始化参数不全.")
 	}
-	configs = args[0].(services.Configs)
+	config = args[0].(services.Config)
 
-	db, err := gorm.Open(driver(configs.Get("db.driver", "mysql").(string)), &gorm.Config{
-		DisableForeignKeyConstraintWhenMigrating: configs.Get("db.disableForeignKey", true).(bool),
+	db, err := gorm.Open(driver(config.Get("db.driver", "mysql").(string)), &gorm.Config{
+		DisableForeignKeyConstraintWhenMigrating: config.Get("db.disableForeignKey", true).(bool),
 	})
 	if err != nil {
 		panic(err)
 	}
 
-	d.DB = db
+	s.DB = db
 
 	sqlDB, err := db.DB()
 	if err != nil {
 		panic(err)
 	}
 
-	sqlDB.SetMaxOpenConns(configs.Get("db.maxOpen", 100).(int))
-	sqlDB.SetMaxIdleConns(configs.Get("db.maxIdleCount", 25).(int))
-	sqlDB.SetConnMaxLifetime(configs.Get("db.maxLifeTime", "30m").(time.Duration))
-	sqlDB.SetConnMaxIdleTime(configs.Get("db.maxIdleTime", "10m").(time.Duration))
+	sqlDB.SetMaxOpenConns(config.Get("db.maxOpen", 100).(int))
+	sqlDB.SetMaxIdleConns(config.Get("db.maxIdleCount", 25).(int))
+	sqlDB.SetConnMaxLifetime(config.Get("db.maxLifeTime", "30m").(time.Duration))
+	sqlDB.SetConnMaxIdleTime(config.Get("db.maxIdleTime", "10m").(time.Duration))
 }
 
 // GormDB 获取 gorm DB
-func (d *DB) GormDB() *gorm.DB {
-	return d.DB
+func (s *Service) GormDB() *gorm.DB {
+	return s.DB
 }
 
 // SqlDB 获取 sql DB
-func (d *DB) SqlDB() (*sql.DB, error) {
-	return d.DB.DB()
+func (s *Service) SqlDB() (*sql.DB, error) {
+	return s.DB.DB()
 }

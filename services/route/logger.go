@@ -14,7 +14,7 @@ func setLogger(engine *gin.Engine) {
 	engine.Use(gin.LoggerWithConfig(gin.LoggerConfig{
 		Formatter: logFormatter,
 		Output:    output(),
-		SkipPaths: configs.Get("log.skipPaths").([]string),
+		SkipPaths: config.Get("log.skipPaths").([]string),
 	}))
 }
 
@@ -22,11 +22,11 @@ func output() io.Writer {
 	var logFile string
 	var logDir string
 
-	channel, ok := configs.Get("log.channel", "").(string)
+	channel, ok := config.Get("log.channel", "").(string)
 	if !ok {
 		panic("获取配置错误.")
 	}
-	dir := configs.Get("log.dir").(string)
+	dir := config.Get("log.dir").(string)
 	createDir(dir)
 
 	now := time.Now().Local()

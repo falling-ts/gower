@@ -5,8 +5,8 @@ import (
 	"gower/services/validator"
 )
 
-var _ services.Validator = (*validator.Validator)(nil)
+var _ services.ValidatorService = (*validator.Service)(nil)
 
 func init() {
-	s.Validator = validator.New()
+	ss.Validator = validator.New()
 }

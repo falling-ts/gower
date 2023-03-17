@@ -5,8 +5,8 @@ import (
 	"gower/services/cache"
 )
 
-var _ services.Cache = (*cache.Cache)(nil)
+var _ services.CacheService = (*cache.Service)(nil)
 
 func init() {
-	s.Cache = cache.New()
+	ss.Cache = cache.New()
 }

@@ -8,11 +8,15 @@ Copyright (c) 2023 Falling TS
 package app
 
 import (
+	"os"
+
 	"gorm.io/gorm"
 	"gower/app/exceptions"
 	"gower/app/providers"
 	"gower/configs"
 	"gower/services"
+
+	"github.com/urfave/cli/v2"
 )
 
 // 核心结构体
@@ -20,53 +24,59 @@ type app struct {
 	Name     string
 	Version  string
 	Services *providers.Services
+	Cli      *cli.App
 }
 
-// App 核心实体 app.Entity
-var App = app{
+// App 核心实体
+var App = &app{
 	Services: providers.InitServices(),
 }
 
 func init() {
-	c := Configs()
+	c := Config()
 	App.Name = c.App.Name
 	App.Version = c.App.Version
 }
 
 // Run 启动 App
-func Run(addr ...string) {
-	if err := Route().Run(addr...); err != nil {
+func Run() {
+	if err := App.Cli.Run(os.Args); err != nil {
 		panic(err)
 	}
 }
 
-// Configs 获取配置服务
-func Configs() *configs.Configs {
-	return App.Services.Configs
+// SetCli 设置 Cli
+func SetCli(cliApp *cli.App) {
+	App.Cli = cliApp
+}
+
+// Config 获取配置服务
+func Config() *configs.Config {
+	return App.Services.Config
 }
 
 // Cache 获取缓存服务
-func Cache() services.Cache {
+func Cache() services.CacheService {
 	return App.Services.Cache
 }
 
-// Exceptions 获取异常服务
-func Exceptions() *exceptions.Exceptions {
-	return App.Services.Exceptions
+// Exception 获取异常服务
+func Exception() *exceptions.Exception {
+	return App.Services.Exception
 }
 
 // Route 获取路由服务
-func Route() services.Route {
+func Route() services.RouteService {
 	return App.Services.Route
 }
 
 // Validator 获取验证器
-func Validator() services.Validator {
+func Validator() services.ValidatorService {
 	return App.Services.Validator
 }
 
 // DB 获取数据库服务
-func DB() services.DB {
+func DB() services.DBService {
 	return App.Services.DB
 }
 

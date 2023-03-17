@@ -2,52 +2,37 @@ package exception
 
 import "gower/services"
 
-// Exception 异常服务
-type Exception struct {
-	services.Exceptions
+// Service 异常服务
+type Service struct {
+	services.Exception
 	RawErr error
 }
 
 // Mount 挂载异常内容
-func Mount(e services.Exceptions) services.Exceptions {
-	exception := new(Exception)
-	exception.Exceptions = e
-	e.Set(exception)
+func Mount(e services.Exception) services.Exception {
+	s := new(Service)
+	s.Exception = e
+	e.Set(s)
 
 	return e
 }
 
 // New 创建新异常服务
-func New() *Exception {
-	return new(Exception)
+func New() *Service {
+	return new(Service)
 }
 
 // Init 服务初始化
-func (e *Exception) Init(...any) {}
+func (s *Service) Init(...any) {}
 
 // Build 构建每个请求的异常
-func (e *Exception) Build(args ...any) services.Exceptions {
-	e.Exceptions.Set("未知异常")
+func (s *Service) Build(args ...any) services.Exception {
+	s.Exception.Set("未知异常")
 	argsNum := len(args)
 
-	if argsNum > 0 {
-		decideType(args[0], e)
-	}
-	if argsNum > 1 {
-		decideType(args[1], e)
-	}
-	if argsNum > 2 {
-		decideType(args[2], e)
-	}
-	if argsNum > 3 {
-		decideType(args[3], e)
-	}
-	if argsNum > 4 {
-		decideType(args[4], e)
-	}
-	if argsNum > 5 {
-		decideType(args[5], e)
+	for i := 0; i < argsNum; i++ {
+		decideType(args[i], s)
 	}
 
-	return e.Exceptions
+	return s.Exception
 }

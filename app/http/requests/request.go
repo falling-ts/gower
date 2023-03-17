@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	excp  = app.Exceptions()
+	excp  = app.Exception()
 	valid = app.Validator()
 )
 

@@ -5,8 +5,8 @@ import (
 	"gower/services/db"
 )
 
-var _ services.DB = (*db.DB)(nil)
+var _ services.DBService = (*db.Service)(nil)
 
 func init() {
-	s.DB = db.New()
+	ss.DB = db.New()
 }

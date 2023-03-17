@@ -1,15 +1,15 @@
 package services
 
-// Exceptions 异常内容接口
-type Exceptions interface {
+// Exception 异常内容接口
+type Exception interface {
 	error
 	Set(arg any)
 	Get(arg string) any
-	New(code int, args ...any) Exceptions
+	New(code int, args ...any) Exception
 }
 
-// Exception 服务接口
-type Exception interface {
+// ExceptionService 异常服务接口
+type ExceptionService interface {
 	Service
-	Build(args ...any) Exceptions
+	Build(args ...any) Exception
 }

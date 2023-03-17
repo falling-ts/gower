@@ -21,7 +21,7 @@ func transHandler(handler services.Handler) gin.HandlerFunc {
 		if useReflect(handler, c) {
 			return
 		}
-		handleException(exceptions.New(http.StatusBadRequest, "控制器方法错误."), c)
+		handleException(exception.New(http.StatusBadRequest, "控制器方法错误."), c)
 	}
 }
 
@@ -172,7 +172,7 @@ func requestMethod(value reflect.Value, c *gin.Context) bool {
 			value,
 		})[0].Interface()
 		if err != nil {
-			handleException(err.(services.Exceptions), c)
+			handleException(err.(services.Exception), c)
 			return true
 		}
 	}
@@ -186,9 +186,9 @@ func injectDataById(value reflect.Value, c *gin.Context) bool {
 		result := db.First(value.Interface(), id)
 		if result.Error != nil {
 			if errors.Is(result.Error, gorm.ErrRecordNotFound) {
-				handleException(exceptions.New(http.StatusNotFound, "没有找到资源."), c)
+				handleException(exception.New(http.StatusNotFound, "没有找到资源."), c)
 			} else {
-				handleException(exceptions.New(http.StatusBadRequest, result.Error), c)
+				handleException(exception.New(http.StatusBadRequest, result.Error), c)
 			}
 			return true
 		}
@@ -224,9 +224,9 @@ func handleResults(results []reflect.Value, c *gin.Context) bool {
 }
 
 func handleError(err error, c *gin.Context) {
-	if e, ok := err.(services.Exceptions); ok {
+	if e, ok := err.(services.Exception); ok {
 		handleException(e, c)
 	} else {
-		handleException(exceptions.New(http.StatusBadRequest, err), c)
+		handleException(exception.New(http.StatusBadRequest, err), c)
 	}
 }

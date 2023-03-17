@@ -5,7 +5,7 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-type Validator interface {
+type ValidatorService interface {
 	Service
 	Translate(errs validator.ValidationErrors) validator.ValidationErrorsTranslations
 	GetTrans() ut.Translator

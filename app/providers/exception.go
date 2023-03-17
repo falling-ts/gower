@@ -6,9 +6,9 @@ import (
 	"gower/services/exception"
 )
 
-var _ services.Exception = (*exception.Exception)(nil)
+var _ services.ExceptionService = (*exception.Service)(nil)
 
 func init() {
-	e := new(exceptions.Exceptions)
-	s.Exceptions = exception.Mount(e).(*exceptions.Exceptions)
+	e := new(exceptions.Exception)
+	ss.Exception = exception.Mount(e).(*exceptions.Exception)
 }

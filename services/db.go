@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm/clause"
 )
 
-type DB interface {
+type DBService interface {
 	Service
 
 	AutoMigrate(dst ...interface{}) error

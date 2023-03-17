@@ -25,7 +25,7 @@ var Accepts = []string{
 }
 
 // Response 设置响应结构体内容
-func (r *Route) Response(data services.Responses, args ...any) services.Response {
+func (s *Service) Response(data services.Responses, args ...any) services.Response {
 	return response(data, args...)
 }
 
@@ -56,23 +56,9 @@ func response(data services.Responses, args ...any) services.Response {
 	res.config.Offered = Accepts
 
 	res.DecideType(data, "success")
-	if len(args) > 0 {
-		res.DecideType(data, args[0])
-	}
-	if len(args) > 1 {
-		res.DecideType(data, args[1])
-	}
-	if len(args) > 2 {
-		res.DecideType(data, args[2])
-	}
-	if len(args) > 3 {
-		res.DecideType(data, args[3])
-	}
-	if len(args) > 4 {
-		res.DecideType(data, args[4])
-	}
-	if len(args) > 5 {
-		res.DecideType(data, args[5])
+	argsNum := len(args)
+	for i := 0; i < argsNum; i++ {
+		res.DecideType(data, args[i])
 	}
 
 	return res
@@ -84,10 +70,10 @@ func handleResponse(r services.Response, c *gin.Context) {
 		return
 	}
 
-	handleException(exceptions.New(http.StatusBadRequest, "响应体错误."), c)
+	handleException(exception.New(http.StatusBadRequest, "响应体错误."), c)
 }
 
-func handleException(e services.Exceptions, c *gin.Context) {
+func handleException(e services.Exception, c *gin.Context) {
 	err := e.Get("RawErr")
 	if err != nil {
 		_ = c.Error(err.(error))
@@ -106,7 +92,7 @@ func handleException(e services.Exceptions, c *gin.Context) {
 			key,
 			300,
 			"/",
-			configs.Get("app.domain", "localhost").(string),
+			config.Get("app.domain", "localhost").(string),
 			false,
 			true)
 

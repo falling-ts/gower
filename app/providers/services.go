@@ -7,23 +7,23 @@ import (
 )
 
 type Services struct {
-	services.Cache
-	*configs.Configs
-	*exceptions.Exceptions
-	services.Route
-	services.Validator
-	services.DB
+	Config    *configs.Config
+	Cache     services.CacheService
+	Exception *exceptions.Exception
+	Route     services.RouteService
+	Validator services.ValidatorService
+	DB        services.DBService
 }
 
 // Services 在内存分配服务集合
-var s = new(Services)
+var ss = new(Services)
 
 // InitServices 初始化服务集合
 func InitServices() *Services {
-	s.Validator.Init()
-	s.Cache.Init(s.Configs)
-	s.DB.Init(s.Configs)
-	s.Route.Init(s.Configs, s.Cache, s.Exceptions, s.DB)
+	ss.Cache.Init(ss.Config)
+	ss.DB.Init(ss.Config)
+	ss.Route.Init(ss.Config, ss.Cache, ss.Exception, ss.DB)
+	ss.Validator.Init()
 
-	return s
+	return ss
 }

@@ -11,27 +11,28 @@ import (
 	_ "github.com/joho/godotenv/autoload"
 )
 
-// Config 配置主结构体
-type Config struct {
-	services.Configs
+// Service 配置服务
+type Service struct {
+	services.Config
 	mu sync.RWMutex
 }
 
-func Mount(c services.Configs) services.Configs {
-	config := new(Config)
-	config.Configs = c
-	c.Set(config)
+// Mount 挂载配置内容
+func Mount(c services.Config) services.Config {
+	s := new(Service)
+	s.Config = c
+	c.Set(s)
 
 	return c
 }
 
 // Init 服务初始化
-func (c *Config) Init(...any) {}
+func (s *Service) Init(...any) {}
 
 // Get 获取配置参数, 包含默认值
-func (c *Config) Get(fieldStr string, args ...any) any {
-	c.mu.RLock()
-	defer c.mu.RUnlock()
+func (s *Service) Get(fieldStr string, args ...any) any {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
 
 	var def any
 	if len(args) > 0 {
@@ -57,7 +58,7 @@ func (c *Config) Get(fieldStr string, args ...any) any {
 	var cfgValue reflect.Value
 	for i, field := range fields {
 		if i == 0 {
-			cfgValue = reflect.ValueOf(c.Configs).Elem().FieldByName(field)
+			cfgValue = reflect.ValueOf(s.Config).Elem().FieldByName(field)
 		} else {
 			cfgValue = cfgValue.FieldByName(field)
 		}

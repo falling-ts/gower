@@ -1,19 +1,20 @@
 package providers
 
 import (
-	"github.com/caarlos0/env/v7"
 	"gower/configs"
 	"gower/services"
 	"gower/services/config"
+
+	"github.com/caarlos0/env/v7"
 )
 
-var _ services.Config = (*config.Config)(nil)
+var _ services.Config = (*config.Service)(nil)
 
 func init() {
-	c := new(configs.Configs)
+	c := new(configs.Config)
 	if err := env.Parse(c); err != nil {
 		panic(err)
 	}
 
-	s.Configs = config.Mount(c).(*configs.Configs)
+	ss.Config = config.Mount(c).(*configs.Config)
 }

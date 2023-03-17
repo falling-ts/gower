@@ -11,28 +11,28 @@ import (
 	"strings"
 )
 
-type Validator struct {
+type Service struct {
 	*validator.Validate
 	ut.Translator
 }
 
-func New() services.Validator {
-	return &Validator{
+func New() services.ValidatorService {
+	return &Service{
 		Validate: binding.Validator.Engine().(*validator.Validate),
 	}
 }
 
 // Init 初始化
-func (v *Validator) Init(args ...any) {
+func (s *Service) Init(args ...any) {
 	uni := ut.New(zh.New())
 	trans, _ := uni.GetTranslator("zh")
-	v.Translator = trans
+	s.Translator = trans
 
-	if err := zhTrans.RegisterDefaultTranslations(v.Validate, trans); err != nil {
+	if err := zhTrans.RegisterDefaultTranslations(s.Validate, trans); err != nil {
 		panic(err)
 	}
 
-	v.Validate.RegisterTagNameFunc(func(field reflect.StructField) string {
+	s.Validate.RegisterTagNameFunc(func(field reflect.StructField) string {
 		if name := field.Tag.Get("zh"); name != "" {
 			return name
 		}
@@ -42,7 +42,7 @@ func (v *Validator) Init(args ...any) {
 }
 
 // Translate 翻译错误群
-func (v *Validator) Translate(errs validator.ValidationErrors) validator.ValidationErrorsTranslations {
+func (s *Service) Translate(errs validator.ValidationErrors) validator.ValidationErrorsTranslations {
 	trans := make(validator.ValidationErrorsTranslations)
 
 	var f validator.FieldError
@@ -53,13 +53,13 @@ func (v *Validator) Translate(errs validator.ValidationErrors) validator.Validat
 		j := strings.LastIndex(rawKey, ".")
 		key := strings.ToLower(rawKey[j+1:])
 
-		trans[key] = f.Translate(v.Translator)
+		trans[key] = f.Translate(s.Translator)
 	}
 
 	return trans
 }
 
 // GetTrans 获取翻译器
-func (v *Validator) GetTrans() ut.Translator {
-	return v.Translator
+func (s *Service) GetTrans() ut.Translator {
+	return s.Translator
 }

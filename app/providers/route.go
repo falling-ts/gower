@@ -5,8 +5,8 @@ import (
 	"gower/services/route"
 )
 
-var _ services.Route = (*route.Route)(nil)
+var _ services.RouteService = (*route.Service)(nil)
 
 func init() {
-	s.Route = route.New()
+	ss.Route = route.New()
 }

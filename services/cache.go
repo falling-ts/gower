@@ -2,7 +2,7 @@ package services
 
 import "time"
 
-type Cache interface {
+type CacheService interface {
 	Service
 
 	SetDefault(k string, x any)
