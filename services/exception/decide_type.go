@@ -1,14 +1,14 @@
 package exception
 
-func decideType(arg any, s *Service) {
+func (s *Service) decideType(arg any) {
 	switch arg.(type) {
 	case error:
 		err := arg.(error)
-		s.Exception.Set(err.Error())
+		_ = s.Exception.Set(err.Error())
 		s.RawErr = err.(error)
 	case string:
-		s.Exception.Set(arg.(string))
+		_ = s.Exception.Set(arg.(string))
 	default:
-		s.Exception.Set(arg)
+		_ = s.Exception.Set(arg)
 	}
 }

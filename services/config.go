@@ -2,7 +2,8 @@ package services
 
 // Config 配置内容接口
 type Config interface {
-	Set(arg any)
+	Service
+	Set(arg any) Config
 	Get(fieldStr string, args ...any) any
 }
 

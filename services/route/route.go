@@ -15,9 +15,9 @@ type Service struct {
 
 var (
 	config    services.Config
-	cache     services.CacheService
 	exception services.Exception
 	db        services.DBService
+	response  services.Response
 )
 
 func New() services.RouteService {
@@ -30,9 +30,9 @@ func (s *Service) Init(args ...any) {
 		panic("路由服务初始化参数不全.")
 	}
 	config = args[0].(services.Config)
-	cache = args[1].(services.CacheService)
-	exception = args[2].(services.Exception)
-	db = args[3].(services.DBService)
+	exception = args[1].(services.Exception)
+	db = args[2].(services.DBService)
+	response = args[3].(services.Response)
 
 	gin.SetMode(config.Get("app.mode", "test").(string))
 

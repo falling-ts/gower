@@ -19,11 +19,7 @@ type Service struct {
 
 // Mount 挂载配置内容
 func Mount(c services.Config) services.Config {
-	s := new(Service)
-	s.Config = c
-	c.Set(s)
-
-	return c
+	return c.Set(new(Service)).Set(c)
 }
 
 // Init 服务初始化

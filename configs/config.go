@@ -18,9 +18,13 @@ type Config struct {
 }
 
 // Set 通用设置内容
-func (c *Config) Set(arg any) {
+func (c *Config) Set(arg any) services.Config {
 	switch arg.(type) {
 	case *config.Service:
 		c.Service = arg.(*config.Service)
+	case *Config:
+		c.Service.Config = c
 	}
+
+	return c
 }

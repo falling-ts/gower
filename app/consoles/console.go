@@ -1,4 +1,4 @@
-package console
+package consoles
 
 import (
 	"github.com/urfave/cli/v2"

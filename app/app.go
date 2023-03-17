@@ -8,6 +8,7 @@ Copyright (c) 2023 Falling TS
 package app
 
 import (
+	"gower/app/responses"
 	"os"
 
 	"gorm.io/gorm"
@@ -83,4 +84,9 @@ func DB() services.DBService {
 // GormDB 获取 gorm DB
 func GormDB() *gorm.DB {
 	return DB().GormDB()
+}
+
+// Response 获取响应体
+func Response() *responses.Response {
+	return App.Services.Response
 }

@@ -3,7 +3,6 @@ package route
 import (
 	"errors"
 	"gorm.io/gorm"
-	"gower/app/responses"
 	"gower/services"
 	"net/http"
 	"path"
@@ -21,7 +20,7 @@ func transHandler(handler services.Handler) gin.HandlerFunc {
 		if useReflect(handler, c) {
 			return
 		}
-		handleException(exception.New(http.StatusBadRequest, "控制器方法错误."), c)
+		exception.New(http.StatusBadRequest, "控制器方法错误.").Handle(c)
 	}
 }
 
@@ -30,66 +29,42 @@ func notUseReflect(handler services.Handler, c *gin.Context) bool {
 	case func(*gin.Context):
 		handler.(func(*gin.Context))(c)
 		return true
-	case func(Context):
-		handler.(func(Context))(c)
-		return true
 	case func(*gin.Context) error:
 		if err := handler.(func(*gin.Context) error)(c); err != nil {
-			handleError(err, c)
-		}
-		return true
-	case func(Context) error:
-		if err := handler.(func(Context) error)(c); err != nil {
-			handleError(err, c)
+			return handleError(err, c)
 		}
 		return true
 	case func(*gin.Context) services.Response:
-		handleResponse(handler.(func(*gin.Context) services.Response)(c), c)
-		return true
-	case func(Context) services.Response:
-		handleResponse(handler.(func(Context) services.Response)(c), c)
-		return true
+		return handler.(func(*gin.Context) services.Response)(c).Handle(c)
 	case func(*gin.Context) (services.Response, error):
-		response, err := handler.(func(*gin.Context) (services.Response, error))(c)
+		res, err := handler.(func(*gin.Context) (services.Response, error))(c)
 		if err != nil {
-			handleError(err, c)
+			return handleError(err, c)
 		} else {
-			handleResponse(response, c)
+			return res.Handle(c)
 		}
-		return true
-	case func(Context) (services.Response, error):
-		response, err := handler.(func(Context) (services.Response, error))(c)
-		if err != nil {
-			handleError(err, c)
-		} else {
-			handleResponse(response, c)
-		}
-		return true
 	case func() error:
 		if err := handler.(func() error)(); err != nil {
-			handleError(err, c)
+			return handleError(err, c)
 		}
 		return true
 	case func() services.Response:
-		handleResponse(handler.(func() services.Response)(), c)
-		return true
+		return handler.(func() services.Response)().Handle(c)
 	case func() (services.Response, error):
-		response, err := handler.(func() (services.Response, error))()
+		res, err := handler.(func() (services.Response, error))()
 		if err != nil {
-			handleError(err, c)
+			return handleError(err, c)
 		} else {
-			handleResponse(response, c)
+			return res.Handle(c)
 		}
-		return true
 	default:
 		handlerType := reflect.TypeOf(handler).Kind()
 		if handlerType != reflect.Func {
 			if args, ok := handler.([]any); ok {
-				handleResponse(response(new(responses.Responses), args...), c)
+				return response.New(http.StatusOK, args...).Handle(c)
 			} else {
-				handleResponse(response(new(responses.Responses), handler), c)
+				return response.New(http.StatusOK, handler).Handle(c)
 			}
-			return true
 		}
 	}
 
@@ -172,8 +147,7 @@ func requestMethod(value reflect.Value, c *gin.Context) bool {
 			value,
 		})[0].Interface()
 		if err != nil {
-			handleException(err.(services.Exception), c)
-			return true
+			return err.(services.Exception).Handle(c)
 		}
 	}
 
@@ -186,11 +160,10 @@ func injectDataById(value reflect.Value, c *gin.Context) bool {
 		result := db.First(value.Interface(), id)
 		if result.Error != nil {
 			if errors.Is(result.Error, gorm.ErrRecordNotFound) {
-				handleException(exception.New(http.StatusNotFound, "没有找到资源."), c)
+				return exception.New(http.StatusNotFound, "没有找到资源.").Handle(c)
 			} else {
-				handleException(exception.New(http.StatusBadRequest, result.Error), c)
+				return exception.New(http.StatusBadRequest, result.Error).Handle(c)
 			}
-			return true
 		}
 	}
 	return false
@@ -205,8 +178,7 @@ func handleResults(results []reflect.Value, c *gin.Context) bool {
 		}
 		switch res.(type) {
 		case services.Response:
-			handleResponse(res.(services.Response), c)
-			return true
+			return res.(services.Response).Handle(c)
 		case error:
 			handleError(res.(error), c)
 			return true
@@ -219,14 +191,13 @@ func handleResults(results []reflect.Value, c *gin.Context) bool {
 		}
 	}
 
-	handleResponse(response(new(responses.Responses), r...), c)
-	return true
+	return response.New(http.StatusOK, r...).Handle(c)
 }
 
-func handleError(err error, c *gin.Context) {
+func handleError(err error, c *gin.Context) bool {
 	if e, ok := err.(services.Exception); ok {
-		handleException(e, c)
+		return e.Handle(c)
 	} else {
-		handleException(exception.New(http.StatusBadRequest, err), c)
+		return exception.New(http.StatusBadRequest, err).Handle(c)
 	}
 }

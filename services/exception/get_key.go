@@ -1,4 +1,4 @@
-package route
+package exception
 
 import "github.com/jaevor/go-nanoid"
 

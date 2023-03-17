@@ -39,6 +39,7 @@ type IRoutes interface {
 	StaticFS(string, http.FileSystem) IRoutes
 }
 
+// RouteService 路由服务接口
 type RouteService interface {
 	Service
 
@@ -73,15 +74,4 @@ type RouteService interface {
 	StaticFS(relativePath string, fs http.FileSystem) IRoutes
 
 	ServeHTTP(w http.ResponseWriter, req *http.Request)
-
-	Response(data Responses, args ...any) Response
-}
-
-type Response interface {
-	DecideType(data Responses, arg any)
-}
-
-// Responses 正常响应数据接口
-type Responses interface {
-	Set(any) Responses
 }
