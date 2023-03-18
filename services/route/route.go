@@ -26,9 +26,6 @@ func New() services.RouteService {
 
 // Init 初始化
 func (s *Service) Init(args ...any) {
-	if len(args) < 4 {
-		panic("路由服务初始化参数不全.")
-	}
 	config = args[0].(services.Config)
 	exception = args[1].(services.Exception)
 	db = args[2].(services.DBService)
@@ -37,8 +34,6 @@ func (s *Service) Init(args ...any) {
 	gin.SetMode(config.Get("app.mode", "test").(string))
 
 	s.Engine = gin.New()
-	setRecovery(s.Engine)
-	setLogger(s.Engine)
 }
 
 // Delims 设置模板的左右界限, 并返回一个引擎实例.

@@ -42,6 +42,12 @@ func (s *Service) Build(code int, args ...any) services.Response {
 
 // Handle 处理响应
 func (s *Service) Handle(c *gin.Context) bool {
+	if c.NegotiateFormat(s.config.Offered...) != gin.MIMEHTML {
+		c.Set("body-logger", s.Response)
+	} else {
+		c.Set("body-logger", "html body")
+	}
+
 	c.Negotiate(s.HttpStatus, s.config)
 	return true
 }

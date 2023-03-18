@@ -28,6 +28,7 @@ func (r *Response) Set(arg any) services.Response {
 	return r
 }
 
+// New 创建新响应
 func (r *Response) New(code int, args ...any) services.Response {
 	temp := *r
 	newR := &temp

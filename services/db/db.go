@@ -20,9 +20,6 @@ func New() *Service {
 
 // Init 服务初始化
 func (s *Service) Init(args ...any) {
-	if len(args) == 0 {
-		panic("数据库服务初始化参数不全.")
-	}
 	config = args[0].(services.Config)
 
 	db, err := gorm.Open(driver(config.Get("db.driver", "mysql").(string)), &gorm.Config{

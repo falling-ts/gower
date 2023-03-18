@@ -15,6 +15,7 @@ type Services struct {
 	Validator services.ValidatorService
 	DB        services.DBService
 	Response  *responses.Response
+	Logger    services.LoggerService
 }
 
 // Services 在内存分配服务集合
@@ -25,6 +26,7 @@ func InitServices() *Services {
 	ss.Cache.Init(ss.Config)
 	ss.DB.Init(ss.Config)
 	ss.Exception.Init(ss.Config, ss.Cache)
+	ss.Logger.Init(ss.Config)
 	ss.Route.Init(ss.Config, ss.Exception, ss.DB, ss.Response)
 	ss.Validator.Init()
 

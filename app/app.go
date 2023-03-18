@@ -8,12 +8,12 @@ Copyright (c) 2023 Falling TS
 package app
 
 import (
-	"gower/app/responses"
 	"os"
 
 	"gorm.io/gorm"
 	"gower/app/exceptions"
 	"gower/app/providers"
+	"gower/app/responses"
 	"gower/configs"
 	"gower/services"
 
@@ -89,4 +89,9 @@ func GormDB() *gorm.DB {
 // Response 获取响应体
 func Response() *responses.Response {
 	return App.Services.Response
+}
+
+// Logger 获取日志服务
+func Logger() services.LoggerService {
+	return App.Services.Logger
 }

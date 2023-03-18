@@ -13,7 +13,6 @@ import (
 
 func transHandler(handler services.Handler) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		setWriter(c)
 		if notUseReflect(handler, c) {
 			return
 		}

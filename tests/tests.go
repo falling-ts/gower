@@ -11,6 +11,7 @@ var (
 	cfg   = app.Config()
 	excp  = app.Exception()
 	cache = app.Cache()
+	res   = app.Response()
 )
 
 func getAssert(t *testing.T) *assert.Assertions {

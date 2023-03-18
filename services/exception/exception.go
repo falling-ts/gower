@@ -53,6 +53,7 @@ func (s *Service) Build(args ...any) services.Exception {
 func (s *Service) Handle(c *gin.Context) bool {
 	_ = c.Error(s.RawErr)
 
+	c.Set("body-logger", s.Exception)
 	switch c.NegotiateFormat(services.Accepts...) {
 	case gin.MIMEJSON:
 		c.JSON(http.StatusOK, s.Exception)

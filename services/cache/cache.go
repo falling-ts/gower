@@ -24,9 +24,6 @@ func New() *Service {
 
 // Init 初始化
 func (s *Service) Init(args ...any) {
-	if len(args) == 0 {
-		panic("缓存服务初始化参数不存在.")
-	}
 	config = args[0].(services.Config)
 
 	s.Cache = cache.New(

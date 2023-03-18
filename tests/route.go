@@ -1,6 +1,7 @@
 package tests
 
 import (
+	"gower/services"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -10,8 +11,8 @@ import (
 
 func TestControllers(t *testing.T) {
 	assert := getAssert(t)
-	route.GET("/test", func(c *gin.Context) {
-		c.JSON(http.StatusOK, map[string]string{
+	route.GET("/test", func(c *gin.Context) services.Response {
+		return res.Ok(map[string]string{
 			"Test": "123",
 		})
 	})
