@@ -8,6 +8,8 @@ services:
     volumes:
       - ./third_apps/tidb/data:/var/lib/tidb
       - ./third_apps/tidb/logs:/var/log/tidb
+    networks:
+      - default
   mysql:
     build: ./third_apps/mysql5.7
     container_name: mysql
@@ -21,4 +23,44 @@ services:
       - "33060:33060"
     volumes:
       - ./third_apps/mysql5.7/data:/var/lib/mysql
+    networks:
+      - default
+  grafana:
+    image: grafana/grafana:9.4.3
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./third_apps/grafana/share/conf:/usr/share/grafana/conf
+    networks:
+      - default
+    depends_on:
+      - mysql
+      - loki
+  loki:
+    image: grafana/loki:main-0295fd4
+    container_name: loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./third_apps/loki/etc:/etc/loki
+    networks:
+      - default
+  promtail:
+    image: grafana/promtail:main-0295fd4
+    container_name: promtail
+    volumes:
+      - ./third_apps/promtail/etc:/etc/promtail
+      - ./storage/logs:/var/log/gower
+    networks:
+      - default
+    depends_on:
+      - loki
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.27.0.0/24
+          gateway: 172.27.0.1
 
