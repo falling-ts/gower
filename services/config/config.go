@@ -1,12 +1,11 @@
 package config
 
 import (
+	"gower/services"
+	"gower/utils/str"
 	"reflect"
 	"strings"
 	"sync"
-	"unicode"
-
-	"gower/services"
 
 	_ "github.com/joho/godotenv/autoload"
 )
@@ -46,9 +45,7 @@ func (s *Service) Get(fieldStr string, args ...any) any {
 			continue
 		}
 
-		r := []rune(field)
-		r[0] = unicode.ToUpper(r[0])
-		fields[i] = string(r)
+		fields[i] = str.Conv(field).Uppercase()
 	}
 
 	var cfgValue reflect.Value

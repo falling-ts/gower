@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"gower/app/http/requests"
 	"gower/app/models"
 	"gower/services"
@@ -21,9 +20,22 @@ func (a *AuthController) RegisterForm() (string, Data) {
 }
 
 // Register 执行注册
-func (a *AuthController) Register(req requests.RegisterRequest, user *models.User) services.Response {
-	fmt.Println(req)
-	return a.ok("注册成功")
+func (a *AuthController) Register(req requests.RegisterRequest, user *models.User) (services.Response, error) {
+	model, err := user.In(&req, models.Rule{
+		"username": "username",
+		"password(password)": func(args ...any) (string, error) {
+			return passwd.Hash(args[0].(string))
+		},
+	})
+	if err != nil {
+		return nil, excp.BadRequest(err)
+	}
+
+	if err := model.(*models.User).Register(); err != nil {
+		return nil, excp.BadRequest(err)
+	}
+
+	return a.ok("注册成功"), nil
 }
 
 // LoginForm 登录页面

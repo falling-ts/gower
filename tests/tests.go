@@ -7,11 +7,12 @@ import (
 )
 
 var (
-	route = app.Route()
-	cfg   = app.Config()
-	excp  = app.Exception()
-	cache = app.Cache()
-	res   = app.Response()
+	route  = app.Route()
+	cfg    = app.Config()
+	excp   = app.Exception()
+	cache  = app.Cache()
+	res    = app.Response()
+	passwd = app.Passwd()
 )
 
 func getAssert(t *testing.T) *assert.Assertions {

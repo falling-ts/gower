@@ -15,7 +15,7 @@ services:
     container_name: mysql
     environment:
       MYSQL_ROOT_HOST: "%"
-      MYSQL_DATABASE: "gower"
+      MYSQL_DATABASE: "grafana"
       MYSQL_DATABASE_CHAR: "utf8mb4,utf8mb4_unicode_ci"
       MYSQL_ROOT_PASSWORD: "root"
     ports:

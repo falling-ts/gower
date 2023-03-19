@@ -13,6 +13,7 @@ func Test(t *testing.T) {
 	t.Run("TestException", tests.TestException)
 	t.Run("TestCache", tests.TestCache)
 	t.Run("TestControllers", tests.TestControllers)
+	t.Run("TextPasswd", tests.TextPasswd)
 }
 
 func Benchmark(b *testing.B) {

@@ -95,3 +95,8 @@ func Response() *responses.Response {
 func Logger() services.LoggerService {
 	return App.Services.Logger
 }
+
+// Passwd 获取密码服务
+func Passwd() services.PasswdService {
+	return App.Services.Passwd
+}

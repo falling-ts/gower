@@ -15,6 +15,7 @@ type Config struct {
 	Log
 	Cache
 	DB
+	Passwd
 }
 
 // Set 通用设置内容
