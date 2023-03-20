@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	cliApp  = initCli()
+	App     = initApp()
 	configs = app.Config()
 	route   = app.Route()
 	util    = app.Util()
@@ -22,10 +22,10 @@ func init() {
 		Usage:   "输出软件版本.",
 	}
 
-	app.SetCli(cliApp)
+	app.SetApp(App)
 }
 
-func initCli() *cli.App {
+func initApp() *cli.App {
 	var port string
 	return &cli.App{
 		Name:     configs.App.Name,

@@ -15,4 +15,5 @@ scrape_configs:
       - localhost
     labels:
       job: gower
-      __path__: /var/log/gower/*log
+      __path__: /var/log/gower/**/*log
+

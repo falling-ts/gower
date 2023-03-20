@@ -10,7 +10,6 @@ package app
 import (
 	"os"
 
-	"gorm.io/gorm"
 	"gower/app/exceptions"
 	"gower/app/providers"
 	"gower/app/responses"
@@ -22,18 +21,19 @@ import (
 
 // 核心结构体
 type app struct {
-	Name     string
-	Version  string
-	Services *providers.Services
-	Cli      *cli.App
+	*cli.App
+	*providers.Provider
+
+	Name    string
+	Version string
 }
 
 // App 核心实体
-var App = &app{
-	Services: providers.InitServices(),
-}
+var App = new(app)
 
 func init() {
+	App.Provider = providers.P
+
 	c := Config()
 	App.Name = c.App.Name
 	App.Version = c.App.Version
@@ -41,72 +41,72 @@ func init() {
 
 // Run 启动 App
 func Run() {
-	if err := App.Cli.Run(os.Args); err != nil {
+	if err := App.Run(os.Args); err != nil {
 		panic(err)
 	}
 }
 
-// SetCli 设置 Cli
-func SetCli(cliApp *cli.App) {
-	App.Cli = cliApp
+// SetApp 设置 Cli App
+func SetApp(cliApp *cli.App) {
+	App.App = cliApp
+}
+
+// Get 通用获取服务方法
+func Get(key string) services.Service {
+	return App.Get(key)
 }
 
 // Config 获取配置服务
 func Config() *configs.Config {
-	return App.Services.Config
+	return Get("config").(*configs.Config)
 }
 
 // Cache 获取缓存服务
 func Cache() services.CacheService {
-	return App.Services.Cache
+	return Get("cache").(services.CacheService)
 }
 
 // Exception 获取异常服务
 func Exception() *exceptions.Exception {
-	return App.Services.Exception
+	return Get("exception").(*exceptions.Exception)
 }
 
 // Route 获取路由服务
 func Route() services.RouteService {
-	return App.Services.Route
+	return Get("route").(services.RouteService)
 }
 
 // Validator 获取验证器
 func Validator() services.ValidatorService {
-	return App.Services.Validator
+	return Get("validator").(services.ValidatorService)
 }
 
 // DB 获取数据库服务
 func DB() services.DBService {
-	return App.Services.DB
-}
-
-// GormDB 获取 gorm DB
-func GormDB() *gorm.DB {
-	return DB().GormDB()
+	return Get("db").(services.DBService)
 }
 
 // Response 获取响应体
 func Response() *responses.Response {
-	return App.Services.Response
+	return Get("response").(*responses.Response)
 }
 
 // Logger 获取日志服务
 func Logger() services.LoggerService {
-	return App.Services.Logger
+	return Get("logger").(services.LoggerService)
 }
 
 // Passwd 获取密码服务
 func Passwd() services.PasswdService {
-	return App.Services.Passwd
+	return Get("passwd").(services.PasswdService)
 }
 
 // Util 获取工具服务
 func Util() services.UtilService {
-	return App.Services.Util
+	return Get("util").(services.UtilService)
 }
 
 // Translate 获取翻译服务
 func Translate() services.TranslateService {
-	return App.Services.Translate
+	return Get("translate").(services.TranslateService)
 }

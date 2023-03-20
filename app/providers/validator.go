@@ -8,5 +8,8 @@ import (
 var _ services.ValidatorService = (*validator.Service)(nil)
 
 func init() {
-	ss.Validator = validator.New()
+	P.Register("validator", func(...services.Service) services.Service {
+		return validator.New().Init()
+	})
+
 }

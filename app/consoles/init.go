@@ -7,7 +7,7 @@ import (
 )
 
 func init() {
-	cliApp.Commands = append(cliApp.Commands, &cli.Command{
+	App.Commands = append(App.Commands, &cli.Command{
 		Name:    "init",
 		Aliases: []string{"i"},
 		Usage:   "初始化应用内容",

@@ -6,6 +6,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// 接受的响应数据类型
+var accepts = []string{
+	gin.MIMEJSON,
+	gin.MIMEHTML,
+	gin.MIMEXML,
+	gin.MIMEYAML,
+	gin.MIMETOML,
+	gin.MIMEPlain,
+}
+
 // Service 响应结构体
 type Service struct {
 	services.Response
@@ -23,11 +33,14 @@ func New() *Service {
 	return new(Service)
 }
 
-func (s *Service) Init(...any) {}
+// Init 初始化
+func (s *Service) Init(...services.Service) services.Service {
+	return s.Response
+}
 
 // Build 构建每个请求的异常
 func (s *Service) Build(code int, args ...any) services.Response {
-	s.config.Offered = services.Accepts
+	s.config.Offered = accepts
 
 	s.decideType("success")
 	argsNum := len(args)

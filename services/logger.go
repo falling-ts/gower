@@ -3,6 +3,7 @@ package services
 import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+	"gorm.io/gorm/logger"
 )
 
 // LoggerService 日志服务
@@ -30,4 +31,11 @@ type LoggerService interface {
 	Warn(msg string, fields ...zap.Field)
 
 	Zap() *zap.Logger
+
+	DB() DBLogger
+}
+
+type DBLogger interface {
+	Set(arg any) DBLogger
+	logger.Interface
 }

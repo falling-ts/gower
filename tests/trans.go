@@ -2,7 +2,6 @@ package tests
 
 import (
 	"errors"
-	"fmt"
 	"testing"
 )
 
@@ -14,7 +13,6 @@ func TestTrans(t *testing.T) {
 	assert := getAssert(t)
 	for _, msg := range messages {
 		err := trans.DBError(errors.New(msg))
-		fmt.Println(err.Error())
 		assert.NotEmpty(err.Error())
 		assert.NotEqual(err.Error(), msg)
 	}

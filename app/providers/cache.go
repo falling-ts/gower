@@ -8,5 +8,7 @@ import (
 var _ services.CacheService = (*cache.Service)(nil)
 
 func init() {
-	ss.Cache = cache.New()
+	P.Register("cache", []string{"config"}, func(ss ...services.Service) services.Service {
+		return cache.New().Init(ss...)
+	})
 }

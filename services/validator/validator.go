@@ -25,7 +25,7 @@ func New() services.ValidatorService {
 }
 
 // Init 初始化
-func (s *Service) Init(args ...any) {
+func (s *Service) Init(...services.Service) services.Service {
 	uni := ut.New(zh.New())
 	trans, _ := uni.GetTranslator("zh")
 	s.Translator = trans
@@ -41,6 +41,7 @@ func (s *Service) Init(args ...any) {
 		return strings.ToLower(field.Name)
 	})
 
+	return s
 }
 
 // Translate 翻译错误

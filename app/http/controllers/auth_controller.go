@@ -14,15 +14,15 @@ type AuthController struct {
 var Auth = new(AuthController)
 
 // RegisterForm 注册页面
-func (a *AuthController) RegisterForm() (string, Data) {
+func (a *AuthController) RegisterForm(user *models.User) (string, Data) {
 	return "auth/register", Data{
 		"Title": "注册",
 	}
 }
 
 // Register 执行注册
-func (a *AuthController) Register(req requests.RegisterRequest, user *models.User) (services.Response, error) {
-	model, err := user.In(&req, app.Rule{
+func (a *AuthController) Register(req *requests.RegisterRequest, user *models.User) (services.Response, error) {
+	model, err := user.In(req, app.Rule{
 		"username": "username",
 		"password(password)": func(args ...any) (string, error) {
 			return passwd.Hash(args[0].(string))
@@ -40,17 +40,24 @@ func (a *AuthController) Register(req requests.RegisterRequest, user *models.Use
 }
 
 // LoginForm 登录页面
-func (a *AuthController) LoginForm() (services.Response, error) {
-	return a.ok("auth/login", Data{
+func (a *AuthController) LoginForm() (string, Data) {
+	return "auth/login", Data{
 		"Title": "登录",
-	}), nil
+	}
 }
 
 // Login 执行登录
-func (a *AuthController) Login() services.Response {
-	return a.ok("auth/login", Data{
-		"Title": "登录",
-	})
+func (a *AuthController) Login(req *requests.LoginRequest, user *models.User) (services.Response, error) {
+	if err := user.First(*req.Username); err != nil {
+		return nil, excp.BadRequest(err)
+	}
+
+	err := passwd.Check(req.Password, user.Password)
+	if err != nil {
+		return nil, excp.Unauthorized(err, "密码错误")
+	}
+
+	return a.ok("登录成功"), nil
 }
 
 // Me 获取个人信息

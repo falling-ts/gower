@@ -1,6 +1,6 @@
 {{define "head"}}
 <!doctype html>
-<html lang="zh-CN" data-theme="dark">
+<html lang="zh-CN" data-theme="lofi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +9,7 @@
 </head>
 <body>
 <div id="app" class="fixed inset-0">
+  {{template "alert" .}}
   {{end}}
 
   {{define "foot"}}

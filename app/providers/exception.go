@@ -9,6 +9,8 @@ import (
 var _ services.ExceptionService = (*exception.Service)(nil)
 
 func init() {
-	e := new(exceptions.Exception)
-	ss.Exception = exception.Mount(e).(*exceptions.Exception)
+	P.Register("exception", Depends{"config", "cache"}, func(ss ...services.Service) services.Service {
+		e := new(exceptions.Exception)
+		return exception.Mount(e).Init(ss...)
+	})
 }

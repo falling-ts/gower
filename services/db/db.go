@@ -13,7 +13,10 @@ type Service struct {
 	*gorm.DB
 }
 
-var config services.Config
+var (
+	config services.Config
+	logger services.LoggerService
+)
 
 // New 创建 DB
 func New() *Service {
@@ -21,10 +24,12 @@ func New() *Service {
 }
 
 // Init 服务初始化
-func (s *Service) Init(args ...any) {
+func (s *Service) Init(args ...services.Service) services.Service {
 	config = args[0].(services.Config)
+	logger = args[1].(services.LoggerService)
 
 	db, err := gorm.Open(driver(config.Get("db.driver", "mysql").(string)), &gorm.Config{
+		Logger:                                   logger.DB(),
 		DisableForeignKeyConstraintWhenMigrating: config.Get("db.disableForeignKey", true).(bool),
 	})
 	if err != nil {
@@ -42,6 +47,8 @@ func (s *Service) Init(args ...any) {
 	sqlDB.SetMaxIdleConns(config.Get("db.maxIdleCount", 25).(int))
 	sqlDB.SetConnMaxLifetime(config.Get("db.maxLifeTime", "30m").(time.Duration))
 	sqlDB.SetConnMaxIdleTime(config.Get("db.maxIdleTime", "10m").(time.Duration))
+
+	return s
 }
 
 // GormDB 获取 gorm DB

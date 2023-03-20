@@ -14,6 +14,8 @@ var (
 	excp   = app.Exception()
 	res    = app.Response()
 	passwd = app.Passwd()
+	db     = app.DB()
+	trans  = app.Translate()
 )
 
 // 200 ok

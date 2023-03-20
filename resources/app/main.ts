@@ -1,6 +1,7 @@
 import "simplebar"
 import $ from "jquery"
 import api from "./api"
+import msg from "./lib/msg"
 import { createApp } from "vue/dist/vue.esm-browser.prod"
 import ResizeObserver from "resize-observer-polyfill"
 
@@ -9,7 +10,8 @@ window.ResizeObserver = ResizeObserver
 export {
     createApp,
     $,
-    api
+    api,
+    msg
 }
 
 // 样式

@@ -1,7 +1,7 @@
 {{define "auth/login"}}
     {{template "head" .}}
     {{template "loading" .}}
-    <div id="auth-login" class="h-full hidden">
+    <div id="auth-login" class="h-full loading-hidden">
       <img src="/static/images/login-bg.jpg" alt="" class="absolute  w-full h-full">
       <div class="w-2/5 h-full px-24 relative z-10 bg-white shadow-2xl float-right animate__animated animate__fadeInRight">
         <div class="h-full flex flex-col justify-center">
@@ -41,7 +41,7 @@
     </div>
     {{template "foot" .}}
     <script type="module">
-      import { createApp, api } from "/static/main.js"
+      import { createApp, api, msg } from "/static/main.js"
       const { auth } = api
 
       createApp({
@@ -60,7 +60,17 @@
           async login() {
             try {
               const res = await auth.login(this.form)
-              console.log(res)
+              if (!res.code) {
+                msg.success(res.msg)
+                setTimeout(() => {
+                  window.location = "/"
+                }, 2000)
+                return
+              }
+
+              setTimeout(() => {
+                this.loading = false
+              }, 1000)
             } catch (error) {
               console.log("Error: ", error)
             }

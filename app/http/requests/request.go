@@ -23,7 +23,7 @@ func (r *request) Validate(ctx *gin.Context, req http.Request) error {
 
 	if err := ctx.ShouldBind(req); err != nil {
 		if _, ok := err.(*validator.InvalidValidationError); ok {
-			return excp.BadRequest("验证器错误.")
+			return excp.BadRequest("验证器错误")
 		}
 
 		errs := err.(validator.ValidationErrors)

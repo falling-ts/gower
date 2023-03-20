@@ -9,6 +9,8 @@ import (
 var _ services.ResponseService = (*response.Service)(nil)
 
 func init() {
-	r := new(responses.Response)
-	ss.Response = response.Mount(r).(*responses.Response)
+	P.Register("response", func(...services.Service) services.Service {
+		r := new(responses.Response)
+		return response.Mount(r).Init()
+	})
 }

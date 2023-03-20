@@ -8,5 +8,9 @@ import (
 var _ services.PasswdService = (*passwd.Service)(nil)
 
 func init() {
-	ss.Passwd = new(passwd.Service)
+	P.Register("passwd", func() (Depends, Resolve) {
+		return Depends{"config", "exception"}, func(ss ...services.Service) services.Service {
+			return passwd.New().Init(ss...)
+		}
+	})
 }

@@ -8,5 +8,9 @@ import (
 var _ services.LoggerService = (*logger.Service)(nil)
 
 func init() {
-	ss.Logger = logger.New()
+	P.Register("logger", func() (Depends, Resolve) {
+		return Depends{"config"}, func(ss ...services.Service) services.Service {
+			return logger.New().Init(ss...)
+		}
+	})
 }

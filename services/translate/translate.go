@@ -19,9 +19,12 @@ func Mount(all services.TransAll) *Service {
 	return s
 }
 
-func (s *Service) Init(args ...any) {
+// Init 初始化
+func (s *Service) Init(args ...services.Service) services.Service {
 	config = args[0].(services.Config)
 	s.initDBError()
+
+	return s
 }
 
 // DBError 翻译数据库错误

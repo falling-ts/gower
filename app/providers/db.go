@@ -8,5 +8,9 @@ import (
 var _ services.DBService = (*db.Service)(nil)
 
 func init() {
-	ss.DB = db.New()
+	P.Register("db", func() (Depends, Resolve) {
+		return Depends{"config", "logger"}, func(ss ...services.Service) services.Service {
+			return db.New().Init(ss...)
+		}
+	})
 }

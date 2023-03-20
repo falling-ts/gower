@@ -8,5 +8,7 @@ import (
 var _ services.UtilService = (*util.Service)(nil)
 
 func init() {
-	ss.Util = util.New()
+	P.Register("util", func(...services.Service) services.Service {
+		return util.New().Init()
+	})
 }

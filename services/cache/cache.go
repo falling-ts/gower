@@ -23,7 +23,7 @@ func New() *Service {
 }
 
 // Init 初始化
-func (s *Service) Init(args ...any) {
+func (s *Service) Init(args ...services.Service) services.Service {
 	config = args[0].(services.Config)
 
 	s.Cache = cache.New(
@@ -50,6 +50,8 @@ func (s *Service) Init(args ...any) {
 			}
 		}()
 	}
+
+	return s
 }
 
 // Flash 闪存取值

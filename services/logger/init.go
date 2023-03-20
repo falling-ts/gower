@@ -70,18 +70,25 @@ func getInfoFile() *os.File {
 	day := now.Format("02")
 	hour := now.Format("15")
 
-	switch channel {
-	case "flat-day":
-		logFile = fmt.Sprintf("%s/gower.%s.log", dir, flatDay)
-	case "day":
-		logDir = filepath.Join(dir, year, month)
-		createDir(logDir)
-		logFile = fmt.Sprintf("%s/gower.%s-day.log", logDir, day)
-	case "hour":
-		logDir = filepath.Join(dir, year, month, day)
-		createDir(logDir)
-		logFile = fmt.Sprintf("%s/gower.%s-hour.log", logDir, hour)
-	default:
+	logFile = map[string]func() string{
+		"stack": func() string {
+			return fmt.Sprintf("%s/gower.log", dir)
+		},
+		"flat-day": func() string {
+			return fmt.Sprintf("%s/gower.%s.log", dir, flatDay)
+		},
+		"day": func() string {
+			logDir = filepath.Join(dir, year, month)
+			createDir(logDir)
+			return fmt.Sprintf("%s/%s.log", logDir, day)
+		},
+		"hour": func() string {
+			logDir = filepath.Join(dir, year, month, day)
+			createDir(logDir)
+			return fmt.Sprintf("%s/%s.log", logDir, hour)
+		},
+	}[channel]()
+	if logFile == "" {
 		logFile = fmt.Sprintf("%s/gower.log", dir)
 	}
 
@@ -130,15 +137,13 @@ func getErrorFile() *os.File {
 }
 
 func getEncoderConfig() zapcore.EncoderConfig {
-	var encodeDuration zapcore.DurationEncoder
-	switch config.Get("log.durationFormat", "caller").(string) {
-	case "nanos":
-		encodeDuration = zapcore.NanosDurationEncoder
-	case "millis":
-		encodeDuration = zapcore.MillisDurationEncoder
-	case "string":
-		encodeDuration = zapcore.StringDurationEncoder
-	default:
+	encodeDuration, ok := map[string]zapcore.DurationEncoder{
+		"seconds": zapcore.SecondsDurationEncoder,
+		"nanos":   zapcore.NanosDurationEncoder,
+		"millis":  zapcore.MillisDurationEncoder,
+		"string":  zapcore.StringDurationEncoder,
+	}[config.Get("log.durationFormat", "caller").(string)]
+	if !ok {
 		encodeDuration = zapcore.SecondsDurationEncoder
 	}
 

@@ -9,5 +9,9 @@ import (
 var _ services.TranslateService = (*translate.Service)(nil)
 
 func init() {
-	ss.Translate = translate.Mount(trans.All)
+	P.Register("translate", func() (Depends, Resolve) {
+		return Depends{"config"}, func(ss ...services.Service) services.Service {
+			return translate.Mount(trans.All).Init(ss...)
+		}
+	})
 }

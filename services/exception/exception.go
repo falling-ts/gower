@@ -8,6 +8,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// 接受的响应数据类型
+var accepts = []string{
+	gin.MIMEJSON,
+	gin.MIMEHTML,
+	gin.MIMEXML,
+	gin.MIMEYAML,
+	gin.MIMETOML,
+	gin.MIMEPlain,
+}
+
 // Service 异常服务
 type Service struct {
 	services.Exception
@@ -30,9 +40,11 @@ func New() *Service {
 }
 
 // Init 服务初始化
-func (s *Service) Init(args ...any) {
+func (s *Service) Init(args ...services.Service) services.Service {
 	config = args[0].(services.Config)
 	cache = args[1].(services.CacheService)
+
+	return s.Exception
 }
 
 // Build 构建每个请求的异常
@@ -56,7 +68,7 @@ func (s *Service) Handle(c *gin.Context) bool {
 	_ = c.Error(s.RawErr)
 
 	c.Set("body-logger", s.Exception)
-	switch c.NegotiateFormat(services.Accepts...) {
+	switch c.NegotiateFormat(accepts...) {
 	case gin.MIMEJSON:
 		c.JSON(http.StatusOK, s.Exception)
 	case gin.MIMEHTML:

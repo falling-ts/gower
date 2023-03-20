@@ -7,8 +7,6 @@ import (
 
 	"gower/services"
 	"gower/utils/str"
-
-	_ "github.com/joho/godotenv/autoload"
 )
 
 // Service 配置服务
@@ -23,7 +21,9 @@ func Mount(c services.Config) services.Config {
 }
 
 // Init 服务初始化
-func (s *Service) Init(...any) {}
+func (s *Service) Init(...services.Service) services.Service {
+	return s.Config
+}
 
 // Get 获取配置参数, 包含默认值
 func (s *Service) Get(fieldStr string, args ...any) any {

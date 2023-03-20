@@ -1,3 +1,5 @@
+import msg from "./msg"
+
 interface Res {
     code: number
     msg: string
@@ -56,10 +58,12 @@ class client implements Client {
             const res: Res = await response.json()
 
             if (res.code) {
+                msg.error(res.msg)
                 console.log('Error : ', res)
             }
             return res
         } catch (error) {
+            msg.error(error as string)
             console.log('Error : ', error)
             throw error
         }
@@ -78,10 +82,12 @@ class client implements Client {
             const res: Res = await response.json()
 
             if (res.code) {
+                msg.error(res.msg)
                 console.log('Error : ', res)
             }
             return res
         } catch (error) {
+            msg.error(error as string)
             console.log('Error : ', error)
             throw error
         }
@@ -100,10 +106,12 @@ class client implements Client {
             const res: Res = await response.json()
 
             if (res.code) {
+                msg.error(res.msg)
                 console.log('Error : ', res)
             }
             return res
         } catch (error) {
+            msg.error(error as string)
             console.log('Error : ', error)
             throw error
         }
@@ -122,10 +130,12 @@ class client implements Client {
             const res: Res = await response.json()
 
             if (res.code) {
+                msg.error(res.msg)
                 console.log('Error : ', res)
             }
             return res
         } catch (error) {
+            msg.error(error as string)
             console.log('Error : ', error)
             throw error
         }

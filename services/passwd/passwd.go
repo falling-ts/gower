@@ -16,16 +16,19 @@ func New() *Service {
 }
 
 // Init 初始化
-func (s *Service) Init(args ...any) {
+func (s *Service) Init(args ...services.Service) services.Service {
 	config = args[0].(services.Config)
 	exception = args[1].(services.Exception)
 
-	switch config.Get("passwd.mode", "bcrypt").(string) {
-	case "argon2id":
-		s.Passwd = new(_argon2id)
-	case "scrypt":
-		s.Passwd = new(_scrypt)
-	default:
+	var ok bool
+	s.Passwd, ok = map[string]services.Passwd{
+		"bcrypt":   new(_bcrypt),
+		"argon2id": new(_argon2id),
+		"scrypt":   new(_scrypt),
+	}[config.Get("passwd.mode", "bcrypt").(string)]
+	if !ok {
 		s.Passwd = new(_bcrypt)
 	}
+
+	return s
 }

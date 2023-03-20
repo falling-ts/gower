@@ -8,5 +8,9 @@ import (
 var _ services.RouteService = (*route.Service)(nil)
 
 func init() {
-	ss.Route = route.New()
+	P.Register("route", func() (Depends, Resolve) {
+		return Depends{"config", "exception", "db", "response"}, func(ss ...services.Service) services.Service {
+			return route.New().Init(ss...)
+		}
+	})
 }

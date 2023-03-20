@@ -1,7 +1,7 @@
 {{define "auth/register"}}
     {{template "head" .}}
     {{template "loading" .}}
-    <div id="auth-register" class="h-full flex hidden">
+    <div id="auth-register" class="h-full flex loading-hidden">
       <img src="/static/images/register-bg.jpg" alt="" class="absolute w-full h-full">
       <div class="w-2/5 h-full px-24 relative z-10 bg-white shadow-2xl animate__animated animate__fadeInLeft"
            data-simplebar>
@@ -48,14 +48,14 @@
           </div>
           <div class="divider my-8">注册按钮</div>
           <div class="form-control w-full mt-4">
-            <button class="btn btn-primary w-full" @click="register">注册</button>
+            <button class="btn btn-primary w-full" :class="{loading: loading}" @click="register">注册</button>
           </div>
         </div>
       </div>
     </div>
     {{template "foot" .}}
     <script type="module">
-      import { createApp, api } from "/static/main.js"
+      import { createApp, api, msg } from "/static/main.js"
       const { auth } = api
 
       createApp({
@@ -64,6 +64,7 @@
         },
         data() {
           return {
+            loading: false,
             form: {
               username: "",
               password: "",
@@ -73,14 +74,23 @@
         },
         methods: {
           async register() {
+            this.loading = true
             if (this.form.password !== this.form.passwordRep) {
               console.log('Error')
               return
             }
             const res = await auth.register(this.form)
             if (!res.code) {
-              console.log("Res: ", res)
+              msg.success(res.msg)
+              setTimeout(() => {
+                window.location = "/auth/login"
+              }, 2000)
+              return
             }
+
+            setTimeout(() => {
+              this.loading = false
+            }, 1000)
           }
         }
       }).mount("#auth-register")
