@@ -2,6 +2,7 @@ package requests
 
 import (
 	"gower/app"
+	"gower/app/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -12,18 +13,12 @@ var (
 	valid = app.Validator()
 )
 
-// Request 通用请求接口
-type Request interface {
-	Validate(ctx *gin.Context, req Request) error
-	SetContext(c *gin.Context)
-}
-
 type request struct {
 	*gin.Context
 }
 
 // Validate 执行验证
-func (r *request) Validate(ctx *gin.Context, req Request) error {
+func (r *request) Validate(ctx *gin.Context, req http.Request) error {
 	r.Context = ctx
 
 	if err := ctx.ShouldBind(req); err != nil {

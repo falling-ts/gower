@@ -2,9 +2,11 @@ package db
 
 import (
 	"database/sql"
-	"gorm.io/gorm"
-	"gower/services"
 	"time"
+
+	"gower/services"
+
+	"gorm.io/gorm"
 )
 
 type Service struct {

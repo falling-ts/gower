@@ -9,12 +9,12 @@ type _argon2id struct{}
 
 // Hash 哈希加密
 func (a *_argon2id) Hash(passwd string) (string, error) {
-	return argon2id.CreateHash("pa$$word", argon2id.DefaultParams)
+	return argon2id.CreateHash(passwd, argon2id.DefaultParams)
 }
 
 // Check 校验密码
 func (a *_argon2id) Check(passwd string, hash string) error {
-	match, err := argon2id.ComparePasswordAndHash("pa$$word", hash)
+	match, err := argon2id.ComparePasswordAndHash(passwd, hash)
 	if err != nil {
 		return err
 	}

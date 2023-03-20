@@ -3,8 +3,6 @@ package consoles
 import (
 	"fmt"
 
-	"gower/utils"
-
 	"github.com/urfave/cli/v2"
 )
 
@@ -29,11 +27,11 @@ key 初始化秘钥
 func execInit(arg string) error {
 	switch arg {
 	case "key":
-		key, err := utils.SecretKey(21)
+		key, err := util.SecretKey(32)
 		if err != nil {
 			return err
 		}
-		err = utils.SetEnv("APP_KEY", key)
+		err = util.SetEnv("APP_KEY", key)
 		if err != nil {
 			return err
 		}

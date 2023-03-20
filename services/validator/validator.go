@@ -1,14 +1,16 @@
 package validator
 
 import (
+	"reflect"
+	"strings"
+
+	"gower/services"
+
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/locales/zh"
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
 	zhTrans "github.com/go-playground/validator/v10/translations/zh"
-	"gower/services"
-	"reflect"
-	"strings"
 )
 
 type Service struct {
@@ -41,7 +43,7 @@ func (s *Service) Init(args ...any) {
 
 }
 
-// Translate 翻译错误群
+// Translate 翻译错误
 func (s *Service) Translate(errs validator.ValidationErrors) validator.ValidationErrorsTranslations {
 	trans := make(validator.ValidationErrorsTranslations)
 

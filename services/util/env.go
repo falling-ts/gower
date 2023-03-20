@@ -1,4 +1,4 @@
-package utils
+package util
 
 import (
 	"bufio"
@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func SetEnv(key, value string) error {
+func (*Service) SetEnv(key, value string) error {
 	file, err := os.Open(".env")
 	if err != nil {
 		return err

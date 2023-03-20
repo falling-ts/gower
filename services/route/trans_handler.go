@@ -97,7 +97,7 @@ func useReflect(handler services.Handler, c *gin.Context) bool {
 				if injectDataById(reflect.New(argType), c) {
 					return true
 				}
-				setModelInterface(argValue)
+				setModel(argValue)
 
 				argValue = argValue.Elem()
 			default:
@@ -121,7 +121,7 @@ func useReflect(handler services.Handler, c *gin.Context) bool {
 					if injectDataById(reflect.New(argType), c) {
 						return true
 					}
-					setModelInterface(argValue)
+					setModel(argValue)
 				default:
 					return false
 				}
@@ -170,12 +170,12 @@ func injectDataById(value reflect.Value, c *gin.Context) bool {
 	return false
 }
 
-func setModelInterface(value reflect.Value) {
-	if SetInterface := value.MethodByName("SetInterface"); SetInterface.IsValid() {
+func setModel(value reflect.Value) {
+	if SetModel := value.MethodByName("SetModel"); SetModel.IsValid() {
 		if value.Kind() != reflect.Ptr {
 			value = value.Addr()
 		}
-		SetInterface.Call([]reflect.Value{
+		SetModel.Call([]reflect.Value{
 			value,
 		})
 	}

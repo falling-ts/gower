@@ -1,11 +1,12 @@
 package config
 
 import (
-	"gower/services"
-	"gower/utils/str"
 	"reflect"
 	"strings"
 	"sync"
+
+	"gower/services"
+	"gower/utils/str"
 
 	_ "github.com/joho/godotenv/autoload"
 )

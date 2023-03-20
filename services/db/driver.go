@@ -2,6 +2,7 @@ package db
 
 import (
 	"fmt"
+
 	rawMysql "github.com/go-sql-driver/mysql"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

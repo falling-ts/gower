@@ -13,6 +13,7 @@ var (
 	cache  = app.Cache()
 	res    = app.Response()
 	passwd = app.Passwd()
+	trans  = app.Translate()
 )
 
 func getAssert(t *testing.T) *assert.Assertions {

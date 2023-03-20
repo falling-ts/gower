@@ -17,6 +17,8 @@ type Services struct {
 	Response  *responses.Response
 	Logger    services.LoggerService
 	Passwd    services.PasswdService
+	Util      services.UtilService
+	Translate services.TranslateService
 }
 
 // Services 在内存分配服务集合
@@ -29,8 +31,9 @@ func InitServices() *Services {
 	ss.Exception.Init(ss.Config, ss.Cache)
 	ss.Logger.Init(ss.Config)
 	ss.Route.Init(ss.Config, ss.Exception, ss.DB, ss.Response)
-	ss.Validator.Init()
 	ss.Passwd.Init(ss.Config, ss.Exception)
+	ss.Translate.Init(ss.Config)
+	ss.Validator.Init()
 
 	return ss
 }

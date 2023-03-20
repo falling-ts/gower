@@ -1,15 +1,18 @@
 package consoles
 
 import (
-	"github.com/urfave/cli/v2"
-	"gower/app"
 	"time"
+
+	"gower/app"
+
+	"github.com/urfave/cli/v2"
 )
 
 var (
 	cliApp  = initCli()
 	configs = app.Config()
 	route   = app.Route()
+	util    = app.Util()
 )
 
 func init() {

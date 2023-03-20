@@ -14,6 +14,7 @@ func Test(t *testing.T) {
 	t.Run("TestCache", tests.TestCache)
 	t.Run("TestControllers", tests.TestControllers)
 	t.Run("TextPasswd", tests.TextPasswd)
+	t.Run("TestTrans", tests.TestTrans)
 }
 
 func Benchmark(b *testing.B) {

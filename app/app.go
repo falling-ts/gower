@@ -100,3 +100,13 @@ func Logger() services.LoggerService {
 func Passwd() services.PasswdService {
 	return App.Services.Passwd
 }
+
+// Util 获取工具服务
+func Util() services.UtilService {
+	return App.Services.Util
+}
+
+// Translate 获取翻译服务
+func Translate() services.TranslateService {
+	return App.Services.Translate
+}
