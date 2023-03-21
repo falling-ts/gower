@@ -17,7 +17,13 @@ func (u *User) Register() error {
 	return trans.DBError(result.Error)
 }
 
-func (u *User) First(username string) error {
+// FromUsername 从用户名获取数据
+func (u *User) FromUsername(username string) error {
 	result := db.Where("username = ?", username).First(u)
 	return trans.DBError(result.Error)
+}
+
+// Login 登录
+func (u *User) Login(aud ...string) (string, error) {
+	return token.Sign("user_model", u.IDString(), aud)
 }

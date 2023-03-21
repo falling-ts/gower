@@ -48,7 +48,7 @@ func (a *AuthController) LoginForm() (string, app.Data) {
 
 // Login 执行登录
 func (a *AuthController) Login(req *requests.LoginRequest, user *models.User) (services.Response, error) {
-	if err := user.First(*req.Username); err != nil {
+	if err := user.FromUsername(*req.Username); err != nil {
 		return nil, excp.BadRequest(err)
 	}
 
@@ -57,7 +57,12 @@ func (a *AuthController) Login(req *requests.LoginRequest, user *models.User) (s
 		return nil, excp.Unauthorized(err, "密码错误")
 	}
 
-	return res.Ok("登录成功"), nil
+	token, err := user.Login(req.ClientIP())
+	if err != nil {
+		return nil, excp.Unauthorized(err)
+	}
+
+	return res.Ok("登录成功", token), nil
 }
 
 // Me 获取个人信息

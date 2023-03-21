@@ -1,6 +1,8 @@
 package response
 
 import (
+	"net/http"
+
 	"gower/services"
 
 	"github.com/gin-gonic/gin"
@@ -23,6 +25,11 @@ type Service struct {
 	config     gin.Negotiate
 }
 
+var (
+	config services.Config
+	token  services.TokenService
+)
+
 // Mount 挂载响应体
 func Mount(r services.Response) services.Response {
 	return r.Set(new(Service)).Set(r)
@@ -34,7 +41,9 @@ func New() *Service {
 }
 
 // Init 初始化
-func (s *Service) Init(...services.Service) services.Service {
+func (s *Service) Init(args ...services.Service) services.Service {
+	config = args[0].(services.Config)
+	token = args[1].(services.TokenService)
 	return s.Response
 }
 
@@ -61,6 +70,49 @@ func (s *Service) Handle(c *gin.Context) bool {
 		c.Set("body-logger", "html body")
 	}
 
+	var tokenStr string
+	if tokenAny, ok := c.Get("token"); !ok {
+		tokenAny, _ = s.Response.Get("token")
+		tokenStr = tokenAny.(string)
+	}
+
+	if tokenStr != "" {
+		c.SetCookie("token",
+			tokenStr,
+			100000000,
+			"/",
+			config.Get("app.domain", "localhost").(string),
+			false,
+			false)
+
+		s.Set(tokenStr)
+	}
+
 	c.Negotiate(s.HttpStatus, s.config)
 	return true
+}
+
+func (s *Service) decideType(arg any) {
+	switch arg.(type) {
+	case int:
+		code := arg.(int)
+		if code >= http.StatusOK && code < http.StatusMultipleChoices {
+			s.HttpStatus = code
+		} else {
+			s.Response.Set(arg)
+		}
+	case string:
+		s.Response.Set(arg)
+		s.config.HTMLName = arg.(string)
+	default:
+		s.Response.Set(arg)
+		s.config.HTMLData = arg
+	}
+
+	s.config.Data = s.Response
+}
+
+// IsToken 判断是否是 Token
+func (s *Service) IsToken(tokenStr string) bool {
+	return token.IsToken(tokenStr)
 }

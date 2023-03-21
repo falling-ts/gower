@@ -6,6 +6,7 @@ import "github.com/gin-gonic/gin"
 type Response interface {
 	Service
 	Set(any) Response
+	Get(field string) (any, error)
 	New(code int, args ...any) Response
 	Build(code int, args ...any) Response
 	Handle(c *gin.Context) bool
@@ -16,4 +17,5 @@ type ResponseService interface {
 	Service
 	Build(code int, args ...any) Response
 	Handle(c *gin.Context) bool
+	IsToken(token string) bool
 }

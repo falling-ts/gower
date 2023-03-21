@@ -27,6 +27,7 @@ type Service struct {
 var (
 	cache  services.CacheService
 	config services.Config
+	util   services.UtilService
 )
 
 // Mount 挂载异常内容
@@ -43,6 +44,7 @@ func New() *Service {
 func (s *Service) Init(args ...services.Service) services.Service {
 	config = args[0].(services.Config)
 	cache = args[1].(services.CacheService)
+	util = args[2].(services.UtilService)
 
 	return s.Exception
 }
@@ -72,10 +74,10 @@ func (s *Service) Handle(c *gin.Context) bool {
 	case gin.MIMEJSON:
 		c.JSON(http.StatusOK, s.Exception)
 	case gin.MIMEHTML:
-		key := getKey()
+		key := util.ExcpKey()
 		cache.SetDefault(key, s.Exception)
 		c.SetCookie(
-			"err-key",
+			"exception",
 			key,
 			300,
 			"/",
@@ -100,4 +102,17 @@ func (s *Service) Handle(c *gin.Context) bool {
 	}
 
 	return true
+}
+
+func (s *Service) decideType(arg any) {
+	switch arg.(type) {
+	case error:
+		err := arg.(error)
+		_ = s.Exception.Set(err.Error())
+		s.RawErr = err.(error)
+	case string:
+		_ = s.Exception.Set(arg.(string))
+	default:
+		_ = s.Exception.Set(arg)
+	}
 }
