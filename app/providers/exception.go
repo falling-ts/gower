@@ -1,7 +1,7 @@
 package providers
 
 import (
-	"gower/app/exceptions"
+	"gower/exceptions"
 	"gower/services"
 	"gower/services/exception"
 )

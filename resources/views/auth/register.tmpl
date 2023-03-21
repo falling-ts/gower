@@ -14,13 +14,24 @@
           </div>
           <div class="divider my-8">账户信息</div>
           <div class="form-control w-full">
+            <label class="label" for="email">
+              <span class="label-text text-black text-2xl">邮箱</span>
+            </label>
+            <input
+              id="email"
+              type="text"
+              placeholder="邮箱"
+              v-model="form.email"
+              class="input input-bordered input-info w-full input-md"/>
+          </div>
+          <div class="form-control w-full">
             <label class="label" for="username">
               <span class="label-text text-black text-2xl">用户名</span>
             </label>
             <input
               id="username"
               type="text"
-              placeholder="用户名 或 邮箱"
+              placeholder="用户名"
               v-model="form.username"
               class="input input-bordered input-info w-full input-md"/>
           </div>
@@ -66,6 +77,7 @@
           return {
             loading: false,
             form: {
+              email: "",
               username: "",
               password: "",
               passwordRep: ""

@@ -20,6 +20,7 @@
               id="username"
               type="text"
               placeholder="用户名 或 邮箱"
+              v-model="form.username"
               class="input input-bordered input-info w-full input-md"/>
           </div>
           <div class="form-control w-full">
@@ -30,11 +31,12 @@
               id="password"
               type="text"
               placeholder="密码"
+              v-model="form.password"
               class="input input-bordered input-info w-full input-md"/>
           </div>
           <div class="divider my-8">登录按钮</div>
           <div class="form-control w-full mt-4">
-            <button class="btn btn-primary w-full">登录</button>
+            <button class="btn btn-primary w-full" @click="login">登录</button>
           </div>
         </div>
       </div>
@@ -58,22 +60,19 @@
         },
         methods: {
           async login() {
-            try {
-              const res = await auth.login(this.form)
-              if (!res.code) {
-                msg.success(res.msg)
-                setTimeout(() => {
-                  window.location = "/"
-                }, 2000)
-                return
-              }
-
+            const res = await auth.login(this.form)
+            console.log(res)
+            if (!res.code) {
+              msg.success(res.msg)
               setTimeout(() => {
-                this.loading = false
-              }, 1000)
-            } catch (error) {
-              console.log("Error: ", error)
+                window.location = "/"
+              }, 2000)
+              return
             }
+
+            setTimeout(() => {
+              this.loading = false
+            }, 1000)
           }
         }
       }).mount("#auth-login")

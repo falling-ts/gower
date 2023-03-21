@@ -3,7 +3,6 @@ package app
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	"gower/iface"
 )
 
 var (
@@ -11,12 +10,18 @@ var (
 	valid = Validator()
 )
 
+// RequestIFace 通用请求接口
+type RequestIFace interface {
+	Validate(ctx *gin.Context, req RequestIFace) error
+	SetContext(c *gin.Context)
+}
+
 type Request struct {
 	*gin.Context
 }
 
 // Validate 执行验证
-func (r *Request) Validate(ctx *gin.Context, req iface.Request) error {
+func (r *Request) Validate(ctx *gin.Context, req RequestIFace) error {
 	r.Context = ctx
 
 	if err := ctx.ShouldBind(req); err != nil {

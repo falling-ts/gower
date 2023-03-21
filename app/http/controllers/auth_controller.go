@@ -5,6 +5,7 @@ import (
 	"gower/app/http/requests"
 	"gower/app/models"
 	"gower/services"
+	"reflect"
 )
 
 type AuthController struct {
@@ -23,16 +24,16 @@ func (a *AuthController) RegisterForm(user *models.User) (string, app.Data) {
 // Register 执行注册
 func (a *AuthController) Register(req *requests.RegisterRequest, user *models.User) (services.Response, error) {
 	model, err := user.In(req, app.Rule{
-		"username": "username",
-		"password(password)": func(args ...any) (string, error) {
-			return passwd.Hash(args[0].(string))
+		"password": func(arg any) (string, error) {
+			return passwd.Hash(reflect.ValueOf(arg).FieldByName("Password").String())
 		},
+		"_other": struct{}{},
 	})
 	if err != nil {
 		return nil, excp.BadRequest(err)
 	}
 
-	if err := model.(*models.User).Register(); err != nil {
+	if err = model.(*models.User).Register(); err != nil {
 		return nil, excp.BadRequest(err)
 	}
 
@@ -48,7 +49,7 @@ func (a *AuthController) LoginForm() (string, app.Data) {
 
 // Login 执行登录
 func (a *AuthController) Login(req *requests.LoginRequest, user *models.User) (services.Response, error) {
-	if err := user.FromUsername(*req.Username); err != nil {
+	if err := user.From(*req.Username); err != nil {
 		return nil, excp.BadRequest(err)
 	}
 

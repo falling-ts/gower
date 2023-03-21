@@ -10,10 +10,10 @@ package app
 import (
 	"os"
 
-	"gower/app/exceptions"
 	"gower/app/providers"
-	"gower/app/responses"
 	"gower/configs"
+	"gower/exceptions"
+	"gower/responses"
 	"gower/services"
 
 	"github.com/urfave/cli/v2"

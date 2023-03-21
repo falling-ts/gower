@@ -101,6 +101,7 @@ func (s *Service) Handle(c *gin.Context) bool {
 		c.String(http.StatusOK, s.Exception.Error())
 	}
 
+	c.Abort()
 	return true
 }
 

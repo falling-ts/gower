@@ -17,9 +17,12 @@ func (u *User) Register() error {
 	return trans.DBError(result.Error)
 }
 
-// FromUsername 从用户名获取数据
-func (u *User) FromUsername(username string) error {
-	result := db.Where("username = ?", username).First(u)
+// From 从用户名获取数据
+func (u *User) From(account string) error {
+	result := db.Where("username = ?", account).First(u)
+	if result.Error != nil {
+		result = db.Where("email = ?", account).First(u)
+	}
 	return trans.DBError(result.Error)
 }
 

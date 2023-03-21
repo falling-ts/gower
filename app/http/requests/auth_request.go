@@ -10,8 +10,10 @@ type AuthRequest struct {
 
 type RegisterRequest struct {
 	AuthRequest
+	Email *string `form:"email" json:"email" binding:"required,email" zh:"邮箱"`
 }
 
 type LoginRequest struct {
 	AuthRequest
+	Username *string `form:"username" json:"username" binding:"required" zh:"账户"`
 }

@@ -2,7 +2,7 @@ package tests
 
 import (
 	"errors"
-	"gower/app/exceptions"
+	"gower/exceptions"
 	"testing"
 )
 

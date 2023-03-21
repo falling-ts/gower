@@ -1,7 +1,7 @@
 package providers
 
 import (
-	"gower/app/responses"
+	"gower/responses"
 	"gower/services"
 	"gower/services/response"
 )
