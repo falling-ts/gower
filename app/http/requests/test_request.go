@@ -1,7 +1,9 @@
 package requests
 
+import "gower/app"
+
 type TestRequest struct {
-	request
+	app.Request
 	Test string `form:"test" json:"test" binding:"required" zh:"测试"`
 }
 

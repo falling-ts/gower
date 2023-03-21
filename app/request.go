@@ -1,24 +1,27 @@
-package requests
+package app
 
 import (
-	"gower/app"
-	"gower/app/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 )
 
+// RequestIFace 通用请求接口
+type RequestIFace interface {
+	Validate(ctx *gin.Context, req Request) error
+	SetContext(c *gin.Context)
+}
+
 var (
-	excp  = app.Exception()
-	valid = app.Validator()
+	excp  = Exception()
+	valid = Validator()
 )
 
-type request struct {
+type Request struct {
 	*gin.Context
 }
 
 // Validate 执行验证
-func (r *request) Validate(ctx *gin.Context, req http.Request) error {
+func (r *Request) Validate(ctx *gin.Context, req Request) error {
 	r.Context = ctx
 
 	if err := ctx.ShouldBind(req); err != nil {
@@ -34,6 +37,6 @@ func (r *request) Validate(ctx *gin.Context, req http.Request) error {
 }
 
 // SetContext 设置 gin 的请求体
-func (r *request) SetContext(c *gin.Context) {
+func (r *Request) SetContext(c *gin.Context) {
 	r.Context = c
 }

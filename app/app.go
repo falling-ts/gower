@@ -29,11 +29,11 @@ type app struct {
 }
 
 // App 核心实体
-var App = new(app)
+var App = &app{
+	Provider: providers.P,
+}
 
 func init() {
-	App.Provider = providers.P
-
 	c := Config()
 	App.Name = c.App.Name
 	App.Version = c.App.Version

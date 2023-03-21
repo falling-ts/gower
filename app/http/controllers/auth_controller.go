@@ -8,14 +8,14 @@ import (
 )
 
 type AuthController struct {
-	Controller
+	app.Controller
 }
 
 var Auth = new(AuthController)
 
 // RegisterForm 注册页面
-func (a *AuthController) RegisterForm(user *models.User) (string, Data) {
-	return "auth/register", Data{
+func (a *AuthController) RegisterForm(user *models.User) (string, app.Data) {
+	return "auth/register", app.Data{
 		"Title": "注册",
 	}
 }
@@ -36,12 +36,12 @@ func (a *AuthController) Register(req *requests.RegisterRequest, user *models.Us
 		return nil, excp.BadRequest(err)
 	}
 
-	return a.ok("注册成功"), nil
+	return res.Ok("注册成功"), nil
 }
 
 // LoginForm 登录页面
-func (a *AuthController) LoginForm() (string, Data) {
-	return "auth/login", Data{
+func (a *AuthController) LoginForm() (string, app.Data) {
+	return "auth/login", app.Data{
 		"Title": "登录",
 	}
 }
@@ -57,19 +57,19 @@ func (a *AuthController) Login(req *requests.LoginRequest, user *models.User) (s
 		return nil, excp.Unauthorized(err, "密码错误")
 	}
 
-	return a.ok("登录成功"), nil
+	return res.Ok("登录成功"), nil
 }
 
 // Me 获取个人信息
 func (a *AuthController) Me() (services.Response, error) {
-	return a.ok("auth/me", Data{
+	return res.Ok("auth/me", app.Data{
 		"Title": "我",
 	}), nil
 }
 
 // Logout 执行退出
 func (a *AuthController) Logout() services.Response {
-	return a.ok("auth/login", Data{
+	return res.Ok("auth/login", app.Data{
 		"Title": "退出",
 	})
 }

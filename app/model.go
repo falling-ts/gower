@@ -6,7 +6,6 @@ import (
 	"regexp"
 	"strings"
 
-	"gower/app/http"
 	"gower/utils/str"
 )
 
@@ -15,7 +14,7 @@ const fnField = `^(\w+?)\(([\w,\s?]+?\w)\)$`
 type Rule map[string]any
 
 type Model interface {
-	In(request http.Request, r Rule) (Model, error)
+	In(request RequestIFace, r Rule) (Model, error)
 	Out(data any, r Rule) (any, error)
 	SetModel(i Model)
 }
@@ -25,7 +24,7 @@ type ModelHandle struct {
 }
 
 // In 数据进来
-func (m *ModelHandle) In(request http.Request, r Rule) (Model, error) {
+func (m *ModelHandle) In(request RequestIFace, r Rule) (Model, error) {
 	if err := trans(reflect.ValueOf(m.Model), reflect.ValueOf(request), r); err != nil {
 		return nil, err
 	}
