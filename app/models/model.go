@@ -4,11 +4,15 @@ import (
 	"gorm.io/gorm"
 	"gower/app"
 	"strconv"
+	"time"
 )
 
 type Model struct {
-	app.ModelHandle `gorm:"-"`
-	gorm.Model
+	app.Model `gorm:"-"`
+	ID        uint `gorm:"primarykey"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt `gorm:"index"`
 }
 
 var (

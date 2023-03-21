@@ -59,7 +59,7 @@ func (a *AuthController) Login(req *requests.LoginRequest, user *models.User) (s
 
 	token, err := user.Login(req.ClientIP())
 	if err != nil {
-		return nil, excp.Unauthorized(err)
+		return nil, excp.Unauthorized(err, "登录失败")
 	}
 
 	return res.Ok("登录成功", token), nil

@@ -6,6 +6,7 @@ import (
 	"regexp"
 	"strings"
 
+	"gower/iface"
 	"gower/utils/str"
 )
 
@@ -13,18 +14,12 @@ const fnField = `^(\w+?)\(([\w,\s?]+?\w)\)$`
 
 type Rule map[string]any
 
-type Model interface {
-	In(request RequestIFace, r Rule) (Model, error)
-	Out(data any, r Rule) (any, error)
-	SetModel(i Model)
-}
-
-type ModelHandle struct {
-	Model `gorm:"-"`
+type Model struct {
+	iface.Model `gorm:"-"`
 }
 
 // In 数据进来
-func (m *ModelHandle) In(request RequestIFace, r Rule) (Model, error) {
+func (m *Model) In(request iface.Request, r map[string]any) (iface.Model, error) {
 	if err := trans(reflect.ValueOf(m.Model), reflect.ValueOf(request), r); err != nil {
 		return nil, err
 	}
@@ -32,7 +27,7 @@ func (m *ModelHandle) In(request RequestIFace, r Rule) (Model, error) {
 }
 
 // Out 数据出去
-func (m *ModelHandle) Out(data any, r Rule) (any, error) {
+func (m *Model) Out(data any, r map[string]any) (any, error) {
 	if err := trans(reflect.ValueOf(data), reflect.ValueOf(m.Model), r); err != nil {
 		return nil, err
 	}
@@ -40,11 +35,11 @@ func (m *ModelHandle) Out(data any, r Rule) (any, error) {
 }
 
 // SetModel 设置具体模型
-func (m *ModelHandle) SetModel(i Model) {
+func (m *Model) SetModel(i iface.Model) {
 	m.Model = i
 }
 
-func trans(dest reflect.Value, src reflect.Value, r Rule) error {
+func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 	for k, v := range r {
 		var fnParams []string
 		fnReg := regexp.MustCompile(fnField)
