@@ -2,7 +2,7 @@ package services
 
 import "time"
 
-type TokenService interface {
+type AuthService interface {
 	Service
 
 	Sign(args ...any) (string, error)

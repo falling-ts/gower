@@ -57,7 +57,7 @@ func (a *AuthController) Login(req *requests.LoginRequest, user *models.User) (s
 		return nil, excp.Unauthorized(err, "密码错误")
 	}
 
-	token, err := user.Login(req.ClientIP())
+	token, err := user.Login(req.RemoteIP())
 	if err != nil {
 		return nil, excp.Unauthorized(err, "登录失败")
 	}
@@ -66,7 +66,7 @@ func (a *AuthController) Login(req *requests.LoginRequest, user *models.User) (s
 }
 
 // Me 获取个人信息
-func (a *AuthController) Me() (services.Response, error) {
+func (a *AuthController) Me(auth models.Auth) (services.Response, error) {
 	return res.Ok("auth/me", app.Data{
 		"Title": "我",
 	}), nil

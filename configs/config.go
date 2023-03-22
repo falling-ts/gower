@@ -16,6 +16,7 @@ type Config struct {
 	Cache
 	DB
 	Passwd
+	Jwt
 }
 
 // Set 通用设置内容

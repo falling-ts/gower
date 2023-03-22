@@ -1,8 +1,11 @@
 package exceptions
 
 import (
+	"errors"
 	"gower/services"
 	"gower/services/exception"
+	"gower/utils/str"
+	"reflect"
 )
 
 var _ services.Exception = (*Exception)(nil)
@@ -32,6 +35,17 @@ func (e *Exception) Set(arg any) services.Exception {
 	}
 
 	return e
+}
+
+// Get 获取内容
+func (e *Exception) Get(field string) (any, error) {
+	res := reflect.ValueOf(e).Elem()
+	value := res.FieldByName(str.Conv(field).Uppercase())
+	if value.IsValid() {
+		return value.Interface(), nil
+	}
+
+	return nil, errors.New("无效字段")
 }
 
 // 通用错误方法

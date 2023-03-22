@@ -27,17 +27,16 @@ func (s *Service) Init(args ...services.Service) services.Service {
 	config = args[0].(services.Config)
 
 	s.Cache = cache.New(
-		config.Get("cache.expire", "300s").(time.Duration),
-		config.Get("cache.clean", "600s").(time.Duration))
+		config.Get("cache.expire", 300*time.Second).(time.Duration),
+		config.Get("cache.clean", 600*time.Second).(time.Duration))
 
-	interval := config.Get("cache.interval", "600s").(time.Duration)
+	interval := config.Get("cache.interval", 600*time.Second).(time.Duration)
 	if interval != 0 {
 		dir := config.Get("cache.dir", "storage/caches").(string)
 		file := config.Get("cache.file", "go.cache").(string)
 		filename := path.Join(dir, file)
 		if _, err := os.Stat(filename); err == nil {
 			if err = s.LoadFile(filename); err != nil {
-				panic(err)
 			}
 		}
 

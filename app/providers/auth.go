@@ -2,15 +2,15 @@ package providers
 
 import (
 	"gower/services"
-	"gower/services/token"
+	"gower/services/auth"
 )
 
-var _ services.TokenService = (*token.Service)(nil)
+var _ services.AuthService = (*auth.Service)(nil)
 
 func init() {
-	P.Register("token", func() (Depends, Resolve) {
+	P.Register("auth", func() (Depends, Resolve) {
 		return Depends{"config", "util", "cache"}, func(ss ...services.Service) services.Service {
-			return token.New().Init(ss...)
+			return auth.New().Init(ss...)
 		}
 	})
 }

@@ -1,4 +1,4 @@
-package token
+package auth
 
 import (
 	"encoding/base64"
@@ -13,12 +13,12 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-// Service Token 服务
+// Service Auth 服务
 type Service struct {
 	*jwt.Token
 }
 
-// New 新建 Token 服务
+// New 新建 Auth 服务
 func New() *Service {
 	return new(Service)
 }
@@ -52,11 +52,11 @@ func (s *Service) Sign(args ...any) (string, error) {
 
 	claims := new(Claims).Set(args...)
 	if claims.ExpiresAt == nil {
-		exp := config.Get("jwt.exp", "5m").(time.Duration)
+		exp := config.Get("jwt.exp", 5*time.Minute).(time.Duration)
 		claims.Set(jwt.NewNumericDate(time.Now().Add(exp)))
 	}
 	if claims.UpdateExp == nil {
-		updateExp := config.Get("jwt.updateExp", "10m").(time.Duration)
+		updateExp := config.Get("jwt.updateExp", 10*time.Minute).(time.Duration)
 		claims.Set(jwt.NewNumericDate(time.Now().Add(updateExp)))
 	}
 	token := jwt.NewWithClaims(method, *claims.Set(util.Nanoid()))

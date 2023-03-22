@@ -96,7 +96,7 @@
               if (!res.code) {
                 msg.success(res.msg)
                 setTimeout(() => {
-                  window.location = "/auth/login"
+                  window.location.href = "/auth/login"
                 }, 1000)
               }
             } finally {

@@ -37,6 +37,7 @@ func getMysqlDriver() gorm.Dialector {
 		DBName:               config.Get("db.name", "gower").(string),
 		AllowNativePasswords: config.Get("db.mysql.allowNativePasswords", true).(bool),
 		Loc:                  loc,
+		ParseTime:            true,
 	}
 	return mysql.New(mysql.Config{
 		DSNConfig:                 dsnConfig,

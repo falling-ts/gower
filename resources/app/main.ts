@@ -2,6 +2,8 @@ import "simplebar"
 import $ from "jquery"
 import api from "./api"
 import msg from "./lib/msg"
+import cookie from "js-cookie"
+import * as store from "localforage"
 import { createApp } from "vue/dist/vue.esm-browser.prod"
 import ResizeObserver from "resize-observer-polyfill"
 
@@ -11,7 +13,9 @@ export {
     createApp,
     $,
     api,
-    msg
+    msg,
+    cookie,
+    store
 }
 
 // 样式

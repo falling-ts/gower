@@ -86,10 +86,16 @@ func (s *Service) Handle(c *gin.Context) bool {
 			true)
 
 		referer := c.Request.Referer()
-		if referer == "" {
-			c.Redirect(http.StatusFound, c.Request.URL.String())
-		} else {
+		if referer != "" {
 			c.Redirect(http.StatusFound, referer)
+			break
+		}
+
+		code, _ := s.Exception.Get("code")
+		host := config.Get("app.url", "http://localhost:8080").(string)
+		switch code.(int) {
+		case http.StatusUnauthorized:
+			c.Redirect(http.StatusFound, host+"/auth/login")
 		}
 	case gin.MIMEXML:
 		c.XML(http.StatusOK, s.Exception)

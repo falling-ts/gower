@@ -303,7 +303,6 @@ My0wMy0wMVQxMjo1NzoyNCswMDowMMYghYEAAAAASUVORK5CYII="/>
             </div>
           </div>
         </div>
-
       </div>
       <main>
         <div class="relative px-6 lg:px-8 animate__animated animate__jackInTheBox">
@@ -325,4 +324,30 @@ My0wMy0wMVQxMjo1NzoyNCswMDowMMYghYEAAAAASUVORK5CYII="/>
       </main>
     </div>
     {{template "foot" .}}
+    <script type="module">
+      import { createApp, api, msg, cookie } from "/static/main.js"
+      const { auth } = api
+
+      createApp({
+        compilerOptions: {
+          delimiters: ['${', '}']
+        },
+        data() {
+          return {}
+        },
+        methods: {
+          async logout() {
+            const res = await auth.logout()
+            if (!res.code) {
+              msg.success(res.msg)
+              setTimeout(() => {
+                cookie.remove("token")
+                window.location.href = "/"
+              }, 2000)
+            }
+          }
+        }
+      }).mount("#home-index")
+    </script>
 {{end}}
+

@@ -27,7 +27,7 @@ type Service struct {
 
 var (
 	config services.Config
-	token  services.TokenService
+	auth   services.AuthService
 )
 
 // Mount 挂载响应体
@@ -43,7 +43,7 @@ func New() *Service {
 // Init 初始化
 func (s *Service) Init(args ...services.Service) services.Service {
 	config = args[0].(services.Config)
-	token = args[1].(services.TokenService)
+	auth = args[1].(services.AuthService)
 	return s.Response
 }
 
@@ -70,22 +70,22 @@ func (s *Service) Handle(c *gin.Context) bool {
 		c.Set("body-logger", "html body")
 	}
 
-	var tokenStr string
+	var token string
 	if tokenAny, ok := c.Get("token"); !ok {
 		tokenAny, _ = s.Response.Get("token")
-		tokenStr = tokenAny.(string)
+		token = tokenAny.(string)
 	}
 
-	if tokenStr != "" {
+	if token != "" {
 		c.SetCookie("token",
-			tokenStr,
+			token,
 			100000000,
 			"/",
 			config.Get("app.domain", "localhost").(string),
 			false,
 			false)
 
-		s.Set(tokenStr)
+		s.Set(token)
 	}
 
 	c.Negotiate(s.HttpStatus, s.config)
@@ -113,6 +113,6 @@ func (s *Service) decideType(arg any) {
 }
 
 // IsToken 判断是否是 Token
-func (s *Service) IsToken(tokenStr string) bool {
-	return token.IsToken(tokenStr)
+func (s *Service) IsToken(token string) bool {
+	return auth.IsToken(token)
 }

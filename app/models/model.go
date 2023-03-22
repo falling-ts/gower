@@ -14,7 +14,7 @@ type Model struct {
 var (
 	db    = app.DB()
 	trans = app.Translate()
-	token = app.Token()
+	auth  = app.Auth()
 )
 
 func migrate(args ...any) {

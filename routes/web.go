@@ -1,6 +1,9 @@
 package routes
 
-import . "gower/app/http/controllers"
+import (
+	. "gower/app/http/controllers"
+	"gower/app/http/middlewares"
+)
 
 func init() {
 	route.StaticFile("/favicon.ico", "public/static/images/favicon.ico")
@@ -15,7 +18,7 @@ func init() {
 		auth.POST("/register", Auth.Register)
 		auth.GET("/login", Auth.LoginForm)
 		auth.POST("/login", Auth.Login)
-		auth.GET("/me", Auth.Me)
-		auth.POST("/logout", Auth.Logout)
+		auth.Use(middlewares.Auth()).GET("/me", Auth.Me)
+		auth.Use(middlewares.Auth()).POST("/logout", Auth.Logout)
 	}
 }

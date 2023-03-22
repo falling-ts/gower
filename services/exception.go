@@ -7,6 +7,7 @@ type Exception interface {
 	error
 	Service
 	Set(arg any) Exception
+	Get(field string) (any, error)
 	New(code int, args ...any) Exception
 	Build(args ...any) Exception
 	Handle(c *gin.Context) bool

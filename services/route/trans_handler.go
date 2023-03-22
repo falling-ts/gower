@@ -93,6 +93,13 @@ func useReflect(handler services.Handler, c *gin.Context) bool {
 
 				argValue = argValue.Elem()
 			case "models":
+				typ := argType.Name()
+				v, ok := c.Get(typ)
+				if ok {
+					args[i] = reflect.Indirect(reflect.ValueOf(v))
+					continue
+				}
+
 				argValue = reflect.New(argType)
 				if injectDataById(reflect.New(argType), c) {
 					return true

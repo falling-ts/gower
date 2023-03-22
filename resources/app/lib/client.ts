@@ -1,4 +1,7 @@
 import msg from "./msg"
+import http from "./http"
+import cookie from "js-cookie"
+import * as store from "localforage"
 
 interface Res {
     code: number
@@ -28,7 +31,7 @@ class client implements Client {
             headers,
             credentials: "include",
         }
-        this.baseUri = "http://127.0.0.1:8080"
+        this.baseUri = "http://localhost:8080"
     }
     setOption(option: RequestInit = {}) {
         const headers = new Headers({
@@ -60,6 +63,7 @@ class client implements Client {
             if (res.code) {
                 msg.error(res.msg)
                 console.log('Error : ', res)
+                await unauthorized(res)
             }
             return res
         } catch (error) {
@@ -84,6 +88,7 @@ class client implements Client {
             if (res.code) {
                 msg.error(res.msg)
                 console.log('Error : ', res)
+                await unauthorized(res)
             }
             return res
         } catch (error) {
@@ -108,6 +113,7 @@ class client implements Client {
             if (res.code) {
                 msg.error(res.msg)
                 console.log('Error : ', res)
+                await unauthorized(res)
             }
             return res
         } catch (error) {
@@ -132,6 +138,7 @@ class client implements Client {
             if (res.code) {
                 msg.error(res.msg)
                 console.log('Error : ', res)
+                await unauthorized(res)
             }
             return res
         } catch (error) {
@@ -150,6 +157,17 @@ function toQueryString(params: Record<string, any>): string {
     return Object.entries(params)
         .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
         .join("&");
+}
+
+async function unauthorized(res: Res) {
+    if (res.code == http.Unauthorized) {
+        await cookie.remove("token")
+        await store.removeItem("token")
+
+        setTimeout(() => {
+            window.location.href = "/auth/login"
+        }, 2000)
+    }
 }
 
 export default new client()

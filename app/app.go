@@ -111,7 +111,7 @@ func Translate() services.TranslateService {
 	return Get("translate").(services.TranslateService)
 }
 
-// Token 获取 Token 服务
-func Token() services.TokenService {
-	return Get("token").(services.TokenService)
+// Auth 获取 Auth 服务
+func Auth() services.AuthService {
+	return Get("auth").(services.AuthService)
 }

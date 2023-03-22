@@ -45,8 +45,8 @@ func (s *Service) Init(args ...services.Service) services.Service {
 
 	sqlDB.SetMaxOpenConns(config.Get("db.maxOpen", 100).(int))
 	sqlDB.SetMaxIdleConns(config.Get("db.maxIdleCount", 25).(int))
-	sqlDB.SetConnMaxLifetime(config.Get("db.maxLifeTime", "30m").(time.Duration))
-	sqlDB.SetConnMaxIdleTime(config.Get("db.maxIdleTime", "10m").(time.Duration))
+	sqlDB.SetConnMaxLifetime(config.Get("db.maxLifeTime", 30*time.Minute).(time.Duration))
+	sqlDB.SetConnMaxIdleTime(config.Get("db.maxIdleTime", 10*time.Minute).(time.Duration))
 
 	return s
 }

@@ -9,6 +9,8 @@ type User struct {
 	Username *string `gorm:"type:string;uniqueIndex;comment:用户名"`
 	Password string  `gorm:"type:string;comment:密码"`
 	Email    *string `gorm:"type:string;uniqueIndex;comment:邮箱"`
+	Nickname *string `gorm:"type:string;default:'';comment:昵称"`
+	Avatar   *string `gorm:"type:string;default:'';comment:头像"`
 }
 
 // Register 注册
@@ -28,5 +30,5 @@ func (u *User) From(account string) error {
 
 // Login 登录
 func (u *User) Login(aud ...string) (string, error) {
-	return token.Sign("user_model", u.IDString(), aud)
+	return auth.Sign("user_model", u.IDString(), aud)
 }
