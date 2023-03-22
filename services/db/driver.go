@@ -2,6 +2,7 @@ package db
 
 import (
 	"fmt"
+	"time"
 
 	rawMysql "github.com/go-sql-driver/mysql"
 	"gorm.io/driver/mysql"
@@ -18,6 +19,14 @@ func driver(driver string) gorm.Dialector {
 }
 
 func getMysqlDriver() gorm.Dialector {
+	loc, ok := map[string]*time.Location{
+		"sys":     time.Local,
+		"utc":     time.UTC,
+		"beijing": time.FixedZone("Asia/Shanghai", int((8 * time.Hour).Seconds())),
+	}[config.Get("db.timezone", "sys").(string)]
+	if !ok {
+		loc = time.Local
+	}
 	dsnConfig := &rawMysql.Config{
 		User:   config.Get("db.user", "root").(string),
 		Passwd: config.Get("db.passwd").(string),
@@ -27,6 +36,7 @@ func getMysqlDriver() gorm.Dialector {
 			config.Get("db.port", 3306).(int)),
 		DBName:               config.Get("db.name", "gower").(string),
 		AllowNativePasswords: config.Get("db.mysql.allowNativePasswords", true).(bool),
+		Loc:                  loc,
 	}
 	return mysql.New(mysql.Config{
 		DSNConfig:                 dsnConfig,

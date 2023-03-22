@@ -15,6 +15,7 @@ type DB struct {
 	MaxLifeTime       time.Duration `env:"DB_MAX_LIFE_TIME" envDefault:"30m"`
 	MaxIdleTime       time.Duration `env:"DB_MAX_IDLE_TIME" envDefault:"10m"`
 	DisableForeignKey bool          `env:"DB_DISABLE_FOREIGN_KEY" envDefault:"true"`
+	Timezone          string        `env:"DB_TIMEZONE" envDefault:"sys"`
 	Mysql             struct {
 		AllowNativePasswords bool `env:"DB_MYSQL_NATIVE_PASSWORDS" envDefault:"true"`
 	}
