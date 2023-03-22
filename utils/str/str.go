@@ -54,7 +54,7 @@ func (s Conv) Camel() string {
 		}
 	}
 
-	return buf.String()
+	return Conv(buf.String()).Lowercase()
 }
 
 // UpCamel 获得大驼峰字符

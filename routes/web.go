@@ -9,7 +9,7 @@ func init() {
 	route.StaticFile("/favicon.ico", "public/static/images/favicon.ico")
 	route.Static("/static", "public/static")
 
-	route.GET("/", Home.Index)
+	route.GET("/", middlewares.Default(), Home.Index)
 
 	// 注册与登录
 	auth := route.Group("/auth")
@@ -18,7 +18,7 @@ func init() {
 		auth.POST("/register", Auth.Register)
 		auth.GET("/login", Auth.LoginForm)
 		auth.POST("/login", Auth.Login)
-		auth.Use(middlewares.Auth()).GET("/me", Auth.Me)
-		auth.Use(middlewares.Auth()).POST("/logout", Auth.Logout)
+		auth.GET("/me", middlewares.Auth(), Auth.Me)
+		auth.POST("/logout", middlewares.Auth(), Auth.Logout)
 	}
 }

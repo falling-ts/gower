@@ -18,6 +18,7 @@ var (
 	exception services.Exception
 	db        services.DBService
 	response  services.Response
+	util      services.UtilService
 )
 
 func New() services.RouteService {
@@ -30,6 +31,7 @@ func (s *Service) Init(args ...services.Service) services.Service {
 	exception = args[1].(services.Exception)
 	db = args[2].(services.DBService)
 	response = args[3].(services.Response)
+	util = args[4].(services.UtilService)
 
 	gin.SetMode(config.Get("app.mode", "test").(string))
 

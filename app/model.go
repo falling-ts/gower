@@ -13,7 +13,7 @@ type Skips []string
 type Model interface {
 	In(request RequestIFace, r Rule) (Model, error)
 	Out(r Rule) (any, error)
-	SetModel(i Model)
+	SetModel(i Model) Model
 }
 
 type ModelHandle struct {
@@ -50,12 +50,13 @@ func (m *ModelHandle) Out(r Rule) (any, error) {
 	if err := trans(data, model, r); err != nil {
 		return nil, err
 	}
-	return data, nil
+	return data.Interface(), nil
 }
 
 // SetModel 设置具体模型
-func (m *ModelHandle) SetModel(i Model) {
+func (m *ModelHandle) SetModel(i Model) Model {
 	m.Model = i
+	return i
 }
 
 func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
@@ -147,7 +148,7 @@ func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 				case error:
 					return res.(error)
 				default:
-					destValue.Set(results[0])
+					setValue(dest, destValue, k, results[0])
 				}
 			}
 		case reflect.Struct:
@@ -191,13 +192,13 @@ func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 				case error:
 					return res.(error)
 				default:
-					destValue.Set(results[0])
+					setValue(dest, destValue, k, results[0])
 				}
 			}
 		case reflect.Map:
 			srcValue, err = valueByKey(src, v.(string))
 			if err != nil {
-				destValue.Set(rule)
+				setValue(dest, destValue, k, rule)
 				break
 			}
 
@@ -207,7 +208,7 @@ func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 			switch destValue.Kind() {
 			case reflect.Array:
 				if srcValue.Kind() != reflect.Array {
-					destValue.Set(rule)
+					setValue(dest, destValue, k, rule)
 					break
 				}
 				for i := 0; i < srcValue.Len(); i++ {
@@ -217,7 +218,7 @@ func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 				}
 			case reflect.Slice:
 				if srcValue.Kind() != reflect.Slice {
-					destValue.Set(rule)
+					setValue(dest, destValue, k, rule)
 					break
 				}
 				if srcValue.Len() == 0 {
@@ -226,7 +227,7 @@ func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 
 				elemType := srcValue.Index(0).Type()
 				makeSlice := reflect.MakeSlice(elemType, srcValue.Len(), srcValue.Len())
-				destValue.Set(makeSlice)
+				setValue(dest, destValue, k, makeSlice)
 				for i := 0; i < srcValue.Len(); i++ {
 					if err = trans(destValue.Index(i), srcValue.Index(i), r); err != nil {
 						return err
@@ -238,14 +239,14 @@ func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 				}
 			}
 		case reflect.String:
-			srcValue, err = valueByKey(src, v.(string))
+			srcValue, err = valueByKey(src, str.Conv(v.(string)).UpCamel())
 			if err != nil {
-				destValue.Set(rule)
+				setValue(dest, destValue, k, rule)
 				break
 			}
-			destValue.Set(srcValue)
+			setValue(dest, destValue, k, srcValue)
 		default:
-			destValue.Set(rule)
+			setValue(dest, destValue, k, rule)
 		}
 	}
 
@@ -369,15 +370,6 @@ func valueByKey(v reflect.Value, k string) (reflect.Value, error) {
 			break
 		}
 		result = reflect.ValueOf(new(any)).Elem()
-
-		switch config.App.ResKeyType {
-		case "CamelType":
-			v.SetMapIndex(reflect.ValueOf(k), result)
-		case "camelType":
-			v.SetMapIndex(reflect.ValueOf(str.Conv(k).Camel()), result)
-		default:
-			v.SetMapIndex(reflect.ValueOf(str.Conv(k).Snake()), result)
-		}
 	case reflect.Struct:
 		result = v.FieldByName(k)
 	}
@@ -386,4 +378,20 @@ func valueByKey(v reflect.Value, k string) (reflect.Value, error) {
 	}
 
 	return result, errors.New("类型错误")
+}
+
+func setValue(dest reflect.Value, destValue reflect.Value, k string, v reflect.Value) {
+	k = str.Conv(k).UpCamel()
+	destValue.Set(v)
+
+	if dest.Kind() == reflect.Map {
+		switch config.App.ResKeyType {
+		case "CamelType":
+			dest.SetMapIndex(reflect.ValueOf(k), destValue)
+		case "camelType":
+			dest.SetMapIndex(reflect.ValueOf(str.Conv(k).Camel()), destValue)
+		default:
+			dest.SetMapIndex(reflect.ValueOf(str.Conv(k).Snake()), destValue)
+		}
+	}
 }

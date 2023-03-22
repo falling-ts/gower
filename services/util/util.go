@@ -3,6 +3,7 @@ package util
 import (
 	"github.com/jaevor/go-nanoid"
 	"gower/services"
+	"reflect"
 )
 
 type Service struct{}
@@ -29,4 +30,13 @@ func (s *Service) Nanoid(args ...int) string {
 		panic(err)
 	}
 	return genKey()
+}
+
+// Direct 获取反射指针类型
+func (s *Service) Direct(v reflect.Value) reflect.Value {
+	if v.Kind() != reflect.Pointer {
+		return v.Addr()
+	}
+
+	return v
 }
