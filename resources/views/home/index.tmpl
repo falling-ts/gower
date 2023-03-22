@@ -263,10 +263,24 @@ My0wMy0wMVQxMjo1NzoyNCswMDowMMYghYEAAAAASUVORK5CYII="/>
             <a href="#" target="_blank" class="text-sm font-semibold leading-6 text-gray-900">更多</a>
             <a href="#" target="_blank" class="text-sm font-semibold leading-6 text-gray-900">更多</a>
           </div>
-          <div class="hidden lg:flex lg:flex-1 lg:justify-end animate__animated animate__fadeInDown">
-            <a href="/auth/register" class="btn btn-active btn-secondary mr-4 w-20">注册</a>
-            <a href="/auth/login" class="btn btn-outline btn-accent">登录 <span aria-hidden="true">&rarr;</span></a>
-          </div>
+          {{ if .name }}
+            <div class="hidden lg:flex lg:flex-1 lg:justify-end animate__animated animate__fadeInDown cursor-pointer dropdown dropdown-end">
+              <div tabindex="0" class="avatar">
+                <div class="h-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                  <img src="{{.avatar}}"/>
+                </div>
+              </div>
+              <div tabindex="0" class="mx-4 h-10 flex justify-center items-center">{{.name}}</div>
+              <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                <li><a class="btn btn-warning btn-outline mr-4 w-full" @click="logout">退出</a></li>
+              </ul>
+            </div>
+          {{ else }}
+            <div class="hidden lg:flex lg:flex-1 lg:justify-end animate__animated animate__fadeInDown">
+              <a href="/auth/register" class="btn btn-active btn-secondary mr-4 w-20">注册</a>
+              <a href="/auth/login" class="btn btn-outline btn-accent">登录 <span aria-hidden="true">&rarr;</span></a>
+            </div>
+          {{end}}
         </nav>
 
         {{/* mobile main */}}
@@ -295,10 +309,24 @@ My0wMy0wMVQxMjo1NzoyNCswMDowMMYghYEAAAAASUVORK5CYII="/>
                   <a href="#" target="_blank"
                      class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">更多</a>
                 </div>
-                <div class="py-6 flex flex-col space-y-4">
-                  <a href="/auth/register" class="btn btn-active btn-secondary">注册</a>
-                  <a href="/auth/login" class="btn btn-outline btn-accent">登录</a>
-                </div>
+                {{ if .name }}
+                  <div class="py-6 flex flex-col space-y-4 dropdown dropdown-end">
+                    <div tabindex="0" class="avatar">
+                      <div class="h-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                        <img src="{{.avatar}}"/>
+                      </div>
+                    </div>
+                    <div tabindex="0" class="mx-4 h-10 flex justify-center items-center">{{.name}}</div>
+                    <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                      <li><a class="btn btn-warning btn-outline mr-4 w-full" @click="logout">退出</a></li>
+                    </ul>
+                  </div>
+                {{ else }}
+                  <div class="py-6 flex flex-col space-y-4">
+                    <a href="/auth/register" class="btn btn-active btn-secondary">注册</a>
+                    <a href="/auth/login" class="btn btn-outline btn-accent">登录</a>
+                  </div>
+                {{end}}
               </div>
             </div>
           </div>
@@ -336,15 +364,17 @@ My0wMy0wMVQxMjo1NzoyNCswMDowMMYghYEAAAAASUVORK5CYII="/>
           return {}
         },
         methods: {
-          async logout() {
-            const res = await auth.logout()
-            if (!res.code) {
-              msg.success(res.msg)
-              setTimeout(() => {
-                cookie.remove("token")
-                window.location.href = "/"
-              }, 2000)
-            }
+          logout() {
+            msg.confirm("是否退出", async (args) => {
+              const res = await auth.logout()
+              if (!res.code) {
+                msg.success(res.msg)
+                setTimeout(() => {
+                  cookie.remove("token")
+                  window.location.href = "/"
+                }, 2000)
+              }
+            })
           }
         }
       }).mount("#home-index")

@@ -13,19 +13,29 @@ func Default() services.Handler {
 			token = c.GetHeader("Authorization")
 		}
 
-		if token != "" {
-			userId, newToken, _ := auth.Check(token, c.RemoteIP())
-			if newToken != "" {
-				c.Set("token", newToken)
-			}
-
-			user := new(models.User)
-			result := db.First(user, userId)
-			if result.Error == nil {
-				c.Set("Auth", &models.Auth{User: *user})
-			}
+		if token == "" {
+			c.Next()
+			return
 		}
 
+		userId, newToken, err := auth.Check(token, c.RemoteIP())
+		if err != nil {
+			c.Next()
+			return
+		}
+
+		user := new(models.User)
+		result := db.First(user, userId)
+		if result.Error != nil {
+			c.Next()
+			return
+		}
+
+		if newToken != "" {
+			c.Set("token", newToken)
+		}
+		c.Set("Auth", &models.Auth{User: *user})
+		
 		c.Next()
 	}
 }

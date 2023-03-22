@@ -51,14 +51,15 @@ func (s *Service) Sign(args ...any) (string, error) {
 	}
 
 	claims := new(Claims).Set(args...)
+	if claims.UpdateDur == nil {
+		updateDur := config.Get("jwt.upd", 5*time.Minute).(time.Duration)
+		claims.Set(jwt.NewNumericDate(time.Now().Add(updateDur)))
+	}
 	if claims.ExpiresAt == nil {
-		exp := config.Get("jwt.exp", 5*time.Minute).(time.Duration)
+		exp := config.Get("jwt.exp", 10*time.Minute).(time.Duration)
 		claims.Set(jwt.NewNumericDate(time.Now().Add(exp)))
 	}
-	if claims.UpdateExp == nil {
-		updateExp := config.Get("jwt.updateExp", 10*time.Minute).(time.Duration)
-		claims.Set(jwt.NewNumericDate(time.Now().Add(updateExp)))
-	}
+
 	token := jwt.NewWithClaims(method, *claims.Set(util.Nanoid()))
 
 	key, err := base64.StdEncoding.DecodeString(config.Get("jwt.key").(string))
@@ -69,41 +70,20 @@ func (s *Service) Sign(args ...any) (string, error) {
 }
 
 // Check 校验 Token
-func (s *Service) Check(t string, args ...string) (string, string, error) {
-	token, err := jwt.ParseWithClaims(t, new(Claims), func(token *jwt.Token) (interface{}, error) {
-		return base64.StdEncoding.DecodeString(config.Get("jwt.key").(string))
-	})
+func (s *Service) Check(token string, args ...string) (string, string, error) {
+	claims, err := s.parseClaims(token)
 	if err != nil {
 		return "", "", err
 	}
 
-	claims, ok := token.Claims.(*Claims)
-	if !ok || !token.Valid {
-		return "", "", errors.New("token 无效")
-	}
-
-	id := claims.ID
-	if id == "" {
-		return "", "", errors.New("token id 不能为空")
-	}
-
-	_, ok = cache.Get(util.BlackTokenKey(id))
-	if ok {
-		return "", "", errors.New("token 已拉黑")
-	}
-
 	for _, arg := range args {
 		if !s.checkAudience(arg, claims.Audience) {
-			s.Block(id, claims.UpdateExp.Sub(time.Now()))
+			s.execBlack(claims.ID, claims.ExpiresAt.Sub(time.Now()))
 			return "", "", errors.New("token 身份存疑, 已拉黑")
 		}
 	}
 
-	if claims.ExpiresAt.After(time.Now()) {
-		return claims.Subject, "", nil
-	}
-
-	if claims.UpdateExp.After(time.Now()) {
+	if claims.UpdateDur.After(time.Now()) {
 		var newToken string
 		newToken, err = s.Sign(claims.Issuer, claims.Subject, claims.Audience)
 		if err != nil {
@@ -116,13 +96,14 @@ func (s *Service) Check(t string, args ...string) (string, string, error) {
 	return "", "", errors.New("token 已过期, 请重新登录")
 }
 
-func (s *Service) checkAudience(str string, aud jwt.ClaimStrings) bool {
-	return slice.Strings(aud).Has(str)
-}
-
-// Block 拉黑 Token
-func (s *Service) Block(id string, d time.Duration) {
-	cache.Set(util.BlackTokenKey(id), struct{}{}, d)
+// Black 拉黑 Token
+func (s *Service) Black(token string) error {
+	claims, err := s.parseClaims(token)
+	if err != nil {
+		return err
+	}
+	s.execBlack(claims.ID, claims.ExpiresAt.Sub(time.Now()))
+	return nil
 }
 
 // IsToken 判断是否是 Token
@@ -147,4 +128,38 @@ func (s *Service) IsToken(token string) bool {
 	}
 
 	return true
+}
+
+func (s *Service) parseClaims(t string) (*Claims, error) {
+	token, err := jwt.ParseWithClaims(t, new(Claims), func(token *jwt.Token) (interface{}, error) {
+		return base64.StdEncoding.DecodeString(config.Get("jwt.key").(string))
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	claims, ok := token.Claims.(*Claims)
+	if !ok || !token.Valid {
+		return nil, errors.New("token 无效")
+	}
+
+	id := claims.ID
+	if id == "" {
+		return nil, errors.New("token id 不能为空")
+	}
+
+	_, ok = cache.Get(util.BlackTokenKey(id))
+	if ok {
+		return nil, errors.New("token 已拉黑")
+	}
+
+	return claims, nil
+}
+
+func (s *Service) checkAudience(str string, aud jwt.ClaimStrings) bool {
+	return slice.Strings(aud).Has(str)
+}
+
+func (s *Service) execBlack(id string, d time.Duration) {
+	cache.Set(util.BlackTokenKey(id), struct{}{}, d)
 }

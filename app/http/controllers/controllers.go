@@ -7,4 +7,5 @@ var (
 	passwd = app.Passwd()
 	res    = app.Response()
 	config = app.Config()
+	auth   = app.Auth()
 )

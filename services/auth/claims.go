@@ -3,7 +3,7 @@ package auth
 import "github.com/golang-jwt/jwt/v5"
 
 type Claims struct {
-	UpdateExp *jwt.NumericDate `json:"upe,omitempty"` // Token 过期后, 可更新过期时间
+	UpdateDur *jwt.NumericDate `json:"upd,omitempty"` // Token 更新时限
 	jwt.RegisteredClaims
 }
 
@@ -36,12 +36,12 @@ func (c *Claims) decideType(arg any) {
 		c.Audience = arg.([]string)
 	case *jwt.NumericDate:
 		time := arg.(*jwt.NumericDate)
-		if c.ExpiresAt == nil {
-			c.ExpiresAt = time
+		if c.UpdateDur == nil {
+			c.UpdateDur = time
 			break
 		}
-		if c.UpdateExp == nil {
-			c.UpdateExp = time
+		if c.ExpiresAt == nil {
+			c.ExpiresAt = time
 			break
 		}
 		if c.NotBefore == nil {

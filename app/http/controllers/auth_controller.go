@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"github.com/gin-gonic/gin"
 	"gower/app"
 	"gower/app/http/requests"
 	"gower/app/models"
@@ -16,7 +17,7 @@ var Auth = new(AuthController)
 // RegisterForm 注册页面
 func (a *AuthController) RegisterForm(user *models.User) (string, app.Data) {
 	return "auth/register", app.Data{
-		"Title": "注册",
+		"title": "注册",
 	}
 }
 
@@ -42,7 +43,7 @@ func (a *AuthController) Register(req *requests.RegisterRequest, user *models.Us
 // LoginForm 登录页面
 func (a *AuthController) LoginForm() (string, app.Data) {
 	return "auth/login", app.Data{
-		"Title": "登录",
+		"title": "登录",
 	}
 }
 
@@ -68,13 +69,18 @@ func (a *AuthController) Login(req *requests.LoginRequest, user *models.User) (s
 // Me 获取个人信息
 func (a *AuthController) Me(auth models.Auth) (services.Response, error) {
 	return res.Ok("auth/me", app.Data{
-		"Title": "我",
+		"title": "我",
 	}), nil
 }
 
 // Logout 执行退出
-func (a *AuthController) Logout() services.Response {
-	return res.Ok("auth/login", app.Data{
-		"Title": "退出",
-	})
+func (a *AuthController) Logout(c *gin.Context) services.Response {
+	c.Set("token", nil)
+	token, _ := c.Cookie("token")
+	if token == "" {
+		token = c.GetHeader("Authorization")
+	}
+
+	auth.Black(token)
+	return res.Ok("退出成功")
 }
