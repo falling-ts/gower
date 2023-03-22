@@ -4,6 +4,7 @@ import "gower/services"
 
 var DBError = services.TransCategory{
 	"mysql": services.TransMap{
+		`^record not found$`:                                `没有找到记录`,
 		`^Error 1046 \(3D000\):.*?$`:                        `没有选择数据库`,
 		`^Error 1048 \(23000\): Column '(.*?)'.*?$`:         `字段${1}不能是NULL`,
 		`^Error 1054 \(42S22\): Unknown column '(.*?)'.*?$`: `未知字段${1}`,

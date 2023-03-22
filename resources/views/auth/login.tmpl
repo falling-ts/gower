@@ -60,19 +60,19 @@
         },
         methods: {
           async login() {
-            const res = await auth.login(this.form)
-            console.log(res)
-            if (!res.code) {
-              msg.success(res.msg)
+            try {
+              const res = await auth.login(this.form)
+              if (!res.code) {
+                msg.success(res.msg)
+                setTimeout(() => {
+                  window.location = "/"
+                }, 1000)
+              }
+            } finally {
               setTimeout(() => {
-                window.location = "/"
+                this.loading = false
               }, 2000)
-              return
             }
-
-            setTimeout(() => {
-              this.loading = false
-            }, 1000)
           }
         }
       }).mount("#auth-login")

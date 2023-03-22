@@ -86,23 +86,24 @@
         },
         methods: {
           async register() {
-            this.loading = true
-            if (this.form.password !== this.form.passwordRep) {
-              console.log('Error')
-              return
-            }
-            const res = await auth.register(this.form)
-            if (!res.code) {
-              msg.success(res.msg)
+            try {
+              this.loading = true
+              if (this.form.password !== this.form.passwordRep) {
+                console.log('Error')
+                return
+              }
+              const res = await auth.register(this.form)
+              if (!res.code) {
+                msg.success(res.msg)
+                setTimeout(() => {
+                  window.location = "/auth/login"
+                }, 1000)
+              }
+            } finally {
               setTimeout(() => {
-                window.location = "/auth/login"
+                this.loading = false
               }, 2000)
-              return
             }
-
-            setTimeout(() => {
-              this.loading = false
-            }, 1000)
           }
         }
       }).mount("#auth-register")

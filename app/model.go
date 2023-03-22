@@ -2,17 +2,17 @@ package app
 
 import (
 	"errors"
+	"gower/utils/slice"
 	"gower/utils/str"
 	"reflect"
 )
 
-const fnField = `^(\w+?)\(([\w,\s?]+?\w)\)$`
-
 type Rule map[string]any
+type Skips []string
 
 type Model interface {
 	In(request RequestIFace, r Rule) (Model, error)
-	Out(data any, r Rule) (any, error)
+	Out(r Rule) (any, error)
 	SetModel(i Model)
 }
 
@@ -20,17 +20,34 @@ type ModelHandle struct {
 	Model `gorm:"-"`
 }
 
+var config = Config()
+
 // In 数据进来
 func (m *ModelHandle) In(request RequestIFace, r Rule) (Model, error) {
-	if err := trans(reflect.ValueOf(m.Model), reflect.ValueOf(request), r); err != nil {
+	model := reflect.Indirect(reflect.ValueOf(m.Model))
+	if !model.IsValid() {
+		return nil, errors.New("未设置原模型")
+	}
+
+	req := reflect.Indirect(reflect.ValueOf(request))
+	if err := trans(model, req, r); err != nil {
 		return nil, err
 	}
+
 	return m.Model, nil
 }
 
 // Out 数据出去
-func (m *ModelHandle) Out(data any, r Rule) (any, error) {
-	if err := trans(reflect.ValueOf(data), reflect.ValueOf(m.Model), r); err != nil {
+func (m *ModelHandle) Out(r Rule) (any, error) {
+	mapType := reflect.MapOf(reflect.TypeOf(""), reflect.TypeOf(new(any)).Elem())
+	data := reflect.MakeMap(mapType)
+
+	model := reflect.Indirect(reflect.ValueOf(m.Model))
+	if !model.IsValid() {
+		return nil, errors.New("未设置原模型")
+	}
+
+	if err := trans(data, model, r); err != nil {
 		return nil, err
 	}
 	return data, nil
@@ -42,83 +59,34 @@ func (m *ModelHandle) SetModel(i Model) {
 }
 
 func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
-	if dest.Kind() == reflect.Ptr {
-		dest = dest.Elem()
-	}
-	if src.Kind() == reflect.Ptr {
-		src = src.Elem()
-	}
+	dest = reflect.Indirect(dest)
+	src = reflect.Indirect(src)
 
-	_, ok := r["_other"]
+	s, ok := r["_skips"].([]string)
+	if !ok {
+		s, ok = r["_skips"].(Skips)
+	}
 	if ok {
+		rawSkips := slice.Strings(s)
+		skips := rawSkips.Map(func(s string) string {
+			return str.Conv(s).UpCamel()
+		})
+
 		destType := dest.Type()
 		switch destType.Kind() {
 		case reflect.Struct:
-			for i := 0; i < destType.NumField(); i++ {
-				fieldType := destType.Field(i)
-				fieldName := fieldType.Name
-				field := dest.FieldByName(fieldName)
-				if _, ok = r[fieldName]; ok {
-					continue
-				}
-				if _, ok = r[str.Conv(fieldName).Lowercase()]; ok {
-					continue
-				}
-
-				switch src.Kind() {
-				case reflect.Struct:
-					srcField := src.FieldByName(fieldName)
-					if !srcField.IsValid() {
-						continue
-					}
-					if field.Kind() != srcField.Kind() {
-						continue
-					}
-					if field.Kind() == reflect.Ptr && field.Elem().Kind() != srcField.Elem().Kind() {
-						continue
-					}
-				case reflect.Map:
-					result := src.MapIndex(reflect.ValueOf(fieldName))
-					if result.IsValid() {
-						r[fieldName] = fieldName
-						continue
-					}
-					result = src.MapIndex(reflect.ValueOf(str.Conv(fieldName).Lowercase()))
-					if result.IsValid() {
-						r[fieldName] = fieldName
-						continue
-					}
-
-					continue
-				}
-
-				r[fieldName] = fieldName
-			}
+			destNoSkips(destType, dest, src, skips, r)
 		case reflect.Map:
 			keys := dest.MapKeys()
 			if len(keys) == 0 {
 				switch src.Kind() {
 				case reflect.Struct:
-					srcType := src.Type()
-					for i := 0; i < srcType.NumField(); i++ {
-						fieldName := srcType.Field(i).Name
-						if _, ok = r[fieldName]; ok {
-							continue
-						}
-						if _, ok = r[str.Conv(fieldName).Lowercase()]; ok {
-							continue
-						}
-
-						r[fieldName] = fieldName
-					}
+					srcNoSkips(src.Type(), src, skips, r)
 				case reflect.Map:
 					srcKeys := src.MapKeys()
 					for _, key := range srcKeys {
 						fieldName := key.String()
-						if _, ok = r[fieldName]; ok {
-							continue
-						}
-						if _, ok = r[str.Conv(fieldName).Lowercase()]; ok {
+						if isContinue(fieldName, rawSkips, r) {
 							continue
 						}
 
@@ -128,10 +96,7 @@ func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 			} else {
 				for _, key := range keys {
 					fieldName := key.String()
-					if _, ok = r[fieldName]; ok {
-						continue
-					}
-					if _, ok = r[str.Conv(fieldName).Lowercase()]; ok {
+					if isContinue(fieldName, rawSkips, r) {
 						continue
 					}
 
@@ -148,7 +113,7 @@ func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 			}
 		}
 
-		delete(r, "_other")
+		delete(r, "_skips")
 	}
 
 	var (
@@ -158,6 +123,7 @@ func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 		err       error
 	)
 	for k, v := range r {
+		k = str.Conv(k).UpCamel()
 		destValue, err = valueByKey(dest, k)
 		if err != nil {
 			return err
@@ -166,11 +132,11 @@ func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 		rule := reflect.ValueOf(v)
 		switch rule.Kind() {
 		case reflect.Func:
-			argValue, err = valueByKey(src, k)
-			if err != nil {
-				return err
+			arg := make([]reflect.Value, 0)
+			if rule.Type().NumIn() == 1 {
+				arg = append(arg, src)
 			}
-			arg := []reflect.Value{argValue}
+
 			results := rule.Call(arg)
 			for _, result := range results {
 				res := result.Interface()
@@ -235,12 +201,8 @@ func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 				break
 			}
 
-			if destValue.Kind() == reflect.Ptr {
-				destValue = destValue.Elem()
-			}
-			if srcValue.Kind() == reflect.Ptr {
-				srcValue = srcValue.Elem()
-			}
+			destValue = reflect.Indirect(destValue)
+			srcValue = reflect.Indirect(srcValue)
 
 			switch destValue.Kind() {
 			case reflect.Array:
@@ -261,6 +223,7 @@ func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 				if srcValue.Len() == 0 {
 					break
 				}
+
 				elemType := srcValue.Index(0).Type()
 				makeSlice := reflect.MakeSlice(elemType, srcValue.Len(), srcValue.Len())
 				destValue.Set(makeSlice)
@@ -269,7 +232,7 @@ func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 						return err
 					}
 				}
-			case reflect.Map:
+			case reflect.Map, reflect.Struct:
 				if err = trans(destValue, srcValue, r); err != nil {
 					return err
 				}
@@ -289,27 +252,134 @@ func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 	return nil
 }
 
+func destNoSkips(destType reflect.Type, dest reflect.Value, src reflect.Value, skips slice.Strings, r Rule) {
+	for i := 0; i < destType.NumField(); i++ {
+		fieldType := destType.Field(i)
+		fieldName := fieldType.Name
+		field := dest.FieldByName(fieldName)
+		typ := field.Type()
+
+		if fieldType.Tag.Get("gorm") == "-" {
+			continue
+		}
+		if fieldType.Anonymous {
+			destNoSkips(typ, field, src, skips, r)
+			continue
+		}
+		if isContinue(fieldName, skips, r) {
+			continue
+		}
+
+		switch src.Kind() {
+		case reflect.Struct:
+			srcField := src.FieldByName(fieldName)
+			if !srcField.IsValid() {
+				continue
+			}
+			if field.Kind() != srcField.Kind() {
+				continue
+			}
+			if field.Kind() == reflect.Ptr {
+				fieldElem := field.Type().Elem()
+				srcFieldElem := srcField.Type().Elem()
+				if fieldElem.Kind() != srcFieldElem.Kind() {
+					continue
+				}
+			}
+		case reflect.Map:
+			convFieldName := str.Conv(fieldName)
+			result := src.MapIndex(reflect.ValueOf(fieldName))
+			if result.IsValid() {
+				r[fieldName] = fieldName
+				continue
+			}
+			result = src.MapIndex(reflect.ValueOf(convFieldName.Camel()))
+			if result.IsValid() {
+				r[fieldName] = fieldName
+				continue
+			}
+			result = src.MapIndex(reflect.ValueOf(convFieldName.Snake()))
+			if result.IsValid() {
+				r[fieldName] = fieldName
+				continue
+			}
+
+			continue
+		}
+
+		r[fieldName] = fieldName
+	}
+}
+
+func srcNoSkips(srcType reflect.Type, src reflect.Value, skips slice.Strings, r Rule) {
+	for i := 0; i < srcType.NumField(); i++ {
+		fieldType := srcType.Field(i)
+		fieldName := fieldType.Name
+		field := src.FieldByName(fieldName)
+		typ := field.Type()
+
+		if fieldType.Anonymous {
+			srcNoSkips(typ, field, skips, r)
+			continue
+		}
+		if isContinue(fieldName, skips, r) {
+			continue
+		}
+
+		r[fieldName] = fieldName
+	}
+}
+
+func isContinue(fieldName string, skips slice.Strings, r Rule) bool {
+	var ok bool
+	convFieldName := str.Conv(fieldName)
+
+	if skips.Has(fieldName) {
+		return true
+	}
+	if _, ok = r[fieldName]; ok {
+		return true
+	}
+	if _, ok = r[convFieldName.Camel()]; ok {
+		return true
+	}
+	if _, ok = r[convFieldName.Snake()]; ok {
+		return true
+	}
+
+	return false
+}
+
 func valueByKey(v reflect.Value, k string) (reflect.Value, error) {
 	var result reflect.Value
 
 	switch v.Kind() {
 	case reflect.Map:
+		convK := str.Conv(k)
 		result = v.MapIndex(reflect.ValueOf(k))
 		if result.IsValid() {
 			break
 		}
-		result = v.MapIndex(reflect.ValueOf(str.Conv(k).Lowercase()))
+		result = v.MapIndex(reflect.ValueOf(convK.Camel()))
 		if result.IsValid() {
 			break
 		}
-		result = v.MapIndex(reflect.ValueOf(str.Conv(k).Uppercase()))
+		result = v.MapIndex(reflect.ValueOf(convK.Snake()))
 		if result.IsValid() {
 			break
 		}
-		result = reflect.ValueOf(new(any))
-		v.SetMapIndex(reflect.ValueOf(str.Conv(k).Lowercase()), result)
+		result = reflect.ValueOf(new(any)).Elem()
+
+		switch config.App.ResKeyType {
+		case "CamelType":
+			v.SetMapIndex(reflect.ValueOf(k), result)
+		case "camelType":
+			v.SetMapIndex(reflect.ValueOf(str.Conv(k).Camel()), result)
+		default:
+			v.SetMapIndex(reflect.ValueOf(str.Conv(k).Snake()), result)
+		}
 	case reflect.Struct:
-		result = v.FieldByName(str.Conv(k).Uppercase())
+		result = v.FieldByName(k)
 	}
 	if result.IsValid() {
 		return result, nil

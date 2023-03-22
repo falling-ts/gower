@@ -25,3 +25,13 @@ func (s Strings) HasPrefix(str string) bool {
 
 	return false
 }
+
+// Map 迭代处理
+func (s Strings) Map(fn func(string) string) Strings {
+	newS := make(Strings, len(s))
+	for i, item := range s {
+		newS[i] = fn(item)
+	}
+
+	return newS
+}

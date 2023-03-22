@@ -5,7 +5,6 @@ import (
 	"gower/app/http/requests"
 	"gower/app/models"
 	"gower/services"
-	"reflect"
 )
 
 type AuthController struct {
@@ -24,10 +23,10 @@ func (a *AuthController) RegisterForm(user *models.User) (string, app.Data) {
 // Register 执行注册
 func (a *AuthController) Register(req *requests.RegisterRequest, user *models.User) (services.Response, error) {
 	model, err := user.In(req, app.Rule{
-		"password": func(arg any) (string, error) {
-			return passwd.Hash(reflect.ValueOf(arg).FieldByName("Password").String())
+		"password": func() (string, error) {
+			return passwd.Hash(req.Password)
 		},
-		"_other": struct{}{},
+		"_skips": app.Skips{},
 	})
 	if err != nil {
 		return nil, excp.BadRequest(err)
