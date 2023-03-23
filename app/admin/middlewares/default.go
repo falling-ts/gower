@@ -6,5 +6,5 @@ import (
 )
 
 func Default() services.Handler {
-	return middlewares.Default()
+	return middlewares.Default("admin-token", "Admin-Authorization")
 }

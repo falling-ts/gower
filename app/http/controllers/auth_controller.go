@@ -15,7 +15,7 @@ type AuthController struct {
 var Auth = new(AuthController)
 
 // RegisterForm 注册页面
-func (a *AuthController) RegisterForm(user *models.User) (string, app.Data) {
+func (a *AuthController) RegisterForm() (string, app.Data) {
 	return "auth/register", app.Data{
 		"title": "注册",
 	}

@@ -57,8 +57,7 @@ func notUseReflect(handler services.Handler, c *gin.Context) bool {
 			return res.Handle(c)
 		}
 	default:
-		handlerType := reflect.TypeOf(handler).Kind()
-		if handlerType != reflect.Func {
+		if reflect.TypeOf(handler).Kind() != reflect.Func {
 			if args, ok := handler.([]any); ok {
 				return response.New(http.StatusOK, args...).Handle(c)
 			} else {
@@ -151,11 +150,6 @@ func useReflect(handler services.Handler, c *gin.Context) bool {
 }
 
 func requestMethod(value reflect.Value, c *gin.Context) bool {
-	if SetContext := value.MethodByName("SetContext"); SetContext.IsValid() {
-		SetContext.Call([]reflect.Value{
-			reflect.ValueOf(c),
-		})
-	}
 	if Validate := value.MethodByName("Validate"); Validate.IsValid() {
 		err := Validate.Call([]reflect.Value{
 			reflect.ValueOf(c),

@@ -1,24 +1,24 @@
 package routes
 
 import (
-	. "gower/app/http/controllers"
-	"gower/app/http/middlewares"
+	web "gower/app/http/controllers"
+	mws "gower/app/http/middlewares"
 )
 
 func init() {
 	route.StaticFile("/favicon.ico", "public/static/images/favicon.ico")
 	route.Static("/static", "public/static")
 
-	route.GET("/", middlewares.Default(), Home.Index)
+	route.GET("/", mws.Default(), web.Home.Index)
 
 	// 注册与登录
 	auth := route.Group("/auth")
 	{
-		auth.GET("/register", Auth.RegisterForm)
-		auth.POST("/register", Auth.Register)
-		auth.GET("/login", Auth.LoginForm)
-		auth.POST("/login", Auth.Login)
-		auth.GET("/me", middlewares.Auth(), Auth.Me)
-		auth.POST("/logout", middlewares.Auth(), Auth.Logout)
+		auth.GET("/register", web.Auth.RegisterForm)
+		auth.POST("/register", web.Auth.Register)
+		auth.GET("/login", web.Auth.LoginForm)
+		auth.POST("/login", web.Auth.Login)
+		auth.GET("/me", mws.Auth(), web.Auth.Me)
+		auth.POST("/logout", mws.Auth(), web.Auth.Logout)
 	}
 }

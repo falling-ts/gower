@@ -12,19 +12,18 @@ var (
 
 // RequestIFace 通用请求接口
 type RequestIFace interface {
-	Validate(ctx *gin.Context, req RequestIFace) error
-	SetContext(c *gin.Context)
+	Validate(c *gin.Context, req RequestIFace) error
 }
 
 type Request struct {
-	*gin.Context
+	*gin.Context `json:"-" xml:"-" form:"-" query:"-" protobuf:"-" msgpack:"-" yaml:"-" uri:"-" header:"-" toml:"-"`
 }
 
 // Validate 执行验证
-func (r *Request) Validate(ctx *gin.Context, req RequestIFace) error {
-	r.Context = ctx
+func (r *Request) Validate(c *gin.Context, req RequestIFace) error {
+	r.Context = c
 
-	if err := ctx.ShouldBind(req); err != nil {
+	if err := c.ShouldBind(req); err != nil {
 		if _, ok := err.(*validator.InvalidValidationError); ok {
 			return excp.BadRequest("验证器错误")
 		}
@@ -34,9 +33,4 @@ func (r *Request) Validate(ctx *gin.Context, req RequestIFace) error {
 	}
 
 	return nil
-}
-
-// SetContext 设置 gin 的请求体
-func (r *Request) SetContext(c *gin.Context) {
-	r.Context = c
 }

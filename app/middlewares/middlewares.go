@@ -7,6 +7,9 @@ var (
 	logger = app.Logger()
 	route  = app.Route()
 	excp   = app.Exception()
+	auth   = app.Auth()
+	db     = app.DB()
+	trans  = app.Translate()
 )
 
 func init() {

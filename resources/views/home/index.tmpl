@@ -257,11 +257,13 @@ My0wMy0wMVQxMjo1NzoyNCswMDowMMYghYEAAAAASUVORK5CYII="/>
             </button>
           </div>
           <div class="hidden lg:flex lg:gap-x-12 animate__animated animate__fadeInDown">
+            <a href="https://gitee.com/falling-ts/gower" target="_blank"
+               class="text-sm font-semibold leading-6 text-gray-900 cursor-pointer">Gitee</a>
             <a href="https://github.com/falling-ts/gower" target="_blank"
-               class="text-sm font-semibold leading-6 text-gray-900">GitHub 仓库</a>
-            <a href="#" target="_blank" class="text-sm font-semibold leading-6 text-gray-900">更多</a>
-            <a href="#" target="_blank" class="text-sm font-semibold leading-6 text-gray-900">更多</a>
-            <a href="#" target="_blank" class="text-sm font-semibold leading-6 text-gray-900">更多</a>
+               class="text-sm font-semibold leading-6 text-gray-900 cursor-pointer">GitHub</a>
+            <a target="_blank"
+               class="text-sm font-semibold leading-6 text-gray-900 cursor-pointer"
+               @click="apiHello">打招呼</a>
           </div>
           {{ if .name }}
             <div class="hidden lg:flex lg:flex-1 lg:justify-end animate__animated animate__fadeInDown cursor-pointer dropdown dropdown-end">
@@ -300,14 +302,13 @@ My0wMy0wMVQxMjo1NzoyNCswMDowMMYghYEAAAAASUVORK5CYII="/>
             <div class="mt-6 flow-root">
               <div class="-my-6 divide-y divide-gray-500/10">
                 <div class="space-y-2 py-6">
+                  <a href="https://gitee.com/falling-ts/gower" target="_blank"
+                     class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10 cursor-pointer">Gitee</a>
                   <a href="https://github.com/falling-ts/gower" target="_blank"
-                     class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">GitHub 仓库</a>
-                  <a href="#" target="_blank"
-                     class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">更多</a>
-                  <a href="#" target="_blank"
-                     class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">更多</a>
-                  <a href="#" target="_blank"
-                     class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10">更多</a>
+                     class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10 cursor-pointer">GitHub</a>
+                  <a target="_blank"
+                     class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10 cursor-pointer"
+                     @click="apiHello">打招呼</a>
                 </div>
                 {{ if .name }}
                   <div class="py-6 flex flex-col space-y-4 dropdown dropdown-end">
@@ -341,7 +342,7 @@ My0wMy0wMVQxMjo1NzoyNCswMDowMMYghYEAAAAASUVORK5CYII="/>
               <p class="mt-6 text-lg leading-8 text-gray-600">Go 语言开发 Web 应用的快速入门目录，默认使用模板集成模式，不使用前后端分离。</p>
               <div class="mt-10 flex items-center justify-center gap-x-6">
                 <a href="#" class="btn btn-primary">快速开始</a>
-                <a href="#" class="btn btn-outline btn-info text-sm font-semibold leading-6 text-gray-900">
+                <a href="https://gitee.com/falling-ts/gower" target="_blank" class="btn btn-outline btn-info text-sm font-semibold leading-6 text-gray-900">
                   查看更多
                   <span aria-hidden="true">→</span>
                 </a>
@@ -354,18 +355,29 @@ My0wMy0wMVQxMjo1NzoyNCswMDowMMYghYEAAAAASUVORK5CYII="/>
     {{template "foot" .}}
     <script type="module">
       import { createApp, api, msg, cookie } from "/static/main.js"
-      const { auth } = api
+      const { auth, v1 } = api
 
       createApp({
         compilerOptions: {
           delimiters: ['${', '}']
         },
         data() {
-          return {}
+          return {
+            helloData: {
+              test: '123',
+              name: 'Gower'
+            }
+          }
         },
         methods: {
+          async apiHello() {
+            const res = await v1.hello(this.helloData)
+            if (!res.code) {
+              msg.info(res.msg)
+            }
+          },
           logout() {
-            msg.confirm("是否退出", async (args) => {
+            msg.confirm("是否退出", async (...args) => {
               const res = await auth.logout()
               if (!res.code) {
                 msg.success(res.msg)
