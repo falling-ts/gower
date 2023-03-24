@@ -21,4 +21,7 @@ func init() {
 		auth.GET("/me", mws.Auth(), web.Auth.Me)
 		auth.POST("/logout", mws.Auth(), web.Auth.Logout)
 	}
+
+	route.GET("/400", web.Excp.BadRequest)
+	route.GET("/404", web.Excp.NotFound)
 }

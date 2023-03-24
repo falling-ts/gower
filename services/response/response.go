@@ -71,7 +71,7 @@ func (s *Service) Build(code int, args ...any) services.Response {
 func (s *Service) Handle(c *gin.Context) bool {
 	s.bodyLogger(c)
 	s.handleToken(c)
-	s.csrfToken(c)
+	s.csrfTokenAndCommonData(c)
 	c.Negotiate(s.HttpStatus, s.config)
 	return true
 }
@@ -124,7 +124,7 @@ func (s *Service) handleToken(c *gin.Context) {
 	}
 }
 
-func (s *Service) csrfToken(c *gin.Context) {
+func (s *Service) csrfTokenAndCommonData(c *gin.Context) {
 	mime := c.NegotiateFormat(s.config.Offered...)
 	if mime == binding.MIMEHTML {
 		data := reflect.Indirect(reflect.ValueOf(s.config.HTMLData))
@@ -132,6 +132,9 @@ func (s *Service) csrfToken(c *gin.Context) {
 			csrfToken := util.Nanoid()
 			data.SetMapIndex(reflect.ValueOf("csrf_token"), reflect.ValueOf(csrfToken))
 			cookie.Set(c, "csrf_token", csrfToken)
+
+			title := config.Get("app.name", "Gower").(string)
+			data.SetMapIndex(reflect.ValueOf("title"), reflect.ValueOf(title))
 		}
 	}
 }

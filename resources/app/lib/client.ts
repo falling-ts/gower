@@ -31,7 +31,7 @@ class client implements Client {
             headers,
             credentials: "include",
         }
-        this.baseUri = "http://localhost:8080"
+        this.baseUri = "http://127.0.0.1:8080"
     }
     setOption(option: RequestInit = {}) {
         const headers = new Headers({

@@ -1,6 +1,8 @@
 package routes
 
-import api "gower/app/api/controllers"
+import (
+	api "gower/app/api/controllers"
+)
 
 func init() {
 	v1 := route.Group("/api/v1")

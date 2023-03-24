@@ -1,6 +1,7 @@
 package services
 
 import (
+	"github.com/gin-gonic/gin"
 	"html/template"
 	"net"
 	"net/http"
@@ -15,12 +16,12 @@ type Handlers []Handler
 // IRouter 定义所有路由器句柄接口, 包括单路由器和组路由器.
 type IRouter interface {
 	IRoutes
-	Group(string, ...Handler) RouteService
+	Group(string, ...Handler) IRouter
 }
 
 // IRoutes 定义所有路由器句柄接口.
 type IRoutes interface {
-	Use(...Handler) IRoutes
+	Use(...Handler) RouteService
 
 	Handle(string, string, ...Handler) IRoutes
 	Any(string, ...Handler) IRoutes
@@ -43,11 +44,19 @@ type IRoutes interface {
 type RouteService interface {
 	Service
 
+	Handler() http.Handler
+	SecureJsonPrefix(prefix string) RouteService
+
 	Delims(left, right string) RouteService
 	LoadHTMLGlob(pattern string)
 	LoadHTMLFiles(files ...string)
 	SetHTMLTemplate(tmpl *template.Template)
 	SetFuncMap(funcMap template.FuncMap)
+
+	NoRoute(handlers ...Handler)
+	NoMethod(handlers ...Handler)
+
+	Routes() (routes gin.RoutesInfo)
 
 	Run(addr ...string) (err error)
 	RunTLS(addr, certFile, keyFile string) (err error)
@@ -55,8 +64,11 @@ type RouteService interface {
 	RunFd(fd int) (err error)
 	RunListener(listener net.Listener) (err error)
 
-	Use(middleware ...Handler) IRoutes
-	Group(relativePath string, handlers ...Handler) RouteService
+	HandleContext(c *gin.Context)
+
+	Group(relativePath string, handlers ...Handler) IRouter
+	UseBefore(middleware ...Handler) RouteService
+	Use(middleware ...Handler) RouteService
 	Handle(httpMethod, relativePath string, handlers ...Handler) IRoutes
 	Any(relativePath string, handlers ...Handler) IRoutes
 	GET(relativePath string, handlers ...Handler) IRoutes

@@ -1,6 +1,7 @@
 package exception
 
 import (
+	"fmt"
 	"net/http"
 
 	"gower/services"
@@ -119,10 +120,20 @@ func (s *Service) redirect(c *gin.Context) {
 		return
 	}
 
+	var url string
 	code, _ := s.Exception.Get("code")
 	host := config.Get("app.url", "http://localhost:8080").(string)
 	switch code.(int) {
 	case http.StatusUnauthorized:
-		c.Redirect(http.StatusFound, host+"/auth/login")
+		url = fmt.Sprintf("%s/auth/login", host)
+		c.Redirect(http.StatusFound, url)
+	case http.StatusNotFound:
+		msg, _ := s.Exception.Get("msg")
+		url = fmt.Sprintf("%s/404?msg=%s&detail=%v", host, msg, s.RawErr)
+		c.Redirect(http.StatusFound, url)
+	default:
+		msg, _ := s.Exception.Get("msg")
+		url = fmt.Sprintf("%s/400?msg=%s&detail=%v", host, msg, s.RawErr)
+		c.Redirect(http.StatusFound, url)
 	}
 }

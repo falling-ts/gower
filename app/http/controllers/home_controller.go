@@ -19,6 +19,7 @@ func (h *HomeController) Index(auth *models.Auth) (services.Response, error) {
 		data app.Data
 		err  error
 	)
+
 	if auth.ID != 0 {
 		raw, err = auth.SetModel(auth).Out(app.Rule{
 			"name": func() string {
@@ -51,6 +52,5 @@ func (h *HomeController) Index(auth *models.Auth) (services.Response, error) {
 		data = make(app.Data)
 	}
 
-	data["title"] = "欢迎来到 Gower"
 	return res.Ok("home/index", data), nil
 }

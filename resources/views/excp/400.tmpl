@@ -1,0 +1,14 @@
+{{define "excp/400"}}
+  {{template "head" .}}
+  <main class="grid min-h-full place-items-center bg-white py-24 px-6 sm:py-32 lg:px-8 bg-[url('/static/images/400.png')] bg-no-repeat bg-cover">
+    <div class="text-center">
+      <p class="text-6xl font-semibold text-indigo-600 text-white">400</p>
+      <h1 class="mt-4 text-3xl font-bold tracking-tight sm:text-5xl text-red-300">{{.msg}}</h1>
+      <p class="mt-6 px-4 text-base leading-7 text-gray-100 bg-gradient-to-r from-purple-500 to-pink-500">{{.detail}}</p>
+      <div class="mt-10 flex items-center justify-center gap-x-6">
+        <a href="/" class="btn btn-info text-white">返回主页</a>
+      </div>
+    </div>
+  </main>
+  {{template "foot" .}}
+{{end}}

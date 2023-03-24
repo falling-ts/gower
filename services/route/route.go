@@ -40,21 +40,45 @@ func (s *Service) Init(args ...services.Service) services.Service {
 	return s
 }
 
+// SecureJsonPrefix 设置Context.SecureJSON中使用的SecureJsonPrefix.
+func (s *Service) SecureJsonPrefix(prefix string) services.RouteService {
+	s.Engine.SecureJsonPrefix(prefix)
+	return s
+}
+
 // Delims 设置模板的左右界限, 并返回一个引擎实例.
 func (s *Service) Delims(left, right string) services.RouteService {
 	s.Engine.Delims(left, right)
 	return s
 }
 
-// Use 将中间件添加到组中, 参见GitHub中的示例代码.
-func (s *Service) Use(middleware ...services.Handler) services.IRoutes {
-	s.Engine.Use(toGinHandlers(middleware)...)
+// UseBefore 将中间件前插进组中
+func (s *Service) UseBefore(middleware ...services.Handler) services.RouteService {
+	handlers := s.Engine.RouterGroup.Handlers
+	s.Engine.RouterGroup.Handlers = append(toGinHandlers(middleware), handlers...)
 	return s
+}
+
+// Use 将中间件添加到组中, 参见GitHub中的示例代码.
+func (s *Service) Use(middleware ...services.Handler) services.RouteService {
+	handlers := s.Engine.RouterGroup.Handlers
+	s.Engine.RouterGroup.Handlers = append(handlers, toGinHandlers(middleware)...)
+	return s
+}
+
+// NoRoute 找不到路由
+func (s *Service) NoRoute(handlers ...services.Handler) {
+	s.Engine.NoRoute(toGinHandlers(handlers)...)
+}
+
+// NoMethod 不允许方法
+func (s *Service) NoMethod(handlers ...services.Handler) {
+	s.Engine.NoMethod(toGinHandlers(handlers)...)
 }
 
 // Group 创建一个新的路由器组, 您应该添加所有具有公共中间件或相同路径前缀的路由.
 // 例如, 所有使用公共中间件进行授权的路由都可以分组.
-func (s *Service) Group(relativePath string, handlers ...services.Handler) services.RouteService {
+func (s *Service) Group(relativePath string, handlers ...services.Handler) services.IRouter {
 	group := s.Engine.Group(relativePath, toGinHandlers(handlers)...)
 
 	route := &Service{gin.New()}
