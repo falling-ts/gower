@@ -36,14 +36,14 @@
           </div>
           <div class="divider my-8">登录按钮</div>
           <div class="form-control w-full mt-4">
-            <button class="btn btn-primary w-full" @click="login">登录</button>
+            <button class="btn btn-primary w-full" :class="{loading: loading}" @click="login">登录</button>
           </div>
         </div>
       </div>
     </div>
     {{template "foot" .}}
     <script type="module">
-      import { createApp, api, msg } from "/static/main.js"
+      import { createApp, api, msg, $ } from "/static/main.js"
       const { auth } = api
 
       createApp({
@@ -55,12 +55,17 @@
             form: {
               username: "",
               password: ""
-            }
+            },
+            loading: false
           }
         },
         methods: {
           async login() {
+            const animate = $(".animate__animated")
+            animate.removeClass("animate__fadeInRight")
             try {
+              animate.addClass("animate__shakeX")
+              this.loading = true
               const res = await auth.login(this.form)
               if (!res.code) {
                 msg.success(res.msg)
@@ -71,7 +76,8 @@
             } finally {
               setTimeout(() => {
                 this.loading = false
-              }, 2000)
+                animate.removeClass("animate__shakeX")
+              }, 1000)
             }
           }
         }

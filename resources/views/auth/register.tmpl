@@ -60,14 +60,14 @@
           </div>
           <div class="divider my-4">注册按钮</div>
           <div class="form-control w-full mt-4">
-            <button class="btn btn-primary w-full" :class="{loading: loading}" @click="register">注册</button>
+            <button class="btn btn-primary w-full" :class="{loading: loading, animate__rubberBand: loading}" @click="register">注册</button>
           </div>
         </div>
       </div>
     </div>
     {{template "foot" .}}
     <script type="module">
-      import { createApp, api, msg } from "/static/main.js"
+      import { createApp, api, msg, $ } from "/static/main.js"
       const { auth } = api
 
       createApp({
@@ -87,7 +87,10 @@
         },
         methods: {
           async register() {
+            const animate = $(".animate__animated")
+            animate.removeClass("animate__fadeInLeft")
             try {
+              animate.addClass("animate__shakeY")
               this.loading = true
               if (this.form.password !== this.form.passwordRep) {
                 console.log('Error')
@@ -103,7 +106,8 @@
             } finally {
               setTimeout(() => {
                 this.loading = false
-              }, 2000)
+                animate.removeClass("animate__shakeY")
+              }, 1000)
             }
           }
         }

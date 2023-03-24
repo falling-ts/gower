@@ -52,16 +52,18 @@ function alert(type, msg: string) {
 }
 
 function confirm(msg: string, ok: Confirm) {
-    const elem = confirmElem(msg), confirm = $(elem)
+    const elem = confirmElem(msg), confirm: $ = $(elem)
 
+    confirm.appendTo('#alert-box').addClass("animate__fadeInDown")
     confirm.on("click", ".btn-ghost", () => {
         confirm.addClass("animate__rotateOutDownLeft")
         setTimeout(() => {
             confirm.detach()
         }, 1000)
-    }).on("click", ".btn-primary", () => {
+    })
+    confirm.on("click", ".btn-primary", () => {
         ok()
-    }).appendTo('#alert-box').addClass("animate__fadeInDown")
+    })
 
 }
 
@@ -142,22 +144,22 @@ function confirmElem(msg: string): HTMLElement {
     return elem
 }
 
-function detailElem(title, msg: string): HTMLElement {
-    const elem = document.createElement("div")
-    elem.className = "w-full h-20 alert alert-detail shadow-lg animate__animated mt-10"
-    elem.innerHTML = `
-    <div>
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-    <div>
-        <h3 class="font-bold">${title}</h3>
-        <div class="text-xs">${msg}</div>
-    </div>
-    </div>
-        <div class="flex-none">
-        <button class="btn btn-sm">查看</button>
-    </div>
-    `
-    return elem
-}
+// function detailElem(title, msg: string): HTMLElement {
+//     const elem = document.createElement("div")
+//     elem.className = "w-full h-20 alert alert-detail shadow-lg animate__animated mt-10"
+//     elem.innerHTML = `
+//     <div>
+//       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+//     <div>
+//         <h3 class="font-bold">${title}</h3>
+//         <div class="text-xs">${msg}</div>
+//     </div>
+//     </div>
+//         <div class="flex-none">
+//         <button class="btn btn-sm">查看</button>
+//     </div>
+//     `
+//     return elem
+// }
 
 export default new message()
