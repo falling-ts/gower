@@ -161,8 +161,8 @@ function toQueryString(params: Record<string, any>): string {
 
 async function unauthorized(res: Res) {
     if (res.code == http.Unauthorized) {
-        await cookie.remove("token")
-        await store.removeItem("token")
+        await cookie.remove("auth")
+        await store.removeItem("auth")
 
         setTimeout(() => {
             window.location.href = "/auth/login"

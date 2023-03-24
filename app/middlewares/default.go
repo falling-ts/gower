@@ -7,7 +7,7 @@ import (
 )
 
 func Default(args ...string) services.Handler {
-	cookieKey := "token"
+	cookieKey := "auth"
 	headerKey := "Authorization"
 	if len(args) > 0 {
 		cookieKey = args[0]
@@ -41,7 +41,7 @@ func Default(args ...string) services.Handler {
 		}
 
 		if newToken != "" {
-			c.Set("token", newToken)
+			c.Set("auth", newToken)
 		}
 		c.Set("Auth", &models.Auth{User: *user})
 

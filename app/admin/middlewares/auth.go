@@ -6,5 +6,5 @@ import (
 )
 
 func Auth() services.Handler {
-	return middlewares.Auth("admin-token", "Admin-Authorization")
+	return middlewares.Auth("admin-auth", "Admin-Authorization")
 }

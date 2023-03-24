@@ -27,7 +27,7 @@ key 初始化 JWT 秘钥
 func execJwt(arg string) error {
 	switch arg {
 	case "key":
-		key, err := util.SecretKey(64)
+		key, err := util.SecretKey(32)
 		if err != nil {
 			return err
 		}

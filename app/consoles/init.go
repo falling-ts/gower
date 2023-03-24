@@ -27,7 +27,7 @@ key 初始化秘钥
 func execInit(arg string) error {
 	switch arg {
 	case "key":
-		key, err := util.SecretKey(64)
+		key, err := util.SecretKey(32)
 		if err != nil {
 			return err
 		}

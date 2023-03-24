@@ -7,7 +7,7 @@ import (
 )
 
 func Auth(args ...string) services.Handler {
-	cookieKey := "token"
+	cookieKey := "auth"
 	headerKey := "Authorization"
 	if len(args) > 0 {
 		cookieKey = args[0]
@@ -32,7 +32,7 @@ func Auth(args ...string) services.Handler {
 			return
 		}
 		if newToken != "" {
-			c.Set("token", newToken)
+			c.Set("auth", newToken)
 		}
 
 		user := new(models.User)

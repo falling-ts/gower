@@ -71,13 +71,13 @@ func (s *Service) Handle(c *gin.Context) bool {
 	}
 
 	var token string
-	if tokenAny, ok := c.Get("token"); !ok {
-		tokenAny, _ = s.Response.Get("token")
+	if tokenAny, ok := c.Get("auth"); !ok {
+		tokenAny, _ = s.Response.Get("auth")
 		token = tokenAny.(string)
 	}
 
 	if token != "" {
-		c.SetCookie("token",
+		c.SetCookie("auth",
 			token,
 			100000000,
 			"/",

@@ -75,8 +75,8 @@ func (a *AuthController) Me(auth models.Auth) (services.Response, error) {
 
 // Logout 执行退出
 func (a *AuthController) Logout(c *gin.Context) services.Response {
-	c.Set("token", nil)
-	token, _ := c.Cookie("token")
+	c.Set("auth", nil)
+	token, _ := c.Cookie("auth")
 	if token == "" {
 		token = c.GetHeader("Authorization")
 	}

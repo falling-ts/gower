@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"gower/app"
 	"gower/app/models"
 	"gower/services"
@@ -20,8 +19,6 @@ func (h *HomeController) Index(auth *models.Auth) (services.Response, error) {
 		data app.Data
 		err  error
 	)
-	username := auth.Username
-	fmt.Println(username)
 	if auth.ID != 0 {
 		raw, err = auth.SetModel(auth).Out(app.Rule{
 			"name": func() string {

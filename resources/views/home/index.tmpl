@@ -263,7 +263,7 @@ My0wMy0wMVQxMjo1NzoyNCswMDowMMYghYEAAAAASUVORK5CYII="/>
                class="text-sm font-semibold leading-6 text-gray-900 cursor-pointer">GitHub</a>
             <a target="_blank"
                class="text-sm font-semibold leading-6 text-gray-900 cursor-pointer"
-               @click="apiHello">打招呼</a>
+               @click="apiHello">Api Test</a>
           </div>
           {{ if .name }}
             <div class="hidden lg:flex lg:flex-1 lg:justify-end animate__animated animate__fadeInDown cursor-pointer dropdown dropdown-end">
@@ -308,7 +308,7 @@ My0wMy0wMVQxMjo1NzoyNCswMDowMMYghYEAAAAASUVORK5CYII="/>
                      class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10 cursor-pointer">GitHub</a>
                   <a target="_blank"
                      class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10 cursor-pointer"
-                     @click="apiHello">打招呼</a>
+                     @click="apiHello">Api Test</a>
                 </div>
                 {{ if .name }}
                   <div class="py-6 flex flex-col space-y-4 dropdown dropdown-end">
@@ -342,7 +342,7 @@ My0wMy0wMVQxMjo1NzoyNCswMDowMMYghYEAAAAASUVORK5CYII="/>
               <p class="mt-6 text-lg leading-8 text-gray-600">Go 语言开发 Web 应用的快速入门目录，默认使用模板集成模式，不使用前后端分离。</p>
               <div class="mt-10 flex items-center justify-center gap-x-6">
                 <a href="#" class="btn btn-primary">快速开始</a>
-                <a href="https://gitee.com/falling-ts/gower" target="_blank" class="btn btn-outline btn-info text-sm font-semibold leading-6 text-gray-900">
+                <a href="#" class="btn btn-outline btn-info text-sm font-semibold leading-6 text-gray-900">
                   查看更多
                   <span aria-hidden="true">→</span>
                 </a>
@@ -382,7 +382,7 @@ My0wMy0wMVQxMjo1NzoyNCswMDowMMYghYEAAAAASUVORK5CYII="/>
               if (!res.code) {
                 msg.success(res.msg)
                 setTimeout(() => {
-                  cookie.remove("token")
+                  cookie.remove("auth")
                   window.location.href = "/"
                 }, 2000)
               }
