@@ -385,7 +385,7 @@ func setValue(dest reflect.Value, destValue reflect.Value, k string, v reflect.V
 	destValue.Set(v)
 
 	if dest.Kind() == reflect.Map {
-		switch config.App.ResKeyType {
+		switch config.Res.KeyType {
 		case "CamelType":
 			dest.SetMapIndex(reflect.ValueOf(k), destValue)
 		case "camelType":

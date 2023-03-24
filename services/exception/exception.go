@@ -28,6 +28,7 @@ var (
 	cache  services.CacheService
 	config services.Config
 	util   services.UtilService
+	cookie services.CookieService
 )
 
 // Mount 挂载异常内容
@@ -45,6 +46,7 @@ func (s *Service) Init(args ...services.Service) services.Service {
 	config = args[0].(services.Config)
 	cache = args[1].(services.CacheService)
 	util = args[2].(services.UtilService)
+	cookie = args[3].(services.CookieService)
 
 	return s.Exception
 }
@@ -68,35 +70,15 @@ func (s *Service) Build(args ...any) services.Exception {
 // Handle 处理异常
 func (s *Service) Handle(c *gin.Context) bool {
 	_ = c.Error(s.RawErr)
-
 	c.Set("body-logger", s.Exception)
+
+	accepts = config.Get("res.mimes", accepts).([]string)
 	switch c.NegotiateFormat(accepts...) {
 	case gin.MIMEJSON:
 		c.JSON(http.StatusOK, s.Exception)
 	case gin.MIMEHTML:
-		key := util.ExcpKey()
-		cache.SetDefault(key, s.Exception)
-		c.SetCookie(
-			"exception",
-			key,
-			300,
-			"/",
-			config.Get("app.domain", "localhost").(string),
-			false,
-			true)
-
-		referer := c.Request.Referer()
-		if referer != "" {
-			c.Redirect(http.StatusFound, referer)
-			break
-		}
-
-		code, _ := s.Exception.Get("code")
-		host := config.Get("app.url", "http://localhost:8080").(string)
-		switch code.(int) {
-		case http.StatusUnauthorized:
-			c.Redirect(http.StatusFound, host+"/auth/login")
-		}
+		s.saveException(c)
+		s.redirect(c)
 	case gin.MIMEXML:
 		c.XML(http.StatusOK, s.Exception)
 	case gin.MIMEYAML:
@@ -106,8 +88,8 @@ func (s *Service) Handle(c *gin.Context) bool {
 	default:
 		c.String(http.StatusOK, s.Exception.Error())
 	}
-
 	c.Abort()
+
 	return true
 }
 
@@ -121,5 +103,26 @@ func (s *Service) decideType(arg any) {
 		_ = s.Exception.Set(arg.(string))
 	default:
 		_ = s.Exception.Set(arg)
+	}
+}
+
+func (s *Service) saveException(c *gin.Context) {
+	key := util.ExcpKey()
+	cache.SetDefault(key, s.Exception)
+	cookie.Set(c, "exception", key, 300)
+}
+
+func (s *Service) redirect(c *gin.Context) {
+	referer := c.Request.Referer()
+	if referer != "" {
+		c.Redirect(http.StatusFound, referer)
+		return
+	}
+
+	code, _ := s.Exception.Get("code")
+	host := config.Get("app.url", "http://localhost:8080").(string)
+	switch code.(int) {
+	case http.StatusUnauthorized:
+		c.Redirect(http.StatusFound, host+"/auth/login")
 	}
 }

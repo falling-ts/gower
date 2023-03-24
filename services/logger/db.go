@@ -54,8 +54,8 @@ func (d *DB) Trace(ctx context.Context, begin time.Time, fc func() (string, int6
 	case elapsed > 200*time.Millisecond && d.Service.Core().Enabled(zap.WarnLevel):
 		sql, rows := fc()
 		d.Service.Logger.Warn("Slow Trace", zap.String("sql", sql), zap.Duration("elapsed", elapsed), zap.Int64("rows", rows))
-	case d.Service.Core().Enabled(zap.InfoLevel):
+	case d.Service.Core().Enabled(zap.DebugLevel):
 		sql, rows := fc()
-		d.Service.Logger.Info("Normal Trace", zap.String("sql", sql), zap.Duration("elapsed", elapsed), zap.Int64("rows", rows))
+		d.Service.Logger.Debug("Debug Trace", zap.String("sql", sql), zap.Duration("elapsed", elapsed), zap.Int64("rows", rows))
 	}
 }

@@ -8,12 +8,12 @@ Copyright (c) 2023 Falling TS
 package app
 
 import (
+	"gower/app/exceptions"
+	"gower/app/responses"
 	"os"
 
 	"gower/app/providers"
 	"gower/configs"
-	"gower/exceptions"
-	"gower/responses"
 	"gower/services"
 
 	"github.com/urfave/cli/v2"
@@ -114,4 +114,14 @@ func Translate() services.TranslateService {
 // Auth 获取 Auth 服务
 func Auth() services.AuthService {
 	return Get("auth").(services.AuthService)
+}
+
+// SymCrypt 获取对称加密服务
+func SymCrypt() services.SymCryptService {
+	return Get("sym-crypt").(services.SymCryptService)
+}
+
+// Cookie 获取 Cookie 服务
+func Cookie() services.CookieService {
+	return Get("cookie").(services.CookieService)
 }

@@ -17,6 +17,8 @@ type Config struct {
 	DB
 	Passwd
 	Jwt
+	Res
+	Cors
 }
 
 // Set 通用设置内容

@@ -1,9 +1,10 @@
 package response
 
 import (
-	"net/http"
-
+	"github.com/gin-gonic/gin/binding"
 	"gower/services"
+	"net/http"
+	"reflect"
 
 	"github.com/gin-gonic/gin"
 )
@@ -26,8 +27,10 @@ type Service struct {
 }
 
 var (
-	config services.Config
 	auth   services.AuthService
+	cookie services.CookieService
+	util   services.UtilService
+	config services.Config
 )
 
 // Mount 挂载响应体
@@ -42,14 +45,16 @@ func New() *Service {
 
 // Init 初始化
 func (s *Service) Init(args ...services.Service) services.Service {
-	config = args[0].(services.Config)
-	auth = args[1].(services.AuthService)
+	auth = args[0].(services.AuthService)
+	cookie = args[1].(services.CookieService)
+	util = args[2].(services.UtilService)
+	config = args[3].(services.Config)
 	return s.Response
 }
 
 // Build 构建每个请求的异常
 func (s *Service) Build(code int, args ...any) services.Response {
-	s.config.Offered = accepts
+	s.config.Offered = config.Get("res.mimes", accepts).([]string)
 
 	s.decideType("success")
 	argsNum := len(args)
@@ -64,32 +69,16 @@ func (s *Service) Build(code int, args ...any) services.Response {
 
 // Handle 处理响应
 func (s *Service) Handle(c *gin.Context) bool {
-	if c.NegotiateFormat(s.config.Offered...) != gin.MIMEHTML {
-		c.Set("body-logger", s.Response)
-	} else {
-		c.Set("body-logger", "html body")
-	}
-
-	var token string
-	if tokenAny, ok := c.Get("auth"); !ok {
-		tokenAny, _ = s.Response.Get("auth")
-		token = tokenAny.(string)
-	}
-
-	if token != "" {
-		c.SetCookie("auth",
-			token,
-			100000000,
-			"/",
-			config.Get("app.domain", "localhost").(string),
-			false,
-			false)
-
-		s.Set(token)
-	}
-
+	s.bodyLogger(c)
+	s.handleToken(c)
+	s.csrfToken(c)
 	c.Negotiate(s.HttpStatus, s.config)
 	return true
+}
+
+// IsToken 判断是否是 Token
+func (s *Service) IsToken(token string) bool {
+	return auth.IsToken(token)
 }
 
 func (s *Service) decideType(arg any) {
@@ -112,7 +101,37 @@ func (s *Service) decideType(arg any) {
 	s.config.Data = s.Response
 }
 
-// IsToken 判断是否是 Token
-func (s *Service) IsToken(token string) bool {
-	return auth.IsToken(token)
+func (s *Service) bodyLogger(c *gin.Context) {
+	if c.NegotiateFormat(s.config.Offered...) != gin.MIMEHTML {
+		c.Set("body-logger", s.Response)
+	} else {
+		c.Set("body-logger", "html body")
+	}
+}
+
+func (s *Service) handleToken(c *gin.Context) {
+	var token string
+	if tokenAny, ok := c.Get("auth"); ok {
+		token = tokenAny.(string)
+	} else {
+		tokenAny, _ = s.Response.Get("token")
+		token = tokenAny.(string)
+	}
+
+	if token != "" {
+		cookie.Set(c, "auth", token, false)
+		s.Set(token)
+	}
+}
+
+func (s *Service) csrfToken(c *gin.Context) {
+	mime := c.NegotiateFormat(s.config.Offered...)
+	if mime == binding.MIMEHTML {
+		data := reflect.Indirect(reflect.ValueOf(s.config.HTMLData))
+		if data.Kind() == reflect.Map {
+			csrfToken := util.Nanoid()
+			data.SetMapIndex(reflect.ValueOf("csrf_token"), reflect.ValueOf(csrfToken))
+			cookie.Set(c, "csrf_token", csrfToken)
+		}
+	}
 }

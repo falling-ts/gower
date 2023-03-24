@@ -10,8 +10,12 @@ var (
 	auth   = app.Auth()
 	db     = app.DB()
 	trans  = app.Translate()
+	cookie = app.Cookie()
 )
 
 func init() {
-	route.Use(Recovery()).Use(Logger())
+	route.Use(Recovery()).
+		Use(Logger()).
+		Use(Cors()).
+		Use(CsrfToken())
 }

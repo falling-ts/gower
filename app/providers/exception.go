@@ -1,7 +1,7 @@
 package providers
 
 import (
-	"gower/exceptions"
+	"gower/app/exceptions"
 	"gower/services"
 	"gower/services/exception"
 )
@@ -9,7 +9,7 @@ import (
 var _ services.ExceptionService = (*exception.Service)(nil)
 
 func init() {
-	P.Register("exception", Depends{"config", "cache", "util"}, func(ss ...services.Service) services.Service {
+	P.Register("exception", Depends{"config", "cache", "util", "cookie"}, func(ss ...services.Service) services.Service {
 		e := new(exceptions.Exception)
 		return exception.Mount(e).Init(ss...)
 	})

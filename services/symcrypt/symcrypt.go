@@ -40,7 +40,7 @@ func (s *Service) Encrypt(plaintext string) (string, error) {
 	// 创建一个新的 AES 加密块，使用给定的密钥
 	block, err := aes.NewCipher(s.key)
 	if err != nil {
-		return "", err
+		return plaintext, err
 	}
 
 	// 对明文进行补全
@@ -51,7 +51,7 @@ func (s *Service) Encrypt(plaintext string) (string, error) {
 	ciphertext := make([]byte, blockSize+len(plainBytes))
 	iv := ciphertext[:blockSize]
 	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
-		return "", err
+		return plaintext, err
 	}
 	mode := cipher.NewCBCEncrypter(block, iv)
 
@@ -67,19 +67,19 @@ func (s *Service) Decrypt(ciphertext string) (string, error) {
 	// 解码 Base64
 	ciphertextBytes, err := base64.StdEncoding.DecodeString(ciphertext)
 	if err != nil {
-		return "", err
+		return ciphertext, err
 	}
 
 	// 创建一个新的 AES 加密块，使用给定的密钥
 	block, err := aes.NewCipher(s.key)
 	if err != nil {
-		return "", err
+		return ciphertext, err
 	}
 
 	// 创建一个 AES CBC 解密器，使用密文中的 IV
 	blockSize := block.BlockSize()
 	if len(ciphertextBytes) < blockSize {
-		return "", errors.New("密文错误")
+		return ciphertext, errors.New("密文错误")
 	}
 	iv := ciphertextBytes[:blockSize]
 	ciphertextBytes = ciphertextBytes[blockSize:]

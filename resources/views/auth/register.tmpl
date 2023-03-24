@@ -14,6 +14,7 @@
           </div>
           <div class="divider my-4">账户信息</div>
           <div class="form-control w-full">
+            <input type="hidden" name="csrf_token" value="{{.csrf_token}}">
             <label class="label" for="email">
               <span class="label-text text-black text-2xl">邮箱</span>
             </label>
