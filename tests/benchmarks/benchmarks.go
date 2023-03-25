@@ -5,6 +5,6 @@ import (
 )
 
 var (
-	cfg   = app.Config()
-	cache = app.Cache()
+	config = app.Config()
+	cache  = app.Cache()
 )

@@ -83,7 +83,7 @@ func (s *Service) Check(token string, args ...string) (string, string, error) {
 		}
 	}
 
-	if claims.UpdateDur.After(time.Now()) {
+	if claims.UpdateDur.Before(time.Now()) {
 		var newToken string
 		newToken, err = s.Sign(claims.Issuer, claims.Subject, claims.Audience)
 		if err != nil {
@@ -93,7 +93,7 @@ func (s *Service) Check(token string, args ...string) (string, string, error) {
 		return claims.Subject, newToken, nil
 	}
 
-	return "", "", errors.New("token 已过期, 请重新登录")
+	return claims.Subject, "", nil
 }
 
 // Black 拉黑 Token

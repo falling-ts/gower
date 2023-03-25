@@ -7,13 +7,20 @@ import (
 )
 
 var (
-	route  = app.Route()
-	cfg    = app.Config()
-	excp   = app.Exception()
-	cache  = app.Cache()
-	res    = app.Response()
-	passwd = app.Passwd()
-	trans  = app.Translate()
+	auth     = app.Auth()
+	cache    = app.Cache()
+	config   = app.Config()
+	cookie   = app.Cookie()
+	db       = app.DB()
+	excp     = app.Exception()
+	logger   = app.Logger()
+	passwd   = app.Passwd()
+	res      = app.Response()
+	route    = app.Route()
+	symCrypt = app.SymCrypt()
+	trans    = app.Translate()
+	util     = app.Util()
+	valid    = app.Validator()
 )
 
 func getAssert(t *testing.T) *assert.Assertions {

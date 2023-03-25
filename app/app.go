@@ -8,10 +8,10 @@ Copyright (c) 2023 Falling TS
 package app
 
 import (
-	"gower/app/exceptions"
 	"gower/app/responses"
 	"os"
 
+	"gower/app/exceptions"
 	"gower/app/providers"
 	"gower/configs"
 	"gower/services"
@@ -56,9 +56,9 @@ func Get(key string) services.Service {
 	return App.Get(key)
 }
 
-// Config 获取配置服务
-func Config() *configs.Config {
-	return Get("config").(*configs.Config)
+// Auth 获取 Auth 服务
+func Auth() services.AuthService {
+	return Get("auth").(services.AuthService)
 }
 
 // Cache 获取缓存服务
@@ -66,19 +66,14 @@ func Cache() services.CacheService {
 	return Get("cache").(services.CacheService)
 }
 
-// Exception 获取异常服务
-func Exception() *exceptions.Exception {
-	return Get("exception").(*exceptions.Exception)
+// Config 获取配置服务
+func Config() *configs.Config {
+	return Get("config").(*configs.Config)
 }
 
-// Route 获取路由服务
-func Route() services.RouteService {
-	return Get("route").(services.RouteService)
-}
-
-// Validator 获取验证器
-func Validator() services.ValidatorService {
-	return Get("validator").(services.ValidatorService)
+// Cookie 获取 Cookie 服务
+func Cookie() services.CookieService {
+	return Get("cookie").(services.CookieService)
 }
 
 // DB 获取数据库服务
@@ -86,9 +81,9 @@ func DB() services.DBService {
 	return Get("db").(services.DBService)
 }
 
-// Response 获取响应体
-func Response() *responses.Response {
-	return Get("response").(*responses.Response)
+// Exception 获取异常服务
+func Exception() *exceptions.Exception {
+	return Get("exception").(*exceptions.Exception)
 }
 
 // Logger 获取日志服务
@@ -101,19 +96,14 @@ func Passwd() services.PasswdService {
 	return Get("passwd").(services.PasswdService)
 }
 
-// Util 获取工具服务
-func Util() services.UtilService {
-	return Get("util").(services.UtilService)
+// Response 获取响应体
+func Response() *responses.Response {
+	return Get("response").(*responses.Response)
 }
 
-// Translate 获取翻译服务
-func Translate() services.TranslateService {
-	return Get("translate").(services.TranslateService)
-}
-
-// Auth 获取 Auth 服务
-func Auth() services.AuthService {
-	return Get("auth").(services.AuthService)
+// Route 获取路由服务
+func Route() services.RouteService {
+	return Get("route").(services.RouteService)
 }
 
 // SymCrypt 获取对称加密服务
@@ -121,7 +111,17 @@ func SymCrypt() services.SymCryptService {
 	return Get("sym-crypt").(services.SymCryptService)
 }
 
-// Cookie 获取 Cookie 服务
-func Cookie() services.CookieService {
-	return Get("cookie").(services.CookieService)
+// Translate 获取翻译服务
+func Translate() services.TranslateService {
+	return Get("translate").(services.TranslateService)
+}
+
+// Util 获取工具服务
+func Util() services.UtilService {
+	return Get("util").(services.UtilService)
+}
+
+// Validator 获取验证器
+func Validator() services.ValidatorService {
+	return Get("validator").(services.ValidatorService)
 }

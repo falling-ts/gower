@@ -9,6 +9,7 @@ import (
 )
 
 func Test(t *testing.T) {
+	t.Run("TestAuth", tests.TestAuth)
 	t.Run("TestConfig", tests.TestConfig)
 	t.Run("TestException", tests.TestException)
 	t.Run("TestCache", tests.TestCache)
