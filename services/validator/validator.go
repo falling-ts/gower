@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"strings"
 
-	"gower/services"
+	"github.com/falling-ts/gower/services"
 
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/locales/zh"

@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"gower/app"
-	"gower/app/api/requests"
+	"github.com/falling-ts/gower/app"
+	"github.com/falling-ts/gower/app/api/requests"
 )
 
 type HelloController struct {

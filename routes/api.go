@@ -1,7 +1,7 @@
 package routes
 
 import (
-	api "gower/app/api/controllers"
+	api "github.com/falling-ts/gower/app/api/controllers"
 )
 
 func init() {

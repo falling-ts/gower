@@ -1,9 +1,9 @@
 package middlewares
 
 import (
+	"github.com/falling-ts/gower/services"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"gower/services"
 )
 
 func Cors() services.Handler {

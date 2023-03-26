@@ -5,7 +5,7 @@ import (
 	"path"
 	"time"
 
-	"gower/services"
+	"github.com/falling-ts/gower/services"
 
 	"github.com/patrickmn/go-cache"
 )

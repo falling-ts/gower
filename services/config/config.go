@@ -5,8 +5,8 @@ import (
 	"strings"
 	"sync"
 
-	"gower/services"
-	"gower/utils/str"
+	"github.com/falling-ts/gower/services"
+	"github.com/falling-ts/gower/utils/str"
 )
 
 // Service 配置服务

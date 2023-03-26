@@ -1,8 +1,8 @@
 package models
 
 import (
+	"github.com/falling-ts/gower/app"
 	"gorm.io/gorm"
-	"gower/app"
 	"strconv"
 )
 

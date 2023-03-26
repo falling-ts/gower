@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"gower/app"
+	"github.com/falling-ts/gower/app"
 )
 
 var (

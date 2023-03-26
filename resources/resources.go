@@ -1,7 +1,7 @@
 package resources
 
 import (
-	"gower/app"
+	"github.com/falling-ts/gower/app"
 )
 
 var route = app.Route()

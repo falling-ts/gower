@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"gower/app"
-	"gower/app/http/requests"
-	"gower/services"
+	"github.com/falling-ts/gower/app"
+	"github.com/falling-ts/gower/app/http/requests"
+	"github.com/falling-ts/gower/services"
 )
 
 type ExcpController struct {

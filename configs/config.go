@@ -1,8 +1,8 @@
 package configs
 
 import (
-	"gower/services"
-	"gower/services/config"
+	"github.com/falling-ts/gower/services"
+	"github.com/falling-ts/gower/services/config"
 )
 
 var _ services.Config = (*Config)(nil)

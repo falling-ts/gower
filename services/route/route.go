@@ -3,7 +3,7 @@ package route
 import (
 	"net/http"
 
-	"gower/services"
+	"github.com/falling-ts/gower/services"
 
 	"github.com/gin-gonic/gin"
 )

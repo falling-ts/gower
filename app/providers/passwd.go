@@ -1,8 +1,8 @@
 package providers
 
 import (
-	"gower/services"
-	"gower/services/passwd"
+	"github.com/falling-ts/gower/services"
+	"github.com/falling-ts/gower/services/passwd"
 )
 
 var _ services.PasswdService = (*passwd.Service)(nil)

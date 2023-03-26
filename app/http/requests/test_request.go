@@ -1,6 +1,6 @@
 package requests
 
-import "gower/app"
+import "github.com/falling-ts/gower/app"
 
 type TestRequest struct {
 	app.Request

@@ -1,9 +1,9 @@
 package benchmarks
 
 import (
+	"github.com/falling-ts/gower/app/http/requests"
+	"github.com/falling-ts/gower/services"
 	"github.com/gin-gonic/gin"
-	"gower/app/http/requests"
-	"gower/services"
 	"net/http"
 	"net/http/httptest"
 	"testing"

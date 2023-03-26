@@ -1,8 +1,8 @@
 package providers
 
 import (
-	"gower/services"
-	"gower/services/validator"
+	"github.com/falling-ts/gower/services"
+	"github.com/falling-ts/gower/services/validator"
 )
 
 var _ services.ValidatorService = (*validator.Service)(nil)

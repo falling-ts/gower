@@ -1,9 +1,9 @@
 package providers
 
 import (
-	"gower/configs"
-	"gower/services"
-	"gower/services/config"
+	"github.com/falling-ts/gower/configs"
+	"github.com/falling-ts/gower/services"
+	"github.com/falling-ts/gower/services/config"
 
 	"github.com/caarlos0/env/v7"
 	"github.com/joho/godotenv"

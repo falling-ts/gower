@@ -1,7 +1,7 @@
 package responses
 
 import (
-	"gower/services"
+	"github.com/falling-ts/gower/services"
 	"net/http"
 )
 

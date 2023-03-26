@@ -4,9 +4,9 @@ import (
 	"errors"
 	"reflect"
 
-	"gower/services"
-	"gower/services/response"
-	"gower/utils/str"
+	"github.com/falling-ts/gower/services"
+	"github.com/falling-ts/gower/services/response"
+	"github.com/falling-ts/gower/utils/str"
 )
 
 // Response 非 HTML 请求的成功响应体

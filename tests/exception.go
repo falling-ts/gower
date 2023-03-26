@@ -3,7 +3,7 @@ package tests
 import (
 	"errors"
 	"fmt"
-	"gower/app/exceptions"
+	"github.com/falling-ts/gower/app/exceptions"
 	"testing"
 )
 

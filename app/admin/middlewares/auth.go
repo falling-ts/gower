@@ -1,8 +1,8 @@
 package middlewares
 
 import (
-	"gower/app/middlewares"
-	"gower/services"
+	"github.com/falling-ts/gower/app/middlewares"
+	"github.com/falling-ts/gower/services"
 )
 
 func Auth() services.Handler {

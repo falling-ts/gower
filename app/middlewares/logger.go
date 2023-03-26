@@ -2,10 +2,10 @@ package middlewares
 
 import (
 	"fmt"
+	"github.com/falling-ts/gower/services"
+	"github.com/falling-ts/gower/utils/slice"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
-	"gower/services"
-	"gower/utils/slice"
 )
 
 func Logger() services.Handler {

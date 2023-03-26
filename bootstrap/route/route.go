@@ -1,8 +1,8 @@
 package route
 
 import (
-	"gower/app"
-	"gower/app/middlewares"
+	"github.com/falling-ts/gower/app"
+	"github.com/falling-ts/gower/app/middlewares"
 )
 
 var route = app.Route()

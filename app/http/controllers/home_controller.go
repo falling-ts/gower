@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"gower/app"
-	"gower/app/models"
-	"gower/services"
+	"github.com/falling-ts/gower/app"
+	"github.com/falling-ts/gower/app/models"
+	"github.com/falling-ts/gower/services"
 )
 
 type HomeController struct {

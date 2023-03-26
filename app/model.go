@@ -2,8 +2,8 @@ package app
 
 import (
 	"errors"
-	"gower/utils/slice"
-	"gower/utils/str"
+	"github.com/falling-ts/gower/utils/slice"
+	"github.com/falling-ts/gower/utils/str"
 	"reflect"
 	"time"
 )

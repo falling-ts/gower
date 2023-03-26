@@ -1,8 +1,8 @@
 package providers
 
 import (
-	"gower/services"
-	"gower/services/db"
+	"github.com/falling-ts/gower/services"
+	"github.com/falling-ts/gower/services/db"
 )
 
 var _ services.DBService = (*db.Service)(nil)

@@ -1,8 +1,8 @@
 package providers
 
 import (
-	"gower/services"
-	"gower/services/cookie"
+	"github.com/falling-ts/gower/services"
+	"github.com/falling-ts/gower/services/cookie"
 )
 
 var _ services.CookieService = (*cookie.Service)(nil)

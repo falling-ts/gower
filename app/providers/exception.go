@@ -1,9 +1,9 @@
 package providers
 
 import (
-	"gower/app/exceptions"
-	"gower/services"
-	"gower/services/exception"
+	"github.com/falling-ts/gower/app/exceptions"
+	"github.com/falling-ts/gower/services"
+	"github.com/falling-ts/gower/services/exception"
 )
 
 var _ services.ExceptionService = (*exception.Service)(nil)

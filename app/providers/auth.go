@@ -1,8 +1,8 @@
 package providers
 
 import (
-	"gower/services"
-	"gower/services/auth"
+	"github.com/falling-ts/gower/services"
+	"github.com/falling-ts/gower/services/auth"
 )
 
 var _ services.AuthService = (*auth.Service)(nil)

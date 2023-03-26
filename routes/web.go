@@ -1,8 +1,8 @@
 package routes
 
 import (
-	web "gower/app/http/controllers"
-	mws "gower/app/http/middlewares"
+	web "github.com/falling-ts/gower/app/http/controllers"
+	mws "github.com/falling-ts/gower/app/http/middlewares"
 )
 
 func init() {

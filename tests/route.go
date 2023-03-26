@@ -2,8 +2,8 @@ package tests
 
 import (
 	"fmt"
-	"gower/app/http/requests"
-	"gower/services"
+	"github.com/falling-ts/gower/app/http/requests"
+	"github.com/falling-ts/gower/services"
 	"net/http"
 	"net/http/httptest"
 	"testing"

@@ -1,8 +1,8 @@
 package providers
 
 import (
-	"gower/services"
-	"gower/services/logger"
+	"github.com/falling-ts/gower/services"
+	"github.com/falling-ts/gower/services/logger"
 )
 
 var _ services.LoggerService = (*logger.Service)(nil)

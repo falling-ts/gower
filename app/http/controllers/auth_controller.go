@@ -1,11 +1,11 @@
 package controllers
 
 import (
+	"github.com/falling-ts/gower/app"
+	"github.com/falling-ts/gower/app/http/requests"
+	"github.com/falling-ts/gower/app/models"
+	"github.com/falling-ts/gower/services"
 	"github.com/gin-gonic/gin"
-	"gower/app"
-	"gower/app/http/requests"
-	"gower/app/models"
-	"gower/services"
 )
 
 type AuthController struct {

@@ -1,8 +1,8 @@
 package providers
 
 import (
-	"gower/services"
-	"gower/services/symcrypt"
+	"github.com/falling-ts/gower/services"
+	"github.com/falling-ts/gower/services/symcrypt"
 )
 
 var _ services.SymCryptService = (*symcrypt.Service)(nil)

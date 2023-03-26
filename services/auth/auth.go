@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"gower/services"
-	"gower/utils/slice"
+	"github.com/falling-ts/gower/services"
+	"github.com/falling-ts/gower/utils/slice"
 
 	"github.com/golang-jwt/jwt/v5"
 )

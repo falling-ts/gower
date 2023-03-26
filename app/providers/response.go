@@ -1,9 +1,9 @@
 package providers
 
 import (
-	"gower/app/responses"
-	"gower/services"
-	"gower/services/response"
+	"github.com/falling-ts/gower/app/responses"
+	"github.com/falling-ts/gower/services"
+	"github.com/falling-ts/gower/services/response"
 )
 
 var _ services.ResponseService = (*response.Service)(nil)

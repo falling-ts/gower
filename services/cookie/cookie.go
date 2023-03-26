@@ -1,8 +1,8 @@
 package cookie
 
 import (
+	"github.com/falling-ts/gower/services"
 	"github.com/gin-gonic/gin"
-	"gower/services"
 )
 
 type Service struct {

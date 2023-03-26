@@ -1,9 +1,9 @@
 package middlewares
 
 import (
+	"github.com/falling-ts/gower/app/models"
+	"github.com/falling-ts/gower/services"
 	"github.com/gin-gonic/gin"
-	"gower/app/models"
-	"gower/services"
 )
 
 func Default(args ...string) services.Handler {

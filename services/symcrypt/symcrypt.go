@@ -7,7 +7,7 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"errors"
-	"gower/services"
+	"github.com/falling-ts/gower/services"
 	"io"
 )
 

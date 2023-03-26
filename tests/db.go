@@ -3,9 +3,9 @@ package tests
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/falling-ts/gower/app"
+	"github.com/falling-ts/gower/app/models"
 	"gorm.io/gorm"
-	"gower/app"
-	"gower/app/models"
 	"testing"
 )
 

@@ -1,8 +1,8 @@
 package response
 
 import (
+	"github.com/falling-ts/gower/services"
 	"github.com/gin-gonic/gin/binding"
-	"gower/services"
 	"net/http"
 	"reflect"
 

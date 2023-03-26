@@ -1,8 +1,8 @@
 package providers
 
 import (
-	"gower/services"
-	"gower/utils/slice"
+	"github.com/falling-ts/gower/services"
+	"github.com/falling-ts/gower/utils/slice"
 )
 
 // Depends 服务依赖

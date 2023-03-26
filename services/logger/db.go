@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"gower/services"
+	"github.com/falling-ts/gower/services"
 
 	"go.uber.org/zap"
 	"gorm.io/gorm/logger"

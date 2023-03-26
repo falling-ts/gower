@@ -8,13 +8,13 @@ Copyright (c) 2023 Falling TS
 package app
 
 import (
-	"gower/app/responses"
+	"github.com/falling-ts/gower/app/responses"
 	"os"
 
-	"gower/app/exceptions"
-	"gower/app/providers"
-	"gower/configs"
-	"gower/services"
+	"github.com/falling-ts/gower/app/exceptions"
+	"github.com/falling-ts/gower/app/providers"
+	"github.com/falling-ts/gower/configs"
+	"github.com/falling-ts/gower/services"
 
 	"github.com/urfave/cli/v2"
 )
