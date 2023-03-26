@@ -14,7 +14,9 @@ var _ services.Config = (*config.Service)(nil)
 func init() {
 	P.Register("config", func(...services.Service) services.Service {
 		if err := godotenv.Load(); err != nil {
-			panic(err)
+			if err = godotenv.Load(".env.example"); err != nil {
+				panic(err)
+			}
 		}
 
 		c := new(configs.Config)
