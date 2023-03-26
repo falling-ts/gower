@@ -1,5 +1,14 @@
 version: "3.9"
 services:
+  gower:
+    build: .
+    container_name: gower
+    ports:
+      - "8080:8080"
+    networks:
+      - default
+    depends_on:
+      - tidb
   tidb:
     build: ./third_apps/tidb
     container_name: tidb

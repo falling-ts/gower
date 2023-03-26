@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/glebarez/sqlite"
 	rawMysql "github.com/go-sql-driver/mysql"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -13,6 +14,8 @@ func driver(driver string) gorm.Dialector {
 	switch driver {
 	case "mysql":
 		return getMysqlDriver()
+	case "sqlite":
+		return getSqliteDriver()
 	default:
 		return nil
 	}
@@ -48,4 +51,8 @@ func getMysqlDriver() gorm.Dialector {
 		DontSupportRenameColumn:   true,  // 用 `change` 重命名列，MySQL 8 之前的数据库和 MariaDB 不支持重命名列
 		SkipInitializeWithVersion: false, // 根据当前 MySQL 版本自动配置
 	})
+}
+
+func getSqliteDriver() gorm.Dialector {
+	return sqlite.Open("gorm.db")
 }
