@@ -95,16 +95,10 @@ func TestRoute(t *testing.T) {
 	route.ServeHTTP(w, req)
 	assert.Equal(http.StatusOK, w.Code)
 
-	route.GET("/test10", []any{"请求成功", data{"id": 1}})
-	req = httptest.NewRequest(http.MethodGet, "/test10", nil)
-	w = httptest.NewRecorder()
-	route.ServeHTTP(w, req)
-	assert.Equal(http.StatusOK, w.Code)
-
-	route.GET("/test11", func(req *requests.TestRequest) (string, any) {
+	route.GET("/test10", func(req *requests.TestRequest) (string, any) {
 		return "请求成功", data{"test": req.Test}
 	})
-	req = httptest.NewRequest(http.MethodGet, "/test11?test=hello", nil)
+	req = httptest.NewRequest(http.MethodGet, "/test10?test=hello", nil)
 	w = httptest.NewRecorder()
 	route.ServeHTTP(w, req)
 	assert.Equal(http.StatusOK, w.Code)

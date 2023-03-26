@@ -25,7 +25,7 @@ func (s *Service) Init(args ...services.Service) services.Service {
 		"bcrypt":   new(_bcrypt),
 		"argon2id": new(_argon2id),
 		"scrypt":   new(_scrypt),
-	}[config.Get("passwd.mode", "bcrypt").(string)]
+	}[config.Get("passwd.mode", "argon2id").(string)]
 	if !ok {
 		s.Passwd = new(_bcrypt)
 	}
