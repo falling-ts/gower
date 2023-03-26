@@ -17,7 +17,7 @@ func Auth(args ...string) services.Handler {
 	}
 
 	return func(c *gin.Context) {
-		token, _ := c.Cookie(cookieKey)
+		token, _ := cookie.Get(c, cookieKey)
 		if token == "" {
 			token = c.GetHeader(headerKey)
 		}

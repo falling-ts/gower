@@ -364,7 +364,7 @@ func destNoSkips(destType reflect.Type, dest reflect.Value, src reflect.Value, s
 	for i := 0; i < destType.NumField(); i++ {
 		fieldType := destType.Field(i)
 		fieldName := fieldType.Name
-		field := reflect.Indirect(dest.FieldByName(fieldName))
+		field := dest.FieldByName(fieldName)
 		typ := field.Type()
 
 		if fieldType.Tag.Get("gorm") == "-" {
@@ -423,7 +423,7 @@ func srcNoSkips(srcType reflect.Type, src reflect.Value, skips slice.Strings, r 
 	for i := 0; i < srcType.NumField(); i++ {
 		fieldType := srcType.Field(i)
 		fieldName := fieldType.Name
-		field := reflect.Indirect(src.FieldByName(fieldName))
+		field := src.FieldByName(fieldName)
 		typ := field.Type()
 
 		if fieldType.Tag.Get("gorm") == "-" {

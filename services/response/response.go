@@ -110,11 +110,9 @@ func (s *Service) bodyLogger(c *gin.Context) {
 }
 
 func (s *Service) handleToken(c *gin.Context) {
-	var token string
-	if tokenAny, ok := c.Get("auth"); ok {
-		token = tokenAny.(string)
-	} else {
-		tokenAny, _ = s.Response.Get("token")
+	token := c.GetString("auth")
+	if token == "" {
+		tokenAny, _ := s.Response.Get("token")
 		token = tokenAny.(string)
 	}
 

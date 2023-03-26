@@ -35,7 +35,7 @@ func (s *Service) Init(args ...services.Service) services.Service {
 		PrepareStmt:                              config.Get("db.prepareStmt", true).(bool),
 	})
 	if err != nil {
-		panic(err)
+		panic("数据库连接失败")
 	}
 
 	s.DB = db

@@ -8,4 +8,5 @@ var (
 	res    = app.Response()
 	config = app.Config()
 	auth   = app.Auth()
+	cookie = app.Cookie()
 )

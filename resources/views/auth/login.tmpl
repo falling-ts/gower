@@ -13,6 +13,7 @@
           </div>
           <div class="divider my-8">账户信息</div>
           <div class="form-control w-full">
+            <input type="hidden" name="csrf_token" value="{{.csrf_token}}">
             <label class="label" for="username">
               <span class="label-text text-black text-2xl">用户名</span>
             </label>
@@ -54,7 +55,8 @@
           return {
             form: {
               username: "",
-              password: ""
+              password: "",
+              csrf_token: "{{.csrf_token}}"
             },
             loading: false
           }

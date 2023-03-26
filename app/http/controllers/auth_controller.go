@@ -24,7 +24,7 @@ func (a *AuthController) RegisterForm() (string, app.Data) {
 // Register 执行注册
 func (a *AuthController) Register(req *requests.RegisterRequest, user *models.User) (services.Response, error) {
 	model, err := user.In(req, app.Rule{
-		"password": func() (string, error) {
+		"password": func(req requests.RegisterRequest) (string, error) {
 			return passwd.Hash(req.Password)
 		},
 		"_skips": app.Skips{},
@@ -76,7 +76,7 @@ func (a *AuthController) Me(auth models.Auth) (services.Response, error) {
 // Logout 执行退出
 func (a *AuthController) Logout(c *gin.Context) (services.Response, error) {
 	c.Set("auth", nil)
-	token, _ := c.Cookie("auth")
+	token, _ := cookie.Get(c, "auth")
 	if token == "" {
 		token = c.GetHeader("Authorization")
 	}
