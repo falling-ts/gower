@@ -1,11 +1,14 @@
 package tests
 
 import (
+	"fmt"
 	"testing"
 	"time"
 )
 
 func TestCache(t *testing.T) {
+	fmt.Println("----------------TestCache 开始----------------")
+	
 	assert := getAssert(t)
 
 	cache.SetDefault("test-key", "123")
@@ -24,4 +27,6 @@ func TestCache(t *testing.T) {
 
 	_, ok = cache.Get("test-key")
 	assert.False(ok)
+
+	fmt.Println("----------------TestCache 结束----------------")
 }

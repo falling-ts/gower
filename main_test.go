@@ -14,11 +14,11 @@ func Test(t *testing.T) {
 	t.Run("TestConfig", tests.TestConfig)
 	t.Run("TestDB", tests.TestDB)
 	t.Run("TestException", tests.TestException)
-
-	t.Run("TextPasswd", tests.TextPasswd)
+	t.Run("TestPasswd", tests.TextPasswd)
+	t.Run("TestRoute", tests.TestRoute)
+	t.Run("TestSymCrypt", tests.TestSymCrypt)
 	t.Run("TestTrans", tests.TestTrans)
-
-	t.Run("TestControllers", tests.TestControllers)
+	t.Run("TestUtil", tests.TestUtil)
 }
 
 func Benchmark(b *testing.B) {
@@ -27,9 +27,7 @@ func Benchmark(b *testing.B) {
 	b.Run("BenchmarkConfigGet", benchmarks.BenchmarkConfigGet)
 }
 
-func Example() {
-
-}
+func Example() {}
 
 func Fuzz(f *testing.F) {
 	f.Fuzz(func(t *testing.T, s string) {

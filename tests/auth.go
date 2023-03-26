@@ -1,8 +1,13 @@
 package tests
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestAuth(t *testing.T) {
+	fmt.Println("----------------TestAuth 开始----------------")
+	
 	assert := getAssert(t)
 	userId := "1520"
 	aud := []string{"192.168.10.11:25468"}
@@ -22,4 +27,6 @@ func TestAuth(t *testing.T) {
 
 	_, _, err = auth.Check(token)
 	assert.Equal(err.Error(), "token 已拉黑")
+
+	fmt.Println("----------------TestAuth 结束----------------")
 }

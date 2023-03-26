@@ -1,6 +1,7 @@
 package tests
 
 import (
+	"fmt"
 	"gower/services"
 	"net/http"
 	"net/http/httptest"
@@ -9,7 +10,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func TestControllers(t *testing.T) {
+func TestRoute(t *testing.T) {
+	fmt.Println("----------------TestResponse 开始----------------")
+
 	assert := getAssert(t)
 	route.GET("/test", func(c *gin.Context) services.Response {
 		return res.Ok(map[string]string{
@@ -20,4 +23,6 @@ func TestControllers(t *testing.T) {
 	w := httptest.NewRecorder()
 	route.ServeHTTP(w, req)
 	assert.Equal(http.StatusOK, w.Code)
+
+	fmt.Println("----------------TestResponse 结束----------------")
 }

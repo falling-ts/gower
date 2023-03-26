@@ -2,11 +2,14 @@ package tests
 
 import (
 	"errors"
+	"fmt"
 	"gower/app/exceptions"
 	"testing"
 )
 
 func TestException(t *testing.T) {
+	fmt.Println("----------------TestException 开始----------------")
+
 	assert := getAssert(t)
 	msg := "test message"
 	err := errors.New(msg)
@@ -17,4 +20,6 @@ func TestException(t *testing.T) {
 
 	assert.NotEqual(excp, exception)
 	assert.NotEqual(excp.Exception, exception.Exception)
+
+	fmt.Println("----------------TestException 结束----------------")
 }

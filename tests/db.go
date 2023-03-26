@@ -10,6 +10,8 @@ import (
 )
 
 func TestDB(t *testing.T) {
+	fmt.Println("----------------TestDB 开始----------------")
+
 	assert := getAssert(t)
 	password, err := passwd.Hash("123")
 	assert.Nil(err)
@@ -247,4 +249,6 @@ func TestDB(t *testing.T) {
 	assert.Nil(err)
 	fmt.Println("DB Find Result: ")
 	fmt.Println(string(prettyJSON))
+
+	fmt.Println("----------------TestDB 结束----------------")
 }
