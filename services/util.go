@@ -13,4 +13,6 @@ type UtilService interface {
 
 	ExcpKey() string
 	BlackTokenKey(nanoid string) string
+
+	Ptr(v any) any
 }

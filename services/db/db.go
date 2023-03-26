@@ -31,6 +31,8 @@ func (s *Service) Init(args ...services.Service) services.Service {
 	db, err := gorm.Open(driver(config.Get("db.driver", "mysql").(string)), &gorm.Config{
 		Logger:                                   logger.DB(),
 		DisableForeignKeyConstraintWhenMigrating: config.Get("db.disableForeignKey", true).(bool),
+		SkipDefaultTransaction:                   config.Get("db.skipDefaultTransaction", true).(bool),
+		PrepareStmt:                              config.Get("db.prepareStmt", true).(bool),
 	})
 	if err != nil {
 		panic(err)

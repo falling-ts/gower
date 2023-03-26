@@ -74,13 +74,15 @@ func (a *AuthController) Me(auth models.Auth) (services.Response, error) {
 }
 
 // Logout 执行退出
-func (a *AuthController) Logout(c *gin.Context) services.Response {
+func (a *AuthController) Logout(c *gin.Context) (services.Response, error) {
 	c.Set("auth", nil)
 	token, _ := c.Cookie("auth")
 	if token == "" {
 		token = c.GetHeader("Authorization")
 	}
 
-	auth.Black(token)
-	return res.Ok("退出成功")
+	if err := auth.Black(token); err != nil {
+		return nil, excp.BadRequest(err)
+	}
+	return res.Ok("退出成功"), nil
 }

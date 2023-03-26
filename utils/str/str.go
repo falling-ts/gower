@@ -2,6 +2,7 @@ package str
 
 import (
 	"bytes"
+	"regexp"
 	"unicode"
 )
 
@@ -35,7 +36,8 @@ func (s Conv) Snake() string {
 		}
 	}
 
-	return Conv(buf.String()).Lowercase()
+	reg, _ := regexp.Compile(`^(.*?_)?i_d$`)
+	return reg.ReplaceAllString(Conv(buf.String()).Lowercase(), "${1}id")
 }
 
 // Camel 获得小驼峰字符
@@ -54,10 +56,15 @@ func (s Conv) Camel() string {
 		}
 	}
 
-	return Conv(buf.String()).Lowercase()
+	reg, _ := regexp.Compile(`^(.*?)?Id$`)
+	return reg.ReplaceAllString(Conv(buf.String()).Lowercase(), "${1}ID")
 }
 
 // UpCamel 获得大驼峰字符
 func (s Conv) UpCamel() string {
-	return Conv(s.Camel()).Uppercase()
+	res := Conv(s.Camel()).Uppercase()
+	if res == "Id" {
+		return "ID"
+	}
+	return res
 }

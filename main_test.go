@@ -10,12 +10,15 @@ import (
 
 func Test(t *testing.T) {
 	t.Run("TestAuth", tests.TestAuth)
-	t.Run("TestConfig", tests.TestConfig)
-	t.Run("TestException", tests.TestException)
 	t.Run("TestCache", tests.TestCache)
-	t.Run("TestControllers", tests.TestControllers)
+	t.Run("TestConfig", tests.TestConfig)
+	t.Run("TestDB", tests.TestDB)
+	t.Run("TestException", tests.TestException)
+
 	t.Run("TextPasswd", tests.TextPasswd)
 	t.Run("TestTrans", tests.TestTrans)
+
+	t.Run("TestControllers", tests.TestControllers)
 }
 
 func Benchmark(b *testing.B) {

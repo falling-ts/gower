@@ -5,6 +5,7 @@ import (
 	"gower/utils/slice"
 	"gower/utils/str"
 	"reflect"
+	"time"
 )
 
 type Rule map[string]any
@@ -124,7 +125,6 @@ func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 		err       error
 	)
 	for k, v := range r {
-		k = str.Conv(k).UpCamel()
 		destValue, err = valueByKey(dest, k)
 		if err != nil {
 			return err
@@ -196,7 +196,7 @@ func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 				}
 			}
 		case reflect.Map:
-			srcValue, err = valueByKey(src, v.(string))
+			srcValue, err = valueByKey(src, k)
 			if err != nil {
 				setValue(dest, destValue, k, rule)
 				break
@@ -211,8 +211,26 @@ func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 					setValue(dest, destValue, k, rule)
 					break
 				}
+
+				elemType := destValue.Type().Elem()
 				for i := 0; i < srcValue.Len(); i++ {
-					if err = trans(destValue.Index(i), srcValue.Index(i), r); err != nil {
+					switch elemType.Kind() {
+					case reflect.Ptr:
+						destValue.Index(i).Set(reflect.New(elemType))
+					case reflect.Map:
+						destValue.Index(i).Set(reflect.MakeMap(elemType))
+					default:
+						destValue.Index(i).Set(reflect.New(elemType).Elem())
+					}
+
+					_r, ok := v.(map[string]any)
+					if !ok {
+						_r, ok = v.(Rule)
+					}
+					if !ok {
+						return errors.New("规则类型错误")
+					}
+					if err = trans(destValue.Index(i), srcValue.Index(i), _r); err != nil {
 						return err
 					}
 				}
@@ -225,24 +243,113 @@ func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 					break
 				}
 
-				elemType := srcValue.Index(0).Type()
-				makeSlice := reflect.MakeSlice(elemType, srcValue.Len(), srcValue.Len())
-				setValue(dest, destValue, k, makeSlice)
+				elemType := destValue.Type().Elem()
+				destValue = reflect.MakeSlice(reflect.SliceOf(elemType), srcValue.Len(), srcValue.Len())
 				for i := 0; i < srcValue.Len(); i++ {
-					if err = trans(destValue.Index(i), srcValue.Index(i), r); err != nil {
+					switch elemType.Kind() {
+					case reflect.Ptr:
+						destValue.Index(i).Set(reflect.New(elemType))
+					case reflect.Map:
+						destValue.Index(i).Set(reflect.MakeMap(elemType))
+					default:
+						destValue.Index(i).Set(reflect.New(elemType).Elem())
+					}
+
+					_r, ok := v.(map[string]any)
+					if !ok {
+						_r, ok = v.(Rule)
+					}
+					if !ok {
+						return errors.New("规则类型错误")
+					}
+					if err = trans(destValue.Index(i), srcValue.Index(i), _r); err != nil {
 						return err
 					}
 				}
 			case reflect.Map, reflect.Struct:
-				if err = trans(destValue, srcValue, r); err != nil {
+				_r, ok := v.(map[string]any)
+				if !ok {
+					_r, ok = v.(Rule)
+				}
+				if !ok {
+					return errors.New("规则类型错误")
+				}
+				if err = trans(destValue, srcValue, _r); err != nil {
 					return err
+				}
+			default:
+				switch srcValue.Kind() {
+				case reflect.Array:
+					if srcValue.Len() == 0 {
+						break
+					}
+
+					elemType := reflect.MapOf(reflect.TypeOf(""), reflect.TypeOf(new(any)).Elem())
+					array := reflect.ArrayOf(srcValue.Len(), elemType)
+					setValue(dest, destValue, k, reflect.New(array).Elem())
+					for i := 0; i < srcValue.Len(); i++ {
+						destValue.Elem().Index(i).Set(reflect.MakeMap(elemType))
+
+						_r, ok := v.(map[string]any)
+						if !ok {
+							_r, ok = v.(Rule)
+						}
+						if !ok {
+							return errors.New("规则类型错误")
+						}
+						if err = trans(destValue.Elem().Index(i), srcValue.Index(i), _r); err != nil {
+							return err
+						}
+					}
+				case reflect.Slice:
+					if srcValue.Len() == 0 {
+						break
+					}
+
+					elemType := reflect.MapOf(reflect.TypeOf(""), reflect.TypeOf(new(any)).Elem())
+					makeSlice := reflect.MakeSlice(reflect.SliceOf(elemType), srcValue.Len(), srcValue.Len())
+					setValue(dest, destValue, k, makeSlice)
+					for i := 0; i < srcValue.Len(); i++ {
+						destValue.Elem().Index(i).Set(reflect.MakeMap(elemType))
+
+						_r, ok := v.(map[string]any)
+						if !ok {
+							_r, ok = v.(Rule)
+						}
+						if !ok {
+							return errors.New("规则类型错误")
+						}
+						if err = trans(destValue.Elem().Index(i), srcValue.Index(i), _r); err != nil {
+							return err
+						}
+					}
+				case reflect.Map, reflect.Struct:
+					mapType := reflect.MapOf(reflect.TypeOf(""), reflect.TypeOf(new(any)).Elem())
+					data := reflect.MakeMap(mapType)
+					setValue(dest, destValue, k, data)
+
+					_r, ok := v.(map[string]any)
+					if !ok {
+						_r, ok = v.(Rule)
+					}
+					if !ok {
+						return errors.New("规则类型错误")
+					}
+					if err = trans(destValue.Elem(), srcValue, _r); err != nil {
+						return err
+					}
 				}
 			}
 		case reflect.String:
-			srcValue, err = valueByKey(src, str.Conv(v.(string)).UpCamel())
+			srcValue, err = valueByKey(src, v.(string))
 			if err != nil {
 				setValue(dest, destValue, k, rule)
 				break
+			}
+			if Format := srcValue.MethodByName("Format"); Format.IsValid() {
+				srcValue = Format.Call([]reflect.Value{
+					reflect.ValueOf(time.DateTime),
+				})[0]
 			}
 			setValue(dest, destValue, k, srcValue)
 		default:
@@ -257,7 +364,7 @@ func destNoSkips(destType reflect.Type, dest reflect.Value, src reflect.Value, s
 	for i := 0; i < destType.NumField(); i++ {
 		fieldType := destType.Field(i)
 		fieldName := fieldType.Name
-		field := dest.FieldByName(fieldName)
+		field := reflect.Indirect(dest.FieldByName(fieldName))
 		typ := field.Type()
 
 		if fieldType.Tag.Get("gorm") == "-" {
@@ -316,9 +423,12 @@ func srcNoSkips(srcType reflect.Type, src reflect.Value, skips slice.Strings, r 
 	for i := 0; i < srcType.NumField(); i++ {
 		fieldType := srcType.Field(i)
 		fieldName := fieldType.Name
-		field := src.FieldByName(fieldName)
+		field := reflect.Indirect(src.FieldByName(fieldName))
 		typ := field.Type()
 
+		if fieldType.Tag.Get("gorm") == "-" {
+			continue
+		}
 		if fieldType.Anonymous {
 			srcNoSkips(typ, field, skips, r)
 			continue
@@ -353,6 +463,7 @@ func isContinue(fieldName string, skips slice.Strings, r Rule) bool {
 
 func valueByKey(v reflect.Value, k string) (reflect.Value, error) {
 	var result reflect.Value
+	k = str.Conv(k).UpCamel()
 
 	switch v.Kind() {
 	case reflect.Map:
