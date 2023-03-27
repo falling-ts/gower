@@ -26,7 +26,6 @@ func init() {
 }
 
 func initApp() *cli.App {
-	var port string
 	return &cli.App{
 		Name:     configs.App.Name,
 		Version:  configs.App.Version,
@@ -41,21 +40,6 @@ func initApp() *cli.App {
 		HelpName:  configs.App.Cli,
 		Usage:     "命令行工具.",
 		UsageText: "辅助开发的命令工具, 在项目根目录下使用 go install 安装.",
-		Flags: []cli.Flag{
-			&cli.StringFlag{
-				Name:        "port",
-				Aliases:     []string{"p"},
-				Value:       "8080",
-				Usage:       "启动应用, 并监听端口.",
-				Destination: &port,
-			},
-		},
-		Action: func(c *cli.Context) error {
-			if err := route.Run(":" + port); err != nil {
-				return err
-			}
-			return nil
-		},
-		Commands: []*cli.Command{},
+		Commands:  []*cli.Command{},
 	}
 }

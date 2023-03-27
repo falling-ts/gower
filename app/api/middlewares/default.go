@@ -6,5 +6,5 @@ import (
 )
 
 func Default() services.Handler {
-	return middlewares.Default("api-auth", "Api-Authorization")
+	return middlewares.Default("api-auth", "Authorization")
 }
