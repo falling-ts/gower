@@ -1,2 +1,4 @@
 *
 !.gitignore
+!public.go
+!embed.go

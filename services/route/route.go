@@ -1,16 +1,21 @@
 package route
 
 import (
+	"html/template"
+	"io/fs"
 	"net/http"
+	"path/filepath"
 
 	"github.com/falling-ts/gower/services"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/render"
 )
 
 // Service 路由服务主结构体
 type Service struct {
 	*gin.Engine
+	delims render.Delims
 }
 
 var (
@@ -36,6 +41,7 @@ func (s *Service) Init(args ...services.Service) services.Service {
 	gin.SetMode(config.Get("app.mode", "test").(string))
 
 	s.Engine = gin.New()
+	s.delims = render.Delims{Left: "{{", Right: "}}"}
 
 	return s
 }
@@ -48,8 +54,46 @@ func (s *Service) SecureJsonPrefix(prefix string) services.RouteService {
 
 // Delims 设置模板的左右界限, 并返回一个引擎实例.
 func (s *Service) Delims(left, right string) services.RouteService {
+	s.delims = render.Delims{Left: left, Right: right}
 	s.Engine.Delims(left, right)
 	return s
+}
+
+// LoadHTMLGlobs 加载多层目录结构的模板
+func (s *Service) LoadHTMLGlobs(patterns ...string) error {
+	var filenames []string
+	left := s.delims.Left
+	right := s.delims.Right
+
+	for _, pattern := range patterns {
+		list, err := filepath.Glob(pattern)
+		if err != nil {
+			return err
+		}
+		if len(list) != 0 {
+			filenames = append(filenames, list...)
+		}
+	}
+
+	tmpl, err := template.New("").Delims(left, right).Funcs(s.Engine.FuncMap).ParseFiles(filenames...)
+	if err != nil {
+		return err
+	}
+
+	s.Engine.SetHTMLTemplate(tmpl)
+	return nil
+}
+
+// LoadHTMLFS 从嵌入文件加载模板
+func (s *Service) LoadHTMLFS(fs fs.FS, patterns ...string) {
+	left := s.delims.Left
+	right := s.delims.Right
+	tmpl := template.Must(template.New("").
+		Delims(left, right).
+		Funcs(s.Engine.FuncMap).
+		ParseFS(fs, patterns...))
+
+	s.Engine.SetHTMLTemplate(tmpl)
 }
 
 // UseBefore 将中间件前插进组中
@@ -81,7 +125,7 @@ func (s *Service) NoMethod(handlers ...services.Handler) {
 func (s *Service) Group(relativePath string, handlers ...services.Handler) services.IRouter {
 	group := s.Engine.Group(relativePath, toGinHandlers(handlers)...)
 
-	route := &Service{gin.New()}
+	route := &Service{Engine: gin.New()}
 	route.Engine.RouterGroup = *group
 	return route
 }

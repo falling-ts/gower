@@ -25,6 +25,9 @@ node_modules/
 .env.*.local
 !.env.example
 
+envs/.env
+!envs/.env.example
+
 # Logs and databases
 *.log
 *.sqlite

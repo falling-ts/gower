@@ -3,6 +3,7 @@ package services
 import (
 	"github.com/gin-gonic/gin"
 	"html/template"
+	"io/fs"
 	"net"
 	"net/http"
 )
@@ -49,6 +50,8 @@ type RouteService interface {
 
 	Delims(left, right string) RouteService
 	LoadHTMLGlob(pattern string)
+	LoadHTMLGlobs(patterns ...string) error
+	LoadHTMLFS(embed fs.FS, patterns ...string)
 	LoadHTMLFiles(files ...string)
 	SetHTMLTemplate(tmpl *template.Template)
 	SetFuncMap(funcMap template.FuncMap)
