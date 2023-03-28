@@ -30,4 +30,6 @@ func init() {
 		route.StaticFileFS("/favicon.ico", "images/favicon.ico", public.FS)
 		route.StaticFS("/static", public.FS)
 	}
+
+	route.Static("/uploads", "public/uploads")
 }

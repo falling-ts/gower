@@ -8,7 +8,8 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./storage/logs:/go/bin/storage/logs
+      - ./storage/app/uploads:/go/src/storage/app/uploads
+      - ./storage/logs:/go/src/storage/logs
     networks:
       - default
   test:
@@ -20,7 +21,8 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./storage/logs:/go/bin/storage/logs
+      - ./storage/app/uploads:/go/src/storage/app/uploads
+      - ./storage/logs:/go/src/storage/logs
     networks:
       - default
     depends_on:
@@ -34,7 +36,8 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./storage/logs:/go/bin/storage/logs
+      - ./storage/app/uploads:/go/src/storage/app/uploads
+      - ./storage/logs:/go/src/storage/logs
     networks:
       - default
     depends_on:
