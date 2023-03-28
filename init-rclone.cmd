@@ -1,10 +1,10 @@
 @echo off
 
-@echo "---------------- rclone installing... ----------------"
+echo ---------------- rclone installing... ----------------
 go install github.com/rclone/rclone@v1.62.2
-@echo "---------------- rclone installed ----------------"
+echo ---------------- rclone installed ----------------
 
 rclone version
 
-@echo "---------------- please create test and prod ssh server ----------------"
+echo ---------------- please create test and prod ssh server ----------------
 rclone config
