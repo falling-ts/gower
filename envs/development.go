@@ -9,18 +9,20 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var FS *embed.FS
+var Envs *embed.FS
 
 func init() {
-	if err := godotenv.Load(".env.development"); err != nil {
+	if err := godotenv.Load("envs/.env.development"); err != nil {
 		if err = loadFile(".env.development", false); err != nil {
-			panic("环境加载失败")
+			if err := godotenv.Load(".env.development"); err != nil {
+				panic("环境加载失败")
+			}
 		}
 	}
 }
 
 func readFile(filename string) (envMap map[string]string, err error) {
-	file, err := FS.Open(filename)
+	file, err := Envs.Open(filename)
 	if err != nil {
 		return
 	}

@@ -8,6 +8,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
+      - ./envs:/go/src/envs
       - ./storage/app/uploads:/go/src/storage/app/uploads
       - ./storage/logs:/go/src/storage/logs
     networks:
@@ -23,6 +24,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
+      - ./envs:/go/src/envs
       - ./storage/app/uploads:/go/src/storage/app/uploads
       - ./storage/logs:/go/src/storage/logs
     networks:
@@ -39,6 +41,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
+      - ./envs:/go/src/envs
       - ./storage/app/uploads:/go/src/storage/app/uploads
       - ./storage/logs:/go/src/storage/logs
     networks:

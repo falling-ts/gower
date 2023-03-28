@@ -10,12 +10,12 @@ import (
 
 //go:embed static/*
 //go:embed static/images/*
-var public embed.FS
+var static embed.FS
 
 func init() {
-	sub, err := fs.Sub(public, "static")
+	sub, err := fs.Sub(static, "static")
 	if err != nil {
 		panic(err)
 	}
-	FS = http.FS(sub)
+	Static = http.FS(sub)
 }

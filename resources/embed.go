@@ -6,8 +6,8 @@ import "embed"
 
 //go:embed views/*
 //go:embed views/**/*
-var tmplFS embed.FS
+var tmpl embed.FS
 
 func init() {
-	TmplFS = &tmplFS
+	Tmpl = &tmpl
 }

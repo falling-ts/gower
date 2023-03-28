@@ -23,12 +23,12 @@ func init() {
 	route.GET("/400", web.Excp.BadRequest)
 	route.GET("/404", web.Excp.NotFound)
 
-	if public.FS == nil {
+	if public.Static == nil {
 		route.StaticFile("/favicon.ico", "public/static/images/favicon.ico")
 		route.Static("/static", "public/static")
 	} else {
-		route.StaticFileFS("/favicon.ico", "images/favicon.ico", public.FS)
-		route.StaticFS("/static", public.FS)
+		route.StaticFileFS("/favicon.ico", "images/favicon.ico", public.Static)
+		route.StaticFS("/static", public.Static)
 	}
 
 	route.Static("/uploads", "public/uploads")

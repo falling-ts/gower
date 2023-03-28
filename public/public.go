@@ -4,4 +4,4 @@ import (
 	"net/http"
 )
 
-var FS http.FileSystem
+var Static http.FileSystem

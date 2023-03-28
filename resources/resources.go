@@ -6,8 +6,8 @@ import (
 )
 
 var (
-	route  = app.Route()
-	TmplFS *embed.FS
+	route = app.Route()
+	Tmpl  *embed.FS
 )
 
 func init() {
@@ -15,10 +15,10 @@ func init() {
 		"resources/views/*.tmpl",
 		"resources/views/**/*.tmpl")
 	if err != nil {
-		if TmplFS == nil {
+		if Tmpl == nil {
 			panic("没有模板内容可加载")
 		}
-		route.LoadHTMLFS(TmplFS, "views/*.tmpl",
+		route.LoadHTMLFS(Tmpl, "views/*.tmpl",
 			"views/**/*.tmpl")
 	}
 }

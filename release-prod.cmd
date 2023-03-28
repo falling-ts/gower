@@ -48,13 +48,12 @@ rclone copy --progress ^
  --exclude .idea/** ^
  --exclude node_modules/** ^
  --exclude vendor/** ^
- --exclude .env.test ^
  --exclude Dockerfile-development ^
  --exclude Dockerfile-test ^
- --exclude run-dev.cmd ^
+ --exclude run-dev.sh ^
  --exclude run-test.sh ^
  --exclude dev-entrypoint.sh ^
  --exclude test-entrypoint.sh
 
-echo ---------------- finished ----------------
+echo ---------------- finished [next connect ssh and run] ----------------
 
