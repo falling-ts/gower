@@ -1,17 +1,48 @@
 version: "3.9"
 services:
-  gower:
-    build: .
-    container_name: gower
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile-development
+    container_name: dev
     ports:
       - "8080:8080"
+    volumes:
+      - ./storage/logs:/go/bin/storage/logs
+    networks:
+      - default
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile-test
+    container_name: test
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./storage/logs:/go/bin/storage/logs
     networks:
       - default
     depends_on:
       - tidb
+  prod:
+    build:
+      context: .
+      dockerfile: Dockerfile-production
+    container_name: prod
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./storage/logs:/go/bin/storage/logs
+    networks:
+      - default
+    depends_on:
+      - mysql
   tidb:
     build: ./third_apps/tidb
     container_name: tidb
+    restart: always
     ports:
       - "4000:4000"
     volumes:
@@ -22,6 +53,7 @@ services:
   mysql:
     build: ./third_apps/mysql5.7
     container_name: mysql
+    restart: always
     environment:
       MYSQL_ROOT_HOST: "%"
       MYSQL_DATABASE: "grafana"
@@ -37,6 +69,7 @@ services:
   grafana:
     image: grafana/grafana:9.4.3
     container_name: grafana
+    restart: always
     ports:
       - "3000:3000"
     volumes:
@@ -49,6 +82,7 @@ services:
   loki:
     image: grafana/loki:main-0295fd4
     container_name: loki
+    restart: always
     ports:
       - "3100:3100"
     volumes:
@@ -58,6 +92,7 @@ services:
   promtail:
     image: grafana/promtail:main-0295fd4
     container_name: promtail
+    restart: always
     volumes:
       - ./third_apps/promtail/etc:/etc/promtail
       - ./storage/logs:/var/log/gower

@@ -31,7 +31,7 @@ class client implements Client {
             headers,
             credentials: "include",
         }
-        this.baseUri = "http://localhost:8080"
+        this.baseUri = import.meta.env.VITE_APP_URL
     }
     setOption(option: RequestInit = {}) {
         const headers = new Headers({

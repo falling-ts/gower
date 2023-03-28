@@ -4,6 +4,7 @@ import api from "./api"
 import msg from "./lib/msg"
 import cookie from "js-cookie"
 import * as store from "localforage"
+// @ts-ignore
 import { createApp } from "vue/dist/vue.esm-browser.prod"
 import ResizeObserver from "resize-observer-polyfill"
 
@@ -25,6 +26,3 @@ import "./styles/normalize.css"
 import "tailwindcss/tailwind.css"
 import "simplebar/dist/simplebar.css"
 
-// Tailwindcss 开发模式
-import "./lib/tailwindcss.dev.js"
-import "daisyui/dist/full.css"

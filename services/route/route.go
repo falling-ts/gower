@@ -38,7 +38,12 @@ func (s *Service) Init(args ...services.Service) services.Service {
 	response = args[3].(services.Response)
 	util = args[4].(services.UtilService)
 
-	gin.SetMode(config.Get("app.mode", "test").(string))
+	mode := map[string]string{
+		"development": "debug",
+		"production":  "release",
+		"test":        "test",
+	}[config.Get("app.mode", "test").(string)]
+	gin.SetMode(mode)
 
 	s.Engine = gin.New()
 	s.delims = render.Delims{Left: "{{", Right: "}}"}

@@ -15,29 +15,35 @@
     }
   },
   "scripts": {
-    "build": "pnpm vite build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "cross-env NODE_ENV=development pnpm vite build",
+    "test": "cross-env NODE_ENV=test pnpm vite build",
+    "build": "cross-env NODE_ENV=production pnpm vite build"
   },
   "keywords": [],
   "author": "falling-ts",
   "license": "ISC",
-  "devDependencies": {
-    "@rollup/plugin-replace": "^5.0.2",
-    "@vitejs/plugin-vue": "^4.0.0",
+  "dependencies": {
     "animate.css": "^4.1.1",
     "autoprefixer": "^10.4.13",
     "daisyui": "^2.51.2",
     "jquery": "^3.6.3",
+    "js-cookie": "^3.0.1",
+    "localforage": "^1.10.0",
     "postcss": "^8.4.21",
     "resize-observer-polyfill": "^1.5.1",
     "simplebar": "^6.2.1",
     "stylus": "^0.59.0",
     "tailwindcss": "^3.2.7",
-    "vite": "^4.1.4",
     "vue": "^3.2.47"
   },
-  "dependencies": {
-    "js-cookie": "^3.0.1",
-    "localforage": "^1.10.0"
+  "devDependencies": {
+    "@rollup/plugin-replace": "^5.0.2",
+    "@types/jquery": "^3.5.16",
+    "@types/js-cookie": "^3.0.3",
+    "@types/node": "^18.15.10",
+    "@types/vue": "^2.0.0",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "cross-env": "^7.0.3",
+    "vite": "^4.1.4"
   }
 }

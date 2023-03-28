@@ -1,13 +1,39 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es5",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "jsx": "preserve",
     "sourceMap": true,
-    "lib": [
-      "es2017",
-      "dom"
-    ]
+    "skipLibCheck": true,
+    "target": "esnext",
+    "types": [
+      "node",
+      "vite/client"
+    ],
+    "typeRoots": ["../node_modules/@types"],
+    "isolatedModules": true,
+    "paths": {
+      "@/*": ["resources/app/*"]
+    },
+    "vueCompilerOptions": {
+      "experimentalDisableTemplateSupport": true
+    },
+    "lib": ["ESNext", "DOM", "DOM.Iterable", "ScriptHost"]
+
   },
+  "include": [
+    "resources/app/**/*.ts",
+    "resources/app/**/*.d.ts",
+    "resources/app/**/*.tsx",
+    "resources/app/**/*.vue",
+    "resources/app/*.js",
+    "resources/app/**/*.jsx",
+  ],
   "exclude": [
     "node_modules"
   ]

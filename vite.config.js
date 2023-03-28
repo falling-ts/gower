@@ -6,9 +6,11 @@ export default {
         vue(),
         replace({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
-            'process.env': JSON.stringify({})
+            'process.env': JSON.stringify({}),
+            preventAssignment: true
         })
     ],
+    mode: process.env.NODE_ENV,
     publicDir: 'storage/app/public',
     build: {
         lib: {
@@ -18,6 +20,7 @@ export default {
         },
         outDir: 'public/static',
         rollupOptions: {
+            input: 'resources/app/main.ts',
             output: {
                 assetFileNames: '[name][extname]'
             }

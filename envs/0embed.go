@@ -4,8 +4,9 @@ package envs
 
 import "embed"
 
-//go:embed .env
-//go:embed .env.example
+//go:embed .env.development
+//go:embed .env.test
+//go:embed .env.production
 var fs embed.FS
 
 func init() {

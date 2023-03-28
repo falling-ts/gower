@@ -16,7 +16,7 @@ func consoleInfoLogger() zapcore.Core {
 
 	encoder := zapcore.NewConsoleEncoder(encoderConfig)
 	level := zap.LevelEnablerFunc(func(l zapcore.Level) bool {
-		if mode != "debug" {
+		if mode != "development" {
 			return l == zapcore.InfoLevel
 		}
 
@@ -42,7 +42,7 @@ func fileInfoLogger() zapcore.Core {
 
 	encoder := zapcore.NewJSONEncoder(encoderConfig)
 	level := zap.LevelEnablerFunc(func(l zapcore.Level) bool {
-		if mode == "release" {
+		if mode == "production" {
 			return l == zapcore.InfoLevel
 		}
 

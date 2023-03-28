@@ -10,6 +10,8 @@
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+output
+output/*
 
 # Dependency directories (remove the comment below to include it)
 vendor/
@@ -21,12 +23,18 @@ node_modules/
 
 # Environment files
 .env
-.env.local
-.env.*.local
+.env.test
+.env.production
+!.env.default
 !.env.example
+!.env.development
 
 envs/.env
+envs/.env.test
+envs/.env.production
+!envs/.env.default
 !envs/.env.example
+!envs/.env.development
 
 # Logs and databases
 *.log
