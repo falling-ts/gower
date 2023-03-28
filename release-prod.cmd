@@ -1,7 +1,7 @@
 @echo off
 
 echo ---------------- build static... ----------------
-call npm run test
+call npm run prod
 
 
 echo ---------------- clean temp... ----------------
@@ -40,20 +40,21 @@ mkdir uploads
 cd ../../
 
 echo ---------------- uploading... ----------------
-rclone mkdir test:/go/src
+rclone mkdir prod:/go/src
 rclone copy --progress ^
- ./ test:/go/src ^
+ ./ prod:/go/src ^
  --exclude .git/** ^
  --exclude .github/** ^
  --exclude .idea/** ^
  --exclude node_modules/** ^
  --exclude vendor/** ^
- --exclude .env.production ^
+ --exclude .env.test ^
  --exclude Dockerfile-development ^
- --exclude Dockerfile-production ^
- --exclude run-prod.sh ^
+ --exclude Dockerfile-test ^
+ --exclude run-dev.cmd ^
+ --exclude run-test.sh ^
  --exclude dev-entrypoint.sh ^
- --exclude prod-entrypoint.sh
+ --exclude test-entrypoint.sh
 
 echo ---------------- finished ----------------
 

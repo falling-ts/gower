@@ -12,6 +12,8 @@ services:
       - ./storage/logs:/go/src/storage/logs
     networks:
       - default
+    depends_on:
+      - grafana
   test:
     build:
       context: .
@@ -27,6 +29,7 @@ services:
       - default
     depends_on:
       - tidb
+      - grafana
   prod:
     build:
       context: .
@@ -42,6 +45,7 @@ services:
       - default
     depends_on:
       - mysql
+      - grafana
   tidb:
     build: ./third_apps/tidb
     container_name: tidb
@@ -59,7 +63,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_HOST: "%"
-      MYSQL_DATABASE: "grafana"
+      MYSQL_DATABASE: "gower"
       MYSQL_DATABASE_CHAR: "utf8mb4,utf8mb4_unicode_ci"
       MYSQL_ROOT_PASSWORD: "root"
     ports:
@@ -80,7 +84,7 @@ services:
     networks:
       - default
     depends_on:
-      - mysql
+      - promtail
       - loki
   loki:
     image: grafana/loki:main-0295fd4

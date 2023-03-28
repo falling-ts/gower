@@ -9,6 +9,6 @@ RUN ln -s storage/app/uploads public/uploads
 RUN go mod tidy
 RUN go install -tags test,tmpl,static
 EXPOSE 8080
-RUN chmod +x test-entrypoint.sh
-ENTRYPOINT ["./test-entrypoint.sh"]
+RUN chmod +x entrypoint-test.sh
+ENTRYPOINT ["./entrypoint-test.sh"]
 CMD ["gower"]

@@ -9,6 +9,6 @@ RUN ln -s storage/app/uploads public/uploads
 RUN go mod tidy
 RUN go install
 EXPOSE 8080
-RUN chmod +x dev-entrypoint.sh
-ENTRYPOINT ["./dev-entrypoint.sh"]
+RUN chmod +x entrypoint-dev.sh
+ENTRYPOINT ["./entrypoint-dev.sh"]
 CMD ["gower"]
