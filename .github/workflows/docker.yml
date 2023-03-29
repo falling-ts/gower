@@ -12,4 +12,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build the docker image
-        run: docker build . --file Dockerfile-development --tag gower:$(date +%s)
+        run: docker build . --file Dockerfile-development-full --tag gower:$(date +%s)
