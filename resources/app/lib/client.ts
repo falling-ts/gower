@@ -7,6 +7,7 @@ interface Res {
     code: number
     msg: string
     data?: {} | undefined
+    token: string
 }
 
 interface Client {
@@ -24,8 +25,6 @@ class client implements Client {
     constructor() {
         const headers = new Headers({
             Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: "Bearer ",
         })
         this.option = {
             headers,
@@ -53,10 +52,12 @@ class client implements Client {
             if (!isEmptyObject(data)) {
                 url += `?${toQueryString(data)}`
             }
+
+            await this._setToken()
+
             if (!isEmptyObject(option)) {
                 this.setOption(option)
             }
-
             const response: Response = await fetch(url, this.option)
             const res: Res = await response.json()
 
@@ -65,6 +66,8 @@ class client implements Client {
                 console.log('Error : ', res)
                 await unauthorized(res)
             }
+
+            await handleToken(res)
             return res
         } catch (error) {
             msg.error(error as string)
@@ -74,14 +77,16 @@ class client implements Client {
     }
     async post(path: string, data: object, option: RequestInit = {}): Promise<Res> {
         try {
+            await this._setToken()
+            const body: BodyInit = await this._body(data)
+
             if (!isEmptyObject(option)) {
                 this.setOption(option)
             }
-
             const response: Response = await fetch(`${this.baseUri}${path}`, {
                 ...this.option,
                 method: "POST",
-                body: JSON.stringify(data)
+                body
             })
             const res: Res = await response.json()
 
@@ -90,6 +95,8 @@ class client implements Client {
                 console.log('Error : ', res)
                 await unauthorized(res)
             }
+
+            await handleToken(res)
             return res
         } catch (error) {
             msg.error(error as string)
@@ -99,6 +106,9 @@ class client implements Client {
     }
     async put(path: string, data: object, option: RequestInit = {}): Promise<Res> {
         try {
+
+            await this._setToken()
+            const body: BodyInit = await this._body(data)
             if (!isEmptyObject(option)) {
                 this.setOption(option)
             }
@@ -106,7 +116,7 @@ class client implements Client {
             const response: Response = await fetch(`${this.baseUri}${path}`, {
                 ...this.option,
                 method: "PUT",
-                body: JSON.stringify(data)
+                body
             })
             const res: Res = await response.json()
 
@@ -115,6 +125,8 @@ class client implements Client {
                 console.log('Error : ', res)
                 await unauthorized(res)
             }
+
+            await handleToken(res)
             return res
         } catch (error) {
             msg.error(error as string)
@@ -124,6 +136,9 @@ class client implements Client {
     }
     async del(path: string, data: object = {}, option: RequestInit = {}): Promise<Res> {
         try {
+
+            await this._setToken()
+            const body: BodyInit = await this._body(data)
             if (!isEmptyObject(option)) {
                 this.setOption(option)
             }
@@ -131,7 +146,7 @@ class client implements Client {
             const response: Response = await fetch(`${this.baseUri}${path}`, {
                 ...this.option,
                 method: "DELETE",
-                body: JSON.stringify(data)
+                body
             })
             const res: Res = await response.json()
 
@@ -140,12 +155,38 @@ class client implements Client {
                 console.log('Error : ', res)
                 await unauthorized(res)
             }
+
+            await handleToken(res)
             return res
         } catch (error) {
             msg.error(error as string)
             console.log('Error : ', error)
             throw error
         }
+    }
+    async _setToken() {
+        let auth: string | null = await store.getItem("auth")
+        if (auth === null) {
+            auth = ""
+        }
+
+        this.setOption({
+            headers: {
+                Authorization: auth
+            }
+        })
+    }
+    async _body(data: object): Promise<BodyInit> {
+        if (data instanceof FormData) {
+            return data
+        }
+
+        this.setOption({
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        return JSON.stringify(data)
     }
 }
 
@@ -162,11 +203,18 @@ function toQueryString(params: Record<string, any>): string {
 async function unauthorized(res: Res) {
     if (res.code == http.Unauthorized) {
         await cookie.remove("auth")
+        await cookie.remove("api-auth")
         await store.removeItem("auth")
 
         setTimeout(() => {
             window.location.href = "/auth/login"
         }, 2000)
+    }
+}
+
+async function handleToken(res: Res) {
+    if (res.token !== "") {
+        await store.setItem("auth", res.token)
     }
 }
 

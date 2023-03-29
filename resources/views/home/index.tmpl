@@ -264,6 +264,11 @@ My0wMy0wMVQxMjo1NzoyNCswMDowMMYghYEAAAAASUVORK5CYII="/>
             <a target="_blank"
                class="text-sm font-semibold leading-6 text-gray-900 cursor-pointer"
                @click="apiHello">Api Test</a>
+            <input
+              type="file"
+              accept="image/jpeg, image/png, image/gif, image/webp, image/bmp, image/svg+xml, image/tiff"
+              class="file-input w-full max-w-xs"
+              @change="onFileChange"/>
           </div>
           {{ if .name }}
             <div class="hidden lg:flex lg:flex-1 lg:justify-end animate__animated animate__fadeInDown cursor-pointer dropdown dropdown-end">
@@ -387,6 +392,16 @@ My0wMy0wMVQxMjo1NzoyNCswMDowMMYghYEAAAAASUVORK5CYII="/>
                 }, 2000)
               }
             })
+          },
+          async onFileChange(event) {
+            const formData = new FormData();
+            formData.append("image", event.target.files[0])
+
+            const res = await v1.image(formData)
+            if (!res.code) {
+              msg.success(res.msg)
+              console.log(res)
+            }
           }
         }
       }).mount("#home-index")

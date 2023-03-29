@@ -33,9 +33,9 @@ echo !.gitignore>> data\.gitignore
 
 cd ../../storage/app
 
-del /s /q uploads
-rmdir /s /q uploads
-mkdir uploads
+del /s /q upload
+rmdir /s /q upload
+mkdir upload
 
 cd ../../
 

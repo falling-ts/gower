@@ -163,3 +163,14 @@ func (s *Service) Ptr(v any) any {
 
 	return v
 }
+
+// CreateDir 如果目录不存在, 则创建
+func (s *Service) CreateDir(dir string) string {
+	if _, err := os.Stat(dir); os.IsNotExist(err) {
+		if err = os.MkdirAll(dir, 0755); err != nil {
+			panic(err)
+		}
+	}
+
+	return dir
+}

@@ -15,4 +15,6 @@ type UtilService interface {
 	BlackTokenKey(nanoid string) string
 
 	Ptr(v any) any
+
+	CreateDir(dir string) string
 }

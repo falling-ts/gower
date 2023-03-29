@@ -239,7 +239,7 @@ func makeApiRequest(r string) error {
 
 func gowerMake(content, dirStr, suffix, tplFile string) (string, error) {
 	conv := str.Conv(content)
-	dir := createDir(dirStr)
+	dir := util.CreateDir(dirStr)
 	filename := conv.Snake() + suffix
 	file := path.Join(dir, filename)
 	f, err := os.Create(file)
@@ -267,14 +267,4 @@ func gowerMake(content, dirStr, suffix, tplFile string) (string, error) {
 	}
 
 	return "", nil
-}
-
-func createDir(dir string) string {
-	if _, err := os.Stat(dir); os.IsNotExist(err) {
-		if err = os.MkdirAll(dir, 0755); err != nil {
-			panic(err)
-		}
-	}
-
-	return dir
 }

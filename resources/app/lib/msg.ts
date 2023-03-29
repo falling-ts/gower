@@ -25,15 +25,20 @@ class message {
     }
 }
 
-function alert(type, msg: string) {
-    const elem = ((type, msg: string) => {
-        return {
+function alert(type: string, msg: string) {
+    const elem = ((type, msg): HTMLElement => {
+        let result = {
             "default": defaultElem(msg),
             "info": infoElem(msg),
             "success": successElem(msg),
             "warning": warningElem(msg),
             "error": errorElem(msg)
         }[type]
+        if (result === undefined) {
+            result = defaultElem(msg)
+        }
+
+        return result
     })(type, msg), alert = $(elem)
 
     alert.appendTo('#alert-box').addClass("animate__fadeInDown").on("click", () => {
@@ -52,7 +57,7 @@ function alert(type, msg: string) {
 }
 
 function confirm(msg: string, ok: Confirm) {
-    const elem = confirmElem(msg), confirm: $ = $(elem)
+    const elem = confirmElem(msg), confirm: JQuery<HTMLElement> = $(elem)
 
     confirm.appendTo('#alert-box').addClass("animate__fadeInDown")
     confirm.on("click", ".btn-ghost", () => {

@@ -31,5 +31,5 @@ func init() {
 		route.StaticFS("/static", public.Static)
 	}
 
-	route.Static("/uploads", "public/uploads")
+	route.Static("/upload", "public/upload")
 }

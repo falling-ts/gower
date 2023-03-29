@@ -9,12 +9,11 @@ services:
       - "8080:8080"
     volumes:
       - ./envs:/go/src/envs
-      - ./storage/app/uploads:/go/src/storage/app/uploads
-      - ./storage/logs:/go/src/storage/logs
+      - ./storage:/go/src/storage
     networks:
       - default
     depends_on:
-      - grafana
+      - caddy
   test:
     build:
       context: .
@@ -25,11 +24,11 @@ services:
       - "8080:8080"
     volumes:
       - ./envs:/go/src/envs
-      - ./storage/app/uploads:/go/src/storage/app/uploads
-      - ./storage/logs:/go/src/storage/logs
+      - ./storage:/go/src/storage
     networks:
       - default
     depends_on:
+      - caddy
       - tidb
       - grafana
   prod:
@@ -42,11 +41,11 @@ services:
       - "8080:8080"
     volumes:
       - ./envs:/go/src/envs
-      - ./storage/app/uploads:/go/src/storage/app/uploads
-      - ./storage/logs:/go/src/storage/logs
+      - ./storage:/go/src/storage
     networks:
       - default
     depends_on:
+      - caddy
       - mysql
       - grafana
   tidb:
@@ -64,11 +63,6 @@ services:
     build: ./third_apps/mysql5.7
     container_name: mysql
     restart: always
-    environment:
-      MYSQL_ROOT_HOST: "%"
-      MYSQL_DATABASE: "gower"
-      MYSQL_DATABASE_CHAR: "utf8mb4,utf8mb4_unicode_ci"
-      MYSQL_ROOT_PASSWORD: "root"
     ports:
       - "3306:3306"
       - "33060:33060"
@@ -123,6 +117,8 @@ services:
       - ./third_apps/caddy/site:/srv
       - ./third_apps/caddy/data:/data
       - ./third_apps/caddy/config:/config
+      - ./public/static:/public/static
+      - ./storage/app/upload:/public/upload
     networks:
       - default
 networks:

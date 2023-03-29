@@ -9,7 +9,7 @@ var _ services.LoggerService = (*logger.Service)(nil)
 
 func init() {
 	P.Register("logger", func() (Depends, Resolve) {
-		return Depends{"config"}, func(ss ...services.Service) services.Service {
+		return Depends{"config", "util"}, func(ss ...services.Service) services.Service {
 			return logger.New().Init(ss...)
 		}
 	})

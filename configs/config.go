@@ -19,6 +19,7 @@ type Config struct {
 	Jwt
 	Res
 	Cors
+	Upload
 }
 
 // Set 通用设置内容

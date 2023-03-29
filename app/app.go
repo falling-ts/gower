@@ -125,3 +125,8 @@ func Util() services.UtilService {
 func Validator() services.ValidatorService {
 	return Get("validator").(services.ValidatorService)
 }
+
+// Upload 获取上传服务
+func Upload() services.UploadService {
+	return Get("upload").(services.UploadService)
+}

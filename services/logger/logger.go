@@ -14,6 +14,7 @@ type Service struct {
 
 var (
 	config services.Config
+	util   services.UtilService
 	mode   string
 )
 
@@ -25,6 +26,7 @@ func New() *Service {
 // Init 初始化 logger
 func (s *Service) Init(args ...services.Service) services.Service {
 	config = args[0].(services.Config)
+	util = args[1].(services.UtilService)
 	mode = config.Get("app.mode", "test").(string)
 
 	core := zapcore.NewTee(

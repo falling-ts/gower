@@ -10,6 +10,8 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
+const divTime = time.Hour
+
 func consoleInfoLogger() zapcore.Core {
 	encoderConfig := getEncoderConfig()
 	encoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
@@ -37,6 +39,22 @@ func consoleErrorLogger() zapcore.Core {
 	return zapcore.NewCore(encoder, zapcore.Lock(os.Stderr), level)
 }
 
+// 信息日志分割器
+type infoLogDivider struct {
+	*os.File
+	updateAt time.Time
+}
+
+// Write 执行日志分割, 并写入日志
+func (i *infoLogDivider) Write(p []byte) (n int, err error) {
+	if i.updateAt.Before(time.Now()) {
+		i.File = getInfoFile()
+		i.updateAt = time.Now().Add(divTime)
+	}
+
+	return i.File.Write(p)
+}
+
 func fileInfoLogger() zapcore.Core {
 	encoderConfig := getEncoderConfig()
 
@@ -49,7 +67,16 @@ func fileInfoLogger() zapcore.Core {
 		return l <= zapcore.InfoLevel
 	})
 
-	return zapcore.NewCore(encoder, zapcore.AddSync(getInfoFile()), level)
+	return zapcore.NewCore(encoder, zapcore.AddSync(newInfoLogDivider()), level)
+}
+
+func newInfoLogDivider() *infoLogDivider {
+	il := new(infoLogDivider)
+
+	il.File = getInfoFile()
+	il.updateAt = time.Now().Add(divTime)
+
+	return il
 }
 
 func getInfoFile() *os.File {
@@ -61,7 +88,7 @@ func getInfoFile() *os.File {
 		panic("获取配置错误.")
 	}
 	dir := config.Get("log.dir").(string)
-	createDir(dir)
+	util.CreateDir(dir)
 
 	now := time.Now().Local()
 	flatDay := now.Format("2006-01-02")
@@ -79,12 +106,12 @@ func getInfoFile() *os.File {
 		},
 		"day": func() string {
 			logDir = filepath.Join(dir, year, month)
-			createDir(logDir)
+			util.CreateDir(dir)
 			return fmt.Sprintf("%s/%s.log", logDir, day)
 		},
 		"hour": func() string {
 			logDir = filepath.Join(dir, year, month, day)
-			createDir(logDir)
+			util.CreateDir(dir)
 			return fmt.Sprintf("%s/%s.log", logDir, hour)
 		},
 	}[channel]()
@@ -92,18 +119,23 @@ func getInfoFile() *os.File {
 		logFile = fmt.Sprintf("%s/gower.log", dir)
 	}
 
-	// 判断日志文件是否存在，如果存在则打开文件，否则创建文件
-	f, err := os.OpenFile(logFile, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
-	if err != nil && os.IsNotExist(err) {
-		f, err = os.Create(logFile)
-		if err != nil {
-			panic(err)
-		}
-	} else if err != nil {
-		panic(err)
+	return getFile(logFile)
+}
+
+// 错误日志分割器
+type errorLogDivider struct {
+	*os.File
+	updateAt time.Time
+}
+
+// Write 执行日志分割, 并写入日志
+func (e *errorLogDivider) Write(p []byte) (n int, err error) {
+	if e.updateAt.Before(time.Now()) {
+		e.File = getErrorFile()
+		e.updateAt = time.Now().Add(divTime)
 	}
 
-	return f
+	return e.File.Write(p)
 }
 
 func fileErrorLogger() zapcore.Core {
@@ -114,7 +146,16 @@ func fileErrorLogger() zapcore.Core {
 		return l >= zapcore.ErrorLevel
 	})
 
-	return zapcore.NewCore(encoder, zapcore.AddSync(getErrorFile()), level)
+	return zapcore.NewCore(encoder, zapcore.AddSync(newErrorLogDivider()), level)
+}
+
+func newErrorLogDivider() *errorLogDivider {
+	el := new(errorLogDivider)
+
+	el.File = getErrorFile()
+	el.updateAt = time.Now().Add(divTime)
+
+	return el
 }
 
 func getErrorFile() *os.File {
@@ -122,18 +163,7 @@ func getErrorFile() *os.File {
 	flatDay := time.Now().Local().Format("2006-01-02")
 	logFile := fmt.Sprintf("%s/error.%s.log", dir, flatDay)
 
-	// 判断日志文件是否存在，如果存在则打开文件，否则创建文件
-	f, err := os.OpenFile(logFile, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
-	if err != nil && os.IsNotExist(err) {
-		f, err = os.Create(logFile)
-		if err != nil {
-			panic(err)
-		}
-	} else if err != nil {
-		panic(err)
-	}
-
-	return f
+	return getFile(logFile)
 }
 
 func getEncoderConfig() zapcore.EncoderConfig {
@@ -164,10 +194,16 @@ func getEncoderConfig() zapcore.EncoderConfig {
 	}
 }
 
-func createDir(dir string) {
-	if _, err := os.Stat(dir); os.IsNotExist(err) {
-		if err = os.MkdirAll(dir, 0755); err != nil {
+func getFile(file string) *os.File {
+	f, err := os.OpenFile(file, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
+	if err != nil && os.IsNotExist(err) {
+		f, err = os.Create(file)
+		if err != nil {
 			panic(err)
 		}
+	} else if err != nil {
+		panic(err)
 	}
+
+	return f
 }

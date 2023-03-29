@@ -5,7 +5,6 @@ ENV TZ=Asia/Shanghai
 RUN mkdir -p "$GOPATH/src"
 WORKDIR /go/src
 COPY . .
-RUN ln -s storage/app/uploads public/uploads
 RUN go mod tidy
 RUN go install
 EXPOSE 8080

@@ -9,6 +9,11 @@ async function hello(data: Data, option: RequestInit = {}) {
     return await client.get("/api/v1/hello", data)
 }
 
+async function image(data: FormData, option: RequestInit = {}) {
+    return await client.post("/api/v1/upload/image", data)
+}
+
 export default {
-    hello
+    hello,
+    image
 }

@@ -22,7 +22,7 @@ find data ! -path data/.gitignore -exec rm -rf {} \;
 
 cd ../../storage/app || exit
 
-rm -rf uploads/*
+rm -rf upload/*
 
 cd ../../
 
