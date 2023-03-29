@@ -3,11 +3,11 @@ FROM golang:1.20.2
 ENV GOPROXY=https://goproxy.cn,direct
 ENV TZ=Asia/Shanghai
 RUN mkdir -p "$GOPATH/src"
-WORKDIR /go/src
+WORKDIR $GOPATH/src
 COPY . .
 RUN go mod tidy
 RUN go install -tags prod,tmpl,static
 EXPOSE 8080
-RUN chmod +x entrypoint-prod.sh
-ENTRYPOINT ["./entrypoint-prod.sh"]
+RUN chmod +x entrypoint-prod-full.sh
+ENTRYPOINT ["./entrypoint-prod-full.sh"]
 CMD ["gower"]

@@ -1,10 +1,25 @@
 version: "3.9"
 services:
-  dev:
+  gower:
+    build: .
+    container_name: gower
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./envs:/go/bin/envs
+      - ./storage:/go/bin/storage
+    networks:
+      - default
+    depends_on:
+      - caddy
+      - tidb
+      - mysql
+      - grafana
+  dev-full:
     build:
       context: .
-      dockerfile: Dockerfile-development
-    container_name: dev
+      dockerfile: Dockerfile-development-full
+    container_name: gower
     ports:
       - "8080:8080"
     volumes:
@@ -14,11 +29,11 @@ services:
       - default
     depends_on:
       - caddy
-  test:
+  test-full:
     build:
       context: .
-      dockerfile: Dockerfile-test
-    container_name: test
+      dockerfile: Dockerfile-test-full
+    container_name: gower
     restart: unless-stopped
     ports:
       - "8080:8080"
@@ -31,11 +46,11 @@ services:
       - caddy
       - tidb
       - grafana
-  prod:
+  prod-full:
     build:
       context: .
-      dockerfile: Dockerfile-production
-    container_name: prod
+      dockerfile: Dockerfile-production-full
+    container_name: gower
     restart: always
     ports:
       - "8080:8080"

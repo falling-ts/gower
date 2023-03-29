@@ -11,6 +11,7 @@ import (
 
 type Service struct {
 	*gorm.DB
+	connNum uint
 }
 
 var (
@@ -28,16 +29,8 @@ func (s *Service) Init(args ...services.Service) services.Service {
 	config = args[0].(services.Config)
 	logger = args[1].(services.LoggerService)
 
-	db, err := gorm.Open(driver(config.Get("db.driver", "mysql").(string)), &gorm.Config{
-		Logger:                                   logger.DB(),
-		DisableForeignKeyConstraintWhenMigrating: config.Get("db.disableForeignKey", true).(bool),
-		SkipDefaultTransaction:                   config.Get("db.skipDefaultTransaction", true).(bool),
-		PrepareStmt:                              config.Get("db.prepareStmt", true).(bool),
-	})
-	if err != nil {
-		panic("数据库连接失败")
-	}
-
+	s.connNum = 0
+	db := s.connectDB()
 	s.DB = db
 
 	sqlDB, err := db.DB()
@@ -51,6 +44,27 @@ func (s *Service) Init(args ...services.Service) services.Service {
 	sqlDB.SetConnMaxIdleTime(config.Get("db.maxIdleTime", 10*time.Minute).(time.Duration))
 
 	return s
+}
+
+func (s *Service) connectDB() *gorm.DB {
+	db, err := gorm.Open(driver(config.Get("db.driver", "mysql").(string)), &gorm.Config{
+		Logger:                                   logger.DB(),
+		DisableForeignKeyConstraintWhenMigrating: config.Get("db.disableForeignKey", true).(bool),
+		SkipDefaultTransaction:                   config.Get("db.skipDefaultTransaction", true).(bool),
+		PrepareStmt:                              config.Get("db.prepareStmt", true).(bool),
+	})
+
+	s.connNum++
+	if err != nil {
+		if s.connNum > 5 {
+			panic("数据库连接 5 次失败")
+		}
+
+		time.Sleep(5 * time.Second)
+		return s.connectDB()
+	}
+
+	return db
 }
 
 // GormDB 获取 gorm DB

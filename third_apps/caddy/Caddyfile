@@ -2,8 +2,10 @@
 #  debug
 #}
 
-# development
-localhost {
+# development, test, production
+localhost, www.qq.com, www.weixin.com {
+  tls internal
+
   root * /public
 
   handle /static/* {
@@ -14,7 +16,6 @@ localhost {
   }
 
   handle {
-    reverse_proxy dev:8080
+    reverse_proxy gower:8080
   }
 }
-

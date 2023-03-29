@@ -1,10 +1,11 @@
 #!/bin/bash
 
-@echo off
-
 echo "---------------- build static... ----------------"
 npm run test
 
+echo "---------------- go test... ----------------"
+go test -tags test,tmpl,static
+# go test -bench=Benchmark -tags test,tmpl,static
 
 echo "---------------- clean temp... ----------------"
 rm -rf ./*.log
@@ -26,22 +27,25 @@ rm -rf upload/*
 
 cd ../../
 
-echo "---------------- uploading... ----------------"
-rclone mkdir test:/go/src
-rclone copy --progress \
- ./ test:/go/src \
- --exclude .git/** \
- --exclude .github/** \
- --exclude .idea/** \
- --exclude node_modules/** \
- --exclude vendor/** \
- --exclude Dockerfile-development \
- --exclude Dockerfile-production \
- --exclude run-dev.sh \
- --exclude run-prod.sh \
- --exclude dev-entrypoint.sh \
- --exclude prod-entrypoint.sh
+echo "---------------- go build ----------------"
+export CGO_ENABLED=0
+export GOOS=linux
+export GOARCH=amd64
+
+go build -o gower -tags test,tmpl,static
+
+echo "---------------- uploading...----------------"
+rclone mkdir test:/go/bin
+rclone deletefile --progress test:/go/bin/gower
+rclone copy --progress ./ test:/go/bin/ \
+    --include "envs/.env.development" \
+    --include "envs/.env.test" \
+    --include "public/static/**" \
+    --include "storage/**" \
+    --include "third_apps/**" \
+    --include "gower" \
+    --include "docker-compose.yaml" \
+    --include "Dockerfile" \
+    --include "run.sh"
 
 echo "---------------- finished [next connect ssh and run] ----------------"
-
-
