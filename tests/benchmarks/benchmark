@@ -1,0 +1,443 @@
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:   export GIN_MODE=release
+ - using code:  gin.SetMode(gin.ReleaseMode)
+
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type='table' AND name=\"test_users\"", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "CREATE TABLE `test_users` (`id` integer,`create
+d_at` datetime,`updated_at` datetime,`deleted_at` datetime,`username` text,`password` text,`email` text,PRIMARY KEY (`id`))", "elapsed": 0.0088545, "rows": 0}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "CREATE UNIQUE INDEX `idx_test_users_username` ON `test_users`(`username`)", "elapsed": 0.0070594, "rows": 0}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "CREATE INDEX `idx_test_users_deleted_at` ON `test_users`(`deleted_at`)", "elapsed": 0, "rows": 0}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "CREATE UNIQUE INDEX `idx_test_users_email` ON `test_users`(`email`)", "elapsed": 0.0112169, "rows": 0}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type='table' AND name=\"test_categories\"", "elapsed": 0.0006391, "rows": -1}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "CREATE TABLE `test_categories` (`id` integer,`c
+reated_at` datetime,`updated_at` datetime,`deleted_at` datetime,`name` text NOT NULL DEFAULT \"\",`order
+` integer NOT NULL DEFAULT 0,`parent_id` integer,`user_id` integer,PRIMARY KEY (`id`))", "elapsed": 0.0036775, "rows": 0}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "CREATE INDEX `idx_test_categories_deleted_at` ON `test_categories`(`deleted_at`)", "elapsed": 0.0032611, "rows": 0}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type='table' AND name=\"test_articles\"", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "CREATE TABLE `test_articles` (`id` integer,`cre
+ated_at` datetime,`updated_at` datetime,`deleted_at` datetime,`title` text NOT NULL DEFAULT \"\",`content` text,`category_id` integer,`user_id` integer,PRIMARY KEY (`id`))", "elapsed": 0.0039983, "rows": 0}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "CREATE INDEX `idx_test_articles_deleted_at` ON `test_articles`(`deleted_at`)", "elapsed": 0.0043632, "rows": 0}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type='table' AND name=\"test_users\"", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "SELECT sql FROM sqlite_master WHERE type IN (\"
+table\",\"index\") AND tbl_name = \"test_users\" AND sql IS NOT NULL order by type = \"table\" desc", "elapsed": 0, "rows": 4}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_users` LIMIT 1", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "PRAGMA foreign_keys", "elapsed": 0, "rows": 1}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "SELECT sql FROM sqlite_master WHERE type = \"table\" AND tbl_name = \"test_users\" AND name = \"test_users\"", "elapsed": 0.0005182, "rows": -1}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "CREATE TABLE `test_users__temp` (`id` integer,`
+created_at` datetime,`updated_at` datetime,`deleted_at` datetime,`username` text UNIQUE,`password` text,`email` text,PRIMARY KEY (`id`))", "elapsed": 0.0010705, "rows": 0}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "INSERT INTO `test_users__temp`(`id`,`created_at
+`,`updated_at`,`deleted_at`,`username`,`password`,`email`) SELECT `id`,`created_at`,`updated_at`,`deleted_at`,`username`,`password`,`email` FROM `test_users`", "elapsed": 0, "rows": 0}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "DROP TABLE `test_users`", "elapsed": 0.0005062, "rows": 0}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "ALTER TABLE `test_users__temp` RENAME TO `test_users`", "elapsed": 0.0006016, "rows": 0}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "PRAGMA foreign_keys", "elapsed": 0, "rows": 1}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "SELECT sql FROM sqlite_master WHERE type = \"table\" AND tbl_name = \"test_users\" AND name = \"test_users\"", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "CREATE TABLE `test_users__temp` (`id` integer,`
+created_at` datetime,`updated_at` datetime,`deleted_at` datetime,`username` text UNIQUE,`password` text,`email` text UNIQUE,PRIMARY KEY (`id`))", "elapsed": 0.0016849, "rows": 0}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "INSERT INTO `test_users__temp`(`id`,`created_at
+`,`updated_at`,`deleted_at`,`username`,`password`,`email`) SELECT `id`,`created_at`,`updated_at`,`deleted_at`,`username`,`password`,`email` FROM `test_users`", "elapsed": 0, "rows": 0}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "DROP TABLE `test_users`", "elapsed": 0.000507, "rows": 0}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "ALTER TABLE `test_users__temp` RENAME TO `test_users`", "elapsed": 0.0005484, "rows": 0}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type =
+ \"index\" AND tbl_name = \"test_users\" AND name = \"idx_test_users_username\"", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "CREATE UNIQUE INDEX `idx_test_users_username` ON `test_users`(`username`)", "elapsed": 0.0046163, "rows": 0}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type = \"index\" AND tbl_name = \"test_users\" AND name = \"idx_test_users_email\"", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "CREATE UNIQUE INDEX `idx_test_users_email` ON `test_users`(`email`)", "elapsed": 0.0041033, "rows": 0}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type =
+ \"index\" AND tbl_name = \"test_users\" AND name = \"idx_test_users_deleted_at\"", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "CREATE INDEX `idx_test_users_deleted_at` ON `test_users`(`deleted_at`)", "elapsed": 0.0043393, "rows": 0}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type='table' AND name=\"test_categories\"", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "SELECT sql FROM sqlite_master WHERE type IN (\"
+table\",\"index\") AND tbl_name = \"test_categories\" AND sql IS NOT NULL order by type = \"table\" desc", "elapsed": 0, "rows": 2}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_categories` LIMIT 1", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type =
+ \"index\" AND tbl_name = \"test_categories\" AND name = \"idx_test_categories_deleted_at\"", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type='table' AND name=\"test_users\"", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "SELECT sql FROM sqlite_master WHERE type IN (\"
+table\",\"index\") AND tbl_name = \"test_users\" AND sql IS NOT NULL order by type = \"table\" desc", "elapsed": 0.0005198, "rows": 4}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_users` LIMIT 1", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type =
+ \"index\" AND tbl_name = \"test_users\" AND name = \"idx_test_users_deleted_at\"", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type =
+ \"index\" AND tbl_name = \"test_users\" AND name = \"idx_test_users_username\"", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:41, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type = \"index\" AND tbl_name = \"test_users\" AND name = \"idx_test_users_email\"", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type='table' AND name=\"test_categories\"", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "SELECT sql FROM sqlite_master WHERE type IN (\"
+table\",\"index\") AND tbl_name = \"test_categories\" AND sql IS NOT NULL order by type = \"table\" desc", "elapsed": 0.0000948, "rows": 2}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_categories` LIMIT 1", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type =
+ \"index\" AND tbl_name = \"test_categories\" AND name = \"idx_test_categories_deleted_at\"", "elapsed": 0.0001027, "rows": -1}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type='table' AND name=\"test_articles\"", "elapsed": 0.0000863, "rows": -1}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "SELECT sql FROM sqlite_master WHERE type IN (\"
+table\",\"index\") AND tbl_name = \"test_articles\" AND sql IS NOT NULL order by type = \"table\" desc", "elapsed": 0, "rows": 2}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_articles` LIMIT 1", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type =
+ \"index\" AND tbl_name = \"test_articles\" AND name = \"idx_test_articles_deleted_at\"", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type='table' AND name=\"test_comments\"", "elapsed": 0.000062, "rows": -1}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "CREATE TABLE `test_comments` (`id` integer,`cre
+ated_at` datetime,`updated_at` datetime,`deleted_at` datetime,`content` text,`user_id` integer,`article_id` integer,`parent_id` integer,PRIMARY KEY (`id`))", "elapsed": 0.003393, "rows": 0}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "CREATE INDEX `idx_test_comments_deleted_at` ON `test_comments`(`deleted_at`)", "elapsed": 0.0029064, "rows": 0}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type='table' AND name=\"test_users\"", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "SELECT sql FROM sqlite_master WHERE type IN (\"
+table\",\"index\") AND tbl_name = \"test_users\" AND sql IS NOT NULL order by type = \"table\" desc", "elapsed": 0, "rows": 4}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_users` LIMIT 1", "elapsed": 0.0005363, "rows": -1}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type =
+ \"index\" AND tbl_name = \"test_users\" AND name = \"idx_test_users_deleted_at\"", "elapsed": 0.0000905, "rows": -1}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type =
+ \"index\" AND tbl_name = \"test_users\" AND name = \"idx_test_users_username\"", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type = \"index\" AND tbl_name = \"test_users\" AND name = \"idx_test_users_email\"", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type='table' AND name=\"test_users\"", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "SELECT sql FROM sqlite_master WHERE type IN (\"
+table\",\"index\") AND tbl_name = \"test_users\" AND sql IS NOT NULL order by type = \"table\" desc", "elapsed": 0.0000518, "rows": 4}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_users` LIMIT 1", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type =
+ \"index\" AND tbl_name = \"test_users\" AND name = \"idx_test_users_deleted_at\"", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type =
+ \"index\" AND tbl_name = \"test_users\" AND name = \"idx_test_users_username\"", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type =
+ \"index\" AND tbl_name = \"test_users\" AND name = \"idx_test_users_email\"", "elapsed": 0.0005268, "rows": -1}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type='table' AND name=\"test_user_infos\"", "elapsed": 0.0005219, "rows": -1}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "CREATE TABLE `test_user_infos` (`id` integer,`c
+reated_at` datetime,`updated_at` datetime,`deleted_at` datetime,`nickname` text DEFAULT \"\",`avatar` text DEFAULT \"\",`user_id` integer,PRIMARY KEY (`id`))", "elapsed": 0.0056031, "rows": 0}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "CREATE INDEX `idx_test_user_infos_deleted_at` ON `test_user_infos`(`deleted_at`)", "elapsed": 0.0048714, "rows": 0}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "SELECT count(*) FROM sqlite_master WHERE type='table' AND name=\"users\"", "elapsed": 0, "rows": -1}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "CREATE TABLE `users` (`id` integer,`created_at`
+ datetime,`updated_at` datetime,`deleted_at` datetime,`username` text,`password` text,`email` text,`nick
+name` text DEFAULT \"\",`avatar` text DEFAULT \"\",PRIMARY KEY (`id`))", "elapsed": 0.0047303, "rows": 0}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "CREATE UNIQUE INDEX `idx_users_email` ON `users`(`email`)", "elapsed": 0.0036392, "rows": 0}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "CREATE UNIQUE INDEX `idx_users_username` ON `users`(`username`)", "elapsed": 0.0033132, "rows": 0}
+2023-03-30 10:42:43, DEBUG, Gower, Debug Trace, {"sql": "CREATE INDEX `idx_users_deleted_at` ON `users`(`deleted_at`)", "elapsed": 0.0039645, "rows": 0}
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:   export GIN_MODE=release
+ - using code:  gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /api/v1/hello             --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] POST   /api/v1/upload/image      --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /                         --> github.com/falling-ts/gower/services/route.transHandler.func1 (6 handlers)
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:   export GIN_MODE=release
+ - using code:  gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /auth/register            --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] POST   /auth/register            --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /auth/login               --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] POST   /auth/login               --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /auth/me                  --> github.com/falling-ts/gower/services/route.transHandler.func1 (6 handlers)
+[GIN-debug] POST   /auth/logout              --> github.com/falling-ts/gower/services/route.transHandler.func1 (6 handlers)
+[GIN-debug] GET    /400                      --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /404                      --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /favicon.ico              --> github.com/gin-gonic/gin.(*RouterGroup).StaticFileFS.func1 (5 handlers)
+[GIN-debug] HEAD   /favicon.ico              --> github.com/gin-gonic/gin.(*RouterGroup).StaticFileFS.func1 (5 handlers)
+[GIN-debug] GET    /static/*filepath         --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (5 handlers)
+[GIN-debug] HEAD   /static/*filepath         --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (5 handlers)
+[GIN-debug] GET    /upload/*filepath         --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (5 handlers)
+[GIN-debug] HEAD   /upload/*filepath         --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (5 handlers)
+[GIN-debug] GET    /bench01                  --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /bench02                  --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /bench03                  --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /bench04                  --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /bench05                  --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /bench06                  --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /bench07                  --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /bench08                  --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /bench09                  --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /bench10                  --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+----------------TestAuth 开始----------------
+----------------TestAuth 结束----------------
+----------------TestCache 开始----------------
+----------------TestCache 结束----------------
+----------------TestConfig 开始----------------
+----------------TestConfig 结束----------------
+----------------TestDB 开始----------------
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "INSERT INTO `test_users` (`created_at`,`updated
+_at`,`deleted_at`,`username`,`password`,`email`) VALUES (\"2023-03-30 10:42:44.086\",\"2023-03-30 10:42:
+44.086\",NULL,\"reJ8C\",\"$argon2id$v=19$m=65536,t=1,p=2$VhDKUMb1Luk6AKVQj3zNdA$TiBXA/YT+zky2M0s7yJuit13I+pmdiWF6MhVkxQDJxk\",\"9f2dy@test.com\") RETURNING `id`", "elapsed": 0.0080713, "rows": 1}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "INSERT INTO `test_users` (`created_at`,`updated
+_at`,`deleted_at`,`username`,`password`,`email`,`id`) VALUES (\"2023-03-30 10:42:44.086\",\"2023-03-30 1
+0:42:44.086\",NULL,\"reJ8C\",\"$argon2id$v=19$m=65536,t=1,p=2$VhDKUMb1Luk6AKVQj3zNdA$TiBXA/YT+zky2M0s7yJ
+uit13I+pmdiWF6MhVkxQDJxk\",\"9f2dy@test.com\",1) ON CONFLICT DO NOTHING RETURNING `id`", "elapsed": 0, "rows": 0}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "INSERT INTO `test_user_infos` (`created_at`,`up
+dated_at`,`deleted_at`,`nickname`,`avatar`,`user_id`) VALUES (\"2023-03-30 10:42:44.094\",\"2023-03-30 10:42:44.094\",NULL,\"测试01\",\"/static/images/avatar.png\",1) RETURNING `id`", "elapsed": 0, "rows": 1}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "INSERT INTO `test_users` (`created_at`,`updated
+_at`,`deleted_at`,`username`,`password`,`email`,`id`) VALUES (\"2023-03-30 10:42:44.086\",\"2023-03-30 1
+0:42:44.086\",NULL,\"reJ8C\",\"$argon2id$v=19$m=65536,t=1,p=2$VhDKUMb1Luk6AKVQj3zNdA$TiBXA/YT+zky2M0s7yJ
+uit13I+pmdiWF6MhVkxQDJxk\",\"9f2dy@test.com\",1),(\"2023-03-30 10:42:44.086\",\"2023-03-30 10:42:44.086\
+",NULL,\"reJ8C\",\"$argon2id$v=19$m=65536,t=1,p=2$VhDKUMb1Luk6AKVQj3zNdA$TiBXA/YT+zky2M0s7yJuit13I+pmdiWF6MhVkxQDJxk\",\"9f2dy@test.com\",1) ON CONFLICT DO NOTHING RETURNING `id`", "elapsed": 0, "rows": 0}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "INSERT INTO `test_categories` (`created_at`,`up
+dated_at`,`deleted_at`,`name`,`order`,`parent_id`,`user_id`) VALUES (\"2023-03-30 10:42:44.198\",\"2023-
+03-30 10:42:44.198\",NULL,\"子分类1\",0,1,1),(\"2023-03-30 10:42:44.198\",\"2023-03-30 10:42:44.198\",NU
+LL,\"子分类2\",0,2,1),(\"2023-03-30 10:42:44.198\",\"2023-03-30 10:42:44.198\",NULL,\"子分类3\",0,2,1) O
+N CONFLICT (`id`) DO UPDATE SET `parent_id`=`excluded`.`parent_id` RETURNING `id`", "elapsed": 0, "rows": 3}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "INSERT INTO `test_categories` (`created_at`,`up
+dated_at`,`deleted_at`,`name`,`order`,`parent_id`,`user_id`) VALUES (\"2023-03-30 10:42:44.198\",\"2023-
+03-30 10:42:44.198\",NULL,\"分类1\",0,0,1),(\"2023-03-30 10:42:44.198\",\"2023-03-30 10:42:44.198\",NULL,\"分类2\",0,0,1) RETURNING `id`", "elapsed": 0.0010393, "rows": 2}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "INSERT INTO `test_users` (`created_at`,`updated
+_at`,`deleted_at`,`username`,`password`,`email`,`id`) VALUES (\"2023-03-30 10:42:44.086\",\"2023-03-30 1
+0:42:44.086\",NULL,\"reJ8C\",\"$argon2id$v=19$m=65536,t=1,p=2$VhDKUMb1Luk6AKVQj3zNdA$TiBXA/YT+zky2M0s7yJ
+uit13I+pmdiWF6MhVkxQDJxk\",\"9f2dy@test.com\",1),(\"2023-03-30 10:42:44.086\",\"2023-03-30 10:42:44.086\
+",NULL,\"reJ8C\",\"$argon2id$v=19$m=65536,t=1,p=2$VhDKUMb1Luk6AKVQj3zNdA$TiBXA/YT+zky2M0s7yJuit13I+pmdiW
+F6MhVkxQDJxk\",\"9f2dy@test.com\",1) ON CONFLICT DO NOTHING RETURNING `id`", "elapsed": 0.0005527, "rows": 0}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "INSERT INTO `test_categories` (`created_at`,`up
+dated_at`,`deleted_at`,`name`,`order`,`parent_id`,`user_id`,`id`) VALUES (\"2023-03-30 10:42:44.198\",\"
+2023-03-30 10:42:44.198\",NULL,\"子分类1\",0,1,1,3),(\"2023-03-30 10:42:44.198\",\"2023-03-30 10:42:44.198\",NULL,\"子分类1\",0,1,1,3) ON CONFLICT DO NOTHING RETURNING `id`", "elapsed": 0.0006218, "rows": 0}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "INSERT INTO `test_articles` (`created_at`,`upda
+ted_at`,`deleted_at`,`title`,`content`,`category_id`,`user_id`) VALUES (\"2023-03-30 10:42:44.2\",\"2023
+-03-30 10:42:44.2\",NULL,\"标题1\",\"内容1\",3,1),(\"2023-03-30 10:42:44.2\",\"2023-03-30 10:42:44.2\",NULL,\"标题2\",\"内容2\",3,1) RETURNING `id`", "elapsed": 0.0012751, "rows": 2}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "INSERT INTO `test_users` (`created_at`,`updated
+_at`,`deleted_at`,`username`,`password`,`email`,`id`) VALUES (\"2023-03-30 10:42:44.086\",\"2023-03-30 1
+0:42:44.086\",NULL,\"reJ8C\",\"$argon2id$v=19$m=65536,t=1,p=2$VhDKUMb1Luk6AKVQj3zNdA$TiBXA/YT+zky2M0s7yJ
+uit13I+pmdiWF6MhVkxQDJxk\",\"9f2dy@test.com\",1) ON CONFLICT DO NOTHING RETURNING `id`", "elapsed": 0, "rows": 0}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "INSERT INTO `test_categories` (`created_at`,`up
+dated_at`,`deleted_at`,`name`,`order`,`parent_id`,`user_id`,`id`) VALUES (\"2023-03-30 10:42:44.198\",\"
+2023-03-30 10:42:44.198\",NULL,\"子分类1\",0,1,1,3) ON CONFLICT DO NOTHING RETURNING `id`", "elapsed": 0, "rows": 0}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "INSERT INTO `test_articles` (`created_at`,`upda
+ted_at`,`deleted_at`,`title`,`content`,`category_id`,`user_id`,`id`) VALUES (\"2023-03-30 10:42:44.2\",\
+"2023-03-30 10:42:44.2\",NULL,\"标题1\",\"内容1\",3,1,1) ON CONFLICT DO NOTHING RETURNING `id`", "elapsed": 0.0472106, "rows": 0}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "INSERT INTO `test_comments` (`created_at`,`upda
+ted_at`,`deleted_at`,`content`,`user_id`,`article_id`,`parent_id`) VALUES (\"2023-03-30 10:42:44.248\",\
+"2023-03-30 10:42:44.248\",NULL,\"评论2\",1,1,1),(\"2023-03-30 10:42:44.248\",\"2023-03-30 10:42:44.248\
+",NULL,\"评论3\",1,1,1) ON CONFLICT (`id`) DO UPDATE SET `parent_id`=`excluded`.`parent_id` RETURNING `id`", "elapsed": 0, "rows": 2}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "INSERT INTO `test_comments` (`created_at`,`upda
+ted_at`,`deleted_at`,`content`,`user_id`,`article_id`,`parent_id`) VALUES (\"2023-03-30 10:42:44.248\",\"2023-03-30 10:42:44.248\",NULL,\"评论1\",1,1,0) RETURNING `id`", "elapsed": 0.0481664, "rows": 1}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_user_infos` WHERE `test_user_infos`.`user_id` = 1 AND `test_user_infos`.`deleted_at` IS NULL", "elapsed": 0, "rows": 1}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_users` WHERE `test_users`.`id` = 1 AND `test_users`.`deleted_at` IS NULL", "elapsed": 0, "rows": 1}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_comments` WHERE `test_comments`.`parent_id` IN (1,2,3) AND `test_comments`.`deleted_at` IS NULL", "elapsed": 0.0011468, "rows": 2}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_user_infos` WHERE `test_user_infos`.`user_id` = 1 AND `test_user_infos`.`deleted_at` IS NULL", "elapsed": 0, "rows": 1}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_users` WHERE `test_users`.`id` = 1 AND `test_users`.`deleted_at` IS NULL", "elapsed": 0.000508, "rows": 1}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_comments` WHERE `test_comments`.`article_id` IN (1,2) AND `test_comments`.`deleted_at` IS NULL", "elapsed": 0.0018224, "rows": 3}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_articles` WHERE `test_articles`.`user_id` = 1 AND `test_articles`.`deleted_at` IS NULL", "elapsed": 0.0018224, "rows": 2}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_user_infos` WHERE `test_user_infos`.`user_id` = 1 AND `test_user_infos`.`deleted_at` IS NULL", "elapsed": 0, "rows": 1}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_users` WHERE `test_users`.`id` = 1 AND `test_users`.`deleted_at` IS NULL", "elapsed": 0.0005509, "rows": 1}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_comments` WHERE `test_comments`.`parent_id` IN (1,2,3) AND `test_comments`.`deleted_at` IS NULL", "elapsed": 0.0005509, "rows": 2}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_user_infos` WHERE `test_user_infos`.`user_id` = 1 AND `test_user_infos`.`deleted_at` IS NULL", "elapsed": 0, "rows": 1}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_users` WHERE `test_users`.`id` = 1 AND `test_users`.`deleted_at` IS NULL", "elapsed": 0.000754, "rows": 1}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_comments` WHERE `test_comments`.`article_id` IN (1,2) AND `test_comments`.`deleted_at` IS NULL", "elapsed": 0.0019092, "rows": 3}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_articles` WHERE `test_artic
+les`.`category_id` IN (1,2,3,4,5) AND `test_articles`.`deleted_at` IS NULL", "elapsed": 0.0019092, "rows": 2}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_categories` WHERE `test_cat
+egories`.`parent_id` IN (1,2,3,4,5) AND `test_categories`.`deleted_at` IS NULL", "elapsed": 0, "rows": 3}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_categories` WHERE `test_categories`.`user_id` = 1 AND `test_categories`.`deleted_at` IS NULL", "elapsed": 0.0024159, "rows": 5}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_user_infos` WHERE `test_user_infos`.`user_id` = 1 AND `test_user_infos`.`deleted_at` IS NULL", "elapsed": 0.0005339, "rows": 1}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_users` WHERE `test_users`.`id` = 1 AND `test_users`.`deleted_at` IS NULL", "elapsed": 0.0005339, "rows": 1}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_articles` WHERE `test_articles`.`id` = 1 AND `test_articles`.`deleted_at` IS NULL", "elapsed": 0.0005339, "rows": 1}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_user_infos` WHERE `test_user_infos`.`user_id` = 1 AND `test_user_infos`.`deleted_at` IS NULL", "elapsed": 0, "rows": 1}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_users` WHERE `test_users`.`id` = 1 AND `test_users`.`deleted_at` IS NULL", "elapsed": 0.0006223, "rows": 1}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_comments` WHERE `test_comments`.`id` IN (0,1) AND `test_comments`.`deleted_at` IS NULL", "elapsed": 0.0006223, "rows": 1}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_comments` WHERE `test_comments`.`user_id` = 1 AND `test_comments`.`deleted_at` IS NULL", "elapsed": 0.0022188, "rows": 3}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_user_infos` WHERE `test_user_infos`.`user_id` = 1 AND `test_user_infos`.`deleted_at` IS NULL", "elapsed": 0.0006026, "rows": 1}
+2023-03-30 10:42:44, DEBUG, Gower, Debug Trace, {"sql": "SELECT * FROM `test_users` WHERE `test_users`.`
+id` = 1 AND `test_users`.`deleted_at` IS NULL ORDER BY `test_users`.`id` LIMIT 1", "elapsed": 0.0089808, "rows": 1}
+DB Find Result:
+{
+  "articles": [
+    {
+      "comments": [
+        {
+          "children": [
+            {
+              "content": "评论2",
+              "user": {
+                "avatar": "https://localhost/static/images/avatar.png",
+                "nickname": "测试01",
+                "username": "reJ8C"
+              }
+            },
+            {
+              "content": "评论3",
+              "user": {
+                "avatar": "https://localhost/static/images/avatar.png",
+                "nickname": "测试01",
+                "username": "reJ8C"
+              }
+            }
+          ],
+          "content": "评论1",
+          "user": {
+            "avatar": "https://localhost/static/images/avatar.png",
+            "nickname": "测试01",
+            "username": "reJ8C"
+          }
+        },
+        {
+          "content": "评论2",
+          "user": {
+            "avatar": "https://localhost/static/images/avatar.png",
+            "nickname": "测试01",
+            "username": "reJ8C"
+          }
+        },
+        {
+          "content": "评论3",
+          "user": {
+            "avatar": "https://localhost/static/images/avatar.png",
+            "nickname": "测试01",
+            "username": "reJ8C"
+          }
+        }
+      ],
+      "content": "内容1",
+      "title": "标题1"
+    },
+    {
+      "content": "内容2",
+      "title": "标题2"
+    }
+  ],
+  "categories": [
+    {
+      "children": [
+        {
+          "name": "子分类1"
+        }
+      ],
+      "name": "分类1"
+    },
+    {
+      "children": [
+        {
+          "name": "子分类2"
+        },
+        {
+          "name": "子分类3"
+        }
+      ],
+      "name": "分类2"
+    },
+    {
+      "name": "子分类1"
+    },
+    {
+      "name": "子分类2"
+    },
+    {
+      "name": "子分类3"
+    }
+  ],
+  "comments": [
+    {
+      "article": {
+        "id": 1,
+        "title": "标题1",
+        "user": {
+          "avatar": "https://localhost/static/images/avatar.png",
+          "nickname": "测试01",
+          "username": "reJ8C"
+        }
+      },
+      "content": "评论1"
+    },
+    {
+      "article": {
+        "id": 1,
+        "title": "标题1",
+        "user": {
+          "avatar": "https://localhost/static/images/avatar.png",
+          "nickname": "测试01",
+          "username": "reJ8C"
+        }
+      },
+      "content": "评论2",
+      "parent": {
+        "user": {
+          "avatar": "https://localhost/static/images/avatar.png",
+          "nickname": "测试01",
+          "username": "reJ8C"
+        }
+      }
+    },
+    {
+      "article": {
+        "id": 1,
+        "title": "标题1",
+        "user": {
+          "avatar": "https://localhost/static/images/avatar.png",
+          "nickname": "测试01",
+          "username": "reJ8C"
+        }
+      },
+      "content": "评论3",
+      "parent": {
+        "user": {
+          "avatar": "https://localhost/static/images/avatar.png",
+          "nickname": "测试01",
+          "username": "reJ8C"
+        }
+      }
+    }
+  ],
+  "created_at": "2023-03-30 10:42:44",
+  "email": "9f2dy@test.com",
+  "id": 1,
+  "updated_at": "2023-03-30 10:42:44",
+  "user_info": {
+    "avatar": "https://localhostavatar",
+    "nickname": "测试01"
+  },
+  "username": "reJ8C"
+}
+----------------TestDB 结束----------------
+----------------TestException 开始----------------
+----------------TestException 结束----------------
+----------------TextPasswd 开始----------------
+----------------TextPasswd 结束----------------
+----------------TestResponse 开始----------------
+[GIN-debug] GET    /test01                   --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+2023-03-30 10:42:44, INFO, Gower, Request Info, {"describe": "GET /test01", "http_status": 200, "ip": "192.0.2.1"}
+2023-03-30 10:42:44, INFO, Gower, Response Info, {"body": null, "exception": []}
+[GIN-debug] GET    /test02                   --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+2023-03-30 10:42:44, INFO, Gower, Request Info, {"describe": "GET /test02", "http_status": 200, "ip": "192.0.2.1"}
+2023-03-30 10:42:44, INFO, Gower, Response Info, {"body": null, "exception": []}
+[GIN-debug] GET    /test03                   --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+2023-03-30 10:42:44, INFO, Gower, Request Info, {"describe": "GET /test03", "http_status": 200, "ip": "192.0.2.1"}
+2023-03-30 10:42:44, INFO, Gower, Response Info, {"body": {"code":0,"msg":"请求成功","data":null,"token":""}, "exception": []}
+[GIN-debug] GET    /test04                   --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+2023-03-30 10:42:44, INFO, Gower, Request Info, {"describe": "GET /test04", "http_status": 200, "ip": "192.0.2.1"}
+2023-03-30 10:42:44, INFO, Gower, Response Info, {"body": {"code":0,"msg":"请求成功","data":null,"token":""}, "exception": []}
+[GIN-debug] GET    /test05                   --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+2023-03-30 10:42:44, INFO, Gower, Request Info, {"describe": "GET /test05", "http_status": 200, "ip": "192.0.2.1"}
+2023-03-30 10:42:44, INFO, Gower, Response Info, {"body": null, "exception": []}
+[GIN-debug] GET    /test06                   --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+2023-03-30 10:42:44, INFO, Gower, Request Info, {"describe": "GET /test06", "http_status": 200, "ip": "192.0.2.1"}
+2023-03-30 10:42:44, INFO, Gower, Response Info, {"body": {"code":0,"msg":"请求成功","data":null,"token":""}, "exception": []}
+[GIN-debug] GET    /test07                   --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+2023-03-30 10:42:44, INFO, Gower, Request Info, {"describe": "GET /test07", "http_status": 200, "ip": "192.0.2.1"}
+2023-03-30 10:42:44, INFO, Gower, Response Info, {"body": {"code":0,"msg":"请求成功","data":null,"token":""}, "exception": []}
+[GIN-debug] GET    /test08                   --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+2023-03-30 10:42:44, INFO, Gower, Request Info, {"describe": "GET /test08", "http_status": 200, "ip": "192.0.2.1"}
+2023-03-30 10:42:44, INFO, Gower, Response Info, {"body": {"code":0,"msg":"请求成功","data":null,"token":""}, "exception": []}
+[GIN-debug] GET    /test09                   --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+2023-03-30 10:42:44, INFO, Gower, Request Info, {"describe": "GET /test09", "http_status": 200, "ip": "192.0.2.1"}
+2023-03-30 10:42:44, INFO, Gower, Response Info, {"body": {"code":0,"msg":"请求成功","data":{"id":1},"token":""}, "exception": []}
+[GIN-debug] GET    /test10                   --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+2023-03-30 10:42:44, INFO, Gower, Request Info, {"describe": "GET /test10", "http_status": 200, "ip": "192.0.2.1"}
+2023-03-30 10:42:44, INFO, Gower, Response Info, {"body": {"code":0,"msg":"请求成功","data":{"test":"hello"},"token":""}, "exception": []}
+----------------TestResponse 结束----------------
+----------------TestSymCrypt 开始----------------
+----------------TestSymCrypt 结束----------------
+----------------TestTrans 开始----------------
+----------------TestTrans 结束----------------
+----------------TestUtil 开始----------------
+----------------TestUtil 结束----------------
+goos: windows
+goarch: amd64
+pkg: github.com/falling-ts/gower
+cpu: Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz
+Benchmark/BenchmarkRoute01-12             114696              8737 ns/op
+Benchmark/BenchmarkRoute02-12             118484              9182 ns/op
+Benchmark/BenchmarkRoute03-12             108057             11517 ns/op
+Benchmark/BenchmarkRoute04-12              99776             13132 ns/op
+Benchmark/BenchmarkRoute05-12             168783              7397 ns/op
+Benchmark/BenchmarkRoute06-12              93358             11681 ns/op
+Benchmark/BenchmarkRoute07-12              98954             11439 ns/op
+Benchmark/BenchmarkRoute08-12             118886             11467 ns/op
+Benchmark/BenchmarkRoute09-12             105861             11818 ns/op
+Benchmark/BenchmarkRoute10-12              54558             22323 ns/op
+Benchmark/BenchmarkAuthSign-12            107868             12008 ns/op
+Benchmark/BenchmarkAuthCheck-12            98404             10254 ns/op
+Benchmark/BenchmarkCache-12             10153220               121.3 ns/op
+Benchmark/BenchmarkConfig-12            1000000000               0.3776 ns/op
+Benchmark/BenchmarkConfigGet-12          3089138               388.0 ns/op
+Benchmark/BenchmarkPasswd-12                  39          26811769 ns/op
+Benchmark/BenchmarkEncode-12             1000000              1121 ns/op
+Benchmark/BenchmarkDecode-12             1725186               723.5 ns/op
+PASS
+ok      github.com/falling-ts/gower     27.721s

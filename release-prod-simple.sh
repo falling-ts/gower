@@ -8,9 +8,9 @@ go test -tags prod,env,tmpl,static
 # go test -bench=Benchmark -tags prod,env,tmpl,static
 
 echo "---------------- go build ----------------"
-SET CGO_ENABLED=0
-SET GOOS=linux
-SET GOARCH=amd64
+export CGO_ENABLED=0
+export GOOS=linux
+export GOARCH=amd64
 
 go build -o gower -tags prod,env,tmpl,static
 

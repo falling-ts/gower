@@ -28,9 +28,9 @@ rm -rf upload/*
 cd ../../
 
 echo "---------------- go build ----------------"
-SET CGO_ENABLED=0
-SET GOOS=linux
-SET GOARCH=amd64
+export CGO_ENABLED=0
+export GOOS=linux
+export GOARCH=amd64
 
 go build -o gower -tags prod,tmpl,static
 
