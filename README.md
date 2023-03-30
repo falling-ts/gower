@@ -98,22 +98,22 @@ $ gower make --controller Hello
 package controllers
 
 import (
-	"github.com/falling-ts/gower/app"
-	"github.com/falling-ts/gower/app/http/requests"
-	"github.com/falling-ts/gower/services"
+    "github.com/falling-ts/gower/app"
+    "github.com/falling-ts/gower/app/http/requests"
+    "github.com/falling-ts/gower/services"
 )
 
 type HelloController struct {
-	app.Controller
+    app.Controller
 }
 
 var Hello = new(HelloController)
 
 // Index 获取页面
 func (*HelloController) Index(req *requests.HelloRequest) (services.Response, error) {
-	return res.Ok("home/hello", app.Data{
-	    "name": req.Name,
-	}), nil
+    return res.Ok("home/hello", app.Data{
+        "name": req.Name,
+    }), nil
 }
 
 ```
@@ -130,9 +130,9 @@ package requests
 import "github.com/falling-ts/gower/app"
 
 type HelloRequest struct {
-	app.Request
+    app.Request
 
-	Name *string `form:"name" json:"name" binding:"required"`
+    Name *string `form:"name" json:"name" binding:"required"`
 }
 ```
 
@@ -146,13 +146,13 @@ $ gower make --model Hello
 package models
 
 func init() {
-	migrate(new(Hello))
+    migrate(new(Hello))
 }
 
 type Hello struct {
-	Model
+    Model
 
-	Name *string `gorm:"type:string;default:'';comment:名称"`
+    Name *string `gorm:"type:string;default:'';comment:名称"`
 }
 ```
 
@@ -165,15 +165,15 @@ type Hello struct {
 package routes
 
 import (
-	web "github.com/falling-ts/gower/app/http/controllers"
-	mws "github.com/falling-ts/gower/app/http/middlewares"
-	"github.com/falling-ts/gower/public"
+    web "github.com/falling-ts/gower/app/http/controllers"
+    mws "github.com/falling-ts/gower/app/http/middlewares"
+    "github.com/falling-ts/gower/public"
 )
 
 func init() {
     // ...
 
-	route.GET("/hello", web.Hello.Index)
+    route.GET("/hello", web.Hello.Index)
 }
 ```
 
