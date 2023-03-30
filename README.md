@@ -6,6 +6,7 @@
 
 [![benchmark](https://img.shields.io/badge/gower-benchmark-red?style=flat-square&logo=Sencha)](tests/benchmarks/benchmark)
 [![actions](https://img.shields.io/badge/github-actions-green?style=flat-square&logo=GitHub)](https://github.com/falling-ts/gower/actions)
+[![version](https://img.shields.io/badge/version-0.2.0-yellow?style=flat-square&logo=V)]()
 
 ---
 
@@ -45,9 +46,7 @@ Gower 是基于 [Go/Gin](https://github.com/gin-gonic/gin) 的 Web 快速启动�
 #### 1.执行远程编译安装
 
 ```shell
-$ go install github.com/falling-ts/gower@v0.1.0 -tags cli
-或
-$ go install gitee.com/falling-ts/gower@v0.1.0 -tags cli
+$ go install -tags cli github.com/falling-ts/gower@v0.2.0
 ```
 > 验证结果: `$ gower --version`
 
