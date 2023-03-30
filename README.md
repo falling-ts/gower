@@ -80,7 +80,17 @@ git checkout v0.2.0
 ```
 > 切换完成，你可以删除 `.git` 目录，自行创建自己的仓库
 
-#### 3.初始化环境
+#### 3.安装前后端依赖
+
+```shell
+$ pnpm install
+$ go mod tidy
+$ go install -tags cli
+```
+> 注意: 先到 [goproxy.cn](https://goproxy.cn) 配置加速代理，再使用 `go mod tidy`
+
+
+#### 4.初始化环境
 
 - 在根目录下，复制出 `.env.test` 和 `.env.production` 两个前端环境文件
 - 在 `envs/` 目录下，复制出 `.env.test` 和 `.env.production` 两个后端环境文件
@@ -89,14 +99,6 @@ git checkout v0.2.0
 $ gower init key
 $ gower jwt key
 ```
-
-#### 4.安装前后端依赖
-
-```shell
-$ pnpm install
-$ go mod tidy
-```
-> 注意: 先到 [goproxy.cn](https://goproxy.cn) 配置加速代理，再使用 `go mod tidy`
 
 #### 5.通过 Docker 运行 dev 开发环境
 
@@ -128,9 +130,9 @@ $ gower run # 要在项目根目录下执行，记得把 $GOPATH/bin 加入环�
 ```
 test: 打包测试环境的程序文件
 prod: 打包生成环境的程序文件
-env: 把环境文件也打包进来
 tmpl: 打包模板
 static: 打包静态资源
+cli: 命令行模式
 ```
 
 > 打包这些内容好处是无需关心程序迁移时，需要携带的内容，因为都打包进程序了，一个文件就是整套系统，灵活性极高

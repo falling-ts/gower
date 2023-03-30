@@ -89,7 +89,19 @@ $ git checkout v0.2.0
 
 > After switching, you can delete the `.git` directory and create your own repository.
 
-#### 3. Initialize environment
+
+#### 3. Install front-end and back-end dependencies
+
+```shell
+$ pnpm install
+$ go mod tidy
+$ go install -tags cli
+```
+
+> Note: First, go to [goproxy.cn](https://goproxy.cn/) to configure the acceleration proxy, and then use `go mod tidy`
+
+
+#### 4. Initialize environment
 
 *   In the root directory, copy the two frontend environment files `.env.test` and `.env.production`.
 *   In the `envs/` directory, copy the two backend environment files `.env.test` and `.env.production`.
@@ -99,15 +111,6 @@ $ git checkout v0.2.0
 $ gower init key
 $ gower jwt key
 ```
-
-#### 4. Install front-end and back-end dependencies
-
-```shell
-$ pnpm install
-$ go mod tidy
-```
-
-> Note: First, go to [goproxy.cn](https://goproxy.cn/) to configure the acceleration proxy, and then use `go mod tidy`
 
 #### 5. Run dev development environment with Docker
 
@@ -142,9 +145,9 @@ $ gower run # Execute in the project root directory and add $GOPATH/bin to the e
 ```
 test: Package test environment program files
 prod: Package production environment program files
-env: Package environment files as well
 tmpl: Package templates
 static: Package static resources
+cli: Command line mode
 
 ```
 
