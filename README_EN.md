@@ -152,8 +152,6 @@ cli: Command line mode
 ```
 
 > The advantage of packaging these contents is that there is no need to worry about the content to be carried during program migration, as it is all packaged into the program, making the system highly flexible.
->
-> It is recommended not to package env, otherwise, you will need to repackage it every time you modify it.
 
 ## Rapid Development
 

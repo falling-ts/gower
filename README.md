@@ -94,7 +94,7 @@ $ go install -tags cli
 
 - 在根目录下，复制出 `.env.test` 和 `.env.production` 两个前端环境文件
 - 在 `envs/` 目录下，复制出 `.env.test` 和 `.env.production` 两个后端环境文件
-- 生成 APP 和 JWT 的密钥
+  - 生成 APP 和 JWT 的密钥
 ```shell
 $ gower init key
 $ gower jwt key
@@ -136,8 +136,6 @@ cli: 命令行模式
 ```
 
 > 打包这些内容好处是无需关心程序迁移时，需要携带的内容，因为都打包进程序了，一个文件就是整套系统，灵活性极高
->
-> 建议不要打包 env，否则每次修改还需重新打包
 
 ## 快速开发
 
