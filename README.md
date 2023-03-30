@@ -35,10 +35,63 @@ Gower 是基于 [Go/Gin](https://github.com/gin-gonic/gin) 的 Web 快速启动�
 > docker >= v20.10
 >
 > docker compose >= v2.0
+>
+> git >= 2.39
 
 ## 快速开始
 
-### 1.安装前后端依赖
+### 源码安装[推荐]
+
+#### 1.执行远程编译安装
+
+```shell
+$ go install github.com/falling-ts/gower@v0.1.0 -tags cli
+或
+$ go install gitee.com/falling-ts/gower@v0.1.0 -tags cli
+```
+> 验证结果: `$ gower --version`
+
+#### 2.创建项目，自动初始化
+```shell
+$ gower create myproject
+```
+> 将创建项目，初始化文件，环境，仓库，前后端依赖，执行基准测试
+
+#### 3.使用 Docker
+```shell
+$ ./run-dev
+```
+
+#### 4.使用 Goland 进行 debug
+
+在 main.go 文件中，右键绿色三角形，选择 debug。第一次执行只会打印命令的提示文字，不会运行。然后在正上方选择编辑 `Edit Configurations`，在创建的 `go build gower` 中，添加 `run` 到 Program arguments 中，保存执行 debug
+
+### 使用 Git 安装
+
+#### 1.下载
+```shell
+$ git clone https://github.com/falling-ts/gower.git
+或
+$ git clone https://gitee.com/falling-ts/gower.git
+```
+
+#### 2.切换到发布版
+```shell
+git checkout v0.1.0
+```
+> 切换完成，你可以删除 `.git` 目录，自行创建自己的仓库
+
+#### 3.初始化环境
+
+- 在根目录下，复制出 `.env.test` 和 `.env.production` 两个前端环境文件
+- 在 `envs/` 目录下，复制出 `.env.test` 和 `.env.production` 两个后端环境文件
+- 生成 APP 和 JWT 的密钥
+```shell
+$ gower init key
+$ gower jwt key
+```
+
+#### 4.安装前后端依赖
 
 ```shell
 $ pnpm install
@@ -46,14 +99,14 @@ $ go mod tidy
 ```
 > 注意: 先到 [goproxy.cn](https://goproxy.cn) 配置加速代理，再使用 `go mod tidy`
 
-### 2.通过 Docker 运行 dev 开发环境
+#### 5.通过 Docker 运行 dev 开发环境
 
 ```shell
 $ ./run-dev
 ```
 > windows 已测试通过，其它系统有问题，请提 issues
 
-### 3.不使用 Docker
+#### 6.不使用 Docker
 
 - 构建前端
 
@@ -71,7 +124,7 @@ $ gower run # 要在项目根目录下执行，记得把 $GOPATH/bin 加入环�
 ```
 > 如果需要打包静态资源请执行 `go install -tags tmpl,static`
 
-#### tags:
+##### tags:
 
 ```
 test: 打包测试环境的程序文件

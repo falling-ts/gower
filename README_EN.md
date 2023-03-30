@@ -35,10 +35,73 @@ System Requirements:
 > docker >= v20.10
 >
 > docker compose >= v2.0
+>
+> git >= 2.39
 
 ## Quick Start
 
-### 1. Install front-end and back-end dependencies
+### Install from source \[Recommended]
+
+#### 1. Install from remote compilation
+
+```shell
+$ go install github.com/falling-ts/gower@v0.1.0 -tags cli
+or
+$ go install gitee.com/falling-ts/gower@v0.1.0 -tags cli
+```
+
+> Verify the installation: `$ gower --version`
+
+#### 2. Create a project and automatically initialize it
+
+```shell
+$ gower create myproject
+```
+
+> This will create a project, initialize files, environments, repositories, frontend and backend dependencies, and run benchmark tests.
+
+#### 3. Use Docker
+
+```shell
+$ ./run-dev
+```
+
+#### 4. Debug with Goland
+
+In the `main.go` file, right-click on the green triangle and select "debug". The first time it runs, it will only print the command prompt without running. Then, select "Edit Configurations" above and add "run" to the Program arguments in the `go build gower` that was created. Save and execute the debug.
+
+
+### Use git install
+
+#### 1. Download
+
+```shell
+$ git clone https://github.com/falling-ts/gower.git
+or
+$ git clone https://gitee.com/falling-ts/gower.git
+
+```
+
+#### 2. Switch to the released version
+
+```shell
+$ git checkout v0.1.0
+```
+
+> After switching, you can delete the `.git` directory and create your own repository.
+
+#### 3. Initialize environment
+
+*   In the root directory, copy the two frontend environment files `.env.test` and `.env.production`.
+*   In the `envs/` directory, copy the two backend environment files `.env.test` and `.env.production`.
+*   Generate the APP and JWT keys.
+
+```shell
+$ gower init key
+$ gower jwt key
+```
+
+#### 4. Install front-end and back-end dependencies
 
 ```shell
 $ pnpm install
@@ -47,7 +110,7 @@ $ go mod tidy
 
 > Note: First, go to [goproxy.cn](https://goproxy.cn/) to configure the acceleration proxy, and then use `go mod tidy`
 
-### 2. Run dev development environment with Docker
+#### 5. Run dev development environment with Docker
 
 ```shell
 $ ./run-dev
@@ -55,7 +118,7 @@ $ ./run-dev
 
 > Tested on Windows, if there are problems with other systems, please raise issues
 
-### 3. Without Docker
+#### 6. Without Docker
 
 *   Build front-end
 
@@ -75,7 +138,7 @@ $ gower run # Execute in the project root directory and add $GOPATH/bin to the e
 
 > To package static resources, run `go install -tags tmpl,static`
 
-#### tags:
+##### tags:
 
 ```
 test: Package test environment program files

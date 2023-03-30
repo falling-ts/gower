@@ -85,7 +85,7 @@ func (p *Provider) Get(key string) services.Service {
 	var fn any
 	var ok bool
 	if fn, ok = p.providers[key]; !ok {
-		panic("服务不存在")
+		return services.Service(nil)
 	}
 
 	switch fn.(type) {

@@ -1,6 +1,9 @@
 package consoles
 
-import "github.com/urfave/cli/v2"
+import (
+	"fmt"
+	"github.com/urfave/cli/v2"
+)
 
 func init() {
 	var port string
@@ -18,6 +21,10 @@ func init() {
 			},
 		},
 		Action: func(*cli.Context) error {
+			if route == nil {
+				fmt.Println("命令行模式, 无法启动")
+				return nil
+			}
 			if err := route.Run(":" + port); err != nil {
 				return err
 			}

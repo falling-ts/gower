@@ -8,7 +8,7 @@ type UtilService interface {
 	Nanoid(args ...int) string
 	Direct(v reflect.Value) reflect.Value
 
-	SetEnv(key, value string) error
+	SetEnv(env, key, value string) error
 	SecretKey(length int) (string, error)
 
 	ExcpKey() string
@@ -17,4 +17,5 @@ type UtilService interface {
 	Ptr(v any) any
 
 	CreateDir(dir string) string
+	IsExist(file string) bool
 }

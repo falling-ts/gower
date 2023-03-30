@@ -2,10 +2,11 @@ package app
 
 import (
 	"errors"
-	"github.com/falling-ts/gower/utils/slice"
-	"github.com/falling-ts/gower/utils/str"
 	"reflect"
 	"time"
+
+	"github.com/falling-ts/gower/utils/slice"
+	"github.com/falling-ts/gower/utils/str"
 )
 
 type Rule map[string]any

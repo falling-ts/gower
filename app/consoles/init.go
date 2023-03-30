@@ -31,12 +31,29 @@ func execInit(arg string) error {
 		if err != nil {
 			return err
 		}
-		err = util.SetEnv("APP_KEY", key)
+
+		err = util.SetEnv("envs/.env.development", "APP_KEY", key)
 		if err != nil {
 			return err
 		}
 
-		fmt.Println("密钥生成成功")
+		test := "envs/.env.test"
+		if util.IsExist(test) {
+			err = util.SetEnv(test, "APP_KEY", key)
+			if err != nil {
+				return err
+			}
+		}
+
+		prod := "envs/.env.production"
+		if util.IsExist(prod) {
+			err = util.SetEnv(prod, "APP_KEY", key)
+			if err != nil {
+				return err
+			}
+		}
+
+		fmt.Println("APP 密钥生成成功")
 	}
 
 	return nil

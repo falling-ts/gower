@@ -1,4 +1,4 @@
-//go:build env
+//go:build env || cli
 
 package envs
 

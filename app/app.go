@@ -58,75 +58,150 @@ func Get(key string) services.Service {
 
 // Auth 获取 Auth 服务
 func Auth() services.AuthService {
-	return Get("auth").(services.AuthService)
+	auth, ok := Get("auth").(services.AuthService)
+	if ok {
+		return auth
+	}
+
+	return services.AuthService(nil)
 }
 
 // Cache 获取缓存服务
 func Cache() services.CacheService {
-	return Get("cache").(services.CacheService)
+	cache, ok := Get("cache").(services.CacheService)
+	if ok {
+		return cache
+	}
+
+	return services.CacheService(nil)
 }
 
 // Config 获取配置服务
 func Config() *configs.Config {
-	return Get("config").(*configs.Config)
+	config, ok := Get("config").(*configs.Config)
+	if ok {
+		return config
+	}
+
+	return (*configs.Config)(nil)
 }
 
 // Cookie 获取 Cookie 服务
 func Cookie() services.CookieService {
-	return Get("cookie").(services.CookieService)
+	cookie, ok := Get("cookie").(services.CookieService)
+	if ok {
+		return cookie
+	}
+
+	return services.CookieService(nil)
 }
 
 // DB 获取数据库服务
 func DB() services.DBService {
-	return Get("db").(services.DBService)
+	db, ok := Get("db").(services.DBService)
+	if ok {
+		return db
+	}
+
+	return services.DBService(nil)
 }
 
 // Exception 获取异常服务
 func Exception() *exceptions.Exception {
-	return Get("exception").(*exceptions.Exception)
+	excp, ok := Get("exception").(*exceptions.Exception)
+	if ok {
+		return excp
+	}
+
+	return (*exceptions.Exception)(nil)
 }
 
 // Logger 获取日志服务
 func Logger() services.LoggerService {
-	return Get("logger").(services.LoggerService)
+	logger, ok := Get("logger").(services.LoggerService)
+	if ok {
+		return logger
+	}
+
+	return services.LoggerService(nil)
 }
 
 // Passwd 获取密码服务
 func Passwd() services.PasswdService {
-	return Get("passwd").(services.PasswdService)
+	passwd, ok := Get("passwd").(services.PasswdService)
+	if ok {
+		return passwd
+	}
+
+	return services.PasswdService(nil)
 }
 
 // Response 获取响应体
 func Response() *responses.Response {
-	return Get("response").(*responses.Response)
+	res, ok := Get("response").(*responses.Response)
+	if ok {
+		return res
+	}
+
+	return (*responses.Response)(nil)
 }
 
 // Route 获取路由服务
 func Route() services.RouteService {
-	return Get("route").(services.RouteService)
+	route, ok := Get("route").(services.RouteService)
+	if ok {
+		return route
+	}
+
+	return services.RouteService(nil)
 }
 
 // SymCrypt 获取对称加密服务
 func SymCrypt() services.SymCryptService {
-	return Get("sym-crypt").(services.SymCryptService)
+	symCrypt, ok := Get("sym-crypt").(services.SymCryptService)
+	if ok {
+		return symCrypt
+	}
+
+	return services.SymCryptService(nil)
 }
 
 // Translate 获取翻译服务
 func Translate() services.TranslateService {
-	return Get("translate").(services.TranslateService)
+	trans, ok := Get("translate").(services.TranslateService)
+	if ok {
+		return trans
+	}
+
+	return services.TranslateService(nil)
 }
 
 // Util 获取工具服务
 func Util() services.UtilService {
-	return Get("util").(services.UtilService)
+	util, ok := Get("util").(services.UtilService)
+	if ok {
+		return util
+	}
+
+	return services.UtilService(nil)
 }
 
 // Validator 获取验证器
 func Validator() services.ValidatorService {
-	return Get("validator").(services.ValidatorService)
+	valid, ok := Get("validator").(services.ValidatorService)
+	if ok {
+		return valid
+	}
+
+	return services.ValidatorService(nil)
 }
 
 // Upload 获取上传服务
 func Upload() services.UploadService {
-	return Get("upload").(services.UploadService)
+	upload, ok := Get("upload").(services.UploadService)
+	if ok {
+		return upload
+	}
+
+	return services.UploadService(nil)
 }

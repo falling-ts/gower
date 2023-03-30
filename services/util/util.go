@@ -59,8 +59,8 @@ func (*Service) SecretKey(length int) (string, error) {
 }
 
 // SetEnv 设置 env
-func (*Service) SetEnv(key, value string) error {
-	file, err := os.Open(".env")
+func (*Service) SetEnv(env, key, value string) error {
+	file, err := os.Open(env)
 	if err != nil {
 		return err
 	}
@@ -86,7 +86,7 @@ func (*Service) SetEnv(key, value string) error {
 		return err
 	}
 
-	outputFile, err := os.Create(".env")
+	outputFile, err := os.Create(env)
 	if err != nil {
 		return err
 	}
@@ -173,4 +173,16 @@ func (s *Service) CreateDir(dir string) string {
 	}
 
 	return dir
+}
+
+// IsExist 判断文件是否存在
+func (s *Service) IsExist(file string) bool {
+	_, err := os.Stat(file)
+	if err == nil {
+		return true
+	}
+	if os.IsNotExist(err) {
+		return false
+	}
+	return false
 }

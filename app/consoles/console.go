@@ -9,10 +9,10 @@ import (
 )
 
 var (
-	App     = initApp()
-	configs = app.Config()
-	route   = app.Route()
-	util    = app.Util()
+	App    = initApp()
+	config = app.Config()
+	route  = app.Route()
+	util   = app.Util()
 )
 
 func init() {
@@ -27,8 +27,8 @@ func init() {
 
 func initApp() *cli.App {
 	return &cli.App{
-		Name:     configs.App.Name,
-		Version:  configs.App.Version,
+		Name:     config.App.Name,
+		Version:  config.App.Version,
 		Compiled: time.Now(),
 		Authors: []*cli.Author{
 			{
@@ -37,7 +37,7 @@ func initApp() *cli.App {
 			},
 		},
 		Copyright: "(c) 2023 falling ts",
-		HelpName:  configs.App.Cli,
+		HelpName:  config.App.Cli,
 		Usage:     "命令行工具.",
 		UsageText: "辅助开发的命令工具, 在项目根目录下使用 go install 安装.",
 		Commands:  []*cli.Command{},

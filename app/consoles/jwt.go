@@ -31,12 +31,28 @@ func execJwt(arg string) error {
 		if err != nil {
 			return err
 		}
-		err = util.SetEnv("JWT_KEY", key)
+		err = util.SetEnv("envs/.env.development", "JWT_KEY", key)
 		if err != nil {
 			return err
 		}
 
-		fmt.Println("密钥生成成功")
+		test := "envs/.env.test"
+		if util.IsExist(test) {
+			err = util.SetEnv(test, "JWT_KEY", key)
+			if err != nil {
+				return err
+			}
+		}
+
+		prod := "envs/.env.production"
+		if util.IsExist(prod) {
+			err = util.SetEnv(prod, "JWT_KEY", key)
+			if err != nil {
+				return err
+			}
+		}
+
+		fmt.Println("JWT 密钥生成成功")
 	}
 
 	return nil
