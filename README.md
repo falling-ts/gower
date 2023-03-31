@@ -4,9 +4,7 @@
 
 [中文](README.md)|[English](README_EN.md)
 
-[![benchmark](https://img.shields.io/badge/gower-benchmark-red?style=flat-square&logo=Sencha)](tests/benchmarks/benchmark)
-[![actions](https://img.shields.io/badge/github-actions-green?style=flat-square&logo=GitHub)](https://github.com/falling-ts/gower/actions)
-[![version](https://img.shields.io/badge/version-0.2.0-yellow?style=flat-square&logo=V)]()
+[![benchmark](https://img.shields.io/badge/gower-benchmark-red?style=flat-square&logo=Sencha)](tests/benchmarks/benchmark) [![actions](https://img.shields.io/badge/github-actions-green?style=flat-square&logo=GitHub)](https://github.com/falling-ts/gower/actions) [![version](https://img.shields.io/badge/version-0.2.0-yellow?style=flat-square&logo=V)]()
 
 ---
 
@@ -46,17 +44,21 @@ Gower 是基于 [Go/Gin](https://github.com/gin-gonic/gin) 的 Web 快速启动�
 #### 1.执行远程编译安装
 
 ```shell
-$ go install -tags cli github.com/falling-ts/gower@v0.2.0
+$ go install -tags cli github.com/falling-ts/gower@
 ```
+
 > 验证结果: `$ gower --version`
 
 #### 2.创建项目，自动初始化
+
 ```shell
 $ gower create myproject
 ```
+
 > 将创建项目，初始化文件，环境，仓库，前后端依赖，执行基准测试
 
 #### 3.使用 Docker
+
 ```shell
 $ ./run-dev
 ```
@@ -68,6 +70,7 @@ $ ./run-dev
 ### 使用 Git 安装
 
 #### 1.下载
+
 ```shell
 $ git clone https://github.com/falling-ts/gower.git
 或
@@ -75,9 +78,11 @@ $ git clone https://gitee.com/falling-ts/gower.git
 ```
 
 #### 2.切换到发布版
+
 ```shell
-git checkout v0.2.0
+git checkout v0.2.1
 ```
+
 > 切换完成，你可以删除 `.git` 目录，自行创建自己的仓库
 
 #### 3.安装前后端依赖
@@ -87,14 +92,15 @@ $ pnpm install
 $ go mod tidy
 $ go install -tags cli
 ```
-> 注意: 先到 [goproxy.cn](https://goproxy.cn) 配置加速代理，再使用 `go mod tidy`
 
+> 注意: 先到 [goproxy.cn](https://goproxy.cn) 配置加速代理，再使用 `go mod tidy`
 
 #### 4.初始化环境
 
 - 在根目录下，复制出 `.env.test` 和 `.env.production` 两个前端环境文件
 - 在 `envs/` 目录下，复制出 `.env.test` 和 `.env.production` 两个后端环境文件
   - 生成 APP 和 JWT 的密钥
+
 ```shell
 $ gower init key
 $ gower jwt key
@@ -105,6 +111,7 @@ $ gower jwt key
 ```shell
 $ ./run-dev
 ```
+
 > windows 已测试通过，其它系统有问题，请提 issues
 
 #### 6.不使用 Docker
@@ -114,6 +121,7 @@ $ ./run-dev
 ```shell
 $ npm run dev
 ```
+
 > 将在 `public/static` 下构建出 js 和 css 以及 images 内容
 
 - 构建后端与运行
@@ -123,6 +131,7 @@ $ go test
 $ go install
 $ gower run # 要在项目根目录下执行，记得把 $GOPATH/bin 加入环境变量
 ```
+
 > 如果需要打包静态资源请执行 `go install -tags tmpl,static`
 
 ##### tags:
@@ -146,13 +155,14 @@ $ gower make --controller Hello
 ```
 
 `app/http/controllers/hello_controller.go`
+
 ```go
 package controllers
 
 import (
-    "github.com/falling-ts/gower/app"
-    "github.com/falling-ts/gower/app/http/requests"
-    "github.com/falling-ts/gower/services"
+    "gower/app"
+    "gower/app/http/requests"
+    "gower/services"
 )
 
 type HelloController struct {
@@ -175,11 +185,13 @@ func (*HelloController) Index(req *requests.HelloRequest) (services.Response, er
 ```shell
 $ gower make --request Hello
 ```
+
 `app\http\requests\hello_request.go`
+
 ```go
 package requests
 
-import "github.com/falling-ts/gower/app"
+import "gower/app"
 
 type HelloRequest struct {
     app.Request
@@ -193,7 +205,9 @@ type HelloRequest struct {
 ```shell
 $ gower make --model Hello
 ```
+
 `app\models\hello.go`
+
 ```go
 package models
 
@@ -213,13 +227,14 @@ type Hello struct {
 - 添加路由
 
 `routes/web.go`
+
 ```go
 package routes
 
 import (
-    web "github.com/falling-ts/gower/app/http/controllers"
-    mws "github.com/falling-ts/gower/app/http/middlewares"
-    "github.com/falling-ts/gower/public"
+    web "gower/app/http/controllers"
+    mws "gower/app/http/middlewares"
+    "gower/public"
 )
 
 func init() {

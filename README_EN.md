@@ -46,7 +46,7 @@ System Requirements:
 #### 1. Install from remote compilation
 
 ```shell
-$ go install -tags cli github.com/falling-ts/gower@v0.2.0
+$ go install -tags cli github.com/falling-ts/gower@latest
 ```
 
 > Verify the installation: `$ gower --version`
@@ -84,7 +84,7 @@ $ git clone https://gitee.com/falling-ts/gower.git
 #### 2. Switch to the released version
 
 ```shell
-$ git checkout v0.2.0
+$ git checkout v0.2.1
 ```
 
 > After switching, you can delete the `.git` directory and create your own repository.
@@ -164,9 +164,9 @@ $ gower make --controller Hello
 package controllers
 
 import (
-    "github.com/falling-ts/gower/app"
-    "github.com/falling-ts/gower/app/http/requests"
-    "github.com/falling-ts/gower/services"
+    "gower/app"
+    "gower/app/http/requests"
+    "gower/services"
 )
 
 type HelloController struct {
@@ -190,7 +190,7 @@ $ gower make --request Hello
 ```go
 package requests
 
-import "github.com/falling-ts/gower/app"
+import "gower/app"
 
 type HelloRequest struct {
     app.Request
@@ -223,9 +223,9 @@ type Hello struct {
 package routes
 
 import (
-    web "github.com/falling-ts/gower/app/http/controllers"
-    mws "github.com/falling-ts/gower/app/http/middlewares"
-    "github.com/falling-ts/gower/public"
+    web "gower/app/http/controllers"
+    mws "gower/app/http/middlewares"
+    "gower/public"
 )
 
 func init() {

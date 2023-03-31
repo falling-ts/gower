@@ -23,20 +23,82 @@ func init() {
 			if c.Args().Len() == 0 {
 				return nil
 			}
-			project := c.Args().Get(0)
 
-			err := unzip(project)
-			if err != nil {
-				return err
-			}
-			fmt.Printf("%s 项目创建成功\n", project)
-
-			return initProject(project)
+			return initProject(c.Args().Get(0))
 		},
 	})
 }
 
-func unzip(project string) error {
+func initProject(project string) error {
+	err := create(project)
+	if err != nil {
+		return err
+	}
+
+	err = initEnv(project)
+	if err != nil {
+		return err
+	}
+
+	err = initEnv(filepath.Join(project, "envs"))
+	if err != nil {
+		return err
+	}
+
+	err = initKey(project)
+	if err != nil {
+		return err
+	}
+
+	err = jwtKey(project)
+	if err != nil {
+		return err
+	}
+
+	err = goModTidy(project)
+	if err != nil {
+		return err
+	}
+
+	err = pnpmInstall(project)
+	if err != nil {
+		return err
+	}
+
+	err = initGit(project)
+	if err != nil {
+		return err
+	}
+
+	err = addAll(project)
+	if err != nil {
+		return err
+	}
+
+	err = commitM(project)
+	if err != nil {
+		return err
+	}
+
+	err = buildDev(project)
+	if err != nil {
+		return err
+	}
+
+	err = execTest(project)
+	if err != nil {
+		return err
+	}
+
+	err = overrideGower(project)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func create(project string) error {
 	if util.IsExist(project) {
 		return errors.New("目录已存在")
 	}
@@ -102,65 +164,7 @@ func unzip(project string) error {
 		}
 	}
 
-	return nil
-}
-
-func initProject(project string) error {
-	err := initEnv(project)
-	if err != nil {
-		return err
-	}
-
-	err = initEnv(filepath.Join(project, "envs"))
-	if err != nil {
-		return err
-	}
-
-	err = initKey(project)
-	if err != nil {
-		return err
-	}
-
-	err = jwtKey(project)
-	if err != nil {
-		return err
-	}
-
-	err = goModTidy(project)
-	if err != nil {
-		return err
-	}
-
-	err = pnpmInstall(project)
-	if err != nil {
-		return err
-	}
-
-	err = initGit(project)
-	if err != nil {
-		return err
-	}
-
-	err = addAll(project)
-	if err != nil {
-		return err
-	}
-
-	err = commitM(project)
-	if err != nil {
-		return err
-	}
-
-	err = buildDev(project)
-	if err != nil {
-		return err
-	}
-
-	err = execTest(project)
-	if err != nil {
-		return err
-	}
-
+	fmt.Printf("%s 项目创建成功\n", project)
 	return nil
 }
 
@@ -249,6 +253,10 @@ func buildDev(project string) error {
 
 func execTest(project string) error {
 	return command("go", []string{"test", "-bench=Benchmark", "-tags", "tmpl,static"}, project, "执行基准测试...")
+}
+
+func overrideGower(project string) error {
+	return command("go", []string{"install", "-tags", "cli"}, project, "本地化命令行工具...")
 }
 
 func command(c string, args []string, project string, hint string) error {
