@@ -17,7 +17,10 @@ key 初始化 JWT 秘钥
 		Action: func(c *cli.Context) error {
 			argsNum := c.Args().Len()
 			for i := 0; i < argsNum; i++ {
-				return execJwt(c.Args().Get(i))
+				err := execJwt(c.Args().Get(i))
+				if err != nil {
+					return err
+				}
 			}
 			return nil
 		},

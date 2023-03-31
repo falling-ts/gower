@@ -5,11 +5,11 @@ import (
 	"testing"
 )
 
-var messages = []string{
+var _ = []string{
 	"Error 1062 (23000): Duplicate entry 'aaa' for key 'users.idx_users_username'",
 }
 
-func TestTrans(t *testing.T) {
+func TestTrans(*testing.T) {
 	fmt.Println("----------------TestTrans 开始----------------")
 
 	//assert := getAssert(t)

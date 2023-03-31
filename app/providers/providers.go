@@ -124,7 +124,7 @@ func (p *Provider) Del(keys ...string) {
 
 // DelExcept 删除指定除外的缓存
 func (p *Provider) DelExcept(keys ...string) {
-	for key, _ := range p.caches {
+	for key := range p.caches {
 		if !slice.Strings(keys).Has(key) {
 			delete(p.caches, key)
 		}

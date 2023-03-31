@@ -20,11 +20,7 @@
     "paths": {
       "@/*": ["resources/app/*"]
     },
-    "vueCompilerOptions": {
-      "experimentalDisableTemplateSupport": true
-    },
     "lib": ["ESNext", "DOM", "DOM.Iterable", "ScriptHost"]
-
   },
   "include": [
     "resources/app/**/*.ts",

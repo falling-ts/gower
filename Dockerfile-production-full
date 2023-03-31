@@ -2,8 +2,8 @@
 FROM golang:1.20.2
 ENV GOPROXY=https://goproxy.cn,direct
 ENV TZ=Asia/Shanghai
-RUN mkdir -p "$GOPATH/src"
-WORKDIR $GOPATH/src
+RUN mkdir -p "/go/src"
+WORKDIR /go/src
 COPY . .
 RUN go mod tidy
 RUN go install -tags prod,tmpl,static

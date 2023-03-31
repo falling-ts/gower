@@ -5,6 +5,8 @@ import (
 	"github.com/falling-ts/gower/services"
 )
 
+var _ = Default()
+
 func Default() services.Handler {
 	return middlewares.Default("api-auth", "Authorization")
 }

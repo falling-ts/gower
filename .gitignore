@@ -49,3 +49,6 @@ ehthumbs.db
 Icon?
 ehthumbs_vista.db
 *.stackdump
+
+# Symbol Files
+static

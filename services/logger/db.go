@@ -27,25 +27,29 @@ func (d *DB) Set(arg any) services.DBLogger {
 	return d
 }
 
-func (d *DB) LogMode(level logger.LogLevel) logger.Interface {
+func (d *DB) LogMode(logger.LogLevel) logger.Interface {
 	return d
 }
 
 func (d *DB) Info(ctx context.Context, msg string, data ...interface{}) {
+	_ = ctx
 	d.Service.Logger.Debug("DB Debug", zap.String("db", fmt.Sprintf(msg, data...)))
 }
 
 func (d *DB) Warn(ctx context.Context, msg string, data ...interface{}) {
+	_ = ctx
 	d.Service.Logger.Warn("DB Warn", zap.String("db", fmt.Sprintf(msg, data...)))
 }
 
 func (d *DB) Error(ctx context.Context, msg string, data ...interface{}) {
+	_ = ctx
 	d.Service.Logger.Error("DB Error",
 		zap.String("db", fmt.Sprintf(msg, data...)),
 		zap.Stack("stack"))
 }
 
 func (d *DB) Trace(ctx context.Context, begin time.Time, fc func() (string, int64), err error) {
+	_ = ctx
 	elapsed := time.Since(begin)
 	switch {
 	case err != nil && d.Service.Core().Enabled(zap.ErrorLevel):

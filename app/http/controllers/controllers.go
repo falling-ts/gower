@@ -9,5 +9,4 @@ var (
 	config = app.Config()
 	auth   = app.Auth()
 	cookie = app.Cookie()
-	db     = app.DB()
 )

@@ -274,7 +274,7 @@ My0wMy0wMVQxMjo1NzoyNCswMDowMMYghYEAAAAASUVORK5CYII="/>
             <div class="hidden lg:flex lg:flex-1 lg:justify-end animate__animated animate__fadeInDown cursor-pointer dropdown dropdown-end">
               <div tabindex="0" class="avatar">
                 <div class="h-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                  <img src="{{.avatar}}"/>
+                  <img src="{{.avatar}}" alt=""/>
                 </div>
               </div>
               <div tabindex="0" class="mx-4 h-10 flex justify-center items-center">{{.name}}</div>
@@ -319,7 +319,7 @@ My0wMy0wMVQxMjo1NzoyNCswMDowMMYghYEAAAAASUVORK5CYII="/>
                   <div class="py-6 flex flex-col space-y-4 dropdown dropdown-end">
                     <div tabindex="0" class="avatar">
                       <div class="h-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                        <img src="{{.avatar}}"/>
+                        <img src="{{.avatar}}" alt=""/>
                       </div>
                     </div>
                     <div tabindex="0" class="mx-4 h-10 flex justify-center items-center">{{.name}}</div>
@@ -382,7 +382,7 @@ My0wMy0wMVQxMjo1NzoyNCswMDowMMYghYEAAAAASUVORK5CYII="/>
             }
           },
           logout() {
-            msg.confirm("是否退出", async (...args) => {
+            msg.confirm("是否退出", async () => {
               const res = await auth.logout()
               if (!res.code) {
                 msg.success(res.msg)

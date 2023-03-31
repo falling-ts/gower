@@ -67,7 +67,7 @@ func (a *AuthController) Login(req *requests.LoginRequest, user *models.User) (s
 }
 
 // Me 获取个人信息
-func (a *AuthController) Me(auth models.Auth) (services.Response, error) {
+func (a *AuthController) Me() (services.Response, error) {
 	return res.Ok("auth/me", app.Data{
 		"title": "我",
 	}), nil

@@ -16,7 +16,7 @@ var (
 	res      = app.Response()
 	route    = app.Route()
 	symCrypt = app.SymCrypt()
-	trans    = app.Translate()
+	_        = app.Translate()
 	util     = app.Util()
 )
 

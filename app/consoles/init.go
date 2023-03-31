@@ -17,7 +17,10 @@ key 初始化秘钥
 		Action: func(c *cli.Context) error {
 			argsNum := c.Args().Len()
 			for i := 0; i < argsNum; i++ {
-				return execInit(c.Args().Get(i))
+				err := execInit(c.Args().Get(i))
+				if err != nil {
+					return err
+				}
 			}
 			return nil
 		},
