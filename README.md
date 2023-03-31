@@ -55,7 +55,7 @@ $ go install -tags cli github.com/falling-ts/gower@latest
 $ gower create myproject
 ```
 
-> 将创建项目，初始化文件，环境，仓库，前后端依赖，执行基准测试
+> 将执行创建项目，初始化文件，环境，仓库，前后端依赖，执行基准测试
 
 #### 3.使用 Docker
 
@@ -253,6 +253,7 @@ $ curl -i http://localhost:8080/hello?name=Gower
 ## 使用的第三方库和内容，同时表达对开源的感谢
 
 ```
+
 github.com/golang/go v1.20
 github.com/alexedwards/argon2id v0.0.0-20230305115115-4b3c3280a736
 github.com/caarlos0/env/v7 v7.0.0
@@ -308,6 +309,11 @@ pnpm
 "cross-env": "^7.0.3",
 "vite": "^4.1.4"
 ```
+
+## 文档
+
+[Wiki 地址](https://gitee.com/falling-ts/gower/wikis/Home)
+[国内文档地址](https://learnku.com/docs/go-gin-gower/0.2.0)
 
 ## LICENSE
 
