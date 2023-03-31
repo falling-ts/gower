@@ -44,7 +44,7 @@ Gower 是基于 [Go/Gin](https://github.com/gin-gonic/gin) 的 Web 快速启动�
 #### 1.执行远程编译安装
 
 ```shell
-$ go install -tags cli github.com/falling-ts/gower@
+$ go install -tags cli github.com/falling-ts/gower@latest
 ```
 
 > 验证结果: `$ gower --version`
