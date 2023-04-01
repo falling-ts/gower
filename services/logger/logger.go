@@ -45,6 +45,7 @@ func (s *Service) Zap() *zap.Logger {
 	return s.Logger
 }
 
+// DB 获取 DB 的日志输出器
 func (s *Service) DB() services.DBLogger {
 	return s.DBLogger
 }

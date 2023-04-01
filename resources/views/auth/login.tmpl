@@ -30,9 +30,10 @@
             </label>
             <input
               id="password"
-              type="text"
+              type="password"
               placeholder="密码"
               v-model="form.password"
+              @change="changePassword"
               class="input input-bordered input-info w-full input-md"/>
           </div>
           <div class="divider my-8">登录按钮</div>
@@ -44,7 +45,7 @@
     </div>
     {{template "foot" .}}
     <script type="module">
-      import { createApp, api, msg, $ } from "/static/main.js"
+      import { createApp, api, msg, $, crypto } from "/static/main.js"
       const { auth } = api
 
       createApp({
@@ -62,6 +63,9 @@
           }
         },
         methods: {
+          changePassword(passwd) {
+            this.form.password = crypto.SHA256(passwd).toString()
+          },
           async login() {
             const animate = $(".animate__animated")
             animate.removeClass("animate__fadeInRight")

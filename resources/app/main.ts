@@ -3,6 +3,7 @@ import $ from "jquery"
 import api from "./api"
 import msg from "./lib/msg"
 import cookie from "js-cookie"
+import crypto from "crypto-js"
 import * as store from "localforage"
 // @ts-ignore
 import { createApp } from "vue/dist/vue.esm-browser.prod"
@@ -16,7 +17,8 @@ export {
     api,
     msg,
     cookie,
-    store
+    store,
+    crypto
 }
 
 // 样式
