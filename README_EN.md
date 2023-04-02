@@ -62,6 +62,7 @@ $ gower create myproject
 #### 3. Use Docker
 
 ```shell
+$ cd myproject
 $ ./run-dev
 ```
 

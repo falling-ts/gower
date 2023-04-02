@@ -62,6 +62,7 @@ $ gower create myproject
 #### 3.使用 Docker
 
 ```shell
+$ cd myproject
 $ ./run-dev
 ```
 
@@ -326,7 +327,7 @@ pnpm
 
 ## 主页页面
 
-![](.github/images/home.png)
+![](https://note.youdao.com/yws/api/personal/file/WEBfa31ed8b7640b2319ed8ca1833693f76?method=download&shareKey=e7d915c29821defeb07a91947871f4fd)
 
 ## 示例主题
 
@@ -334,20 +335,20 @@ pnpm
 
 ### cupcake
 
-![](.github/images/cupcake.png)
+![](https://note.youdao.com/yws/api/personal/file/WEB63c72d6782bea22fae71044784e78466?method=download&shareKey=e7d915c29821defeb07a91947871f4fd)
 
 ### forest
 
-![](.github/images/forest.png)
+![](https://note.youdao.com/yws/api/personal/file/WEBdae2a762a5e2362fdda1b5804e06aefb?method=download&shareKey=e7d915c29821defeb07a91947871f4fd)
 
 ### halloween
 
-![](.github/images/halloween.png)
+![](https://note.youdao.com/yws/api/personal/file/WEB1bf3d621216042a2fa5ed95053e37906?method=download&shareKey=e7d915c29821defeb07a91947871f4fd)
 
 ### lofi
 
-![](.github/images/lofi.png)
+![](https://note.youdao.com/yws/api/personal/file/WEB587e67ea6512ad60e927a8e559853eba?method=download&shareKey=e7d915c29821defeb07a91947871f4fd)
 
 ### synthwave
 
-![](.github/images/synthwave.png)
+![](https://note.youdao.com/yws/api/personal/file/WEB95a27217b466531f466fb01b2445e7ac?method=download&shareKey=e7d915c29821defeb07a91947871f4fd)
