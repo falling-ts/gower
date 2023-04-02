@@ -1,10 +1,10 @@
 {{define "head"}}
 <!doctype html>
-<html lang="zh-CN" data-theme="lofi">
+<html lang="zh-CN" data-theme="{{.app_theme}}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{.title}}</title>
+  <title>{{.app_title}}</title>
     {{template "css" .}}
 </head>
 <body>

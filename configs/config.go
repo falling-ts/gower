@@ -20,6 +20,7 @@ type Config struct {
 	Res
 	Cors
 	Upload
+	View
 }
 
 // Set 通用设置内容

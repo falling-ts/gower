@@ -132,7 +132,10 @@ func (s *Service) csrfTokenAndCommonData(c *gin.Context) {
 			cookie.Set(c, "csrf_token", csrfToken)
 
 			title := config.Get("app.name", "Gower").(string)
-			data.SetMapIndex(reflect.ValueOf("title"), reflect.ValueOf(title))
+			data.SetMapIndex(reflect.ValueOf("app_title"), reflect.ValueOf(title))
+
+			theme := config.Get("view.theme", "lofi").(string)
+			data.SetMapIndex(reflect.ValueOf("app_theme"), reflect.ValueOf(theme))
 		}
 	}
 }
