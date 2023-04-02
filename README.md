@@ -1,3 +1,5 @@
+[TOC]
+
 # Go/Gin Gower Web 启动框架
 
 ![](storage/app/public/images/logo.png)
@@ -318,3 +320,31 @@ pnpm
 ## LICENSE
 
 [MIT License](LICENSE)
+
+## 主页页面
+
+![](.github/images/home.png)
+
+## 示例主题
+
+通过修改 `.env.xxx` 的 `VIEW_THEME`, 详情见 [DaisyUI](https://daisyui.com/docs/themes/)
+
+### cupcake
+
+![](.github/images/cupcake.png)
+
+### forest
+
+![](.github/images/forest.png)
+
+### halloween
+
+![](.github/images/halloween.png)
+
+### lofi
+
+![](.github/images/lofi.png)
+
+### synthwave
+
+![](.github/images/synthwave.png)
