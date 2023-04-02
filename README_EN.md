@@ -84,7 +84,7 @@ $ git clone https://gitee.com/falling-ts/gower.git
 #### 2. Switch to the released version
 
 ```shell
-$ git checkout v0.2.1
+$ git checkout v0.2.2
 ```
 
 > After switching, you can delete the `.git` directory and create your own repository.
