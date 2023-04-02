@@ -99,9 +99,12 @@ $ go install -tags cli
 
 #### 4.初始化环境
 
-- 在根目录下，复制出 `.env.test` 和 `.env.production` 两个前端环境文件
-- 在 `envs/` 目录下，复制出 `.env.test` 和 `.env.production` 两个后端环境文件
-  - 生成 APP 和 JWT 的密钥
+在根目录下，复制出 `.env.test` 和 `.env.production` 两个前端环境文件
+
+在 `envs/` 目录下，复制出 `.env.test` 和 `.env.production` 两个后端环境文件
+
+生成 APP 和 JWT 的密钥
+
 
 ```shell
 $ gower init key
@@ -118,7 +121,7 @@ $ ./run-dev
 
 #### 6.不使用 Docker
 
-- 构建前端
+##### 构建前端
 
 ```shell
 $ npm run dev
@@ -126,7 +129,7 @@ $ npm run dev
 
 > 将在 `public/static` 下构建出 js 和 css 以及 images 内容
 
-- 构建后端与运行
+##### 构建后端与运行
 
 ```shell
 $ go test
@@ -136,7 +139,7 @@ $ gower run # 要在项目根目录下执行，记得把 $GOPATH/bin 加入环�
 
 > 如果需要打包静态资源请执行 `go install -tags tmpl,static`
 
-##### tags:
+###### tags:
 
 ```
 test: 打包测试环境的程序文件
@@ -150,7 +153,7 @@ cli: 命令行模式
 
 ## 快速开发
 
-- 创建控制器
+### 创建控制器
 
 ```shell
 $ gower make --controller Hello
@@ -182,7 +185,7 @@ func (*HelloController) Index(req *requests.HelloRequest) (services.Response, er
 
 ```
 
-- 创建请求
+### 创建请求
 
 ```shell
 $ gower make --request Hello
@@ -202,7 +205,7 @@ type HelloRequest struct {
 }
 ```
 
-- 创建模型
+### 创建模型
 
 ```shell
 $ gower make --model Hello
@@ -226,7 +229,7 @@ type Hello struct {
 
 > 注: 如果命令输出很多 Debug 内容，那是因为 envs/.env.development 的 APP_MODE 是开发模式, 修改为测试模式就可以了
 
-- 添加路由
+### 添加路由
 
 `routes/web.go`
 
@@ -246,7 +249,7 @@ func init() {
 }
 ```
 
-- 执行请求
+### 执行请求
 
 ```shell
 $ curl -i http://localhost:8080/hello?name=Gower
