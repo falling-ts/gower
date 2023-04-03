@@ -42,7 +42,7 @@ $ gower make TestAa TestAb TestAc
 							return err
 						}
 
-						fmt.Println(str.Conv(content).UpCamel() + " Rest控制器,请求,模型创建成功")
+						fmt.Println(str.Conv(content).UpCamel() + " Rest 控制器,请求,模型创建成功")
 					}
 
 					return nil
@@ -68,7 +68,59 @@ $ gower make TestAa TestAb TestAc
 							return err
 						}
 
-						fmt.Println(str.Conv(content).UpCamel() + " Api控制器,请求,模型创建成功")
+						fmt.Println(str.Conv(content).UpCamel() + " Api 控制器,请求,模型创建成功")
+					}
+
+					return nil
+				},
+			},
+			&cli.StringFlag{
+				Name:    "admin",
+				Aliases: []string{"a"},
+				Usage:   "创建 Admin 控制器, 以及请求模型.",
+				Action: func(c *cli.Context, api string) error {
+					var err error
+					args := strings.Split(api, ",")
+					argsNum := len(args)
+					for i := 0; i < argsNum; i++ {
+						content := args[i]
+						if err = makeAdminController(content); err != nil {
+							return err
+						}
+						if err = makeAdminRequest(content); err != nil {
+							return err
+						}
+						if err = makeModel(content); err != nil {
+							return err
+						}
+
+						fmt.Println(str.Conv(content).UpCamel() + " Admin 控制器,请求,模型创建成功")
+					}
+
+					return nil
+				},
+			},
+			&cli.StringFlag{
+				Name:    "admin:rest",
+				Aliases: []string{"ar"},
+				Usage:   "创建 Admin Rest 控制器, 以及请求模型.",
+				Action: func(c *cli.Context, api string) error {
+					var err error
+					args := strings.Split(api, ",")
+					argsNum := len(args)
+					for i := 0; i < argsNum; i++ {
+						content := args[i]
+						if err = makeAdminControllerRest(content); err != nil {
+							return err
+						}
+						if err = makeAdminRequest(content); err != nil {
+							return err
+						}
+						if err = makeModel(content); err != nil {
+							return err
+						}
+
+						fmt.Println(str.Conv(content).UpCamel() + " Admin Rest 控制器,请求,模型创建成功")
 					}
 
 					return nil
@@ -114,6 +166,32 @@ $ gower make TestAa TestAb TestAc
 				},
 			},
 			&cli.StringFlag{
+				Name:    "admin:controller",
+				Aliases: []string{"ac"},
+				Usage:   "创建 Admin 控制器.",
+				Action: func(ctx *cli.Context, c string) error {
+					if err := makeAdminController(c); err != nil {
+						return err
+					}
+
+					fmt.Println(str.Conv(c).UpCamel() + " Admin Controller 创建成功")
+					return nil
+				},
+			},
+			&cli.StringFlag{
+				Name:    "admin:controller-rest",
+				Aliases: []string{"acr"},
+				Usage:   "创建 Admin Rest 控制器.",
+				Action: func(ctx *cli.Context, c string) error {
+					if err := makeAdminControllerRest(c); err != nil {
+						return err
+					}
+
+					fmt.Println(str.Conv(c).UpCamel() + " Admin Controller 创建成功")
+					return nil
+				},
+			},
+			&cli.StringFlag{
 				Name:    "request",
 				Aliases: []string{"req"},
 				Usage:   "创建 Web 请求.",
@@ -132,6 +210,19 @@ $ gower make TestAa TestAb TestAc
 				Usage:   "创建 Api 请求.",
 				Action: func(ctx *cli.Context, req string) error {
 					if err := makeApiRequest(req); err != nil {
+						return err
+					}
+
+					fmt.Println(str.Conv(req).UpCamel() + "Request 创建成功")
+					return nil
+				},
+			},
+			&cli.StringFlag{
+				Name:    "admin:request",
+				Aliases: []string{"are"},
+				Usage:   "创建 Admin 请求.",
+				Action: func(ctx *cli.Context, req string) error {
+					if err := makeAdminRequest(req); err != nil {
 						return err
 					}
 
@@ -237,11 +328,45 @@ func makeApiRequest(r string) error {
 	return nil
 }
 
+func makeAdminController(c string) error {
+	file, err := gowerMake(c, "app/admin/controllers", "_controller.go", "make/admin.controller.go.tpl")
+	if err != nil {
+		_ = os.Remove(file)
+		return err
+	}
+
+	return nil
+}
+
+func makeAdminControllerRest(c string) error {
+	file, err := gowerMake(c, "app/admin/controllers", "_controller.go", "make/admin.controller_rest.go.tpl")
+	if err != nil {
+		_ = os.Remove(file)
+		return err
+	}
+
+	return nil
+}
+
+func makeAdminRequest(r string) error {
+	file, err := gowerMake(r, "app/admin/requests", "_request.go", "make/request.go.tpl")
+	if err != nil {
+		_ = os.Remove(file)
+		return err
+	}
+
+	return nil
+}
+
 func gowerMake(content, dirStr, suffix, tplFile string) (string, error) {
 	conv := str.Conv(content)
 	dir := util.CreateDir(dirStr)
 	filename := conv.Snake() + suffix
 	file := path.Join(dir, filename)
+	if util.IsExist(file) {
+		return "", nil
+	}
+
 	f, err := os.Create(file)
 	if err != nil {
 		return file, err

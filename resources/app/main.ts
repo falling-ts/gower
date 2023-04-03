@@ -28,3 +28,6 @@ import "./styles/normalize.css"
 import "tailwindcss/tailwind.css"
 import "simplebar/dist/simplebar.css"
 
+// Tailwindcss 开发模式
+import "./lib/tailwindcss.dev.js"
+import "daisyui/dist/full.css"
