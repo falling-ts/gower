@@ -11,10 +11,10 @@ specifiers:
   animate.css: ^4.1.1
   autoprefixer: ^10.4.13
   cross-env: ^7.0.3
-  crypto-js: ^4.1.1
   daisyui: ^2.51.2
   jquery: ^3.6.3
   js-cookie: ^3.0.1
+  jssha: ^3.3.0
   localforage: ^1.10.0
   postcss: ^8.4.21
   resize-observer-polyfill: ^1.5.1
@@ -27,10 +27,10 @@ specifiers:
 dependencies:
   animate.css: 4.1.1
   autoprefixer: 10.4.13_postcss@8.4.21
-  crypto-js: 4.1.1
   daisyui: 2.51.2_gbtt6ss3tbiz4yjtvdr6fbrj44
   jquery: 3.6.3
   js-cookie: 3.0.1
+  jssha: 3.3.0
   localforage: 1.10.0
   postcss: 8.4.21
   resize-observer-polyfill: 1.5.1
@@ -602,10 +602,6 @@ packages:
       which: 2.0.2
     dev: true
 
-  /crypto-js/4.1.1:
-    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
-    dev: false
-
   /css-selector-tokenizer/0.8.0:
     resolution: {integrity: sha512-Jd6Ig3/pe62/qe5SBPTN8h8LeUg/pT4lLgtavPf7updwwHpvFzxvOQBHYj2LZDMjUnBzgvIUSjRcf6oT5HzHFg==}
     dependencies:
@@ -845,6 +841,10 @@ packages:
   /js-cookie/3.0.1:
     resolution: {integrity: sha512-+0rgsUXZu4ncpPxRL+lNEptWMOWl9etvPHc/koSRp6MPwpRYAhmk0dUG00J4bxVV3r9uUzfo24wW0knS07SKSw==}
     engines: {node: '>=12'}
+    dev: false
+
+  /jssha/3.3.0:
+    resolution: {integrity: sha512-w9OtT4ALL+fbbwG3gw7erAO0jvS5nfvrukGPMWIAoea359B26ALXGpzy4YJSp9yGnpUvuvOw1nSjSoHDfWSr1w==}
     dev: false
 
   /lie/3.1.1:

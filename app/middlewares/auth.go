@@ -6,20 +6,36 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Auth(args ...string) services.Handler {
-	cookieKey := "auth"
-	headerKey := "Authorization"
+func Auth(args ...any) services.Handler {
+	tokenKey := "token"
+	authKey := "Authorization"
+	fn := func(id string) (*models.Auth, error) {
+		user := new(models.User)
+		result := db.First(user, id)
+		if result.Error != nil {
+			return nil, trans.DBError(result.Error)
+		}
+
+		return &models.Auth{User: *user}, nil
+	}
+
 	if len(args) > 0 {
-		cookieKey = args[0]
+		if key, ok := args[0].(string); ok {
+			tokenKey = key
+		}
 	}
 	if len(args) > 1 {
-		headerKey = args[1]
+		if key, ok := args[1].(string); ok {
+			authKey = key
+		}
 	}
 
 	return func(c *gin.Context) {
-		token, _ := cookie.Get(c, cookieKey)
+		c.Set("token-key", tokenKey)
+
+		token, _ := cookie.Get(c, tokenKey)
 		if token == "" {
-			token = c.GetHeader(headerKey)
+			token = c.GetHeader(authKey)
 		}
 		if token == "" {
 			excp.Unauthorized("未登录").Handle(c)
@@ -32,17 +48,22 @@ func Auth(args ...string) services.Handler {
 			return
 		}
 		if newToken != "" {
-			c.Set("auth", newToken)
+			c.Set(tokenKey, newToken)
 		}
 
-		user := new(models.User)
-		result := db.First(user, userId)
-		if result.Error != nil {
-			excp.Unauthorized(trans.DBError(result.Error)).Handle(c)
+		if len(args) > 2 {
+			if f, ok := args[2].(func(id string) (*models.Auth, error)); ok {
+				fn = f
+			}
+		}
+
+		model, err := fn(userId)
+		if err != nil {
+			excp.Unauthorized(err).Handle(c)
 			return
 		}
 
-		c.Set("Auth", &models.Auth{User: *user})
+		c.Set("Auth", model)
 		c.Next()
 	}
 }

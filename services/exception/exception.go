@@ -125,7 +125,13 @@ func (s *Service) redirect(c *gin.Context) {
 	host := config.Get("app.url", "http://localhost:8080").(string)
 	switch code.(int) {
 	case http.StatusUnauthorized:
-		url = fmt.Sprintf("%s/auth/login", host)
+		tokenKey := c.GetString("token-key")
+		switch tokenKey {
+		case "admin-token":
+			url = fmt.Sprintf("%s/admin/auth/login", host)
+		default:
+			url = fmt.Sprintf("%s/auth/login", host)
+		}
 		c.Redirect(http.StatusFound, url)
 	case http.StatusNotFound:
 		msg, _ := s.Exception.Get("msg")

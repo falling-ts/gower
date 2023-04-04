@@ -64,7 +64,7 @@ class client implements Client {
             if (res.code) {
                 msg.error(res.msg)
                 console.log('Error : ', res)
-                await unauthorized(res)
+                await unauthorized(res, path)
             }
 
             await handleToken(res)
@@ -93,7 +93,7 @@ class client implements Client {
             if (res.code) {
                 msg.error(res.msg)
                 console.log('Error : ', res)
-                await unauthorized(res)
+                await unauthorized(res, path)
             }
 
             await handleToken(res)
@@ -123,7 +123,7 @@ class client implements Client {
             if (res.code) {
                 msg.error(res.msg)
                 console.log('Error : ', res)
-                await unauthorized(res)
+                await unauthorized(res, path)
             }
 
             await handleToken(res)
@@ -153,7 +153,7 @@ class client implements Client {
             if (res.code) {
                 msg.error(res.msg)
                 console.log('Error : ', res)
-                await unauthorized(res)
+                await unauthorized(res, path)
             }
 
             await handleToken(res)
@@ -200,13 +200,18 @@ function toQueryString(params: Record<string, any>): string {
         .join("&");
 }
 
-async function unauthorized(res: Res) {
+async function unauthorized(res: Res, path: string) {
     if (res.code == http.Unauthorized) {
-        await cookie.remove("auth")
-        await cookie.remove("api-auth")
+        await cookie.remove("token")
+        await cookie.remove("admin-token")
         await store.removeItem("auth")
 
         setTimeout(() => {
+            const admin = new RegExp(`^\/admin`)
+            if (admin.test(path)) {
+                window.location.href = "/admin/auth/login"
+                return
+            }
             window.location.href = "/auth/login"
         }, 2000)
     }

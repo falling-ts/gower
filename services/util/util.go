@@ -3,7 +3,9 @@ package util
 import (
 	"bufio"
 	"crypto/rand"
+	"crypto/sha256"
 	"encoding/base64"
+	"encoding/hex"
 	"fmt"
 	"github.com/falling-ts/gower/services"
 	"github.com/jaevor/go-nanoid"
@@ -185,4 +187,10 @@ func (s *Service) IsExist(file string) bool {
 		return false
 	}
 	return false
+}
+
+// SHA256 哈希计算
+func (s *Service) SHA256(str string) string {
+	hash := sha256.Sum256([]byte(str))
+	return hex.EncodeToString(hash[:])
 }

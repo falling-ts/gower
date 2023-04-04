@@ -12,21 +12,21 @@ type HomeController struct {
 
 var Home = new(HomeController)
 
-// Index 主页
-func (h *HomeController) Index(auth *models.Auth) (services.Response, error) {
+// Index 获取页面
+func (*HomeController) Index(auth *models.Auth) (services.Response, error) {
 	var (
 		raw  any
 		data app.Data
 		err  error
 	)
 
-	user := auth.User
-	if user.ID != 0 {
-		raw, err = user.SetModel(&user).Out(app.Rule{
+	admin := auth.AdminUser
+	if admin.ID != 0 {
+		raw, err = admin.SetModel(&admin).Out(app.Rule{
 			"name": func() string {
-				name := *user.Nickname
+				name := *admin.Nickname
 				if name == "" {
-					name = *user.Username
+					name = *admin.Username
 				}
 				if name == "" {
 					name = "无名者"
@@ -35,7 +35,7 @@ func (h *HomeController) Index(auth *models.Auth) (services.Response, error) {
 				return name
 			},
 			"avatar": func() string {
-				path := *user.Avatar
+				path := *admin.Avatar
 				if path == "" {
 					path = "/static/images/avatar.png"
 				}
@@ -53,5 +53,5 @@ func (h *HomeController) Index(auth *models.Auth) (services.Response, error) {
 		data = make(app.Data)
 	}
 
-	return res.Ok("home/index", data), nil
+	return res.Ok("admin/index", data), nil
 }

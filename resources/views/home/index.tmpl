@@ -387,7 +387,7 @@ My0wMy0wMVQxMjo1NzoyNCswMDowMMYghYEAAAAASUVORK5CYII="/>
               if (!res.code) {
                 msg.success(res.msg)
                 setTimeout(() => {
-                  cookie.remove("auth")
+                  cookie.remove("token")
                   window.location.href = "/"
                 }, 2000)
               }

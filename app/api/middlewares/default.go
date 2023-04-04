@@ -8,5 +8,5 @@ import (
 var _ = Default()
 
 func Default() services.Handler {
-	return middlewares.Default("api-auth", "Authorization")
+	return middlewares.Default("api-token")
 }

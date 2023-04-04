@@ -46,7 +46,7 @@
     </div>
     {{template "foot" .}}
     <script type="module">
-      import { createApp, api, msg, $, crypto } from "/static/main.js"
+      import { createApp, api, msg, $, hash } from "/static/main.js"
       const { auth } = api
 
       createApp({
@@ -64,8 +64,8 @@
           }
         },
         methods: {
-          changePassword(passwd) {
-            this.form.password = crypto.SHA256(passwd).toString()
+          changePassword(event) {
+            this.form.password = hash.SHA256(event.target.value)
           },
           async login() {
             const animate = $(".animate__animated")

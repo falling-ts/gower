@@ -17,7 +17,7 @@ var Auth = new(AuthController)
 // RegisterForm 注册页面
 func (a *AuthController) RegisterForm() (string, app.Data) {
 	return "auth/register", app.Data{
-		"title": "注册",
+		"app_title": "注册",
 	}
 }
 
@@ -43,7 +43,7 @@ func (a *AuthController) Register(req *requests.RegisterRequest, user *models.Us
 // LoginForm 登录页面
 func (a *AuthController) LoginForm() (string, app.Data) {
 	return "auth/login", app.Data{
-		"title": "登录",
+		"app_title": "登录",
 	}
 }
 
@@ -55,12 +55,12 @@ func (a *AuthController) Login(req *requests.LoginRequest, user *models.User) (s
 
 	err := passwd.Check(req.Password, user.Password)
 	if err != nil {
-		return nil, excp.Unauthorized(err, "密码错误")
+		return nil, excp.BadRequest(err, "密码错误")
 	}
 
 	token, err := user.Login(req.RemoteIP())
 	if err != nil {
-		return nil, excp.Unauthorized(err, "登录失败")
+		return nil, excp.BadRequest(err, "登录失败")
 	}
 
 	return res.Ok("登录成功", token), nil
@@ -69,14 +69,14 @@ func (a *AuthController) Login(req *requests.LoginRequest, user *models.User) (s
 // Me 获取个人信息
 func (a *AuthController) Me() (services.Response, error) {
 	return res.Ok("auth/me", app.Data{
-		"title": "我",
+		"app_title": "我",
 	}), nil
 }
 
 // Logout 执行退出
 func (a *AuthController) Logout(c *gin.Context) (services.Response, error) {
-	c.Set("auth", nil)
-	token, _ := cookie.Get(c, "auth")
+	c.Set("token", nil)
+	token, _ := cookie.Get(c, "token")
 	if token == "" {
 		token = c.GetHeader("Authorization")
 	}

@@ -18,4 +18,6 @@ type UtilService interface {
 
 	CreateDir(dir string) string
 	IsExist(file string) bool
+
+	SHA256(str string) string
 }

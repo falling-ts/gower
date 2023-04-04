@@ -12,9 +12,11 @@ type Model struct {
 }
 
 var (
-	db    = app.DB()
-	trans = app.Translate()
-	auth  = app.Auth()
+	db     = app.DB()
+	trans  = app.Translate()
+	auth   = app.Auth()
+	util   = app.Util()
+	passwd = app.Passwd()
 )
 
 func migrate(args ...any) {

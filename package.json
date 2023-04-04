@@ -25,10 +25,10 @@
   "dependencies": {
     "animate.css": "^4.1.1",
     "autoprefixer": "^10.4.13",
-    "crypto-js": "^4.1.1",
     "daisyui": "^2.51.2",
     "jquery": "^3.6.3",
     "js-cookie": "^3.0.1",
+    "jssha": "^3.3.0",
     "localforage": "^1.10.0",
     "postcss": "^8.4.21",
     "resize-observer-polyfill": "^1.5.1",

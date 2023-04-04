@@ -110,14 +110,19 @@ func (s *Service) bodyLogger(c *gin.Context) {
 }
 
 func (s *Service) handleToken(c *gin.Context) {
-	token := c.GetString("auth")
+	tokenKey := c.GetString("token-key")
+	if tokenKey == "" {
+		tokenKey = "token"
+	}
+
+	token := c.GetString(tokenKey)
 	if token == "" {
 		tokenAny, _ := s.Response.Get("token")
 		token = tokenAny.(string)
 	}
 
 	if token != "" {
-		cookie.Set(c, "auth", token, false)
+		cookie.Set(c, tokenKey, token, false)
 		s.Set(token)
 	}
 }
@@ -131,11 +136,19 @@ func (s *Service) csrfTokenAndCommonData(c *gin.Context) {
 			data.SetMapIndex(reflect.ValueOf("csrf_token"), reflect.ValueOf(csrfToken))
 			cookie.Set(c, "csrf_token", csrfToken)
 
-			title := config.Get("app.name", "Gower").(string)
-			data.SetMapIndex(reflect.ValueOf("app_title"), reflect.ValueOf(title))
+			titleKey := "app_title"
+			titleVal := data.MapIndex(reflect.ValueOf(titleKey))
+			if !titleVal.IsValid() {
+				title := config.Get("app.name", "Gower").(string)
+				data.SetMapIndex(reflect.ValueOf(titleKey), reflect.ValueOf(title))
+			}
 
-			theme := config.Get("view.theme", "lofi").(string)
-			data.SetMapIndex(reflect.ValueOf("app_theme"), reflect.ValueOf(theme))
+			themeKey := "app_theme"
+			themeVal := data.MapIndex(reflect.ValueOf(themeKey))
+			if !themeVal.IsValid() {
+				theme := config.Get("view.theme", "lofi").(string)
+				data.SetMapIndex(reflect.ValueOf(themeKey), reflect.ValueOf(theme))
+			}
 		}
 	}
 }

@@ -69,7 +69,7 @@
     </div>
     {{template "foot" .}}
     <script type="module">
-      import { createApp, api, msg, $, crypto } from "/static/main.js"
+      import { createApp, api, msg, $, hash } from "/static/main.js"
       const { auth } = api
 
       createApp({
@@ -89,11 +89,11 @@
           }
         },
         methods: {
-          changePassword(passwd) {
-            this.form.password = crypto.SHA256(passwd).toString()
+          changePassword(event) {
+            this.form.password = hash.SHA256(event.target.value)
           },
-          changePasswordRep(passwd) {
-            this.form.passwordRep = crypto.SHA256(passwd).toString()
+          changePasswordRep(event) {
+            this.form.passwordRep = hash.SHA256(event.target.value)
           },
           async register() {
             const animate = $(".animate__animated")
