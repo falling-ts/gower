@@ -2,6 +2,7 @@ import "simplebar"
 import $ from "jquery"
 import api from "./api"
 import msg from "./lib/msg"
+import util from "./lib/util"
 import cookie from "js-cookie"
 import hash from "./lib/hash"
 import * as store from "localforage"
@@ -18,7 +19,8 @@ export {
     msg,
     cookie,
     store,
-    hash
+    hash,
+    util
 }
 
 // 样式

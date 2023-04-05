@@ -114,15 +114,16 @@ func (s *Service) saveException(c *gin.Context) {
 }
 
 func (s *Service) redirect(c *gin.Context) {
+	var url string
+	code, _ := s.Exception.Get("code")
+	host := config.Get("app.url", "http://localhost:8080").(string)
+
 	referer := c.Request.Referer()
-	if referer != "" {
+	if referer != "" && code.(int) != http.StatusUnauthorized {
 		c.Redirect(http.StatusFound, referer)
 		return
 	}
 
-	var url string
-	code, _ := s.Exception.Get("code")
-	host := config.Get("app.url", "http://localhost:8080").(string)
 	switch code.(int) {
 	case http.StatusUnauthorized:
 		tokenKey := c.GetString("token-key")
