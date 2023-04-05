@@ -6,7 +6,7 @@ import (
 )
 
 func init() {
-	ar := route.Use(mws.Default()).Group("/admin")
+	ar := route.Group("/admin", mws.Default())
 	{
 		ar.GET("/", mws.Auth(), admin.Home.Index)
 

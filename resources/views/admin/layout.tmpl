@@ -1,0 +1,116 @@
+{{define "admin/head"}}
+  {{template "head" .}}
+  <div class="w-full h-full layout bg-[url('/static/images/admin-bg.jpg')] bg-no-repeat bg-cover">
+    <ul class="menu p-2 bg-gradient-to-b from-slate-300 bg-opacity-80 w-56 absolute top-[4.5rem] left-1 bottom-1 z-10 rounded-box ring-1 hidden lg:block animate__animated animate__fadeInUp">
+      <li class="hover-bordered">
+        <a class="active">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15.98 2.442H8.02L0 10.46h2.275l6.882-6.88 6.881 6.881H24l-8.02-8.018m-.492 9.348L9.157 5.459 4.01 10.605v4.987a1.33 1.33 0 0 0 1.329 1.329h6.077l4.637 4.637v-4.637h2.598a1.33 1.33 0 0 0 1.33-1.33V11.79h-4.494Z"/>
+          </svg>
+          主页
+        </a>
+        <ul class="rounded-box p-2 bg-base-100">
+          <li><a>Submenu 1</a></li>
+          <li><a>Submenu 2</a></li>
+          <li><a>Submenu 3</a></li>
+        </ul>
+      </li>
+    </ul>
+    <div class="content py-2 px-4 bg-gradient-to-br from-slate-300 bg-opacity-80 absolute top-[4.5rem] right-1 bottom-1 lg:left-[14.35rem] left-1 rounded-md ring-1 animate__animated animate__rollIn overflow-auto" data-simplebar>
+      <div class="text-sm breadcrumbs">
+        <ul>
+          <li>
+            <a href="/admin">主页</a>
+          </li>
+        </ul>
+      </div>
+{{end}}
+
+{{define "admin/foot"}}
+      <footer class="footer footer-center p-4 mt-4 bg-base-300 text-base-content">
+        <div>
+          <p>Copyright © 2023 - All right reserved by Gower</p>
+        </div>
+      </footer>
+    </div>
+    <div class="navbar bg-gradient-to-r from-slate-300 bg-opacity-80 w-auto absolute top-1 inset-x-1 rounded-md ring-1 animate__animated animate__fadeInRight">
+      <div class="flex-none">
+        <button class="btn btn-square btn-ghost menu-ctrl">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+      </div>
+
+      <div class="flex-1">
+        <a href="/admin" class="btn btn-ghost normal-case text-xl">Gower Admin</a>
+      </div>
+
+      <div class="flex-none gap-2">
+        <button class="btn btn-ghost btn-circle">
+          <div class="indicator">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+            <span class="badge badge-xs badge-secondary indicator-item">5</span>
+          </div>
+        </button>
+        <div class="dropdown dropdown-end">
+          <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+            <div class="w-10 rounded-full">
+              <img src="/static/images/avatar.png" />
+            </div>
+          </label>
+          <ul tabindex="0" class="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
+            <li>
+              <a>个人主页</a>
+            </li>
+            <li>
+              <a>设置</a>
+            </li>
+            <li>
+              <a class="logout">退出</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{template "foot" .}}
+  <script type="module">
+    import { $, util, msg, api, cookie } from "/static/main.js"
+    const { admin } = api
+
+    $(".menu-ctrl").on("click", () => {
+      const menu = $(".menu"), content = $(".content")
+      if (menu.hasClass("animate__fadeInUp")) {
+        menu.removeClass("animate__fadeInUp").addClass("animate__fadeOutLeft")
+        if (!util.isPhone()) {
+          setTimeout(() => {
+            content.addClass("animate__rollIn")
+          })
+          content.removeClass("lg:left-[14.35rem]").removeClass("animate__rollIn")
+        }
+        if (util.isPhone() && menu.hasClass("hidden")) {
+          menu.removeClass("hidden").removeClass("animate__fadeOutLeft").addClass("animate__fadeInUp")
+        }
+      } else {
+        menu.removeClass("hidden").removeClass("animate__fadeOutLeft").addClass("animate__fadeInUp")
+        if (!util.isPhone()) {
+          setTimeout(() => {
+            content.addClass("animate__rollIn")
+          })
+          content.addClass("lg:left-[14.35rem]").removeClass("animate__rollIn")
+        }
+      }
+    })
+    $(".logout").on("click", () => {
+      msg.confirm("是否退出", async () => {
+        const res = await admin.logout()
+        if (!res.code) {
+          msg.success(res.msg)
+          setTimeout(() => {
+            cookie.remove("admin-token")
+            window.location.href = "/admin"
+          }, 2000)
+        }
+      })
+    })
+  </script>
+{{end}}
