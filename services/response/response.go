@@ -1,12 +1,14 @@
 package response
 
 import (
-	"github.com/falling-ts/gower/services"
-	"github.com/gin-gonic/gin/binding"
 	"net/http"
 	"reflect"
+	"strings"
+
+	"github.com/falling-ts/gower/services"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 )
 
 // 接受的响应数据类型
@@ -31,6 +33,9 @@ var (
 	cookie services.CookieService
 	util   services.UtilService
 	config services.Config
+	db     services.DBService
+	cache  services.CacheService
+	excp   services.Exception
 )
 
 // Mount 挂载响应体
@@ -49,6 +54,9 @@ func (s *Service) Init(args ...services.Service) services.Service {
 	cookie = args[1].(services.CookieService)
 	util = args[2].(services.UtilService)
 	config = args[3].(services.Config)
+	db = args[4].(services.DBService)
+	cache = args[5].(services.CacheService)
+	excp = args[6].(services.Exception)
 	return s.Response
 }
 
@@ -72,6 +80,7 @@ func (s *Service) Handle(c *gin.Context) bool {
 	s.bodyLogger(c)
 	s.handleToken(c)
 	s.csrfTokenAndCommonData(c)
+	s.adminData(c)
 	c.Negotiate(s.HttpStatus, s.config)
 	return true
 }
@@ -149,6 +158,34 @@ func (s *Service) csrfTokenAndCommonData(c *gin.Context) {
 				theme := config.Get("view.theme", "lofi").(string)
 				data.SetMapIndex(reflect.ValueOf(themeKey), reflect.ValueOf(theme))
 			}
+
+			excpKey, err := cookie.Get(c, "exception")
+			if err == nil {
+				exceptionKey := "app_exceptions"
+				exceptionVal := data.MapIndex(reflect.ValueOf(exceptionKey))
+				if !exceptionVal.IsValid() {
+					if exception, ok := cache.Flash(excpKey); ok {
+						data.SetMapIndex(reflect.ValueOf(exceptionKey), reflect.ValueOf(exception))
+					}
+				}
+			}
+		}
+	}
+}
+
+func (s *Service) adminData(c *gin.Context) {
+	mime := c.NegotiateFormat(s.config.Offered...)
+	if mime == binding.MIMEHTML && strings.HasPrefix(c.FullPath(), "/admin") {
+		data := reflect.Indirect(reflect.ValueOf(s.config.HTMLData))
+		if data.Kind() == reflect.Map {
+			menusKey := "admin_menus"
+			menusVal := data.MapIndex(reflect.ValueOf(menusKey))
+			if !menusVal.IsValid() {
+				if menus, ok := c.Get(menusKey); ok {
+					data.SetMapIndex(reflect.ValueOf(menusKey), reflect.ValueOf(menus))
+				}
+			}
+
 		}
 	}
 }
