@@ -5,7 +5,6 @@ import msg from "./lib/msg"
 import util from "./lib/util"
 import cookie from "js-cookie"
 import hash from "./lib/hash"
-import * as store from "localforage"
 // @ts-ignore
 import { createApp } from "vue/dist/vue.esm-browser.prod"
 import ResizeObserver from "resize-observer-polyfill"
@@ -18,7 +17,6 @@ export {
     api,
     msg,
     cookie,
-    store,
     hash,
     util
 }

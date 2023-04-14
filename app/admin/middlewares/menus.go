@@ -6,7 +6,6 @@ import (
 	"github.com/falling-ts/gower/services"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"strings"
 )
 
 func Menus() services.Handler {
@@ -25,29 +24,15 @@ func Menus() services.Handler {
 		menus := make([]any, len(menuModels))
 		for i, menu := range menuModels {
 			tmp, err := menu.SetModel(&menu).Out(app.Rule{
+				"id":   "ID",
 				"icon": "Icon",
 				"name": "Name",
 				"path": "Path",
-				"active": func(menu models.AdminMenu) bool {
-					path := menu.Path
-					if path == nil {
-						return false
-					}
-
-					return *path == strings.TrimRight(c.FullPath(), "/")
-				},
 				"children": app.Rule{
+					"id":   "ID",
 					"icon": "Icon",
 					"name": "Name",
 					"path": "Path",
-					"active": func(menu models.AdminMenu) bool {
-						path := menu.Path
-						if path == nil {
-							return false
-						}
-
-						return *path == strings.TrimRight(c.FullPath(), "/")
-					},
 				},
 			})
 			if err != nil {
@@ -60,7 +45,6 @@ func Menus() services.Handler {
 		}
 
 		c.Set(menusKey, menus)
-
 		c.Next()
 	}
 }

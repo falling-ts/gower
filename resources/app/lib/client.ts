@@ -1,7 +1,6 @@
 import msg from "./msg"
 import http from "./http"
 import cookie from "js-cookie"
-import * as store from "localforage"
 
 interface Res {
     code: number
@@ -165,7 +164,7 @@ class client implements Client {
         }
     }
     async _setToken() {
-        let auth: string | null = await store.getItem("auth")
+        let auth: string | null = localStorage.getItem("auth")
         if (auth === null) {
             auth = ""
         }
@@ -204,7 +203,7 @@ async function unauthorized(res: Res, path: string) {
     if (res.code == http.Unauthorized) {
         await cookie.remove("token")
         await cookie.remove("admin-token")
-        await store.removeItem("auth")
+        localStorage.removeItem("auth")
 
         setTimeout(() => {
             const admin = new RegExp(`^\/admin`)
@@ -219,7 +218,7 @@ async function unauthorized(res: Res, path: string) {
 
 async function handleToken(res: Res) {
     if (res.token !== "") {
-        await store.setItem("auth", res.token)
+        localStorage.setItem("auth", res.token)
     }
 }
 

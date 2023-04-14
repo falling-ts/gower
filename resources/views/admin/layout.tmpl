@@ -4,7 +4,7 @@
     <ul class="menu p-2 bg-gradient-to-b from-slate-300 bg-opacity-80 w-56 absolute top-[4.5rem] left-1 bottom-1 z-10 rounded-box ring-1 hidden lg:block animate__animated animate__fadeInUp">
       {{range .admin_menus}}
       <li class="hover-bordered">
-        <a {{if .active}}class="active"{{end}}>
+        <a id="menu-{{.id}}" data-id="{{.id}}" {{with .path}}data-href="{{.}}"{{end}}>
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             {{with .icon}}
             <path d="{{.}}"/>
@@ -18,7 +18,7 @@
         <ul class="rounded-box p-2 bg-base-100">
           {{range (assertAnySlice .)}}
           <li>
-            <a {{if .active}}class="active"{{end}}>
+            <a id="menu-{{.id}}" data-id="{{.id}}" {{with .path}}data-href="{{.}}"{{end}}>
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 {{with .icon}}
                 <path d="{{.}}"/>
@@ -96,6 +96,21 @@
     import { $, util, msg, api, cookie } from "/static/main.js"
     const { admin } = api
 
+    $(() => {
+      const id = localStorage.getItem("menu-active")
+
+      if (id) {
+        $(`#menu-${id}`)
+          .addClass("active")
+          .parents("ul")
+          .siblings("a")
+          .addClass("active")
+      } else {
+        $(`#menu-1`).addClass("active")
+      }
+
+    })
+
     $(".menu-ctrl").on("click", () => {
       const menu = $(".menu"), content = $(".content")
       if (menu.hasClass("animate__fadeInUp")) {
@@ -119,6 +134,7 @@
         }
       }
     })
+
     $(".logout").on("click", () => {
       msg.confirm("是否退出", async () => {
         const res = await admin.logout()
@@ -131,5 +147,17 @@
         }
       })
     })
+
+    $(".menu a").on("click", function () {
+      const elem = $(this),
+        id = elem.data("id"),
+        href = elem.data("href")
+
+      localStorage.setItem("menu-active", id)
+      if (href) {
+        window.location.href = href
+      }
+    })
+
   </script>
 {{end}}

@@ -43,7 +43,6 @@ func (*HomeController) Index(auth *models.Auth) (services.Response, error) {
 				return config.App.Url + path
 			},
 			"app_title": "后台管理",
-			"app_theme": "light",
 		})
 		if err != nil {
 			return nil, excp.BadRequest(err)

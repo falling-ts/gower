@@ -29,7 +29,6 @@
     "jquery": "^3.6.3",
     "js-cookie": "^3.0.1",
     "jssha": "^3.3.0",
-    "localforage": "^1.10.0",
     "postcss": "^8.4.21",
     "resize-observer-polyfill": "^1.5.1",
     "simplebar": "^6.2.1",

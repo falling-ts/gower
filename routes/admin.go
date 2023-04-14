@@ -16,5 +16,25 @@ func init() {
 			auth.POST("/login", admin.Auth.Login)
 			auth.POST("/logout", mws.Auth(), admin.Auth.Logout)
 		}
+
+		user := ar.Group("/user", mws.Auth())
+		{
+			user.GET("/", admin.Admin.Index)
+		}
+
+		role := ar.Group("/role", mws.Auth())
+		{
+			role.GET("/", admin.Role.Index)
+		}
+
+		menu := ar.Group("/menu", mws.Auth())
+		{
+			menu.GET("/", admin.Menu.Index)
+		}
+
+		permission := ar.Group("/permission", mws.Auth())
+		{
+			permission.GET("/", admin.Permission.Index)
+		}
 	}
 }
