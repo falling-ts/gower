@@ -35,8 +35,9 @@
       </li>
       {{end}}
     </ul>
-    <div class="content py-2 px-4 bg-gradient-to-br from-slate-300 bg-opacity-80 absolute top-[4.5rem] right-1 bottom-1 lg:left-[14.35rem] left-1 rounded-md ring-1 animate__animated animate__rollIn overflow-auto" data-simplebar>
-      <div class="text-sm breadcrumbs">
+    <div class="content py-2 bg-gradient-to-br from-slate-300 bg-opacity-80 absolute top-[4.5rem] right-1 bottom-1 lg:left-[14.35rem] left-1 rounded-md ring-1 animate__animated animate__backInRight"
+         data-simplebar>
+      <div class="text-sm breadcrumbs px-4">
         <ul>
           <li>
             <a href="/admin">主页</a>
@@ -46,7 +47,7 @@
 {{end}}
 
 {{define "admin/foot"}}
-      <footer class="footer footer-center p-4 mt-4 bg-base-300 text-base-content">
+      <footer class="footer footer-center py-4 mt-4 bg-base-300 text-base-content absolute bottom-0">
         <div>
           <p>Copyright © 2023 - All right reserved by Gower</p>
         </div>
@@ -117,9 +118,9 @@
         menu.removeClass("animate__fadeInUp").addClass("animate__fadeOutLeft")
         if (!util.isPhone()) {
           setTimeout(() => {
-            content.addClass("animate__rollIn")
+            content.addClass("animate__backInRight")
           })
-          content.removeClass("lg:left-[14.35rem]").removeClass("animate__rollIn")
+          content.removeClass("lg:left-[14.35rem]").removeClass("animate__backInRight")
         }
         if (util.isPhone() && menu.hasClass("hidden")) {
           menu.removeClass("hidden").removeClass("animate__fadeOutLeft").addClass("animate__fadeInUp")
@@ -128,9 +129,9 @@
         menu.removeClass("hidden").removeClass("animate__fadeOutLeft").addClass("animate__fadeInUp")
         if (!util.isPhone()) {
           setTimeout(() => {
-            content.addClass("animate__rollIn")
+            content.addClass("animate__backInRight")
           })
-          content.addClass("lg:left-[14.35rem]").removeClass("animate__rollIn")
+          content.addClass("lg:left-[14.35rem]").removeClass("animate__backInRight")
         }
       }
     })
