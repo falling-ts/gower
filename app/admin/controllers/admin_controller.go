@@ -15,7 +15,18 @@ var Admin = new(AdminController)
 
 // Index 获取列表页面
 func (*AdminController) Index() (services.Response, error) {
-	return res.Ok("admin/user/index", app.Data{}), nil
+	return res.Ok("admin/user/index", app.Data{
+		"breadcrumbs": []map[string]any{
+			{
+				"name": "系统设置",
+				"path": "#",
+			},
+			{
+				"name": "员工管理",
+				"path": "/admin/user",
+			},
+		},
+	}), nil
 }
 
 // Create 获取添加页面

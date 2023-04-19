@@ -38,11 +38,21 @@
     <div class="content py-2 bg-gradient-to-br from-slate-300 bg-opacity-80 absolute top-[4.5rem] right-1 bottom-1 lg:left-[14.35rem] left-1 rounded-md ring-1 animate__animated animate__backInRight"
          data-simplebar>
       <div class="text-sm breadcrumbs px-4">
+        {{with .breadcrumbs}}
+        <ul>
+          {{range .}}
+          <li>
+            <a href="{{.path}}">{{.name}}</a>
+          </li>
+          {{end}}
+        </ul>
+        {{else}}
         <ul>
           <li>
             <a href="/admin">主页</a>
           </li>
         </ul>
+        {{end}}
       </div>
 {{end}}
 
