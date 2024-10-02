@@ -15,7 +15,7 @@ func init() {
 			&cli.StringFlag{
 				Name:        "port",
 				Aliases:     []string{"p"},
-				Value:       "8080",
+				Value:       "",
 				Usage:       "启动应用, 并监听端口.",
 				Destination: &port,
 			},
@@ -25,6 +25,10 @@ func init() {
 				fmt.Println("命令行模式, 无法启动")
 				return nil
 			}
+			if port == "" {
+				port = fmt.Sprintf("%d", config.App.Port)
+			}
+
 			if err := route.Run(":" + port); err != nil {
 				return err
 			}

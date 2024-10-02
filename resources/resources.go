@@ -2,6 +2,9 @@ package resources
 
 import (
 	"embed"
+	"html/template"
+	"reflect"
+
 	"github.com/falling-ts/gower/app"
 )
 
@@ -11,6 +14,22 @@ var (
 )
 
 func init() {
+	route.SetFuncMap(template.FuncMap{
+		"assertAnySlice": func(v any) []any {
+			switch reflect.TypeOf(v).Kind() {
+			case reflect.Slice:
+				val := reflect.ValueOf(v)
+				result := make([]interface{}, val.Len())
+				for i := 0; i < val.Len(); i++ {
+					result[i] = val.Index(i).Interface()
+				}
+				return result
+			default:
+				return []any{}
+			}
+		},
+	})
+
 	err := route.LoadHTMLGlobs(
 		"resources/views/*.tmpl",
 		"resources/views/**/*.tmpl",
