@@ -50,10 +50,10 @@ SET GOARCH=amd64
 go build -o gower -tags test,tmpl,static
 
 echo ---------------- uploading...----------------
-rclone mkdir test:/go/bin
-rclone deletefile --progress test:/go/bin/gower
+rclone mkdir test:~/go/bin
+rclone deletefile --progress test:~/go/bin/gower
 
-rclone copy --progress ./ test:/go/bin/ ^
+rclone copy --progress ./ test:~/go/bin/ ^
     --include "envs/.env.development" ^
     --include "envs/.env.test" ^
     --include "public/static/**" ^

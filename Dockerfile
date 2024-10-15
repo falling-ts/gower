@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM golang:1.20.2
+FROM golang:1.23.2
 ENV TZ=Asia/Shanghai
 RUN mkdir -p "/go/bin"
 WORKDIR /go/bin
