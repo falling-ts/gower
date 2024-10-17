@@ -1,11 +1,7 @@
 @echo off
 
 echo ---------------- build static... ----------------
-call npm run prod
-
-echo ---------------- go test... ----------------
-go test -tags prod,tmpl,static
-REM go test -bench=Benchmark -tags prod,tmpl,static
+call npm run test
 
 echo ---------------- clean temp... ----------------
 del /s /q *.log
@@ -42,25 +38,30 @@ mkdir upload
 
 cd ../../
 
-echo ---------------- go build ----------------
-SET CGO_ENABLED=0
-SET GOOS=linux
-SET GOARCH=amd64
-
-go build -o gower -tags prod,tmpl,static
-
-echo ---------------- uploading...----------------
-rclone mkdir prod:/go/bin
-rclone deletefile --progress prod:/go/bin/gower
-rclone copy --progress ./ prod:/go/bin/ ^
-    --include "envs/.env.development" ^
-    --include "envs/.env.production" ^
-    --include "public/static/**" ^
+echo ---------------- uploading... ----------------
+rclone mkdir test:go/src
+rclone copy --progress ./ test:go/src/ ^
+    --include "app/**" ^
+    --include "bootstrap/**" ^
+    --include "configs/**" ^
+    --include "envs/**" ^
+    --include "public/**" ^
+    --include "resources/**" ^
+    --include "routes/**" ^
+    --include "services/**" ^
     --include "storage/**" ^
+    --include "tests/**" ^
     --include "third_apps/**" ^
-    --include "gower" ^
+    --include "trans/**" ^
+    --include "utils/**" ^
     --include "docker-compose.yaml" ^
-    --include "Dockerfile" ^
-    --include "run.sh"
+    --include "go.mod" ^
+    --include "go.sum" ^
+    --include "main.go" ^
+    --include "main_test.go" ^
+    --include "cmd/run-test-full.sh"
+
+
 
 echo ---------------- finished [next connect ssh and run] ----------------
+

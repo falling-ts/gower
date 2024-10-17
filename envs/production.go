@@ -2,7 +2,10 @@
 
 package envs
 
-import "github.com/joho/godotenv"
+import (
+	"embed"
+	"github.com/joho/godotenv"
+)
 
 //go:embed .env.production
 var prod embed.FS

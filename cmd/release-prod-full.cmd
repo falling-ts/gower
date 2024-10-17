@@ -39,8 +39,8 @@ mkdir upload
 cd ../../
 
 echo ---------------- uploading... ----------------
-rclone mkdir prod:/go/src
-rclone copy --progress ./ prod:/go/src/ ^
+rclone mkdir prod:go/src
+rclone copy --progress ./ prod:go/src/ ^
     --include "app/**" ^
     --include "bootstrap/**" ^
     --include "configs/**" ^
@@ -55,13 +55,11 @@ rclone copy --progress ./ prod:/go/src/ ^
     --include "trans/**" ^
     --include "utils/**" ^
     --include "docker-compose.yaml" ^
-    --include "Dockerfile-prod-full" ^
-    --include "entrypoint-prod-full.sh" ^
     --include "go.mod" ^
     --include "go.sum" ^
     --include "main.go" ^
     --include "main_test.go" ^
-    --include "run-prod-full.sh"
+    --include "cmd/run-prod-full.sh"
 
 echo ---------------- finished [next connect ssh and run] ----------------
 

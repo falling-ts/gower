@@ -3,7 +3,7 @@
 @echo off
 
 echo "---------------- build static... ----------------"
-npm run prod
+npm run test
 
 echo "---------------- clean temp... ----------------"
 rm -rf ./*.log
@@ -26,8 +26,8 @@ rm -rf upload/*
 cd ../../
 
 echo "---------------- uploading... ----------------"
-rclone mkdir prod:/go/src
-rclone copy --progress ./ prod:/go/src/ \
+rclone mkdir test:go/src
+rclone copy --progress ./ test:go/src/ \
     --include "app/**" \
     --include "bootstrap/**" \
     --include "configs/**" \
@@ -42,13 +42,11 @@ rclone copy --progress ./ prod:/go/src/ \
     --include "trans/**" \
     --include "utils/**" \
     --include "docker-compose.yaml" \
-    --include "Dockerfile-prod-full" \
-    --include "entrypoint-prod-full.sh" \
     --include "go.mod" \
     --include "go.sum" \
     --include "main.go" \
     --include "main_test.go" \
-    --include "run-prod-full.sh"
+    --include "cmd/run-test-full.sh"
 
 echo "---------------- finished [next connect ssh and run] ----------------"
 

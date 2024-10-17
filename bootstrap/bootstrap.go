@@ -1,5 +1,7 @@
 package bootstrap
 
-import _ "github.com/falling-ts/gower/app/consoles"
-import _ "github.com/falling-ts/gower/bootstrap/routes"
-import _ "github.com/falling-ts/gower/bootstrap/resources"
+import (
+	_ "github.com/falling-ts/gower/app/consoles"
+	_ "github.com/falling-ts/gower/bootstrap/0/routes"
+	_ "github.com/falling-ts/gower/bootstrap/1/resources"
+)

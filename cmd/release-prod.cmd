@@ -1,11 +1,11 @@
 @echo off
 
 echo ---------------- build static... ----------------
-call npm run test
+call npm run prod
 
 echo ---------------- go test... ----------------
-go test -tags test,tmpl,static
-REM go test -bench=Benchmark -tags test,tmpl,static
+go test -tags prod,tmpl,static
+REM go test -bench=Benchmark -tags prod,tmpl,static
 
 echo ---------------- clean temp... ----------------
 del /s /q *.log
@@ -47,21 +47,19 @@ SET CGO_ENABLED=0
 SET GOOS=linux
 SET GOARCH=amd64
 
-go build -o gower -tags test,tmpl,static
+go build -o gower -tags prod,tmpl,static
 
 echo ---------------- uploading...----------------
-rclone mkdir test:~/go/bin
-rclone deletefile --progress test:~/go/bin/gower
-
-rclone copy --progress ./ test:~/go/bin/ ^
+rclone mkdir prod:go/bin
+rclone deletefile --progress prod:go/bin/gower
+rclone copy --progress ./ prod:go/bin/ ^
     --include "envs/.env.development" ^
-    --include "envs/.env.test" ^
+    --include "envs/.env.production" ^
     --include "public/static/**" ^
     --include "storage/**" ^
     --include "third_apps/**" ^
     --include "gower" ^
     --include "docker-compose.yaml" ^
-    --include "Dockerfile" ^
-    --include "run.sh"
+    --include "cmd/run.sh"
 
 echo ---------------- finished [next connect ssh and run] ----------------

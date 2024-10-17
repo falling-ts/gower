@@ -15,11 +15,11 @@ SET GOARCH=amd64
 go build -o gower -tags prod,tmpl,static
 
 echo ---------------- uploading...----------------
-rclone mkdir prod:/go/bin
-rclone deletefile --progress prod:/go/bin/gower
-rclone copy --progress ./ prod:/go/bin/ ^
+rclone mkdir prod:go/bin
+rclone deletefile --progress prod:go/bin/gower
+rclone copy --progress ./ prod:go/bin/ ^
     --include "gower" ^
-    --include "run-simple.sh" ^
+    --include "cmd/run-simple.sh" ^
     --include "gower.service"
 
 echo ---------------- finished [next connect ssh and run] ----------------

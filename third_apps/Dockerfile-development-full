@@ -4,10 +4,10 @@ ENV GOPROXY=https://goproxy.cn,direct
 ENV TZ=Asia/Shanghai
 RUN mkdir -p "/go/src"
 WORKDIR /go/src
-COPY . .
+COPY .. .
 RUN go mod tidy
-RUN go install -tags test,tmpl,static
+RUN go install
 EXPOSE 8080
-RUN chmod +x entrypoint-test-full.sh
-ENTRYPOINT ["./entrypoint-test-full.sh"]
+RUN chmod +x cmd/entrypoint-dev-full.sh
+ENTRYPOINT ["./cmd/entrypoint-dev-full.sh"]
 CMD ["gower"]
