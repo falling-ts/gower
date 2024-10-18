@@ -6,8 +6,8 @@ RUN mkdir -p "/go/src"
 WORKDIR /go/src
 COPY .. .
 RUN go mod tidy
-RUN go install -tags test,tmpl,static
+RUN go install -tags prod,tmpl,static
 EXPOSE 8080
-RUN chmod +x cmd/entrypoint-test-full.sh
-ENTRYPOINT ["./cmd/entrypoint-test-full.sh"]
+RUN chmod +x docker/entrypoint-prod-full.sh
+ENTRYPOINT ["./docker/entrypoint-prod-full.sh"]
 CMD ["gower"]

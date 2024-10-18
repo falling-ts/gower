@@ -1,7 +1,7 @@
 @echo off
 
 echo ---------------- build static... ----------------
-call npm run test
+call npm run prod
 
 echo ---------------- clean temp... ----------------
 del /s /q *.log
@@ -39,8 +39,8 @@ mkdir upload
 cd ../../
 
 echo ---------------- uploading... ----------------
-rclone mkdir test:go/src
-rclone copy --progress ./ test:go/src/ ^
+rclone mkdir prod:go/src
+rclone copy --progress ./ prod:go/src/ ^
     --include "app/**" ^
     --include "bootstrap/**" ^
     --include "configs/**" ^
@@ -59,9 +59,9 @@ rclone copy --progress ./ test:go/src/ ^
     --include "go.sum" ^
     --include "main.go" ^
     --include "main_test.go" ^
-    --include "cmd/run-test-full.sh"
-
-
+    --include "docker/Dockerfile-prod-full" ^
+    --include "docker/entrypoint-prod-full.sh" ^
+    --include "docker/run-prod-full.sh"
 
 echo ---------------- finished [next connect ssh and run] ----------------
 

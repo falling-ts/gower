@@ -46,7 +46,9 @@ rclone copy --progress ./ test:go/src/ \
     --include "go.sum" \
     --include "main.go" \
     --include "main_test.go" \
-    --include "cmd/run-test-full.sh"
+    --include "docker/Dockerfile-test-full" \
+    --include "docker/entrypoint-test-full.sh" \
+    --include "docker/run-test-full.sh"
 
 echo "---------------- finished [next connect ssh and run] ----------------"
 

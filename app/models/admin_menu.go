@@ -55,7 +55,7 @@ func init() {
 type AdminMenu struct {
 	Model
 
-	Icon  *string `gorm:"type:string;comment:图标"`
+	Icon  *string `gorm:"type:text;comment:图标"`
 	Name  string  `gorm:"type:string;not null;comment:菜单名称"`
 	Path  *string `gorm:"type:string;comment:菜单路由"`
 	Order uint    `gorm:"type:uint;default:0;not null;commit:排序"`

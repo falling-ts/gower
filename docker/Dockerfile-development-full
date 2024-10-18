@@ -8,6 +8,6 @@ COPY .. .
 RUN go mod tidy
 RUN go install
 EXPOSE 8080
-RUN chmod +x cmd/entrypoint-dev-full.sh
-ENTRYPOINT ["./cmd/entrypoint-dev-full.sh"]
+RUN chmod +x docker/entrypoint-dev-full.sh
+ENTRYPOINT ["./docker/entrypoint-dev-full.sh"]
 CMD ["gower"]

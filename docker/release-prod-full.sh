@@ -46,7 +46,9 @@ rclone copy --progress ./ prod:go/src/ \
     --include "go.sum" \
     --include "main.go" \
     --include "main_test.go" \
-    --include "cmd/run-prod-full.sh"
+    --include "docker/Dockerfile-prod-full" \
+    --include "docker/entrypoint-prod-full.sh" \
+    --include "docker/run-prod-full.sh"
 
 echo "---------------- finished [next connect ssh and run] ----------------"
 

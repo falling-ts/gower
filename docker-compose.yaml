@@ -2,7 +2,7 @@ services:
   gower:
     build:
       context: .
-      dockerfile: third_apps/Dockerfile
+      dockerfile: docker/Dockerfile
     container_name: gower
     ports:
       - "8080:8080"
@@ -19,7 +19,7 @@ services:
   dev-full:
     build:
       context: .
-      dockerfile: third_apps/Dockerfile-development-full
+      dockerfile: docker/Dockerfile-development-full
     container_name: gower
     ports:
       - "8080:8080"
@@ -33,7 +33,7 @@ services:
   test-full:
     build:
       context: .
-      dockerfile: third_apps/Dockerfile-test-full
+      dockerfile: docker/Dockerfile-test-full
     container_name: gower
     restart: unless-stopped
     ports:
@@ -50,7 +50,7 @@ services:
   prod-full:
     build:
       context: .
-      dockerfile: third_apps/Dockerfile-production-full
+      dockerfile: docker/Dockerfile-production-full
     container_name: gower
     restart: always
     ports:

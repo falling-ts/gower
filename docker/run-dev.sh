@@ -15,10 +15,10 @@ export GOARCH=amd64
 go build -o gower -tags tmpl,static
 
 echo "---------------- clean docker... ----------------"
-docker-compose down
+docker compose down
 
 echo "---------------- start dev ----------------"
-docker-compose up -d --build gower
+docker compose up -d --build gower
 
 echo "---------------- tail -f dev log ----------------"
 docker logs -f gower
