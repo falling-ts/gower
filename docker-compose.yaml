@@ -133,6 +133,7 @@ services:
       - ./third_apps/caddy/site:/srv
       - ./third_apps/caddy/data:/data
       - ./third_apps/caddy/config:/config
+      - ./third_apps/caddy/log:/var/log
       - ./public/static:/public/static
       - ./storage/app/upload:/public/upload
     networks:
