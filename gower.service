@@ -4,8 +4,8 @@ After=network.target
 
 [Service]
 User=root
-WorkingDirectory=/~/go/bin
-ExecStart=/~/go/bin/gower run
+WorkingDirectory=/go/bin
+ExecStart=/go/bin/gower run
 Restart=always
 
 [Install]

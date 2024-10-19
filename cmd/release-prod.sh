@@ -15,9 +15,9 @@ export GOARCH=amd64
 go build -o gower -tags prod,tmpl,static
 
 echo "---------------- uploading...----------------"
-rclone mkdir prod:go/bin
-rclone deletefile --progress prod:go/bin/gower
-rclone copy --progress ./ prod:go/bin/ \
+rclone mkdir prod:/go/bin
+rclone deletefile --progress prod:/go/bin/gower
+rclone copy --progress ./ prod:/go/bin/ \
     --include "gower" \
     --include "cmd/run.sh" \
     --include "gower.service"

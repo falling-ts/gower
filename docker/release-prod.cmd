@@ -4,7 +4,7 @@ echo ---------------- build static... ----------------
 call npm run prod
 
 echo ---------------- go test... ----------------
-REM go test -tags prod,tmpl,static
+go test -tags prod,tmpl,static
 REM go test -bench=Benchmark -tags prod,tmpl,static
 
 echo ---------------- clean temp... ----------------
@@ -50,9 +50,9 @@ SET GOARCH=amd64
 go build -o gower -tags prod,tmpl,static
 
 echo ---------------- uploading...----------------
-rclone mkdir prod:go/bin
-rclone deletefile --progress prod:go/bin/gower
-rclone copy --progress ./ prod:go/bin/ ^
+rclone mkdir prod:/go/bin
+rclone deletefile --progress prod:/go/bin/gower
+rclone copy --progress ./ prod:/go/bin/ ^
     --include "envs/.env.development" ^
     --include "envs/.env.production" ^
     --include "public/static/**" ^

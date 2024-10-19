@@ -26,8 +26,8 @@ rm -rf upload/*
 cd ../../
 
 echo "---------------- uploading... ----------------"
-rclone mkdir prod:go/src
-rclone copy --progress ./ prod:go/src/ \
+rclone mkdir prod:/go/src
+rclone copy --progress ./ prod:/go/src/ \
     --include "app/**" \
     --include "bootstrap/**" \
     --include "configs/**" \
