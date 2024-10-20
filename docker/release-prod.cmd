@@ -1,13 +1,16 @@
 @echo off
 
-echo ---------------- build static... ----------------
+echo # npm run prod
 call npm run prod
+echo.
 
-echo ---------------- go test... ----------------
+echo # go test -tags prod,tmpl,static
+echo [Notice]: need edit envs/.env.production DB_DRIVER as sqlite
 go test -tags prod,tmpl,static
-REM go test -bench=Benchmark -tags prod,tmpl,static
+:: go test -bench=Benchmark -tags prod,tmpl,static
+echo.
 
-echo ---------------- clean temp... ----------------
+echo # clean
 del /s /q *.log
 del /s /q *.db
 del /s /q *.cache
@@ -41,18 +44,25 @@ rmdir /s /q upload
 mkdir upload
 
 cd ../../
+echo.
 
-echo ---------------- go build ----------------
+echo # go build -o gower -tags prod,tmpl,static
 SET CGO_ENABLED=0
 SET GOOS=linux
 SET GOARCH=amd64
-
 go build -o gower -tags prod,tmpl,static
+echo.
 
-echo ---------------- uploading...----------------
-rclone mkdir prod:/go/bin
-rclone deletefile --progress prod:/go/bin/gower
-rclone copy --progress ./ prod:/go/bin/ ^
+echo # rclone mkdir gower-prod:/go/bin/gower
+rclone mkdir gower-prod:/go/bin/gower
+echo.
+
+echo # rclone deletefile --progress gower-prod:/go/bin/gower/gower
+rclone deletefile --progress gower-prod:/go/bin/gower/gower
+echo.
+
+echo # rclone copy --progress ./ gower-prod:/go/bin/gower/ --include ...
+rclone copy --progress ./ gower-prod:/go/bin/gower/ ^
     --include "envs/.env.development" ^
     --include "envs/.env.production" ^
     --include "public/static/**" ^
@@ -62,5 +72,6 @@ rclone copy --progress ./ prod:/go/bin/ ^
     --include "docker-compose.yaml" ^
     --include "docker/Dockerfile" ^
     --include "docker/run.sh"
+echo.
 
-echo ---------------- finished [next connect ssh and run] ----------------
+echo [Notice]: next connect ssh and run

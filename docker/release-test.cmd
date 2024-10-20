@@ -1,13 +1,16 @@
 @echo off
 
-echo ---------------- build static... ----------------
+echo # npm run test
 call npm run test
+echo.
 
-echo ---------------- go test... ----------------
+echo # go test -tags test,tmpl,static
+echo [Notice]: need edit envs/.env.test DB_DRIVER as sqlite
 go test -tags test,tmpl,static
-REM go test -bench=Benchmark -tags test,tmpl,static
+:: go test -bench=Benchmark -tags test,tmpl,static
+echo.
 
-echo ---------------- clean temp... ----------------
+echo # clean
 del /s /q *.log
 del /s /q *.db
 del /s /q *.cache
@@ -41,19 +44,25 @@ rmdir /s /q upload
 mkdir upload
 
 cd ../../
+echo.
 
-echo ---------------- go build ----------------
+echo # go build -o gower -tags test,tmpl,static
 SET CGO_ENABLED=0
 SET GOOS=linux
 SET GOARCH=amd64
-
 go build -o gower -tags test,tmpl,static
+echo.
 
-echo ---------------- uploading...----------------
-rclone mkdir test:/go/bin
-rclone deletefile --progress test:/go/bin/gower
+echo # rclone mkdir gower-test:/go/bin/gower
+rclone mkdir gower-test:/go/bin/gower
+echo.
 
-rclone copy --progress ./ test:/go/bin/ ^
+echo # rclone deletefile --progress gower-test:/go/bin/gower/gower
+rclone deletefile --progress gower-test:/go/bin/gower/gower
+echo.
+
+echo # rclone copy --progress ./ gower-test:/go/bin/gower/ --include ...
+rclone copy --progress ./ gower-test:/go/bin/gower/ ^
     --include "envs/.env.development" ^
     --include "envs/.env.test" ^
     --include "public/static/**" ^
@@ -63,5 +72,6 @@ rclone copy --progress ./ test:/go/bin/ ^
     --include "docker-compose.yaml" ^
     --include "docker/Dockerfile" ^
     --include "docker/run.sh"
+echo.
 
-echo ---------------- finished [next connect ssh and run] ----------------
+echo [Notice]: next connect ssh and run

@@ -1,9 +1,10 @@
 @echo off
 
-echo ---------------- build static... ----------------
+echo # npm run test
 call npm run test
+echo.
 
-echo ---------------- clean temp... ----------------
+echo # clean
 del /s /q *.log
 del /s /q *.db
 del /s /q *.cache
@@ -37,10 +38,14 @@ rmdir /s /q upload
 mkdir upload
 
 cd ../../
+echo.
 
-echo ---------------- uploading... ----------------
-rclone mkdir test:/go/src
-rclone copy --progress ./ test:/go/src/ ^
+echo # rclone mkdir gower-test:/go/src/gower
+rclone mkdir gower-test:/go/src/gower
+echo.
+
+echo # rclone copy --progress ./ gower-test:/go/src/gower/ --include ...
+rclone copy --progress ./ gower-test:/go/src/gower/ ^
     --include "app/**" ^
     --include "bootstrap/**" ^
     --include "configs/**" ^
@@ -62,8 +67,6 @@ rclone copy --progress ./ test:/go/src/ ^
     --include "docker/Dockerfile-test-full" ^
     --include "docker/entrypoint-test-full.sh" ^
     --include "docker/run-test-full.sh"
+echo.
 
-
-
-echo ---------------- finished [next connect ssh and run] ----------------
-
+echo [Notice]: next connect ssh and run

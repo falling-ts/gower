@@ -1,9 +1,10 @@
 @echo off
 
-echo ---------------- build static... ----------------
+echo # npm run prod
 call npm run prod
+echo.
 
-echo ---------------- clean temp... ----------------
+echo # clean
 del /s /q *.log
 del /s /q *.db
 del /s /q *.cache
@@ -37,10 +38,14 @@ rmdir /s /q upload
 mkdir upload
 
 cd ../../
+echo.
 
-echo ---------------- uploading... ----------------
-rclone mkdir prod:/go/src
-rclone copy --progress ./ prod:/go/src/ ^
+echo # rclone mkdir gower-prod:/go/src/gower
+rclone mkdir gower-prod:/go/src/gower
+echo.
+
+echo # rclone copy --progress ./ gower-prod:/go/src/gower/ --include ...
+rclone copy --progress ./ gower-prod:/go/src/gower/ ^
     --include "app/**" ^
     --include "bootstrap/**" ^
     --include "configs/**" ^
@@ -62,6 +67,6 @@ rclone copy --progress ./ prod:/go/src/ ^
     --include "docker/Dockerfile-prod-full" ^
     --include "docker/entrypoint-prod-full.sh" ^
     --include "docker/run-prod-full.sh"
+echo.
 
-echo ---------------- finished [next connect ssh and run] ----------------
-
+echo [Notice]: next connect ssh and run

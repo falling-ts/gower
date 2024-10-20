@@ -1,10 +1,10 @@
 #!/bin/bash
 
-echo "---------------- 清理容器 ----------------"
+echo "# docker compose down"
 docker compose down
 
-echo "---------------- 启动测试或生产 ----------------"
+echo "# docker compose up -d --build gower"
 docker compose up -d --build gower
 
-echo "---------------- tail -f dev log ----------------"
+echo "# docker logs -f gower"
 docker logs -f gower

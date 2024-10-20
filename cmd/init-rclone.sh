@@ -2,14 +2,15 @@
 
 if ! command -v rclone &> /dev/null
 then
-    echo "---------------- rclone installing... ----------------"
+    echo "# go install github.com/rclone/rclone@v1.62.2"
     go install github.com/rclone/rclone@v1.62.2
-    echo "---------------- rclone installed ----------------"
-else
-    echo "---------------- rclone is already installed ----------------"
+    echo
 fi
 
+echo "# rclone version"
 rclone version
+echo
 
-echo "---------------- please create test and prod ssh server ----------------"
+echo "# rclone config"
+echo "[Notice]: please create gower-test and gower-prod ssh server"
 rclone config

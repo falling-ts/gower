@@ -1,13 +1,16 @@
 #!/bin/bash
 
-echo "---------------- build static... ----------------"
+echo "# npm run dev"
 npm run dev
+echo
 
-echo "---------------- clean docker... ----------------"
+echo "# docker compose down"
 docker compose down
+echo
 
-echo "---------------- start dev ----------------"
+echo "# docker compose up -d --build dev-full"
 docker compose up -d --build dev-full
+echo
 
-echo "---------------- tail -f dev log ----------------"
+echo "# docker logs -f gower"
 docker logs -f gower
