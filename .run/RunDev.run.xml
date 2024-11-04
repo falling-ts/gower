@@ -4,10 +4,10 @@
     <working_directory value="$PROJECT_DIR$" />
     <go_parameters value="-tags tmpl,static" />
     <parameters value="run" />
-    <kind value="PACKAGE" />
+    <kind value="DIRECTORY" />
     <package value="github.com/falling-ts/gower" />
     <directory value="$PROJECT_DIR$" />
-    <filePath value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/../gower-work|$PROJECT_DIR$/src/gower/main.go" />
     <method v="2">
       <option name="NpmBeforeRunTask" enabled="true">
         <package-json value="$PROJECT_DIR$/package.json" />

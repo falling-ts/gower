@@ -46,5 +46,6 @@
     "@vitejs/plugin-vue": "^4.0.0",
     "cross-env": "^7.0.3",
     "vite": "^4.1.4"
-  }
+  },
+  "packageManager": "pnpm@9.12.3+sha1.4fb96925d434c491285182acf29803bb9aa2e6e5"
 }

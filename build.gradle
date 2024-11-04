@@ -1,0 +1,12 @@
+repositories {
+    mavenCentral()
+}
+
+
+task test {
+    group = 'build'
+    description = 'Test task'
+    doLast {
+        println 'Hello from test task'
+    }
+}
