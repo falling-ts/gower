@@ -126,6 +126,10 @@ task t0100NpmBuild() {
         npmProcess.inputStream.eachLine { line ->
             println line
         }
+        npmProcess.errorStream.eachLine { line ->
+            println line
+        }
+
         npmProcess.waitFor()
         if (npmProcess.exitValue() != 0) {
             println "Error: Failed to run ${project.npm} run ${project.npmBuildEnv} with exit code ${npmProcess.exitValue()}"
@@ -140,13 +144,23 @@ task t0200GoTest() {
         println "# go test -tags ${project.goTestTags}"
     }
     doLast {
-        def goTestProcess = "go test -tags ${project.goTestTags}".execute()
-        goTestProcess.inputStream.eachLine { line ->
+        def goTestCommand = "go test -tags ${project.goTestTags}"
+        def goTestProcess = new ProcessBuilder(goTestCommand.split(' '))
+
+        def environment = processBuilder.environment()
+        environment.put('GOPATH', project.rootDir.getAbsolutePath())
+
+        def process = goTestProcess.start()
+        process.inputStream.eachLine { line ->
             println line
         }
-        goTestProcess.waitFor()
-        if (goTestProcess.exitValue() != 0) {
-            println "Error: Failed to run go test -tags ${project.goTestTags} with exit code ${goTestProcess.exitValue()}"
+        process.errorStream.eachLine { line ->
+            println line
+        }
+
+        process.waitFor()
+        if (process.exitValue() != 0) {
+            println "Error: Failed to run go test -tags ${project.goTestTags} with exit code ${process.exitValue()}"
         }
     }
 }
@@ -172,6 +186,10 @@ task t0299KillBin() {
         killProcess.inputStream.eachLine { line ->
             println line
         }
+        killProcess.errorStream.eachLine { line ->
+            println line
+        }
+
         killProcess.waitFor()
         if (killProcess.exitValue() != 0) {
             println "Warning: Failed to kill ${project.bin} with exit code ${killProcess.exitValue()}"
@@ -187,12 +205,16 @@ task t0300GoBuild() {
         def processBuilder = new ProcessBuilder(goBuildCommand.split(' '))
 
         def environment = processBuilder.environment()
+        environment.put('GOPATH', project.rootDir.getAbsolutePath())
         environment.put('CGO_ENABLED', project.cgoEnabled)
         environment.put('GOOS', project.goos)
         environment.put('GOARCH', project.goarch)
 
         def process = processBuilder.start()
         process.inputStream.eachLine { line ->
+            println line
+        }
+        process.errorStream.eachLine { line ->
             println line
         }
 
@@ -221,6 +243,9 @@ task Run {
         Thread.start {
             def run = "${project.bin} run".execute()
             run.inputStream.eachLine { line ->
+                println line
+            }
+            run.errorStream.eachLine { line ->
                 println line
             }
         }
@@ -343,6 +368,37 @@ WantedBy=multi-user.target
 
                 println env('.env.prod', 'VITE_APP_URL')
             }
+        }
+    }
+}
+
+task InstallCli {
+    dependsOn t0001SetDevEnv
+
+    group 'init'
+    description '安装命令行工具'
+
+    doFirst {
+        println "# go install -tags cli"
+    }
+    doLast {
+        def goInstallCommand = "go install -tags cli"
+        def goInstallProcess = new ProcessBuilder(goInstallCommand.split(' '))
+
+        def environment = goInstallProcess.environment()
+        environment.put('GOPATH', project.rootDir.getAbsolutePath())
+
+        def process = goInstallProcess.start()
+        process.inputStream.eachLine { line ->
+            println line
+        }
+        process.errorStream.eachLine { line ->
+            println line
+        }
+
+        process.waitFor()
+        if (process.exitValue() != 0) {
+            println 'go install 失败'
         }
     }
 }

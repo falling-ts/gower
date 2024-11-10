@@ -99,6 +99,10 @@ func initProject(project string) error {
 }
 
 func create(project string) error {
+	if util.IsExist("src") {
+		project = filepath.Join("src", project)
+	}
+
 	if util.IsExist(project) {
 		return errors.New("目录已存在")
 	}
