@@ -35,7 +35,7 @@ func execInit(arg string) error {
 			return err
 		}
 
-		err = util.SetEnv("envs/.env.development", "APP_KEY", key)
+		err = util.SetEnv("envs/.env.dev", "APP_KEY", key)
 		if err != nil {
 			return err
 		}
@@ -48,7 +48,7 @@ func execInit(arg string) error {
 			}
 		}
 
-		prod := "envs/.env.production"
+		prod := "envs/.env.prod"
 		if util.IsExist(prod) {
 			err = util.SetEnv(prod, "APP_KEY", key)
 			if err != nil {

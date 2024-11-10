@@ -5,7 +5,7 @@ npm run prod
 echo
 
 echo "# go test -tags prod,tmpl,static"
-echo "[Notice]: need edit envs/.env.production DB_DRIVER as sqlite"
+echo "[Notice]: need edit envs/.env.prod DB_DRIVER as sqlite"
 go test -tags prod,tmpl,static
 # go test -bench=Benchmark -tags prod,tmpl,static
 echo

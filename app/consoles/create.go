@@ -169,9 +169,9 @@ func create(project string) error {
 }
 
 func initEnv(dir string) error {
-	dev := filepath.Join(dir, ".env.development")
+	dev := filepath.Join(dir, ".env.dev")
 	test := filepath.Join(dir, ".env.test")
-	prod := filepath.Join(dir, ".env.production")
+	prod := filepath.Join(dir, ".env.prod")
 
 	err := copyFile(dev, test)
 	if err != nil {

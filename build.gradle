@@ -1,12 +1,349 @@
-repositories {
-    mavenCentral()
-}
-
-
-task test {
-    group = 'build'
-    description = 'Test task'
-    doLast {
-        println 'Hello from test task'
+remotes {
+    test {
+        host = prop('test.host', '192.168.101.101')
+        port = prop('test.port', '22') as Integer
+        user = prop('test.user', 'root')
+        password = prop('test.password', 'ys')
+    }
+    prod {
+        host = prop('prod.host', '192.168.101.101')
+        port = prop('prod.port', '22') as Integer
+        user = prop('prod.user', 'root')
+        password = prop('prod.password', 'ys')
     }
 }
+
+project.ext {
+    npmBuildEnv = prop('dev.npmBuildEnv', 'dev')
+    goTestTags = prop('dev.goTestTags', 'tmpl,static')
+    goBuildTags = prop('dev.goBuildTags', 'tmpl,static')
+
+    cgoEnabled = prop('dev.cgoEnabled', '0')
+    goos = prop('dev.goos', 'linux')
+    goarch = prop('dev.goarch', 'amd64')
+
+    npm = 'npm'
+    os = System.properties['os.name'].toLowerCase()
+}
+
+def prop(String field, String defaultValue = null) {
+    return project.findProperty(field) ?: defaultValue
+}
+
+def env(String envFile, String key, String defaultValue = null) {
+    def envFilePath = file(envFile)
+
+    if (!envFilePath.exists()) {
+        return defaultValue
+    }
+
+    def envContent = envFilePath.text
+
+    def envVariables = [:]
+    envContent.eachLine { line ->
+        if (line.trim() && !line.startsWith('#')) {
+            def parts = line.split('=', 2)
+            if (parts.length == 2) {
+                envVariables[parts[0].trim()] = parts[1].trim()
+            }
+        }
+    }
+
+    return envVariables[key] ?: defaultValue
+}
+
+task t0001SetDevEnv() {
+    doLast {
+        def binExt = '',
+            npmExt = ''
+
+        if (project.os.contains('windows')) {
+            binExt = '.exe'
+            npmExt = '.cmd'
+        }
+
+        def bin = prop('bin', 'gower')
+        project.bin = "${bin}${binExt}"
+        project.npm = "${project.npm}${npmExt}"
+    }
+}
+task t0001SetTestEnv() {
+    doLast {
+        project.npmBuildEnv = prop('test.npmBuildEnv', 'test')
+        project.goTestTags = prop('test.goTestTags', 'test,tmpl,static')
+        project.goBuildTags = prop('test.goBuildTags', 'test,tmpl,static')
+
+        project.cgoEnabled = prop('test.cgoEnabled', '0')
+        project.goos = prop('test.goos', 'linux')
+        project.goarch = prop('test.goarch', 'amd64')
+
+        def binExt = '',
+            npmExt = ''
+
+        if (project.goos.contains('windows')) {
+            binExt = '.exe'
+        }
+        if (project.os.contains('windows')) {
+            npmExt = '.cmd'
+        }
+
+        def bin = prop('bin', 'gower')
+        project.bin = "${bin}${binExt}"
+        project.npm = "${project.npm}${npmExt}"
+    }
+}
+task t0001SetProdEnv() {
+    doLast {
+        project.npmBuildEnv = prop('prod.npmBuildEnv', 'prod')
+        project.goTestTags = prop('prod.goTestTags', 'prod,tmpl,static')
+        project.goBuildTags = prop('prod.goBuildTags', 'prod,tmpl,static')
+
+        project.cgoEnabled = prop('test.cgoEnabled', '0')
+        project.goos = prop('test.goos', 'linux')
+        project.goarch = prop('test.goarch', 'amd64')
+
+        def binExt = '',
+            npmExt = ''
+
+        if (project.goos.contains('windows')) {
+            binExt = '.exe'
+        }
+        if (project.os.contains('windows')) {
+            npmExt = '.cmd'
+        }
+
+        def bin = prop('bin', 'gower')
+        project.bin = "${bin}${binExt}"
+        project.npm = "${project.npm}${npmExt}"
+    }
+}
+task t0100NpmBuild() {
+    doFirst {
+        println "# ${project.npm} run ${project.npmBuildEnv}"
+    }
+    doLast {
+        def npmProcess = "${project.npm} run ${project.npmBuildEnv}".execute()
+        npmProcess.inputStream.eachLine { line ->
+            println line
+        }
+        npmProcess.waitFor()
+        if (npmProcess.exitValue() != 0) {
+            println "Error: Failed to run ${project.npm} run ${project.npmBuildEnv} with exit code ${npmProcess.exitValue()}"
+        }
+    }
+}
+task t0200GoTest() {
+    onlyIf {
+        !project.hasProperty('skipTest')
+    }
+    doFirst {
+        println "# go test -tags ${project.goTestTags}"
+    }
+    doLast {
+        def goTestProcess = "go test -tags ${project.goTestTags}".execute()
+        goTestProcess.inputStream.eachLine { line ->
+            println line
+        }
+        goTestProcess.waitFor()
+        if (goTestProcess.exitValue() != 0) {
+            println "Error: Failed to run go test -tags ${project.goTestTags} with exit code ${goTestProcess.exitValue()}"
+        }
+    }
+}
+task t0299KillBin() {
+    doFirst {
+        if (project.os.contains('windows')) {
+            println "# taskkill /F /IM ${project.bin}"
+        } else if (project.os.contains('mac')) {
+            println "# killall -9 ${project.bin}"
+        } else {
+            println "# pkill -9 ${project.bin}"
+        }
+    }
+    doLast {
+        def command = "pkill -9 ${project.bin}"
+        if (project.os.contains('windows')) {
+            command = "cmd /c start taskkill /F /IM ${project.bin}"
+        } else if (project.os.contains('mac')) {
+            command = "killall -9 ${project.bin}"
+        }
+
+        def killProcess = command.execute()
+        killProcess.inputStream.eachLine { line ->
+            println line
+        }
+        killProcess.waitFor()
+        if (killProcess.exitValue() != 0) {
+            println "Warning: Failed to kill ${project.bin} with exit code ${killProcess.exitValue()}"
+        }
+    }
+}
+task t0300GoBuild() {
+    doFirst {
+        println "# go build -tags ${project.goBuildTags} -o ${project.bin}"
+    }
+    doLast {
+        def goBuildCommand = "go build -tags ${project.goBuildTags} -o ${project.bin}"
+        def processBuilder = new ProcessBuilder(goBuildCommand.split(' '))
+
+        def environment = processBuilder.environment()
+        environment.put('CGO_ENABLED', project.cgoEnabled)
+        environment.put('GOOS', project.goos)
+        environment.put('GOARCH', project.goarch)
+
+        def process = processBuilder.start()
+        process.inputStream.eachLine { line ->
+            println line
+        }
+
+        process.waitFor()
+        if (process.exitValue() != 0) {
+            println "Error: Failed to run go build -tags ${project.goBuildTags} -o ${project.bin} with exit code ${process.exitValue()}"
+        }
+    }
+}
+
+// dev 任务组
+task Run {
+    dependsOn t0001SetDevEnv
+    dependsOn t0100NpmBuild
+    dependsOn t0200GoTest
+    dependsOn t0299KillBin
+    dependsOn t0300GoBuild
+
+    group 'dev'
+    description '运行项目'
+
+    doFirst {
+        println "# ${project.bin} run"
+    }
+    doLast {
+        Thread.start {
+            def run = "${project.bin} run".execute()
+            run.inputStream.eachLine { line ->
+                println line
+            }
+        }
+
+        println env('.env.dev', 'VITE_APP_URL')
+    }
+}
+
+// test 任务组
+task ReleaseTest {
+    dependsOn t0001SetTestEnv
+    dependsOn t0100NpmBuild
+    dependsOn t0200GoTest
+    dependsOn t0300GoBuild
+
+    group 'test'
+    description '发布测试'
+
+    doFirst {
+        println "# ${project.bin} release"
+    }
+    doLast {
+        ssh.run {
+            session(remotes.test) {
+                println "# rm -rf /etc/systemd/system/${project.bin}.service"
+                executeSudo "systemctl stop ${project.bin}", ignoreError: true
+                executeSudo "systemctl disable ${project.bin}", ignoreError: true
+                executeSudo "rm -rf /etc/systemd/system/${project.bin}.service", ignoreError: true
+
+                println "# mkdir -p go/${project.bin}"
+                def res = executeSudo "echo '${remotes.test.password}' | mkdir -p go/${project.bin}"
+
+                println "# put ${project.bin} into ~/go/${project.bin}"
+                put from: file(project.bin), into: "go/${project.bin}"
+
+                def home = executeSudo "pwd"
+                def dir = "${home}/go/${project.bin}"
+                def bin = "${dir}/${project.bin}"
+                executeSudo "chmod +x ${bin}"
+
+                println "# generate ${project.bin}.service into /etc/systemd/system/${project.bin}.service"
+                put text: """
+[Unit]
+Description=${project.bin} service
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=${dir}
+ExecStart=${bin} run
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+                """, into: "/etc/systemd/system/${project.bin}.service"
+
+                println "# systemctl start ${project.bin}"
+                executeSudo "systemctl daemon-reload"
+                executeSudo "systemctl start ${project.bin}"
+                executeSudo "systemctl enable ${project.bin}"
+
+                println env('.env.test', 'VITE_APP_URL')
+            }
+        }
+    }
+}
+
+// prod 任务组
+task ReleaseProd {
+    dependsOn t0001SetProdEnv
+    dependsOn t0100NpmBuild
+    dependsOn t0200GoTest
+    dependsOn t0300GoBuild
+
+    group 'prod'
+    description '发布生成'
+
+    doFirst {
+        println "# ${project.bin} release"
+    }
+    doLast {
+        ssh.run {
+            session(remotes.prod) {
+                println "# rm -rf /etc/systemd/system/${project.bin}.service"
+                executeSudo "systemctl stop ${project.bin}", ignoreError: true
+                executeSudo "systemctl disable ${project.bin}", ignoreError: true
+                executeSudo "rm -rf /etc/systemd/system/${project.bin}.service", ignoreError: true
+
+                println "# mkdir -p go/${project.bin}"
+                def res = executeSudo "echo '${remotes.test.password}' | mkdir -p go/${project.bin}"
+
+                println "# put ${project.bin} into ~/go/${project.bin}"
+                put from: file(project.bin), into: "go/${project.bin}"
+
+                def home = executeSudo "pwd"
+                def dir = "${home}/go/${project.bin}"
+                def bin = "${dir}/${project.bin}"
+                executeSudo "chmod +x ${bin}"
+
+                println "# generate ${project.bin}.service into /etc/systemd/system/${project.bin}.service"
+                put text: """
+[Unit]
+Description=${project.bin} service
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=${dir}
+ExecStart=${bin} run
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+                """, into: "/etc/systemd/system/${project.bin}.service"
+
+                println "# systemctl start ${project.bin}"
+                executeSudo "systemctl daemon-reload"
+                executeSudo "systemctl start ${project.bin}"
+                executeSudo "systemctl enable ${project.bin}"
+
+                println env('.env.prod', 'VITE_APP_URL')
+            }
+        }
+    }
+}
+

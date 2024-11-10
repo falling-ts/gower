@@ -11,15 +11,15 @@ import (
 
 var Envs *embed.FS
 
-//go:embed .env.development
+//go:embed .env.dev
 var dev embed.FS
 
 func init() {
 	Envs = &dev
 
-	if err := godotenv.Load("envs/.env.development"); err != nil {
-		if err = godotenv.Load(".env.development"); err != nil {
-			if err = loadFile(".env.development", false); err != nil {
+	if err := godotenv.Load("envs/.env.dev"); err != nil {
+		if err = godotenv.Load(".env.dev"); err != nil {
+			if err = loadFile(".env.dev", false); err != nil {
 				panic("环境加载失败")
 			}
 		}

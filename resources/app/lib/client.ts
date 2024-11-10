@@ -29,6 +29,7 @@ class client implements Client {
             headers,
             credentials: "include",
         }
+        // @ts-ignore
         this.baseUri = import.meta.env.VITE_APP_URL
     }
     setOption(option: RequestInit = {}) {

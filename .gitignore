@@ -25,17 +25,17 @@ node_modules/
 # Environment files
 .env
 .env.test
-.env.production
+.env.prod
 !.env.default
 !.env.example
-!.env.development
+!.env.dev
 
 envs/.env
 envs/.env.test
-envs/.env.production
+envs/.env.prod
 !envs/.env.default
 !envs/.env.example
-!envs/.env.development
+!envs/.env.dev
 
 # Logs and databases
 *.log
@@ -52,3 +52,6 @@ ehthumbs_vista.db
 
 # Symbol Files
 static
+
+.gradle/
+build/

@@ -48,8 +48,8 @@ echo
 
 echo "# rclone copy --progress ./ gower-prod:/go/bin/gower/ --include ..."
 rclone copy --progress ./ gower-prod:/go/bin/gower/ \
-    --include "envs/.env.development" \
-    --include "envs/.env.production" \
+    --include "envs/.env.dev" \
+    --include "envs/.env.prod" \
     --include "public/static/**" \
     --include "storage/**" \
     --include "third_apps/**" \

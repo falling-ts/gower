@@ -5,7 +5,7 @@ export default {
     plugins: [
         vue(),
         replace({
-            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'dev'),
             'process.env': JSON.stringify({}),
             preventAssignment: true
         })

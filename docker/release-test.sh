@@ -48,7 +48,7 @@ echo
 
 echo "# rclone copy --progress ./ gower-test:/go/bin/gower/ --include ..."
 rclone copy --progress ./ gower-test:/go/bin/gower/ \
-    --include "envs/.env.development" \
+    --include "envs/.env.dev" \
     --include "envs/.env.test" \
     --include "public/static/**" \
     --include "storage/**" \

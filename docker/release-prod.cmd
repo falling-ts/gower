@@ -5,7 +5,7 @@ call npm run prod
 echo.
 
 echo # go test -tags prod,tmpl,static
-echo [Notice]: need edit envs/.env.production DB_DRIVER as sqlite
+echo [Notice]: need edit envs/.env.prod DB_DRIVER as sqlite
 go test -tags prod,tmpl,static
 :: go test -bench=Benchmark -tags prod,tmpl,static
 echo.
@@ -63,8 +63,8 @@ echo.
 
 echo # rclone copy --progress ./ gower-prod:/go/bin/gower/ --include ...
 rclone copy --progress ./ gower-prod:/go/bin/gower/ ^
-    --include "envs/.env.development" ^
-    --include "envs/.env.production" ^
+    --include "envs/.env.dev" ^
+    --include "envs/.env.prod" ^
     --include "public/static/**" ^
     --include "storage/**" ^
     --include "third_apps/**" ^

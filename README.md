@@ -100,9 +100,9 @@ $ go install -tags cli
 
 #### 4.初始化环境
 
-在根目录下，复制出 `.env.test` 和 `.env.production` 两个前端环境文件
+在根目录下，复制出 `.env.test` 和 `.env.prod` 两个前端环境文件
 
-在 `envs/` 目录下，复制出 `.env.test` 和 `.env.production` 两个后端环境文件
+在 `envs/` 目录下，复制出 `.env.test` 和 `.env.prod` 两个后端环境文件
 
 生成 APP 和 JWT 的密钥
 
@@ -228,7 +228,7 @@ type Hello struct {
 }
 ```
 
-> 注: 如果命令输出很多 Debug 内容，那是因为 envs/.env.development 的 APP_MODE 是开发模式, 修改为测试模式就可以了
+> 注: 如果命令输出很多 Debug 内容，那是因为 envs/.env.dev 的 APP_MODE 是开发模式, 修改为测试模式就可以了
 
 ### 添加路由
 

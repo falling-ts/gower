@@ -15,9 +15,9 @@
     }
   },
   "scripts": {
-    "dev": "cross-env NODE_ENV=development pnpm vite build",
+    "dev": "cross-env NODE_ENV=dev pnpm vite build",
     "test": "cross-env NODE_ENV=test pnpm vite build",
-    "prod": "cross-env NODE_ENV=production pnpm vite build"
+    "prod": "cross-env NODE_ENV=prod pnpm vite build"
   },
   "keywords": [],
   "author": "falling-ts",
