@@ -147,7 +147,7 @@ task t0200GoTest() {
         def goTestCommand = "go test -tags ${project.goTestTags}"
         def goTestProcess = new ProcessBuilder(goTestCommand.split(' '))
 
-        def environment = processBuilder.environment()
+        def environment = goTestProcess.environment()
         environment.put('GOPATH', project.rootDir.getAbsolutePath())
 
         def process = goTestProcess.start()
