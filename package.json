@@ -15,9 +15,9 @@
     }
   },
   "scripts": {
-    "dev": "cross-env NODE_ENV=development pnpm vite build",
+    "dev": "cross-env NODE_ENV=dev pnpm vite build",
     "test": "cross-env NODE_ENV=test pnpm vite build",
-    "prod": "cross-env NODE_ENV=production pnpm vite build"
+    "prod": "cross-env NODE_ENV=prod pnpm vite build"
   },
   "keywords": [],
   "author": "falling-ts",
@@ -29,7 +29,6 @@
     "jquery": "^3.6.3",
     "js-cookie": "^3.0.1",
     "jssha": "^3.3.0",
-    "localforage": "^1.10.0",
     "postcss": "^8.4.21",
     "resize-observer-polyfill": "^1.5.1",
     "simplebar": "^6.2.1",
@@ -47,5 +46,6 @@
     "@vitejs/plugin-vue": "^4.0.0",
     "cross-env": "^7.0.3",
     "vite": "^4.1.4"
-  }
+  },
+  "packageManager": "pnpm@9.12.3+sha1.4fb96925d434c491285182acf29803bb9aa2e6e5"
 }

@@ -2,32 +2,62 @@
   {{template "head" .}}
   <div class="w-full h-full layout bg-[url('/static/images/admin-bg.jpg')] bg-no-repeat bg-cover">
     <ul class="menu p-2 bg-gradient-to-b from-slate-300 bg-opacity-80 w-56 absolute top-[4.5rem] left-1 bottom-1 z-10 rounded-box ring-1 hidden lg:block animate__animated animate__fadeInUp">
+      {{range .admin_menus}}
       <li class="hover-bordered">
-        <a class="active">
+        <a id="menu-{{.id}}" data-id="{{.id}}" {{with .path}}data-href="{{.}}"{{end}}>
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15.98 2.442H8.02L0 10.46h2.275l6.882-6.88 6.881 6.881H24l-8.02-8.018m-.492 9.348L9.157 5.459 4.01 10.605v4.987a1.33 1.33 0 0 0 1.329 1.329h6.077l4.637 4.637v-4.637h2.598a1.33 1.33 0 0 0 1.33-1.33V11.79h-4.494Z"/>
+            {{with .icon}}
+            <path d="{{.}}"/>
+            {{else}}
+            <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/>
+            {{end}}
           </svg>
-          主页
+          {{.name}}
         </a>
+        {{with .children}}
         <ul class="rounded-box p-2 bg-base-100">
-          <li><a>Submenu 1</a></li>
-          <li><a>Submenu 2</a></li>
-          <li><a>Submenu 3</a></li>
+          {{range (assertAnySlice .)}}
+          <li>
+            <a id="menu-{{.id}}" data-id="{{.id}}" {{with .path}}data-href="{{.}}"{{end}}>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                {{with .icon}}
+                <path d="{{.}}"/>
+                {{else}}
+                <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/>
+                {{end}}
+              </svg>
+              {{.name}}
+            </a>
+          </li>
+          {{end}}
         </ul>
+        {{end}}
       </li>
+      {{end}}
     </ul>
-    <div class="content py-2 px-4 bg-gradient-to-br from-slate-300 bg-opacity-80 absolute top-[4.5rem] right-1 bottom-1 lg:left-[14.35rem] left-1 rounded-md ring-1 animate__animated animate__rollIn overflow-auto" data-simplebar>
-      <div class="text-sm breadcrumbs">
+    <div class="content py-2 bg-gradient-to-br from-slate-300 bg-opacity-80 absolute top-[4.5rem] right-1 bottom-1 lg:left-[14.35rem] left-1 rounded-md ring-1 animate__animated animate__backInRight"
+         data-simplebar>
+      <div class="text-sm breadcrumbs px-4">
+        {{with .breadcrumbs}}
+        <ul>
+          {{range .}}
+          <li>
+            <a href="{{.path}}">{{.name}}</a>
+          </li>
+          {{end}}
+        </ul>
+        {{else}}
         <ul>
           <li>
             <a href="/admin">主页</a>
           </li>
         </ul>
+        {{end}}
       </div>
 {{end}}
 
 {{define "admin/foot"}}
-      <footer class="footer footer-center p-4 mt-4 bg-base-300 text-base-content">
+      <footer class="footer footer-center py-4 mt-4 bg-base-300 text-base-content absolute bottom-0">
         <div>
           <p>Copyright © 2023 - All right reserved by Gower</p>
         </div>
@@ -77,15 +107,30 @@
     import { $, util, msg, api, cookie } from "/static/main.js"
     const { admin } = api
 
+    $(() => {
+      const id = localStorage.getItem("menu-active")
+
+      if (id) {
+        $(`#menu-${id}`)
+          .addClass("active")
+          .parents("ul")
+          .siblings("a")
+          .addClass("active")
+      } else {
+        $(`#menu-1`).addClass("active")
+      }
+
+    })
+
     $(".menu-ctrl").on("click", () => {
       const menu = $(".menu"), content = $(".content")
       if (menu.hasClass("animate__fadeInUp")) {
         menu.removeClass("animate__fadeInUp").addClass("animate__fadeOutLeft")
         if (!util.isPhone()) {
           setTimeout(() => {
-            content.addClass("animate__rollIn")
+            content.addClass("animate__backInRight")
           })
-          content.removeClass("lg:left-[14.35rem]").removeClass("animate__rollIn")
+          content.removeClass("lg:left-[14.35rem]").removeClass("animate__backInRight")
         }
         if (util.isPhone() && menu.hasClass("hidden")) {
           menu.removeClass("hidden").removeClass("animate__fadeOutLeft").addClass("animate__fadeInUp")
@@ -94,12 +139,13 @@
         menu.removeClass("hidden").removeClass("animate__fadeOutLeft").addClass("animate__fadeInUp")
         if (!util.isPhone()) {
           setTimeout(() => {
-            content.addClass("animate__rollIn")
+            content.addClass("animate__backInRight")
           })
-          content.addClass("lg:left-[14.35rem]").removeClass("animate__rollIn")
+          content.addClass("lg:left-[14.35rem]").removeClass("animate__backInRight")
         }
       }
     })
+
     $(".logout").on("click", () => {
       msg.confirm("是否退出", async () => {
         const res = await admin.logout()
@@ -112,5 +158,17 @@
         }
       })
     })
+
+    $(".menu a").on("click", function () {
+      const elem = $(this),
+        id = elem.data("id"),
+        href = elem.data("href")
+
+      localStorage.setItem("menu-active", id)
+      if (href) {
+        window.location.href = href
+      }
+    })
+
   </script>
 {{end}}

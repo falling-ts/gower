@@ -104,8 +104,8 @@ $ go install -tags cli
 
 #### 4. Initialize environment
 
-*   In the root directory, copy the two frontend environment files `.env.test` and `.env.production`.
-*   In the `envs/` directory, copy the two backend environment files `.env.test` and `.env.production`.
+*   In the root directory, copy the two frontend environment files `.env.test` and `.env.prod`.
+*   In the `envs/` directory, copy the two backend environment files `.env.test` and `.env.prod`.
 *   Generate the APP and JWT keys.
 
 ```shell
@@ -217,7 +217,7 @@ type Hello struct {
     Name *string `gorm:"type:string;default:'';comment:Name"`
 }
 ```
-> Note: If the command outputs a lot of Debug content, it's because the APP\_MODE in envs/.env.development is in development mode. Change it to test mode to resolve.
+> Note: If the command outputs a lot of Debug content, it's because the APP\_MODE in envs/.env.dev is in development mode. Change it to test mode to resolve.
 *   Add a route
 `routes/web.go`
 ```go

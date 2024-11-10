@@ -1,0 +1,13 @@
+# syntax=docker/dockerfile:1
+FROM golang:1.23.2
+ENV GOPROXY=https://goproxy.cn,direct
+ENV TZ=Asia/Shanghai
+RUN mkdir -p "/go/src"
+WORKDIR /go/src
+COPY .. .
+RUN go mod tidy
+RUN go install -tags test,tmpl,static
+EXPOSE 8080
+RUN chmod +x docker/entrypoint-test-full.sh
+ENTRYPOINT ["./docker/entrypoint-test-full.sh"]
+CMD ["gower"]

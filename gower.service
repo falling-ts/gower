@@ -1,11 +1,11 @@
 [Unit]
-Description=Gower
+Description=gower service
 After=network.target
 
 [Service]
 User=root
-WorkingDirectory=/go/bin
-ExecStart=/go/bin/gower run
+WorkingDirectory=/go/bin/gower
+ExecStart=/go/bin/gower/gower run
 Restart=always
 
 [Install]

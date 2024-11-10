@@ -9,7 +9,7 @@ import (
 var _ services.ResponseService = (*response.Service)(nil)
 
 func init() {
-	P.Register("response", Depends{"auth", "cookie", "util", "config"}, func(ss ...services.Service) services.Service {
+	P.Register("response", Depends{"auth", "cookie", "util", "config", "db", "cache", "exception"}, func(ss ...services.Service) services.Service {
 		r := new(responses.Response)
 		return response.Mount(r).Init(ss...)
 	})

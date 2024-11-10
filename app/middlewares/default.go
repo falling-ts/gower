@@ -53,7 +53,7 @@ func Default(args ...any) services.Handler {
 		}
 
 		if len(args) > 2 {
-			if f, ok := args[2].(func(id string) (*models.Auth, error)); !ok {
+			if f, ok := args[2].(func(id string) (*models.Auth, error)); ok {
 				fn = f
 			}
 		}

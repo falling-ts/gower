@@ -41,7 +41,7 @@ func (s *Service) Init(args ...services.Service) services.Service {
 	mode := map[string]string{
 		"development": "debug",
 		"production":  "release",
-		"test":        "test",
+		"test":        "debug",
 	}[config.Get("app.mode", "test").(string)]
 	gin.SetMode(mode)
 

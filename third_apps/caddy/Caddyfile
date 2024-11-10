@@ -1,6 +1,10 @@
-#{
-#  debug
-#}
+{
+  debug
+  log {
+    output file /var/log/caddy.log
+    level INFO
+  }
+}
 
 # development, test, production
 localhost, www.qq.com, www.weixin.com {

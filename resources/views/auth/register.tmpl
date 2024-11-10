@@ -58,6 +58,7 @@
               placeholder="重复密码"
               v-model="form.passwordRep"
               @change="changePasswordRep"
+              @keyup.enter="register"
               class="input input-bordered input-info w-full input-md"/>
           </div>
           <div class="divider my-4">注册按钮</div>

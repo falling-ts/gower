@@ -34,7 +34,7 @@ func execJwt(arg string) error {
 		if err != nil {
 			return err
 		}
-		err = util.SetEnv("envs/.env.development", "JWT_KEY", key)
+		err = util.SetEnv("envs/.env.dev", "JWT_KEY", key)
 		if err != nil {
 			return err
 		}
@@ -47,7 +47,7 @@ func execJwt(arg string) error {
 			}
 		}
 
-		prod := "envs/.env.production"
+		prod := "envs/.env.prod"
 		if util.IsExist(prod) {
 			err = util.SetEnv(prod, "JWT_KEY", key)
 			if err != nil {

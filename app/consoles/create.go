@@ -11,7 +11,10 @@ import (
 	"io/fs"
 	"os"
 	"os/exec"
+	"path"
 	"path/filepath"
+	"regexp"
+	"strings"
 )
 
 func init() {
@@ -30,67 +33,98 @@ func init() {
 }
 
 func initProject(project string) error {
-	err := create(project)
+	pattern := `^[a-zA-Z][a-zA-Z0-9-_]*$`
+	re := regexp.MustCompile(pattern)
+
+	if !re.MatchString(project) {
+		return errors.New("项目名称必须字母开头，只能包含字母、数字、-、_")
+	}
+
+	dir := project
+	if util.IsExist("src") {
+		dir = filepath.Join("src", dir)
+	}
+
+	err := create(dir, project)
 	if err != nil {
 		return err
 	}
 
-	err = initEnv(project)
+	err = setGradleProp(dir, project)
 	if err != nil {
 		return err
 	}
 
-	err = initEnv(filepath.Join(project, "envs"))
+	err = setGoMod(dir, project)
 	if err != nil {
 		return err
 	}
 
-	err = initKey(project)
+	err = initEnv(dir)
 	if err != nil {
 		return err
 	}
 
-	err = jwtKey(project)
+	err = initEnv(filepath.Join(dir, "envs"))
 	if err != nil {
 		return err
 	}
 
-	err = goModTidy(project)
+	err = initKey(dir)
 	if err != nil {
 		return err
 	}
 
-	err = pnpmInstall(project)
+	err = jwtKey(dir)
 	if err != nil {
 		return err
 	}
 
-	err = initGit(project)
+	err = goModTidy(dir)
 	if err != nil {
 		return err
 	}
 
-	err = addAll(project)
+	err = pnpmInstall(dir)
 	if err != nil {
 		return err
 	}
 
-	err = commitM(project)
+	err = initGit(dir)
 	if err != nil {
 		return err
 	}
 
-	err = buildDev(project)
+	err = addAll(dir)
 	if err != nil {
 		return err
 	}
 
-	err = execTest(project)
+	err = commitM(dir)
 	if err != nil {
 		return err
 	}
 
-	err = overrideGower(project)
+	err = buildDev(dir)
+	if err != nil {
+		return err
+	}
+
+	if util.IsExist("go.work") {
+		err = addWork(dir)
+		if err != nil {
+			return err
+		}
+	}
+
+	if util.IsExist("settings.gradle") {
+		err = addGradle(project)
+		if err != nil {
+			return err
+		}
+	}
+
+	err = execTest(dir)
 	if err != nil {
 		return err
 	}
@@ -98,8 +132,8 @@ func initProject(project string) error {
 	return nil
 }
 
-func create(project string) error {
-	if util.IsExist(project) {
+func create(dir string, project string) error {
+	if util.IsExist(dir) {
 		return errors.New("目录已存在")
 	}
 
@@ -123,25 +157,17 @@ func create(project string) error {
 
 	for _, file := range reader.File {
 		err = func() error {
-			path := filepath.Join(project, file.Name)
+			filePath := filepath.Join(dir, file.Name)
 
 			if file.FileInfo().IsDir() {
-				err = os.MkdirAll(path, os.ModePerm)
+				err = os.MkdirAll(filePath, os.ModePerm)
 				if err != nil {
 					return err
 				}
 			} else {
-				if err = os.MkdirAll(filepath.Dir(path), os.ModePerm); err != nil {
+				if err = os.MkdirAll(filepath.Dir(filePath), os.ModePerm); err != nil {
 					return err
 				}
-
-				destFile, err := os.Create(path)
-				if err != nil {
-					return err
-				}
-				defer func(destFile *os.File) {
-					_ = destFile.Close()
-				}(destFile)
 
 				srcFile, err := file.Open()
 				if err != nil {
@@ -151,7 +177,22 @@ func create(project string) error {
 					_ = srcFile.Close()
 				}(srcFile)
 
-				if _, err = io.Copy(destFile, srcFile); err != nil {
+				content, err := io.ReadAll(srcFile)
+				if err != nil {
+					return err
+				}
+
+				newContent := strings.ReplaceAll(string(content), "\"github.com/falling-ts/gower", fmt.Sprintf("\"%s", project))
+
+				destFile, err := os.Create(filePath)
+				if err != nil {
+					return err
+				}
+				defer func(destFile *os.File) {
+					_ = destFile.Close()
+				}(destFile)
+
+				if _, err = destFile.WriteString(newContent); err != nil {
 					return err
 				}
 			}
@@ -164,14 +205,53 @@ func create(project string) error {
 		}
 	}
 
-	fmt.Printf("%s 项目创建成功\n", project)
+	gowerZip, err := os.Create(filepath.Join(dir, "app/consoles/create/gower.zip"))
+	if err != nil {
+		return err
+	}
+	defer func(gowerZip *os.File) {
+		_ = gowerZip.Close()
+	}(gowerZip)
+
+	_, err = io.Copy(gowerZip, file)
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("%s 项目创建成功\n", dir)
 	return nil
 }
 
+func setGradleProp(dir string, project string) error {
+	propFile := filepath.Join(dir, "gradle.properties")
+
+	content, err := os.ReadFile(propFile)
+	if err != nil {
+		return err
+	}
+
+	contentStr := string(content)
+	newContent := strings.Replace(contentStr, "bin = gower", fmt.Sprintf("bin = %s", project), -1)
+	return os.WriteFile(propFile, []byte(newContent), 0644)
+}
+
+func setGoMod(dir string, project string) error {
+	modFile := filepath.Join(dir, "go.mod")
+
+	content, err := os.ReadFile(modFile)
+	if err != nil {
+		return err
+	}
+
+	contentStr := string(content)
+	newContent := strings.Replace(contentStr, "github.com/falling-ts/gower", project, -1)
+	return os.WriteFile(modFile, []byte(newContent), 0644)
+}
+
 func initEnv(dir string) error {
-	dev := filepath.Join(dir, ".env.development")
+	dev := filepath.Join(dir, ".env.dev")
 	test := filepath.Join(dir, ".env.test")
-	prod := filepath.Join(dir, ".env.production")
+	prod := filepath.Join(dir, ".env.prod")
 
 	err := copyFile(dev, test)
 	if err != nil {
@@ -219,44 +299,67 @@ func copyFile(src, dst string) error {
 	return destinationFile.Sync()
 }
 
-func initKey(project string) error {
-	return command("gower", []string{"init", "key"}, project, "初始化 APP 密钥...")
+func initKey(dir string) error {
+	return command("gower", []string{"init", "key"}, dir, "初始化 APP 密钥...")
 }
 
-func jwtKey(project string) error {
-	return command("gower", []string{"jwt", "key"}, project, "初始化 JWT 密钥...")
+func jwtKey(dir string) error {
+	return command("gower", []string{"jwt", "key"}, dir, "初始化 JWT 密钥...")
 }
 
-func goModTidy(project string) error {
-	return command("go", []string{"mod", "tidy"}, project, "下载 Go 依赖包...")
+func goModTidy(dir string) error {
+	return command("go", []string{"mod", "tidy"}, dir, "下载 Go 依赖包...")
 }
 
-func pnpmInstall(project string) error {
-	return command("pnpm", []string{"install"}, project, "下载前端依赖包...")
+func pnpmInstall(dir string) error {
+	return command("pnpm", []string{"install"}, dir, "下载前端依赖包...")
 }
 
-func initGit(project string) error {
-	return command("git", []string{"init", "."}, project, "初始化 Git 仓库...")
+func initGit(dir string) error {
+	return command("git", []string{"init", "."}, dir, "初始化 Git 仓库...")
 }
 
-func addAll(project string) error {
-	return command("git", []string{"add", "."}, project, "添加所有文件...")
+func addAll(dir string) error {
+	return command("git", []string{"add", "."}, dir, "添加所有文件...")
 }
 
-func commitM(project string) error {
-	return command("git", []string{"commit", "-m", "init commit"}, project, "初始化 commit...")
+func commitM(dir string) error {
+	return command("git", []string{"commit", "-m", "init commit"}, dir, "初始化 commit...")
 }
 
-func buildDev(project string) error {
-	return command("npm", []string{"run", "dev"}, project, "构建前端库文件...")
+func buildDev(dir string) error {
+	return command("npm", []string{"run", "dev"}, dir, "构建前端库文件...")
+}
+
+func addWork(dir string) error {
+	return command("go", []string{"work", "use", "./"}, dir, "添加工作目录...")
+}
+
+func addGradle(project string) error {
+	dir := path.Join("src", project)
+
+	content, err := os.ReadFile("settings.gradle")
+	if err != nil {
+		return err
+	}
+
+	newContent := os.Expand(`
+include ':${project}'
+project(':${project}').projectDir = new File('${dir}')
+`, func(s string) string {
+		return map[string]string{
+			"project": project,
+			"dir":     dir,
+		}[s]
+	})
+
+	updateContent := string(content) + newContent
+	return os.WriteFile("settings.gradle", []byte(updateContent), 0644)
+
 }
 
 func execTest(project string) error {
 	return command("go", []string{"test", "-bench=Benchmark", "-tags", "tmpl,static"}, project, "执行基准测试...")
-}
-
-func overrideGower(project string) error {
-	return command("go", []string{"install", "-tags", "cli"}, project, "本地化命令行工具...")
 }
 
 func command(c string, args []string, project string, hint string) error {
