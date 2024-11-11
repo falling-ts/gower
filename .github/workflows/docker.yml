@@ -12,11 +12,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: List files in repository
-        run: ls -l
+      - name: Checkout code
+        run: actions/checkout@main
 
       - name: Chmod +x
-        run: sudo chmod +x docker/run-dev-full.sh
+        run: sudo chmod +x ./docker/run-dev-full.sh
 
       - name: Run dev full
-        run: docker/run-dev-full.sh
+        run: ./docker/run-dev-full.sh
