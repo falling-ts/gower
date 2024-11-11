@@ -10,6 +10,5 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
       - name: Build the docker image
-        run: docker build . --file Dockerfile-development-full --tag gower:$(date +%s)
+        run: docker build . --file ./docker/Dockerfile-development-full --tag gower:$(date +%s)
