@@ -2,13 +2,18 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Build the docker image
-        run: docker build . --file ./docker/Dockerfile-development-full --tag gower:$(date +%s)
+      - name: chmod +x
+        run: sudo chmod +x ./docker/run-dev-full.sh
+
+      - name: run dev full
+        run: ./docker/run-dev-full.sh
