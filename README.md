@@ -83,7 +83,7 @@ $ git clone https://gitee.com/falling-ts/gower.git
 #### 2.切换到发布版
 
 ```shell
-git checkout v0.4.0
+git checkout v0.5.0
 ```
 
 > 切换完成，你可以删除 `.git` 目录，自行创建自己的仓库
