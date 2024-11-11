@@ -12,17 +12,17 @@ rm -rf ./*.db
 rm -rf ./*.cache
 
 cd ./third_apps/tidb || exit
-
 find data ! -path data/.gitignore -exec rm -rf {} \;
 find logs ! -path logs/.gitignore -exec rm -rf {} \;
 
 cd ../mysql5.7 || exit
-
 find data ! -path data/.gitignore -exec rm -rf {} \;
 
 cd ../../storage/app || exit
-
 rm -rf upload/*
+
+cd ../logs || exit
+rm -rf ./*.log
 
 cd ../../
 echo

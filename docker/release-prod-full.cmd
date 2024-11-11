@@ -37,6 +37,9 @@ del /s /q upload
 rmdir /s /q upload
 mkdir upload
 
+cd ../logs
+del /s /q *.log
+
 cd ../../
 echo.
 
