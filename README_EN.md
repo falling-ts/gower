@@ -161,7 +161,7 @@ cli: Command line mode
 $ gower make --controller Hello
 ```
 `app/http/controllers/hello_controller.go`
-```go
+```shell
 package controllers
 
 import (
@@ -188,7 +188,7 @@ func (*HelloController) Index(req *requests.HelloRequest) (services.Response, er
 $ gower make --request Hello
 ```
 `app\http\requests\hello_request.go`
-```go
+```shell
 package requests
 
 import "gower/app"
@@ -204,7 +204,7 @@ type HelloRequest struct {
 $ gower make --model Hello
 ```
 `app\models\hello.go`
-```go
+```shell
 package models
 
 func init() {
@@ -220,7 +220,7 @@ type Hello struct {
 > Note: If the command outputs a lot of Debug content, it's because the APP\_MODE in envs/.env.dev is in development mode. Change it to test mode to resolve.
 *   Add a route
 `routes/web.go`
-```go
+```shell
 package routes
 
 import (

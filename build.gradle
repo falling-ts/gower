@@ -1,3 +1,7 @@
+plugins {
+    id "org.hidetake.ssh" version "2.11.2"
+}
+
 remotes {
     test {
         host = prop('test.host', '192.168.101.101')
