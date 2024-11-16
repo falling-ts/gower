@@ -1,33 +1,37 @@
-# Go/Gin Gower Web Starter Framework
+[TOC]
+
+# Go/Gin Gower Web Monolithic Pattern
 
 ![](storage/app/public/images/logo.png)
 
-[中文](README.md)|[English](README_EN.md)
+[Chinese](README.md)|[English](README_EN.md)
 
-[![benchmark](https://img.shields.io/badge/gower-benchmark-red?style=flat-square&logo=Sencha)](tests/benchmarks/benchmark)
-[![actions](https://img.shields.io/badge/github-actions-green?style=flat-square&logo=GitHub)](https://github.com/falling-ts/gower/actions)
-[![version](https://img.shields.io/badge/version-0.2.0-yellow?style=flat-square&logo=V)]()
+[![benchmark](https://img.shields.io/badge/gower-benchmark-red?style=flat-square&logo=Sencha)](tests/benchmarks/benchmark) [![actions](https://img.shields.io/badge/github-actions-green?style=flat-square&logo=GitHub)](https://github.com/falling-ts/gower/actions) [![version](https://img.shields.io/badge/version-0.6.0-yellow?style=flat-square&logo=V)]()
 
-***
+---
 
-Gower is a fast-starting web framework based on [Go/Gin](https://github.com/gin-gonic/gin), with its architectural core ideas mainly inspired by the design philosophy of [Laravel](https://github.com/laravel/laravel). Its directory structure is similar to Laravel's, and its features are mostly analogous. Based on Go/Gin's routing design, Gower ensures basic performance while improving the elegance of code development. Utilizing Go's reflection and type assertion mechanisms, Gower implements dependency injection to perform parameter validation and model initialization before executing the logic, simplifying the code.
+Gower is a rapid start framework for Web based on [Go/Gin](https://github.com/gin-gonic/gin). The core architectural ideas are mainly inspired by the design philosophy of [Laravel](https://github.com/laravel/laravel). The directory structure is similar to Laravel, and the functions are basically the same. Based on the routing design of Go/Gin, it aims to improve the elegance of code development while ensuring basic performance. By leveraging Go's reflection and type assertion mechanisms, it implements dependency injection, placing parameter validation and model initialization before logic, which greatly simplifies the code.
+
+The monolithic pattern can only occupy one port to provide a set of services.
+
+Go/Gin Gower Work can assemble multiple monolithic patterns to achieve a microservice architecture [gower-work](https://github.com/falling-ts/gower-work)
 
 Main Features:
 
-*   Command is the essence, integrating command-line tools with the built program
-*   Services and service providers, binding keys and functions to achieve dynamic service construction
-*   Dependency injection between services, avoiding circular dependency traps
-*   Business is the core, with the core content provided by app, and app obtaining service capabilities through service providers
-*   Gin route function wrapping, implementing custom controller method parameters and return values, i.e., flexible controllers
-*   Injecting request structures into controller methods, automatically validating request parameters
-*   Can be used for both non-separated front-end and back-end and separated front-end and back-end
-*   Vite is used for front-end library packaging, providing CSS and JS for templates
-*   Separate environments for development, testing, and production, each with its own environment file
-*   Overall deployment, mainly using Docker for containerized operation, avoiding issues caused by inconsistent environments
+- Commands as the core, combining command-line tools with the built program
+- Services and service providers, bound through keys and functions, achieving dynamic service construction
+- Services communicate through dependency injection, avoiding circular dependency traps
+- Business as the core, core content is provided by the app, and the app obtains service capabilities through service providers
+- Gin routing function packaging, achieving custom parameters and return values for controller methods, i.e., free controllers
+- Controller methods inject request structures, achieving automatic request parameter validation
+- Can be used for both monolithic and front-end/back-end separation
+- The front end uses Vite to achieve library packaging mode, providing css and js for templates
+- Overall environment, divided into development, testing, and production, with separate environment files for front-end and back-end
+- Overall release, mainly provided by Docker for containerized operation, the main benefit is avoiding problems caused by inconsistent environments
 
 System Requirements:
 
-> go >= v1.20
+> go >= v1.23
 >
 > nodejs >= v16.13
 >
@@ -39,39 +43,48 @@ System Requirements:
 >
 > git >= 2.39
 
-## Quick Start
+## Quick Start [Monolithic Pattern]
 
-### Install from source \[Recommended]
+### Source Code Installation [Recommended]
 
-#### 1. Install from remote compilation
+#### 1. Execute Remote Compilation Installation
 
 ```shell
 $ go install -tags cli github.com/falling-ts/gower@latest
 ```
 
-> Verify the installation: `$ gower --version`
+> Verification: `$ gower --version`
+>
+> Currently installed in the system global environment
 
-#### 2. Create a project and automatically initialize it
-
-```shell
-$ gower create myproject
-```
-
-> This will create a project, initialize files, environments, repositories, frontend and backend dependencies, and run benchmark tests.
-
-#### 3. Use Docker
+#### 2. Create a Project, Auto Initialization
 
 ```shell
-$ cd myproject
-$ ./run-dev
+$ gower create my-project
 ```
 
-#### 4. Debug with Goland
+### Run the Project
 
-In the `main.go` file, right-click on the green triangle and select "debug". The first time it runs, it will only print the command prompt without running. Then, select "Edit Configurations" above and add "run" to the Program arguments in the `go build gower` that was created. Save and execute the debug.
+> This will execute project creation, file initialization, environment setup, repository setup, front-end and back-end dependencies, and benchmark tests
 
+#### 1. Using Docker
 
-### Use git install
+```shell
+$ cd my-project
+$ ./docker/run-dev
+```
+
+#### 2. Using Goland for Debugging
+
+Open the project in Goland, find the Gower Run configuration, modify the working directory, select the module, and finally run in Debug mode to enable breakpoint debugging.
+
+#### 3. Using Gradle to Run
+
+- Install the Gradle plugin in Goland in advance
+- When opening my-project with Goland for the first time, it will prompt `Found Gradle 'my-project' build script`, then click `Load Gradle project`, which will initialize the Gradle build system
+- Finally, find Run under dev in the right Gradle tasks and run it.
+
+### Using Git to Install
 
 #### 1. Download
 
@@ -79,19 +92,17 @@ In the `main.go` file, right-click on the green triangle and select "debug". The
 $ git clone https://github.com/falling-ts/gower.git
 or
 $ git clone https://gitee.com/falling-ts/gower.git
-
 ```
 
-#### 2. Switch to the released version
+#### 2. Switch to Release Version
 
 ```shell
-$ git checkout v0.6.0
+git checkout v0.6.0
 ```
 
-> After switching, you can delete the `.git` directory and create your own repository.
+> After switching, you can delete the `.git` directory and create your own repository
 
-
-#### 3. Install front-end and back-end dependencies
+#### 3. Install Front-end and Back-end Dependencies
 
 ```shell
 $ pnpm install
@@ -99,68 +110,71 @@ $ go mod tidy
 $ go install -tags cli
 ```
 
-> Note: First, go to [goproxy.cn](https://goproxy.cn/) to configure the acceleration proxy, and then use `go mod tidy`
+> Note: First configure an acceleration proxy at [goproxy.cn](https://goproxy.cn), then use `go mod tidy`
 
+#### 4. Initialize Environment
 
-#### 4. Initialize environment
+In the root directory, copy out two front-end environment files `.env.test` and `.env.prod`
 
-*   In the root directory, copy the two frontend environment files `.env.test` and `.env.prod`.
-*   In the `envs/` directory, copy the two backend environment files `.env.test` and `.env.prod`.
-*   Generate the APP and JWT keys.
+In the `envs/` directory, copy out two back-end environment files `.env.test` and `.env.prod`
+
+Generate APP and JWT keys
 
 ```shell
 $ gower init key
 $ gower jwt key
 ```
 
-#### 5. Run dev development environment with Docker
+#### 5. Run dev Development Environment Using Docker
 
 ```shell
-$ ./run-dev
+$ ./docker/run-dev
 ```
 
-> Tested on Windows, if there are problems with other systems, please raise issues
+> Tested on Windows, if there are issues with other systems, please raise issues
 
-#### 6. Without Docker
+#### 6. Without Using Docker
 
-*   Build front-end
+##### Build the Front End
 
 ```shell
 $ npm run dev
 ```
 
-> Will build js, css, and images in `public/static`
+> This will build js, css, and images content in `public/static`
 
-*   Build back-end and run
+##### Build the Back End and Run
 
 ```shell
 $ go test
 $ go install
-$ gower run # Execute in the project root directory and add $GOPATH/bin to the environment variable
+$ gower run # Execute in the project root directory, remember to add $GOPATH/bin to the environment variable
 ```
 
-> To package static resources, run `go install -tags tmpl,static`
+> If you need to package static resources, execute `go install -tags tmpl,static`
 
-##### tags:
+###### Tags:
 
 ```
-test: Package test environment program files
-prod: Package production environment program files
+test: Package program files for the test environment
+prod: Package program files for the production environment
 tmpl: Package templates
 static: Package static resources
-cli: Command line mode
-
+cli: Command-line mode
 ```
 
-> The advantage of packaging these contents is that there is no need to worry about the content to be carried during program migration, as it is all packaged into the program, making the system highly flexible.
+> The benefit of packaging these contents is that you don't need to worry about what needs to be carried when migrating the program, as everything is packaged into the program, making it highly flexible
 
-## Rapid Development
+## Quick Development
 
-*   Create a controller
+### Create a Controller
+
 ```shell
 $ gower make --controller Hello
 ```
+
 `app/http/controllers/hello_controller.go`
+
 ```shell
 package controllers
 
@@ -176,18 +190,22 @@ type HelloController struct {
 
 var Hello = new(HelloController)
 
-// Index Get the page
+// Index Get Page
 func (*HelloController) Index(req *requests.HelloRequest) (services.Response, error) {
     return res.Ok("home/hello", app.Data{
         "name": req.Name,
     }), nil
 }
 ```
-*   Create a request
+
+### Create a Request
+
 ```shell
 $ gower make --request Hello
 ```
+
 `app\http\requests\hello_request.go`
+
 ```shell
 package requests
 
@@ -199,11 +217,15 @@ type HelloRequest struct {
     Name *string `form:"name" json:"name" binding:"required"`
 }
 ```
-*   Create a model
+
+### Create a Model
+
 ```shell
 $ gower make --model Hello
 ```
+
 `app\models\hello.go`
+
 ```shell
 package models
 
@@ -217,9 +239,13 @@ type Hello struct {
     Name *string `gorm:"type:string;default:'';comment:Name"`
 }
 ```
-> Note: If the command outputs a lot of Debug content, it's because the APP\_MODE in envs/.env.dev is in development mode. Change it to test mode to resolve.
-*   Add a route
+
+> Note: If the command outputs a lot of debug information, it's because the APP_MODE in envs/.env.dev is set to development mode. Change it to test mode.
+
+### Add Routes
+
 `routes/web.go`
+
 ```shell
 package routes
 
@@ -235,31 +261,35 @@ func init() {
     route.GET("/hello", web.Hello.Index)
 }
 ```
-*   Execute the request
+
+### Execute Request
+
 ```shell
 $ curl -i http://localhost:8080/hello?name=Gower
 ```
-## Third-party libraries and content used, and gratitude for open source
+
+## Third-party Libraries and Content, Expressing Gratitude to Open Source
+
 ```
-github.com/golang/go v1.20
-github.com/alexedwards/argon2id v0.0.0-20230305115115-4b3c3280a736
-github.com/caarlos0/env/v7 v7.0.0
-github.com/gin-contrib/cors v1.4.0
-github.com/gin-gonic/gin v1.9.0
+github.com/alexedwards/argon2id v1.0.0
+github.com/caarlos0/env/v7 v7.1.0
+github.com/gin-contrib/cors v1.7.2
+github.com/gin-gonic/gin v1.10.0
+github.com/glebarez/sqlite v1.11.0
 github.com/go-playground/locales v0.14.1
 github.com/go-playground/universal-translator v0.18.1
-github.com/go-playground/validator/v10 v10.11.2
-github.com/go-sql-driver/mysql v1.7.0
-github.com/golang-jwt/jwt/v5 v5.0.0-rc.1
-github.com/jaevor/go-nanoid v1.3.0
+github.com/go-playground/validator/v10 v10.22.1
+github.com/go-sql-driver/mysql v1.8.1
+github.com/golang-jwt/jwt/v5 v5.2.1
+github.com/jaevor/go-nanoid v1.4.0
 github.com/joho/godotenv v1.5.1
 github.com/patrickmn/go-cache v2.1.0+incompatible
-github.com/stretchr/testify v1.8.1
-github.com/urfave/cli/v2 v2.25.0
-go.uber.org/zap v1.24.0
-golang.org/x/crypto v0.7.0
-gorm.io/driver/mysql v1.4.7
-gorm.io/gorm v1.24.6
+github.com/stretchr/testify v1.9.0
+github.com/urfave/cli/v2 v2.27.5
+go.uber.org/zap v1.27.0
+golang.org/x/crypto v0.28.0
+gorm.io/driver/mysql v1.5.7
+gorm.io/gorm v1.25.12
 
 github.com/rclone/rclone v1.62.2
 github.com/laravel/laravel
@@ -280,24 +310,57 @@ pnpm
 "daisyui": "^2.51.2",
 "jquery": "^3.6.3",
 "js-cookie": "^3.0.1",
-"localforage": "^1.10.0",
-"postcss": "^8.4.21",
+"jssha": "^3.3.0",
+"postcss": "8.4.31",
 "resize-observer-polyfill": "^1.5.1",
 "simplebar": "^6.2.1",
 "stylus": "^0.59.0",
 "tailwindcss": "^3.2.7",
 "vue": "^3.2.47"
 "@rollup/plugin-replace": "^5.0.2",
+"@types/crypto-js": "^4.1.1",
 "@types/jquery": "^3.5.16",
 "@types/js-cookie": "^3.0.3",
 "@types/node": "^18.15.10",
 "@types/vue": "^2.0.0",
 "@vitejs/plugin-vue": "^4.0.0",
 "cross-env": "^7.0.3",
-"vite": "^4.1.4"
+"vite": "5.4.6"
 ```
+
+## Documentation
+
+[Wiki Address](https://gitee.com/falling-ts/gower/wikis/Home)
+[Domestic Documentation Address](https://learnku.com/docs/go-gin-gower/0.2.0)
 
 ## LICENSE
 
 [MIT License](LICENSE)
 
+## Home Page
+
+![](.github/images/home.png)
+
+## Example Themes
+
+By modifying `VIEW_THEME` in `.env.xxx`, see [DaisyUI](https://daisyui.com/docs/themes/) for details
+
+### cupcake
+
+![](.github/images/cupcake.png)
+
+### forest
+
+![](.github/images/forest.png)
+
+### halloween
+
+![](.github/images/halloween.png)
+
+### lofi
+
+![](.github/images/lofi.png)
+
+### synthwave
+
+![](.github/images/synthwave.png)
