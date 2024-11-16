@@ -14,7 +14,7 @@ Gower is a rapid start framework for Web based on [Go/Gin](https://github.com/gi
 
 The monolithic pattern can only occupy one port to provide a set of services.
 
-Go/Gin Gower Work can assemble multiple monolithic patterns to achieve a microservice architecture [gower-work](https://github.com/falling-ts/gower-work)
+Go/Gin Gower Workspace can assemble multiple monolithic patterns to achieve a microservice architecture [gower-work](https://github.com/falling-ts/gower-work)
 
 Main Features:
 

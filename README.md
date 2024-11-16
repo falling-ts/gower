@@ -6,7 +6,7 @@
 
 [中文](README.md)|[English](README_EN.md)
 
-[![benchmark](https://img.shields.io/badge/gower-benchmark-red?style=flat-square&logo=Sencha)](tests/benchmarks/benchmark) [![actions](https://img.shields.io/badge/github-actions-green?style=flat-square&logo=GitHub)](https://github.com/falling-ts/gower/actions) [![version](https://img.shields.io/badge/version-0.6.0-yellow?style=flat-square&logo=V)]()
+[![license](https://img.shields.io/badge/license-MIT-green?style=flat-square&logo=MIT)[![benchmark](https://img.shields.io/badge/gower-benchmark-red?style=flat-square&logo=Sencha)](tests/benchmarks/benchmark) [![actions](https://img.shields.io/badge/github-actions-green?style=flat-square&logo=GitHub)](https://github.com/falling-ts/gower/actions) [![version](https://img.shields.io/badge/version-0.6.0-yellow?style=flat-square&logo=V)]()
 
 ---
 
@@ -14,7 +14,7 @@ Gower 是基于 [Go/Gin](https://github.com/gin-gonic/gin) 的 Web 快速启动�
 
 单体模式，只能占用一个端口来提供一组服务。
 
-Go/Gin Gower Work 能够组装多个单体模式，实现微服务架构 [gower-work](https://github.com/falling-ts/gower-work)
+Go/Gin Gower Workspace 能够组装多个单体模式，实现微服务架构 [gower-work](https://github.com/falling-ts/gower-work)
 
 主要特性：
 
