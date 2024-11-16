@@ -6,7 +6,7 @@
 
 [中文](README.md)|[English](README_EN.md)
 
-[![license](https://img.shields.io/badge/license-MIT-green?style=flat-square&logo=MIT)](LICENSE)[![benchmark](https://img.shields.io/badge/gower-benchmark-red?style=flat-square&logo=Sencha)](tests/benchmarks/benchmark) [![actions](https://img.shields.io/badge/github-actions-green?style=flat-square&logo=GitHub)](https://github.com/falling-ts/gower/actions) [![version](https://img.shields.io/badge/version-0.6.0-yellow?style=flat-square&logo=V)]()
+[![license](https://img.shields.io/badge/license-MIT-green?style=flat-square&logo=MIT)](LICENSE) [![benchmark](https://img.shields.io/badge/gower-benchmark-red?style=flat-square&logo=Sencha)](tests/benchmarks/benchmark) [![actions](https://img.shields.io/badge/github-actions-green?style=flat-square&logo=GitHub)](https://github.com/falling-ts/gower/actions) [![version](https://img.shields.io/badge/version-0.6.1-yellow?style=flat-square&logo=V)]()
 
 ---
 
@@ -14,7 +14,7 @@ Gower 是基于 [Go/Gin](https://github.com/gin-gonic/gin) 的 Web 快速启动�
 
 单体模式，只能占用一个端口来提供一组服务。
 
-Go/Gin Gower Workspace 能够组装多个单体模式，实现微服务架构 [gower-work](https://github.com/falling-ts/gower-work)
+Go/Gin Gower Workspace 【[gower-work](https://github.com/falling-ts/gower-work)】 能够组装多个单体模式，实现微服务架构
 
 主要特性：
 
@@ -37,11 +37,15 @@ Go/Gin Gower Workspace 能够组装多个单体模式，实现微服务架构 [g
 >
 > pnpm >= v7.0
 >
-> docker >= v20.10
+> docker >= v20.10 [非必要]
 >
-> docker compose >= v2.0
+> docker compose >= v2.0 [非必要]
 >
 > git >= 2.39
+>
+> gradle == 8.10.2
+>
+> jvm >= 23
 
 ## 快速开始[单体模式]
 
@@ -89,20 +93,14 @@ $ ./docker/run-dev
 #### 1.下载
 
 ```shell
-$ git clone https://github.com/falling-ts/gower.git
+$ git clone -b v0.6.1 --single-branch --depth 1 https://github.com/falling-ts/gower.git
 或
-$ git clone https://gitee.com/falling-ts/gower.git
-```
-
-#### 2.切换到发布版
-
-```shell
-git checkout v0.6.0
+$ git clone -b v0.6.1 --single-branch --depth 1 https://gitee.com/falling-ts/gower.git
 ```
 
 > 切换完成，你可以删除 `.git` 目录，自行创建自己的仓库
 
-#### 3.安装前后端依赖
+#### 2.安装前后端依赖
 
 ```shell
 $ pnpm install

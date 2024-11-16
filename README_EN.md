@@ -37,11 +37,15 @@ System Requirements:
 >
 > pnpm >= v7.0
 >
-> docker >= v20.10
+> docker >= v20.10 [unnecessary]
 >
-> docker compose >= v2.0
+> docker compose >= v2.0 [unnecessary]
 >
 > git >= 2.39
+>
+> gradle == 8.10.2
+>
+> jvm >= 23
 
 ## Quick Start [Monolithic Pattern]
 
@@ -89,20 +93,14 @@ Open the project in Goland, find the Gower Run configuration, modify the working
 #### 1. Download
 
 ```shell
-$ git clone https://github.com/falling-ts/gower.git
+$ git clone -b v0.6.1 --single-branch --depth 1 https://github.com/falling-ts/gower.git
 or
-$ git clone https://gitee.com/falling-ts/gower.git
-```
-
-#### 2. Switch to Release Version
-
-```shell
-git checkout v0.6.0
+$ git clone -b v0.6.1 --single-branch --depth 1 https://gitee.com/falling-ts/gower.git
 ```
 
 > After switching, you can delete the `.git` directory and create your own repository
 
-#### 3. Install Front-end and Back-end Dependencies
+#### 2. Install Front-end and Back-end Dependencies
 
 ```shell
 $ pnpm install

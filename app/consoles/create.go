@@ -316,7 +316,7 @@ func pnpmInstall(dir string) error {
 }
 
 func initGit(dir string) error {
-	return command("git", []string{"init", "."}, dir, "初始化 Git 仓库...")
+	return command("git", []string{"init", "--initial-branch=main"}, dir, "初始化 Git 仓库...")
 }
 
 func addAll(dir string) error {
