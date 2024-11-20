@@ -328,8 +328,7 @@ pnpm
 
 ## Documentation
 
-[Wiki Address](https://gitee.com/falling-ts/gower/wikis/Home)
-[Domestic Documentation Address](https://learnku.com/docs/go-gin-gower/0.2.0)
+[Documentation Address](https://falling-ts.github.io/gower-docs)
 
 ## LICENSE
 
