@@ -1,6 +1,7 @@
-plugins {
-    id "org.hidetake.ssh" version "2.11.2"
-}
+// 单项目模式时, 如果使用 gradle 构建, 需要去掉注释.
+// plugins {
+//     id "org.hidetake.ssh" version "2.11.2"
+// }
 
 remotes {
     test {
@@ -56,7 +57,7 @@ def env(String envFile, String key, String defaultValue = null) {
     return envVariables[key] ?: defaultValue
 }
 
-task t0001SetDevEnv() {
+task t0001SetDevEnv {
     doLast {
         def binExt = '',
             npmExt = ''
@@ -71,7 +72,7 @@ task t0001SetDevEnv() {
         project.npm = "${project.npm}${npmExt}"
     }
 }
-task t0001SetTestEnv() {
+task t0001SetTestEnv {
     doLast {
         project.npmBuildEnv = prop('test.npmBuildEnv', 'test')
         project.goTestTags = prop('test.goTestTags', 'test,tmpl,static')
@@ -96,7 +97,7 @@ task t0001SetTestEnv() {
         project.npm = "${project.npm}${npmExt}"
     }
 }
-task t0001SetProdEnv() {
+task t0001SetProdEnv {
     doLast {
         project.npmBuildEnv = prop('prod.npmBuildEnv', 'prod')
         project.goTestTags = prop('prod.goTestTags', 'prod,tmpl,static')
@@ -121,26 +122,30 @@ task t0001SetProdEnv() {
         project.npm = "${project.npm}${npmExt}"
     }
 }
-task t0100NpmBuild() {
+task t0100NpmBuild {
     doFirst {
         println "# ${project.npm} run ${project.npmBuildEnv}"
     }
     doLast {
-        def npmProcess = "${project.npm} run ${project.npmBuildEnv}".execute()
-        npmProcess.inputStream.eachLine { line ->
+        def npmCommand = "${project.npm} run ${project.npmBuildEnv}"
+        def npmProcess = new ProcessBuilder(npmCommand.split(' '))
+        npmProcess.directory(project.projectDir)
+
+        def process = npmProcess.start()
+        process.inputStream.eachLine { line ->
             println line
         }
-        npmProcess.errorStream.eachLine { line ->
+        process.errorStream.eachLine { line ->
             println line
         }
 
-        npmProcess.waitFor()
-        if (npmProcess.exitValue() != 0) {
-            println "Error: Failed to run ${project.npm} run ${project.npmBuildEnv} with exit code ${npmProcess.exitValue()}"
+        process.waitFor()
+        if (process.exitValue() != 0) {
+            println "Error: Failed to run ${project.npm} run ${project.npmBuildEnv} with exit code ${process.exitValue()}"
         }
     }
 }
-task t0200GoTest() {
+task t0200GoTest {
     onlyIf {
         !project.hasProperty('skipTest')
     }
@@ -150,6 +155,7 @@ task t0200GoTest() {
     doLast {
         def goTestCommand = "go test -tags ${project.goTestTags}"
         def goTestProcess = new ProcessBuilder(goTestCommand.split(' '))
+        goTestProcess.directory(project.projectDir)
 
         def environment = goTestProcess.environment()
         environment.put('GOPATH', project.rootDir.getAbsolutePath())
@@ -168,7 +174,7 @@ task t0200GoTest() {
         }
     }
 }
-task t0299KillBin() {
+task t0299KillBin {
     doFirst {
         if (project.os.contains('windows')) {
             println "# taskkill /F /IM ${project.bin}"
@@ -200,13 +206,14 @@ task t0299KillBin() {
         }
     }
 }
-task t0300GoBuild() {
+task t0300GoBuild {
     doFirst {
         println "# go build -tags ${project.goBuildTags} -o ${project.bin}"
     }
     doLast {
         def goBuildCommand = "go build -tags ${project.goBuildTags} -o ${project.bin}"
         def processBuilder = new ProcessBuilder(goBuildCommand.split(' '))
+        processBuilder.directory(project.projectDir)
 
         def environment = processBuilder.environment()
         environment.put('GOPATH', project.rootDir.getAbsolutePath())
@@ -245,7 +252,7 @@ task Run {
     }
     doLast {
         Thread.start {
-            def run = "${project.bin} run".execute()
+            def run = "${project.projectDir}/${project.bin} run".execute()
             run.inputStream.eachLine { line ->
                 println line
             }
@@ -388,6 +395,7 @@ task InstallCli {
     doLast {
         def goInstallCommand = "go install -tags cli"
         def goInstallProcess = new ProcessBuilder(goInstallCommand.split(' '))
+        goInstallProcess.directory(project.projectDir)
 
         def environment = goInstallProcess.environment()
         environment.put('GOPATH', project.rootDir.getAbsolutePath())
