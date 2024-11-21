@@ -45,7 +45,7 @@ System Requirements:
 >
 > gradle == 8.10.2
 >
-> jvm >= 23
+> jdk >= 23
 
 ## Quick Start [Monolithic Pattern]
 
@@ -78,14 +78,15 @@ $ cd my-project
 $ ./docker/run-dev
 ```
 
-#### 2. Using Goland for Debugging
+#### 2. Using GoLand for Debugging
 
-Open the project in Goland, find the Gower Run configuration, modify the working directory, select the module, and finally run in Debug mode to enable breakpoint debugging.
+Open the project in GoLand, find the Gower Run configuration, modify the working directory, select the module, and finally run in Debug mode to enable breakpoint debugging.
 
 #### 3. Using Gradle to Run
 
-- Install the Gradle plugin in Goland in advance
-- When opening my-project with Goland for the first time, it will prompt `Found Gradle 'my-project' build script`, then click `Load Gradle project`, which will initialize the Gradle build system
+- Install the Gradle plugin in GoLand in advance
+- Modify `build.gradle`, remove the comment at the beginning of the plugin reference
+- When opening my-project with GoLand for the first time, it will prompt `Found Gradle 'my-project' build script`, then click `Load Gradle project`, which will initialize the Gradle build system
 - Finally, find Run under dev in the right Gradle tasks and run it.
 
 ### Using Git to Install

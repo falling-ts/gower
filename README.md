@@ -45,7 +45,7 @@ Go/Gin Gower Workspace 【[gower-work](https://github.com/falling-ts/gower-work)
 >
 > gradle == 8.10.2
 >
-> jvm >= 23
+> jdk >= 23
 
 ## 快速开始[单体模式]
 
@@ -78,14 +78,15 @@ $ cd my-project
 $ ./docker/run-dev
 ```
 
-#### 2.使用 Goland 进行 Debug
+#### 2.使用 GoLand 进行 Debug
 
-用 Goland 打开项目后, 找到 Gower Run 运行配置, 修改工作目录, 并选择模块, 最后 Debug 运行, 就可以进行断点调试了.
+用 GoLand 打开项目后, 找到 Gower Run 运行配置, 修改工作目录, 并选择模块, 最后 Debug 运行, 就可以进行断点调试了.
 
 #### 3.使用 gradle 运行
 
-- 提前在 Goland 中安装好 gradle 插件
-- 第一次使用 Goland 打开 my-project 时, 会提醒 `找到Gradle 'my-project' 构建脚本`, 然后点击 `加载 Gradle 项目`, 会初始化 gradle 构建体系
+- 提前在 GoLand 中安装好 gradle 插件
+- 修改 `build.gradle`, 去掉开头插件引用的注释
+- 第一次使用 GoLand 打开 my-project 时, 会提醒 `找到Gradle 'my-project' 构建脚本`, 然后点击 `加载 Gradle 项目`, 会初始化 gradle 构建体系
 - 最后, 在右侧 gradle 任务中找到 dev 下的 Run, 运行它即可.
 
 ### 使用 Git 安装
