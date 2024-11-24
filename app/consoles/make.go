@@ -1,6 +1,7 @@
 package consoles
 
 import (
+	"bufio"
 	"fmt"
 	"github.com/falling-ts/gower/utils/str"
 	"github.com/urfave/cli/v2"
@@ -385,11 +386,44 @@ func gowerMake(content, dirStr, suffix, tplFile string) (string, error) {
 		return file, err
 	}
 
+	module, err := readModule()
+	if err != nil {
+		return file, err
+	}
+
 	if err = tpl.Execute(f, map[string]any{
 		"UpCamel": conv.UpCamel(),
+		"Module":  module,
 	}); err != nil {
 		return file, err
 	}
 
 	return "", nil
+}
+
+func readModule() (string, error) {
+	file, err := os.Open("go.mod")
+	if err != nil {
+		return "", err
+	}
+	defer func(file *os.File) {
+		_ = file.Close()
+	}(file)
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := strings.TrimSpace(scanner.Text())
+		if strings.HasPrefix(line, "module") {
+			parts := strings.SplitN(line, " ", 2)
+			if len(parts) == 2 {
+				return parts[1], nil
+			}
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		return "", err
+	}
+
+	return "", fmt.Errorf("go.mod not found")
 }

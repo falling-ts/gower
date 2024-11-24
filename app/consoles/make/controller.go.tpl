@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"github.com/falling-ts/gower/app"
-	"github.com/falling-ts/gower/app/http/requests"
-	"github.com/falling-ts/gower/services"
+	"{{.Module}}/app"
+	"{{.Module}}/app/http/requests"
+	"{{.Module}}/services"
 )
 
 type {{.UpCamel}}Controller struct {
