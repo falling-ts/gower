@@ -84,6 +84,7 @@ $ ./docker/run-dev
 
 #### 3.使用 gradle 运行
 
+- 单项目模式需要将 `build.gradle` 开头的 `"org.hidetake.ssh"` 插件注释去掉
 - 提前在 GoLand 中安装好 gradle 插件
 - 修改 `build.gradle`, 去掉开头插件引用的注释
 - 第一次使用 GoLand 打开 my-project 时, 会提醒 `找到Gradle 'my-project' 构建脚本`, 然后点击 `加载 Gradle 项目`, 会初始化 gradle 构建体系

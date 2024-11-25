@@ -84,6 +84,7 @@ Open the project in GoLand, find the Gower Run configuration, modify the working
 
 #### 3. Using Gradle to Run
 
+- For the single project mode, you need to uncomment the "org.hidetake.ssh" plugin at the beginning of the build.gradle file.
 - Install the Gradle plugin in GoLand in advance
 - Modify `build.gradle`, remove the comment at the beginning of the plugin reference
 - When opening my-project with GoLand for the first time, it will prompt `Found Gradle 'my-project' build script`, then click `Load Gradle project`, which will initialize the Gradle build system
