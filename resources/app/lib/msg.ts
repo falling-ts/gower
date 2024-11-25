@@ -76,9 +76,9 @@ function defaultElem(msg: string): HTMLElement {
     const elem = document.createElement("div")
     elem.className = "w-full h-20 alert alert-default shadow-lg animate__animated mt-10 flex justify-center"
     elem.innerHTML = `
-    <div>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-        <span>${msg}</span>
+    <div class="flex items-center">
+        <i class="icon-[line-md--brake-abs-twotone] text-lg" role="img" aria-hidden="true"></i>
+        <span class="ml-2">${msg}</span>
     </div>
     `
 
@@ -89,9 +89,9 @@ function infoElem(msg: string): HTMLElement {
     const elem = document.createElement("div")
     elem.className = "w-full h-20 alert alert-info shadow-lg animate__animated mt-10 flex justify-center"
     elem.innerHTML = `
-    <div>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-        <span>${msg}</span>
+    <div class="flex items-center">
+        <i class="icon-[line-md--chat] text-lg" role="img" aria-hidden="true"></i>
+        <span class="ml-2">${msg}</span>
     </div>
     `
     return elem
@@ -101,9 +101,9 @@ function successElem(msg: string): HTMLElement {
     const elem = document.createElement("div")
     elem.className = "w-full h-20 alert alert-success shadow-lg animate__animated mt-10 flex justify-center"
     elem.innerHTML = `
-    <div>
-        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-        <span>${msg}</span>
+    <div class="flex items-center">
+        <i class="icon-[line-md--confirm-square] text-lg" role="img" aria-hidden="true"></i>
+        <span class="ml-2">${msg}</span>
     </div>
     `
     return elem
@@ -113,9 +113,9 @@ function warningElem(msg: string): HTMLElement {
     const elem = document.createElement("div")
     elem.className = "w-full h-20 alert alert-warning shadow-lg animate__animated mt-10 flex justify-center"
     elem.innerHTML = `
-    <div>
-        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-        <span>${msg}</span>
+    <div class="flex items-center">
+        <i class="icon-[line-md--alert-loop] text-lg" role="img" aria-hidden="true"></i>
+        <span class="ml-2">${msg}</span>
     </div>
     `
     return elem
@@ -125,9 +125,9 @@ function errorElem(msg: string): HTMLElement {
     const elem = document.createElement("div")
     elem.className = "w-full h-20 alert alert-error shadow-lg animate__animated mt-10 flex justify-center"
     elem.innerHTML = `
-    <div>
-        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-        <span>${msg}</span>
+    <div class="flex items-center">
+        <i class="icon-[line-md--close-circle] text-lg" role="img" aria-hidden="true"></i>
+        <span class="ml-2">${msg}</span>
     </div>
     `
     return elem
@@ -135,36 +135,18 @@ function errorElem(msg: string): HTMLElement {
 
 function confirmElem(msg: string): HTMLElement {
     const elem = document.createElement("div")
-    elem.className = "w-full h-20 alert alert-confirm shadow-lg animate__animated mt-10";
+    elem.className = "w-full h-20 alert alert-confirm shadow-lg animate__animated mt-10 flex justify-between items-center";
     elem.innerHTML = `
-    <div>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-        <span>${msg}</span>
+    <div class="flex items-center">
+        <i class="icon-[svg-spinners--tadpole]" role="img" aria-hidden="true"></i>
+        <span class="ml-2">${msg}</span>
     </div>
-    <div class="flex-none">
+    <div class="flex">
         <button class="btn btn-sm btn-ghost">取消</button>
         <button class="btn btn-sm btn-primary">确定</button>
     </div>
   `;
     return elem
 }
-
-// function detailElem(title, msg: string): HTMLElement {
-//     const elem = document.createElement("div")
-//     elem.className = "w-full h-20 alert alert-detail shadow-lg animate__animated mt-10"
-//     elem.innerHTML = `
-//     <div>
-//       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-//     <div>
-//         <h3 class="font-bold">${title}</h3>
-//         <div class="text-xs">${msg}</div>
-//     </div>
-//     </div>
-//         <div class="flex-none">
-//         <button class="btn btn-sm">查看</button>
-//     </div>
-//     `
-//     return elem
-// }
 
 export default new message()

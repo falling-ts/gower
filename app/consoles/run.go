@@ -29,6 +29,7 @@ func init() {
 				port = fmt.Sprintf("%d", config.App.Port)
 			}
 
+			fmt.Println(config.App.Url)
 			if err := route.Run(":" + port); err != nil {
 				return err
 			}

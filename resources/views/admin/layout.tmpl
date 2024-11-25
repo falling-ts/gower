@@ -1,36 +1,45 @@
 {{define "admin/head"}}
   {{template "head" .}}
   <div class="w-full h-full layout bg-[url('/static/images/admin-bg.jpg')] bg-no-repeat bg-cover">
-    <ul class="menu p-2 bg-gradient-to-b from-slate-300 bg-opacity-80 w-56 absolute top-[4.5rem] left-1 bottom-1 z-10 rounded-box ring-1 hidden lg:block animate__animated animate__fadeInUp">
+    <ul class="menu p-2 bg-gradient-to-b from-slate-300 bg-opacity-80 w-56 absolute top-[4.5rem] left-1 bottom-1 z-10 rounded-box ring-1 hidden lg:block animate__animated ">
       {{range .admin_menus}}
-      <li class="hover-bordered">
-        <a id="menu-{{.id}}" data-id="{{.id}}" {{with .path}}data-href="{{.}}"{{end}}>
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            {{with .icon}}
-            <path d="{{.}}"/>
-            {{else}}
-            <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/>
+      <li>
+        {{if .children}}
+        <details open>
+          <summary>
+            <a class="flex items-center" id="menu-{{.id}}" data-id="{{.id}}" {{with .path}}data-href="{{.}}"{{end}}>
+              {{with .icon}}
+              <i class="icon-[{{.}}] text-lg" role="img" aria-hidden="true"></i>
+              {{else}}
+              <i class="icon-[svg-spinners--wind-toy] text-lg" role="img" aria-hidden="true"></i>
+              {{end}}
+              <span class="ml-2">{{.name}}</span>
+            </a>
+          </summary>
+          <ul>
+            {{range (assertAnySlice .children)}}
+            <li>
+              <a class="flex items-center" id="menu-{{.id}}" data-id="{{.id}}" {{with .path}}data-href="{{.}}"{{end}}>
+                {{with .icon}}
+                <i class="icon-[{{.}}] text-lg" role="img" aria-hidden="true"></i>
+                {{else}}
+                <i class="icon-[svg-spinners--wind-toy] text-lg" role="img" aria-hidden="true"></i>
+                {{end}}
+                {{.name}}
+              </a>
+            </li>
             {{end}}
-          </svg>
+          </ul>
+        </details>
+        {{else}}
+        <a class="flex items-center" id="menu-{{.id}}" data-id="{{.id}}" {{with .path}}data-href="{{.}}"{{end}}>
+          {{with .icon}}
+          <i class="icon-[{{.}}] text-lg" role="img" aria-hidden="true"></i>
+          {{else}}
+          <i class="icon-[svg-spinners--wind-toy] text-lg" role="img" aria-hidden="true"></i>
+          {{end}}
           {{.name}}
         </a>
-        {{with .children}}
-        <ul class="rounded-box p-2 bg-base-100">
-          {{range (assertAnySlice .)}}
-          <li>
-            <a id="menu-{{.id}}" data-id="{{.id}}" {{with .path}}data-href="{{.}}"{{end}}>
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                {{with .icon}}
-                <path d="{{.}}"/>
-                {{else}}
-                <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/>
-                {{end}}
-              </svg>
-              {{.name}}
-            </a>
-          </li>
-          {{end}}
-        </ul>
         {{end}}
       </li>
       {{end}}
@@ -63,10 +72,10 @@
         </div>
       </footer>
     </div>
-    <div class="navbar bg-gradient-to-r from-slate-300 bg-opacity-80 w-auto absolute top-1 inset-x-1 rounded-md ring-1 animate__animated animate__fadeInRight">
+    <div class="navbar bg-gradient-to-r from-slate-300 bg-opacity-80 w-auto absolute top-1 inset-x-1 rounded-md ring-1 animate__animated">
       <div class="flex-none">
         <button class="btn btn-square btn-ghost menu-ctrl">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+          <i class="icon-[svg-spinners--blocks-wave] text-xl" role="img" aria-hidden="true"></i>
         </button>
       </div>
 
@@ -76,10 +85,10 @@
 
       <div class="flex-none gap-2">
         <button class="btn btn-ghost btn-circle">
-          <div class="indicator">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+          <span class="indicator">
+            <i class="icon-[line-md--bell-twotone-loop] text-xl" role="img" aria-hidden="true"></i>
             <span class="badge badge-xs badge-secondary indicator-item">5</span>
-          </div>
+          </span>
         </button>
         <div class="dropdown dropdown-end">
           <label tabindex="0" class="btn btn-ghost btn-circle avatar">

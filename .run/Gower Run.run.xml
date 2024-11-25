@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Gower Run" type="GoApplicationRunConfiguration" factoryName="Go Application">
-    <module name="gower-work" />
-    <working_directory value="$PROJECT_DIR$/src/gower" />
+    <module name="gower" />
+    <working_directory value="$PROJECT_DIR$" />
     <go_parameters value="-tags tmpl,static" />
     <parameters value="run" />
     <kind value="PACKAGE" />
@@ -10,7 +10,7 @@
     <filePath value="$PROJECT_DIR$/../gower-work|$PROJECT_DIR$/src/gower/main.go" />
     <method v="2">
       <option name="NpmBeforeRunTask" enabled="true">
-        <package-json value="$PROJECT_DIR$/src/gower/package.json" />
+        <package-json value="$PROJECT_DIR$/package.json" />
         <command value="run" />
         <scripts>
           <script value="dev" />

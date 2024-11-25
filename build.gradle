@@ -261,7 +261,7 @@ task Run {
             }
         }
 
-        println env('.env.dev', 'VITE_APP_URL')
+        println env('envs/.env.dev', 'APP_URL')
     }
 }
 
@@ -318,7 +318,7 @@ WantedBy=multi-user.target
                 executeSudo "systemctl start ${project.bin}"
                 executeSudo "systemctl enable ${project.bin}"
 
-                println env('.env.test', 'VITE_APP_URL')
+                println env('envs/.env.test', 'APP_URL')
             }
         }
     }
@@ -377,7 +377,7 @@ WantedBy=multi-user.target
                 executeSudo "systemctl start ${project.bin}"
                 executeSudo "systemctl enable ${project.bin}"
 
-                println env('.env.prod', 'VITE_APP_URL')
+                println env('envs/.env.prod', 'APP_URL')
             }
         }
     }
