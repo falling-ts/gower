@@ -6,7 +6,7 @@
 
 [Chinese](README.md)|[English](README_EN.md)
 
-[![benchmark](https://img.shields.io/badge/gower-benchmark-red?style=flat-square&logo=Sencha)](tests/benchmarks/benchmark) [![actions](https://img.shields.io/badge/github-actions-green?style=flat-square&logo=GitHub)](https://github.com/falling-ts/gower/actions) [![version](https://img.shields.io/badge/version-0.8.0-yellow?style=flat-square&logo=V)]()
+[![benchmark](https://img.shields.io/badge/gower-benchmark-red?style=flat-square&logo=Sencha)](tests/benchmarks/benchmark) [![actions](https://img.shields.io/badge/github-actions-green?style=flat-square&logo=GitHub)](https://github.com/falling-ts/gower/actions) [![version](https://img.shields.io/badge/version-0.8.1-yellow?style=flat-square&logo=V)]()
 
 ---
 
@@ -95,9 +95,9 @@ Open the project in GoLand, find the Gower Run configuration, modify the working
 #### 1. Download
 
 ```shell
-$ git clone -b v0.8.0 --single-branch --depth 1 https://github.com/falling-ts/gower.git
+$ git clone -b v0.8.1 --single-branch --depth 1 https://github.com/falling-ts/gower.git
 or
-$ git clone -b v0.8.0 --single-branch --depth 1 https://gitee.com/falling-ts/gower.git
+$ git clone -b v0.8.1 --single-branch --depth 1 https://gitee.com/falling-ts/gower.git
 ```
 
 > After switching, you can delete the `.git` directory and create your own repository
