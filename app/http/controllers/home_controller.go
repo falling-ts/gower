@@ -37,7 +37,7 @@ func (h *HomeController) Index(auth *models.Auth) (services.Response, error) {
 			"avatar": func() string {
 				path := *user.Avatar
 				if path == "" {
-					path = "/static/images/avatar.png"
+					path = "/public/static/images/avatar.png"
 				}
 
 				return config.App.Url + path

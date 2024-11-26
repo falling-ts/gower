@@ -2,12 +2,12 @@
     {{template "head" .}}
     {{template "loading" .}}
     <div id="auth-login" class="h-full loading-hidden">
-      <img src="/static/images/login-bg.jpg" alt="" class="absolute w-full h-auto lg:h-full">
+      <img src="/public/static/images/login-bg.jpg" alt="" class="absolute w-full h-auto lg:h-full">
       <div class="w-full lg:w-2/5 h-full px-8 lg:px-24 relative z-10 bg-white shadow-2xl float-right animate__animated animate__fadeInRight"
         data-simplebar>
         <div class="h-full flex flex-col justify-center">
           <a href="/">
-            <img class="h-16" src="/static/images/logo.png" alt="">
+            <img class="h-16" src="/public/static/images/logo.png" alt="">
           </a>
           <div class="mt-6">
             <span class="text-4xl text-black font-bold">登录你的账户</span>
@@ -47,7 +47,7 @@
     </div>
     {{template "foot" .}}
     <script type="module">
-      import { createApp, api, msg, $, hash } from "/static/main.js"
+      import { createApp, api, msg, $, hash } from "/public/static/main.js"
       const { auth } = api
 
       createApp({

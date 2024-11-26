@@ -6,7 +6,7 @@
          data-simplebar>
       <div class="h-full flex flex-col justify-center">
         <div>
-          <img class="h-16 mx-auto" src="/static/images/logo.png" alt="">
+          <img class="h-16 mx-auto" src="/public/static/images/logo.png" alt="">
         </div>
         <div class="mt-6 text-center">
           <span class="text-4xl text-black font-bold">欢迎登录后台管理</span>
@@ -46,7 +46,7 @@
   </div>
   {{template "foot" .}}
   <script type="module">
-  import { createApp, api, msg, $, hash } from "/static/main.js"
+  import { createApp, api, msg, $, hash } from "/public/static/main.js"
   const { admin } = api
 
   createApp({
@@ -56,12 +56,15 @@
     data() {
       return {
         form: {
-          username: "",
-          password: "",
+          username: "admin",
+          password: "admin",
           csrf_token: "{{.csrf_token}}"
         },
         loading: false
       }
+    },
+    mounted() {
+      this.form.password = hash.SHA256(this.form.password)
     },
     methods: {
       changePassword(event) {
