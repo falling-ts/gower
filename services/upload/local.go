@@ -1,6 +1,7 @@
 package upload
 
 import (
+	"fmt"
 	"mime/multipart"
 	"path"
 	"path/filepath"
@@ -63,7 +64,7 @@ func (l *local) save(c *gin.Context, file *multipart.FileHeader, dir, _path stri
 		return "", "", err
 	}
 
-	return _path, path.Join(l.Host, _path), nil
+	return _path, fmt.Sprintf("%s/%s", l.Host, _path), nil
 }
 
 func (l *local) updatePath() {

@@ -38,6 +38,11 @@
             <a href="/admin"
                target="_blank"
                class="text-sm font-semibold leading-6 text-gray-900 cursor-pointer">后台管理</a>
+            <a
+              v-if="upload.url"
+              :href="upload.url"
+              class="text-sm font-semibold leading-6 text-gray-900 cursor-pointer"
+              target="_blank">查看文件</a>
             <input
               type="file"
               accept="image/jpeg, image/png, image/gif, image/webp, image/bmp, image/svg+xml, image/tiff"
@@ -91,6 +96,11 @@
                      @click="apiHello">接口测试</a>
                   <a href="/admin" target="_blank"
                      class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10 cursor-pointer">后台管理</a>
+                  <a
+                    v-if="upload.url"
+                    :href="upload.url"
+                    class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10 cursor-pointer"
+                    target="_blank">查看文件</a>
                   <input
                     type="file"
                     accept="image/jpeg, image/png, image/gif, image/webp, image/bmp, image/svg+xml, image/tiff"
@@ -154,6 +164,10 @@
             helloData: {
               test: '123',
               name: 'Gower'
+            },
+            upload: {
+              path: '',
+              url: ''
             }
           }
         },
@@ -184,6 +198,8 @@
             if (!res.code) {
               msg.success(res.msg)
               console.log(res)
+
+              this.upload = res.data
             }
           }
         }

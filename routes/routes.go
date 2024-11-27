@@ -1,12 +1,16 @@
 package routes
 
 import (
+	"fmt"
 	"github.com/falling-ts/gower/app"
 	mws "github.com/falling-ts/gower/app/middlewares"
 	"github.com/falling-ts/gower/public"
 )
 
-var route = app.Route()
+var (
+	route  = app.Route()
+	config = app.Config()
+)
 
 func init() {
 	route.Use(mws.Recovery()).
@@ -28,4 +32,6 @@ func init() {
 		route.StaticFileFS("/favicon.ico", "images/favicon.ico", public.Static)
 		route.StaticFS("/public/static", public.Static)
 	}
+
+	route.Static("/upload", fmt.Sprintf("%s/upload", config.Upload.Local.Path))
 }

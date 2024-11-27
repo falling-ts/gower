@@ -21,6 +21,4 @@ func init() {
 
 	route.GET("/400", web.Excp.BadRequest)
 	route.GET("/404", web.Excp.NotFound)
-
-	route.Static("/upload", "public/upload")
 }
