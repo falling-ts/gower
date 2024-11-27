@@ -8,6 +8,16 @@
     <package value="github.com/falling-ts/gower" />
     <directory value="$PROJECT_DIR$/src/gower" />
     <filePath value="$PROJECT_DIR$/../gower-work|$PROJECT_DIR$/src/gower/main.go" />
-    <method v="2" />
+    <method v="2">
+      <option name="NpmBeforeRunTask" enabled="true">
+        <package-json value="$PROJECT_DIR$/package.json" />
+        <command value="run" />
+        <scripts>
+          <script value="dev" />
+        </scripts>
+        <node-interpreter value="project" />
+        <envs />
+      </option>
+    </method>
   </configuration>
 </component>
