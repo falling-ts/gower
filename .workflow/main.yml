@@ -29,8 +29,12 @@ stages:
           - '# 设置NPM源，提升安装速度'
           - npm config set registry https://registry.npmmirror.com
           - ''
+          - '# 开启 pnpm'
+          - ''
+          - corepack enable pnpm
+          - ''
           - '# 执行编译命令'
-          - npm install && npm run dev
+          - pnpm i && npm run dev
         caches:
           - ~/.npm
           - ~/.yarn
