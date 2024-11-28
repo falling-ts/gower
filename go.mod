@@ -1,4 +1,4 @@
-module github.com/falling-ts/gower
+module gitee.com/falling-ts/gower
 
 go 1.23
 

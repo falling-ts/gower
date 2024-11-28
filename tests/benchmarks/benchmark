@@ -110,37 +110,37 @@ name` text DEFAULT \"\",`avatar` text DEFAULT \"\",PRIMARY KEY (`id`))", "elapse
  - using env:   export GIN_MODE=release
  - using code:  gin.SetMode(gin.ReleaseMode)
 
-[GIN-debug] GET    /api/v1/hello             --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
-[GIN-debug] POST   /api/v1/upload/image      --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
-[GIN-debug] GET    /                         --> github.com/falling-ts/gower/services/route.transHandler.func1 (6 handlers)
+[GIN-debug] GET    /api/v1/hello             --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] POST   /api/v1/upload/image      --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /                         --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (6 handlers)
 [GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
  - using env:   export GIN_MODE=release
  - using code:  gin.SetMode(gin.ReleaseMode)
 
-[GIN-debug] GET    /auth/register            --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
-[GIN-debug] POST   /auth/register            --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
-[GIN-debug] GET    /auth/login               --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
-[GIN-debug] POST   /auth/login               --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
-[GIN-debug] GET    /auth/me                  --> github.com/falling-ts/gower/services/route.transHandler.func1 (6 handlers)
-[GIN-debug] POST   /auth/logout              --> github.com/falling-ts/gower/services/route.transHandler.func1 (6 handlers)
-[GIN-debug] GET    /400                      --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
-[GIN-debug] GET    /404                      --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /auth/register            --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] POST   /auth/register            --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /auth/login               --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] POST   /auth/login               --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /auth/me                  --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (6 handlers)
+[GIN-debug] POST   /auth/logout              --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (6 handlers)
+[GIN-debug] GET    /400                      --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /404                      --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
 [GIN-debug] GET    /favicon.ico              --> github.com/gin-gonic/gin.(*RouterGroup).StaticFileFS.func1 (5 handlers)
 [GIN-debug] HEAD   /favicon.ico              --> github.com/gin-gonic/gin.(*RouterGroup).StaticFileFS.func1 (5 handlers)
 [GIN-debug] GET    /static/*filepath         --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (5 handlers)
 [GIN-debug] HEAD   /static/*filepath         --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (5 handlers)
 [GIN-debug] GET    /upload/*filepath         --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (5 handlers)
 [GIN-debug] HEAD   /upload/*filepath         --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (5 handlers)
-[GIN-debug] GET    /bench01                  --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
-[GIN-debug] GET    /bench02                  --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
-[GIN-debug] GET    /bench03                  --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
-[GIN-debug] GET    /bench04                  --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
-[GIN-debug] GET    /bench05                  --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
-[GIN-debug] GET    /bench06                  --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
-[GIN-debug] GET    /bench07                  --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
-[GIN-debug] GET    /bench08                  --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
-[GIN-debug] GET    /bench09                  --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
-[GIN-debug] GET    /bench10                  --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /bench01                  --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /bench02                  --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /bench03                  --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /bench04                  --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /bench05                  --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /bench06                  --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /bench07                  --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /bench08                  --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /bench09                  --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /bench10                  --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
 ----------------TestAuth 开始----------------
 ----------------TestAuth 结束----------------
 ----------------TestCache 开始----------------
@@ -380,34 +380,34 @@ DB Find Result:
 ----------------TextPasswd 开始----------------
 ----------------TextPasswd 结束----------------
 ----------------TestResponse 开始----------------
-[GIN-debug] GET    /test01                   --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /test01                   --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
 2023-03-30 10:42:44, INFO, Gower, Request Info, {"describe": "GET /test01", "http_status": 200, "ip": "192.0.2.1"}
 2023-03-30 10:42:44, INFO, Gower, Response Info, {"body": null, "exception": []}
-[GIN-debug] GET    /test02                   --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /test02                   --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
 2023-03-30 10:42:44, INFO, Gower, Request Info, {"describe": "GET /test02", "http_status": 200, "ip": "192.0.2.1"}
 2023-03-30 10:42:44, INFO, Gower, Response Info, {"body": null, "exception": []}
-[GIN-debug] GET    /test03                   --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /test03                   --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
 2023-03-30 10:42:44, INFO, Gower, Request Info, {"describe": "GET /test03", "http_status": 200, "ip": "192.0.2.1"}
 2023-03-30 10:42:44, INFO, Gower, Response Info, {"body": {"code":0,"msg":"请求成功","data":null,"token":""}, "exception": []}
-[GIN-debug] GET    /test04                   --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /test04                   --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
 2023-03-30 10:42:44, INFO, Gower, Request Info, {"describe": "GET /test04", "http_status": 200, "ip": "192.0.2.1"}
 2023-03-30 10:42:44, INFO, Gower, Response Info, {"body": {"code":0,"msg":"请求成功","data":null,"token":""}, "exception": []}
-[GIN-debug] GET    /test05                   --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /test05                   --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
 2023-03-30 10:42:44, INFO, Gower, Request Info, {"describe": "GET /test05", "http_status": 200, "ip": "192.0.2.1"}
 2023-03-30 10:42:44, INFO, Gower, Response Info, {"body": null, "exception": []}
-[GIN-debug] GET    /test06                   --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /test06                   --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
 2023-03-30 10:42:44, INFO, Gower, Request Info, {"describe": "GET /test06", "http_status": 200, "ip": "192.0.2.1"}
 2023-03-30 10:42:44, INFO, Gower, Response Info, {"body": {"code":0,"msg":"请求成功","data":null,"token":""}, "exception": []}
-[GIN-debug] GET    /test07                   --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /test07                   --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
 2023-03-30 10:42:44, INFO, Gower, Request Info, {"describe": "GET /test07", "http_status": 200, "ip": "192.0.2.1"}
 2023-03-30 10:42:44, INFO, Gower, Response Info, {"body": {"code":0,"msg":"请求成功","data":null,"token":""}, "exception": []}
-[GIN-debug] GET    /test08                   --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /test08                   --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
 2023-03-30 10:42:44, INFO, Gower, Request Info, {"describe": "GET /test08", "http_status": 200, "ip": "192.0.2.1"}
 2023-03-30 10:42:44, INFO, Gower, Response Info, {"body": {"code":0,"msg":"请求成功","data":null,"token":""}, "exception": []}
-[GIN-debug] GET    /test09                   --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /test09                   --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
 2023-03-30 10:42:44, INFO, Gower, Request Info, {"describe": "GET /test09", "http_status": 200, "ip": "192.0.2.1"}
 2023-03-30 10:42:44, INFO, Gower, Response Info, {"body": {"code":0,"msg":"请求成功","data":{"id":1},"token":""}, "exception": []}
-[GIN-debug] GET    /test10                   --> github.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
+[GIN-debug] GET    /test10                   --> gitee.com/falling-ts/gower/services/route.transHandler.func1 (5 handlers)
 2023-03-30 10:42:44, INFO, Gower, Request Info, {"describe": "GET /test10", "http_status": 200, "ip": "192.0.2.1"}
 2023-03-30 10:42:44, INFO, Gower, Response Info, {"body": {"code":0,"msg":"请求成功","data":{"test":"hello"},"token":""}, "exception": []}
 ----------------TestResponse 结束----------------
@@ -419,7 +419,7 @@ DB Find Result:
 ----------------TestUtil 结束----------------
 goos: windows
 goarch: amd64
-pkg: github.com/falling-ts/gower
+pkg: gitee.com/falling-ts/gower
 cpu: Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz
 Benchmark/BenchmarkRoute01-12             114696              8737 ns/op
 Benchmark/BenchmarkRoute02-12             118484              9182 ns/op
@@ -440,4 +440,4 @@ Benchmark/BenchmarkPasswd-12                  39          26811769 ns/op
 Benchmark/BenchmarkEncode-12             1000000              1121 ns/op
 Benchmark/BenchmarkDecode-12             1725186               723.5 ns/op
 PASS
-ok      github.com/falling-ts/gower     27.721s
+ok      gitee.com/falling-ts/gower     27.721s

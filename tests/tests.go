@@ -1,7 +1,7 @@
 package tests
 
 import (
-	"github.com/falling-ts/gower/app"
+	"gitee.com/falling-ts/gower/app"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

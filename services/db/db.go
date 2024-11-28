@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"time"
 
-	"github.com/falling-ts/gower/services"
+	"gitee.com/falling-ts/gower/services"
 
 	"gorm.io/gorm"
 )

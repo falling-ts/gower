@@ -1,10 +1,10 @@
 package providers
 
 import (
-	"github.com/falling-ts/gower/configs"
-	_ "github.com/falling-ts/gower/envs"
-	"github.com/falling-ts/gower/services"
-	"github.com/falling-ts/gower/services/config"
+	"gitee.com/falling-ts/gower/configs"
+	_ "gitee.com/falling-ts/gower/envs"
+	"gitee.com/falling-ts/gower/services"
+	"gitee.com/falling-ts/gower/services/config"
 
 	"github.com/caarlos0/env/v7"
 )

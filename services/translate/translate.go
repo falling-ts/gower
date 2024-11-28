@@ -2,7 +2,7 @@ package translate
 
 import (
 	"errors"
-	"github.com/falling-ts/gower/services"
+	"gitee.com/falling-ts/gower/services"
 	"regexp"
 )
 

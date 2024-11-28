@@ -1,7 +1,7 @@
 package logger
 
 import (
-	"github.com/falling-ts/gower/services"
+	"gitee.com/falling-ts/gower/services"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"

@@ -1,6 +1,6 @@
 package requests
 
-import "github.com/falling-ts/gower/app"
+import "gitee.com/falling-ts/gower/app"
 
 type RoleRequest struct {
 	app.Request

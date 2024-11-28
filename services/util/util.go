@@ -7,7 +7,7 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"fmt"
-	"github.com/falling-ts/gower/services"
+	"gitee.com/falling-ts/gower/services"
 	"github.com/jaevor/go-nanoid"
 	"os"
 	"reflect"

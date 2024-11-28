@@ -2,9 +2,9 @@ package exceptions
 
 import (
 	"errors"
-	"github.com/falling-ts/gower/services"
-	"github.com/falling-ts/gower/services/exception"
-	"github.com/falling-ts/gower/utils/str"
+	"gitee.com/falling-ts/gower/services"
+	"gitee.com/falling-ts/gower/services/exception"
+	"gitee.com/falling-ts/gower/utils/str"
 	"reflect"
 )
 

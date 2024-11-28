@@ -1,7 +1,7 @@
 package responses
 
 import (
-	"github.com/falling-ts/gower/services"
+	"gitee.com/falling-ts/gower/services"
 	"net/http"
 )
 

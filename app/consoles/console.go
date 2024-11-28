@@ -3,7 +3,7 @@ package consoles
 import (
 	"time"
 
-	"github.com/falling-ts/gower/app"
+	"gitee.com/falling-ts/gower/app"
 
 	"github.com/urfave/cli/v2"
 )

@@ -5,7 +5,7 @@ import (
 	"html/template"
 	"reflect"
 
-	"github.com/falling-ts/gower/app"
+	"gitee.com/falling-ts/gower/app"
 )
 
 var (

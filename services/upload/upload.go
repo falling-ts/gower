@@ -1,6 +1,6 @@
 package upload
 
-import "github.com/falling-ts/gower/services"
+import "gitee.com/falling-ts/gower/services"
 
 // Service 上传服务
 type Service struct {

@@ -1,8 +1,8 @@
 package middlewares
 
 import (
-	"github.com/falling-ts/gower/app/middlewares"
-	"github.com/falling-ts/gower/services"
+	"gitee.com/falling-ts/gower/app/middlewares"
+	"gitee.com/falling-ts/gower/services"
 )
 
 var _ = Default()

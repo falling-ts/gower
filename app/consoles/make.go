@@ -3,7 +3,7 @@ package consoles
 import (
 	"bufio"
 	"fmt"
-	"github.com/falling-ts/gower/utils/str"
+	"gitee.com/falling-ts/gower/utils/str"
 	"github.com/urfave/cli/v2"
 	"os"
 	"path"

@@ -10,11 +10,11 @@ package app
 import (
 	"os"
 
-	"github.com/falling-ts/gower/app/exceptions"
-	"github.com/falling-ts/gower/app/providers"
-	"github.com/falling-ts/gower/app/responses"
-	"github.com/falling-ts/gower/configs"
-	"github.com/falling-ts/gower/services"
+	"gitee.com/falling-ts/gower/app/exceptions"
+	"gitee.com/falling-ts/gower/app/providers"
+	"gitee.com/falling-ts/gower/app/responses"
+	"gitee.com/falling-ts/gower/configs"
+	"gitee.com/falling-ts/gower/services"
 
 	"github.com/urfave/cli/v2"
 )

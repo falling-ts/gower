@@ -1,8 +1,8 @@
 package providers
 
 import (
-	"github.com/falling-ts/gower/services"
-	"github.com/falling-ts/gower/services/cache"
+	"gitee.com/falling-ts/gower/services"
+	"gitee.com/falling-ts/gower/services/cache"
 )
 
 var _ services.CacheService = (*cache.Service)(nil)

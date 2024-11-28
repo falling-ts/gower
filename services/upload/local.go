@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/falling-ts/gower/services"
+	"gitee.com/falling-ts/gower/services"
 
 	"github.com/gin-gonic/gin"
 )

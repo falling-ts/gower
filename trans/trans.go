@@ -1,6 +1,6 @@
 package trans
 
-import "github.com/falling-ts/gower/services"
+import "gitee.com/falling-ts/gower/services"
 
 var All = services.TransAll{
 	"DBError": DBError,

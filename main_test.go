@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/falling-ts/gower/tests"
-	"github.com/falling-ts/gower/tests/benchmarks"
+	"gitee.com/falling-ts/gower/tests"
+	"gitee.com/falling-ts/gower/tests/benchmarks"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

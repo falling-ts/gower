@@ -1,6 +1,6 @@
 package trans
 
-import "github.com/falling-ts/gower/services"
+import "gitee.com/falling-ts/gower/services"
 
 var DBError = services.TransCategory{
 	"mysql": services.TransMap{

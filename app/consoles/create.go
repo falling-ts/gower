@@ -192,7 +192,7 @@ func create(dir string, project string) error {
 					return err
 				}
 
-				newContent := strings.ReplaceAll(string(content), "\"github.com/falling-ts/gower", fmt.Sprintf("\"%s", project))
+				newContent := strings.ReplaceAll(string(content), "\"gitee.com/falling-ts/gower", fmt.Sprintf("\"%s", project))
 
 				destFile, err := os.Create(filePath)
 				if err != nil {
@@ -254,7 +254,7 @@ func setGoMod(dir string, project string) error {
 	}
 
 	contentStr := string(content)
-	newContent := strings.Replace(contentStr, "github.com/falling-ts/gower", project, -1)
+	newContent := strings.Replace(contentStr, "gitee.com/falling-ts/gower", project, -1)
 	return os.WriteFile(modFile, []byte(newContent), 0644)
 }
 

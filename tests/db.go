@@ -3,8 +3,8 @@ package tests
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/falling-ts/gower/app"
-	"github.com/falling-ts/gower/app/models"
+	"gitee.com/falling-ts/gower/app"
+	"gitee.com/falling-ts/gower/app/models"
 	"gorm.io/gorm"
 	"testing"
 )

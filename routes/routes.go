@@ -2,9 +2,9 @@ package routes
 
 import (
 	"fmt"
-	"github.com/falling-ts/gower/app"
-	mws "github.com/falling-ts/gower/app/middlewares"
-	"github.com/falling-ts/gower/public"
+	"gitee.com/falling-ts/gower/app"
+	mws "gitee.com/falling-ts/gower/app/middlewares"
+	"gitee.com/falling-ts/gower/public"
 )
 
 var (

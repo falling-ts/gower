@@ -1,8 +1,8 @@
 package providers
 
 import (
-	"github.com/falling-ts/gower/services"
-	"github.com/falling-ts/gower/services/util"
+	"gitee.com/falling-ts/gower/services"
+	"gitee.com/falling-ts/gower/services/util"
 )
 
 var _ services.UtilService = (*util.Service)(nil)

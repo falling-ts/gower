@@ -2,7 +2,7 @@ package route
 
 import (
 	"errors"
-	"github.com/falling-ts/gower/services"
+	"gitee.com/falling-ts/gower/services"
 	"gorm.io/gorm"
 	"net/http"
 	"path"

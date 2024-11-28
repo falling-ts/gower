@@ -2,8 +2,8 @@ package middlewares
 
 import (
 	"fmt"
-	"github.com/falling-ts/gower/services"
-	"github.com/falling-ts/gower/utils/slice"
+	"gitee.com/falling-ts/gower/services"
+	"gitee.com/falling-ts/gower/utils/slice"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )

@@ -2,4 +2,4 @@
 
 package resources
 
-import _ "github.com/falling-ts/gower/resources"
+import _ "gitee.com/falling-ts/gower/resources"

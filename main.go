@@ -8,8 +8,8 @@ Copyright (c) 2023 Falling TS
 package main
 
 import (
-	"github.com/falling-ts/gower/app"
-	_ "github.com/falling-ts/gower/bootstrap"
+	"gitee.com/falling-ts/gower/app"
+	_ "gitee.com/falling-ts/gower/bootstrap"
 )
 
 func main() {

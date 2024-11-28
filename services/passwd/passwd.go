@@ -1,6 +1,6 @@
 package passwd
 
-import "github.com/falling-ts/gower/services"
+import "gitee.com/falling-ts/gower/services"
 
 type Service struct {
 	services.Passwd

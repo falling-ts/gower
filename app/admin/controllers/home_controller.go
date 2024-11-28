@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"github.com/falling-ts/gower/app"
-	"github.com/falling-ts/gower/app/models"
-	"github.com/falling-ts/gower/services"
+	"gitee.com/falling-ts/gower/app"
+	"gitee.com/falling-ts/gower/app/models"
+	"gitee.com/falling-ts/gower/services"
 )
 
 type HomeController struct {

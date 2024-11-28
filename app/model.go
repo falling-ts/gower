@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/falling-ts/gower/utils/slice"
-	"github.com/falling-ts/gower/utils/str"
+	"gitee.com/falling-ts/gower/utils/slice"
+	"gitee.com/falling-ts/gower/utils/str"
 )
 
 type Rule map[string]any

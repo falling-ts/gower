@@ -1,9 +1,9 @@
 package providers
 
 import (
-	"github.com/falling-ts/gower/services"
-	"github.com/falling-ts/gower/services/translate"
-	"github.com/falling-ts/gower/trans"
+	"gitee.com/falling-ts/gower/services"
+	"gitee.com/falling-ts/gower/services/translate"
+	"gitee.com/falling-ts/gower/trans"
 )
 
 var _ services.TranslateService = (*translate.Service)(nil)

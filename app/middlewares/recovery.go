@@ -5,7 +5,7 @@ import (
 	"net/http/httputil"
 	"strings"
 
-	"github.com/falling-ts/gower/services"
+	"gitee.com/falling-ts/gower/services"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"

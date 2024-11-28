@@ -3,8 +3,8 @@
 package providers
 
 import (
-	"github.com/falling-ts/gower/services"
-	"github.com/falling-ts/gower/services/logger"
+	"gitee.com/falling-ts/gower/services"
+	"gitee.com/falling-ts/gower/services/logger"
 )
 
 var _ services.LoggerService = (*logger.Service)(nil)
