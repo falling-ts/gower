@@ -60,6 +60,16 @@ func initProject(project string) error {
 		return err
 	}
 
+	err = setGoLandRun(dir, project)
+	if err != nil {
+		return err
+	}
+
+	err = setService(dir, project)
+	if err != nil {
+		return err
+	}
+
 	err = initEnv(dir)
 	if err != nil {
 		return err
@@ -246,6 +256,44 @@ func setGoMod(dir string, project string) error {
 	contentStr := string(content)
 	newContent := strings.Replace(contentStr, "github.com/falling-ts/gower", project, -1)
 	return os.WriteFile(modFile, []byte(newContent), 0644)
+}
+
+func setGoLandRun(dir string, project string) error {
+	runFile := filepath.Join(dir, ".run", "gower.run.xml")
+
+	content, err := os.ReadFile(runFile)
+	if err != nil {
+		return err
+	}
+
+	contentStr := string(content)
+	newContent := strings.Replace(contentStr, "name=\"gower\"", fmt.Sprintf("name=\"%s\"", project), -1)
+	err = os.WriteFile(runFile, []byte(newContent), 0644)
+	if err != nil {
+		return err
+	}
+
+	newRunFile := filepath.Join(dir, ".run", fmt.Sprintf("%s.run.xml", project))
+	return os.Rename(runFile, newRunFile)
+}
+
+func setService(dir string, project string) error {
+	serviceFile := filepath.Join(dir, "gower.service")
+
+	content, err := os.ReadFile(serviceFile)
+	if err != nil {
+		return err
+	}
+
+	contentStr := string(content)
+	newContent := strings.Replace(contentStr, "gower", project, -1)
+	err = os.WriteFile(serviceFile, []byte(newContent), 0644)
+	if err != nil {
+		return err
+	}
+
+	newServiceFile := filepath.Join(dir, fmt.Sprintf("%s.service", project))
+	return os.Rename(serviceFile, newServiceFile)
 }
 
 func initEnv(dir string) error {

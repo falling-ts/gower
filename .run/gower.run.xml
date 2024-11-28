@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Gower Run" type="GoApplicationRunConfiguration" factoryName="Go Application">
+  <configuration default="false" name="gower" type="GoApplicationRunConfiguration" factoryName="Go Application">
     <module name="gower" />
     <working_directory value="$PROJECT_DIR$" />
     <go_parameters value="-tags tmpl,static" />

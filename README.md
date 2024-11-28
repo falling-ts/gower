@@ -1,41 +1,24 @@
-[TOC]
-
 # Go/Gin Gower Web 单体模式
 
 ![](storage/app/public/images/logo.png)
 
 [中文](README.md)|[English](README_EN.md)
 
-[![license](https://img.shields.io/badge/license-MIT-green?style=flat-square&logo=MIT)](LICENSE) [![benchmark](https://img.shields.io/badge/gower-benchmark-red?style=flat-square&logo=Sencha)](tests/benchmarks/benchmark) [![actions](https://img.shields.io/badge/github-actions-green?style=flat-square&logo=GitHub)](https://github.com/falling-ts/gower/actions) [![version](https://img.shields.io/badge/version-0.8.2-yellow?style=flat-square&logo=V)]()
+[![version](https://img.shields.io/badge/version-0.8.2-yellow?style=flat-square&logo=V)]()
 
 ---
 
-Gower 是基于 [Go/Gin](https://github.com/gin-gonic/gin) 的 Web 快速启动框架, 架构核心思想主要借鉴 [Laravel](https://github.com/laravel/laravel) 的设计理念. 目录结构与 Laravel 大同小异, 功能基本类似. 基于 Go/Gin 的路由设计, 在保证基本性能的前提下, 尽量提高代码开发的优雅性, 借助 Go 的反射与类型断言机制, 通过实现依赖注入的功能, 将参数校验/模型初始化放在逻辑之前, 很好的简化了代码.
+建议使用 [Go/Gin Gower Workspace](https://gitee.com/falling-ts/gower-work) 工作区模式, 可以创建多个单体项目, 能够统一使用 Gradle 进行多个单体项目的运行, 构建与部署.
 
-单体模式, 只能占用一个端口来提供一组服务.
-
-Go/Gin Gower Workspace 【[gower-work](https://github.com/falling-ts/gower-work)】 能够组装多个单体模式, 实现微服务架构
-
-主要特性:
-
-- 命令即本体, 命令行工具与构建的程序相结合
-- 服务与服务提供者, 通过 key 与函数绑定, 实现动态服务构建
-- 服务间通过依赖注入, 避免环形依赖陷阱
-- 业务即核心, 核心内容通过 app 提供服务能力, app 通过服务提供者获得服务能力
-- Gin 路由函数包装, 实现控制器方法参数与返回值自定义功能, 即自由控制器
-- 控制器方法注入请求结构体, 实现自动验证请求参数
-- 非前后分离, 也可用作前后分离
-- 前端借助 Vite 实现库打包模式, 为模板提供 css 与 js
-- 整体环境, 分开发/测试/生产, 前后端各有自己的环境文件
-- 整体发布, 主要由 Docker 提供容器化运行, 主要好处是避免了环境不一致带来的问题
+Gower 是基于 [Go/Gin](https://github.com/gin-gonic/gin) 的 Web 快速启动框架, 已在控制器的方法参数级上实现了 IoC 依赖注入功能.
 
 系统要求:
 
 > go >= v1.23
 >
-> nodejs >= v16.13
+> nodejs >= v18.20
 >
-> pnpm >= v7.0
+> pnpm >= v9.12
 >
 > docker >= v20.10 [非必要]
 >
@@ -43,25 +26,33 @@ Go/Gin Gower Workspace 【[gower-work](https://github.com/falling-ts/gower-work)
 >
 > git >= 2.39
 >
-> gradle == 8.10.2
+> gradle >= 8.10.2
 >
 > jdk >= 23
 
 ## 快速开始[单体模式]
 
-### 源码安装[推荐]
+### 源码安装
 
-#### 1.执行远程编译安装
+#### 1.配置 GOPROXY
 
 ```shell
-$ go install -tags cli github.com/falling-ts/gower@latest
+$ export GOPROXY=https://mirrors.aliyun.com/goproxy/,direct
+```
+
+> windows 系统, 打开环境变量, 创建新用户变量, 变量名: `GOPROXY`, 变量值: `https://mirrors.aliyun.com/goproxy/,direct`
+
+#### 2.执行远程编译安装
+
+```shell
+$ go install -tags cli gitee.com/falling-ts/gower@latest
 ```
 
 > 验证结果: `$ gower --version`
 >
 > 当前安装在系统全局环境中
 
-#### 2.创建项目, 自动初始化
+#### 3.创建项目, 自动初始化
 
 ```shell
 $ gower create my-project
@@ -80,7 +71,7 @@ $ ./docker/run-dev
 
 #### 2.使用 GoLand 进行 Debug
 
-用 GoLand 打开项目后, 找到 Gower Run 运行配置, 修改工作目录, 并选择模块, 最后 Debug 运行, 就可以进行断点调试了.
+用 GoLand 打开项目后, 找到 my-project 运行配置, 修改工作目录, 并选择模块, 最后 Debug 运行, 就可以进行断点调试了.
 
 #### 3.使用 gradle 运行
 
@@ -89,68 +80,6 @@ $ ./docker/run-dev
 - 修改 `build.gradle`, 去掉开头插件引用的注释
 - 第一次使用 GoLand 打开 my-project 时, 会提醒 `找到Gradle 'my-project' 构建脚本`, 然后点击 `加载 Gradle 项目`, 会初始化 gradle 构建体系
 - 最后, 在右侧 gradle 任务中找到 dev 下的 Run, 运行它即可.
-
-### 使用 Git 安装
-
-#### 1.下载
-
-```shell
-$ git clone -b v0.8.2 --single-branch --depth 1 https://github.com/falling-ts/gower.git
-或
-$ git clone -b v0.8.2 --single-branch --depth 1 https://gitee.com/falling-ts/gower.git
-```
-
-> 切换完成, 你可以删除 `.git` 目录, 自行创建自己的仓库
-
-#### 2.安装前后端依赖
-
-```shell
-$ pnpm install
-$ go mod tidy
-$ go install -tags cli
-```
-
-> 注意: 先到 [goproxy.cn](https://goproxy.cn) 配置加速代理, 再使用 `go mod tidy`
-
-#### 4.初始化环境
-
-在根目录下, 复制出 `.env.test` 和 `.env.prod` 两个前端环境文件
-
-在 `envs/` 目录下, 复制出 `.env.test` 和 `.env.prod` 两个后端环境文件
-
-生成 APP 和 JWT 的密钥
-
-
-```shell
-$ gower init key
-$ gower jwt key
-```
-
-#### 5.通过 Docker 运行 dev 开发环境
-
-```shell
-$ ./docker/run-dev
-```
-
-> windows 已测试通过, 其它系统有问题, 请提 issues
-
-#### 6.不使用 Docker
-
-##### 构建前端
-
-```shell
-$ npm run dev
-```
-
-> 将在 `public/static` 下构建出 js 和 css 以及 images 内容
-
-##### 构建后端与运行
-
-```shell
-$ go test
-$ go install
-$ gower run # 要在项目根目录下执行, 记得把 $GOPATH/bin 加入环境变量
-```
 
 > 如果需要打包静态资源请执行 `go install -tags tmpl,static`
 
@@ -176,13 +105,13 @@ $ gower make --controller Hello
 
 `app/http/controllers/hello_controller.go`
 
-```shell
+```go
 package controllers
 
 import (
-    "gower/app"
-    "gower/app/http/requests"
-    "gower/services"
+    "my-project/app"
+    "my-project/app/http/requests"
+    "my-project/services"
 )
 
 type HelloController struct {
@@ -208,10 +137,10 @@ $ gower make --request Hello
 
 `app\http\requests\hello_request.go`
 
-```shell
+```go
 package requests
 
-import "gower/app"
+import "my-project/app"
 
 type HelloRequest struct {
     app.Request
@@ -228,7 +157,7 @@ $ gower make --model Hello
 
 `app\models\hello.go`
 
-```shell
+```go
 package models
 
 func init() {
@@ -248,13 +177,13 @@ type Hello struct {
 
 `routes/web.go`
 
-```shell
+```go
 package routes
 
 import (
-    web "gower/app/http/controllers"
-    mws "gower/app/http/middlewares"
-    "gower/public"
+    web "my-project/app/http/controllers"
+    mws "my-project/app/http/middlewares"
+    "my-project/public"
 )
 
 func init() {
@@ -272,8 +201,7 @@ $ curl -i http://localhost:8080/hello?name=Gower
 
 ## 使用的第三方库和内容, 同时表达对开源的感谢
 
-```
-
+```yaml
 github.com/alexedwards/argon2id v1.0.0
 github.com/caarlos0/env/v7 v7.1.0
 github.com/gin-contrib/cors v1.7.2
@@ -309,24 +237,26 @@ FROM pingcap/tidb:v6.5.1
 nodejs
 pnpm
 "animate.css": "^4.1.1",
-"autoprefixer": "^10.4.13",
-"daisyui": "^2.51.2",
-"jquery": "^3.6.3",
-"js-cookie": "^3.0.1",
-"jssha": "^3.3.0",
-"postcss": "8.4.31",
+"autoprefixer": "^10.4.20",
+"daisyui": "^4.12.14",
+"jquery": "^3.7.1",
+"js-cookie": "^3.0.5",
+"jssha": "^3.3.1",
+"postcss": "^8.4.49",
 "resize-observer-polyfill": "^1.5.1",
-"simplebar": "^6.2.1",
+"simplebar": "^6.2.7",
 "stylus": "^0.59.0",
-"tailwindcss": "^3.2.7",
-"vue": "^3.2.47"
-"@rollup/plugin-replace": "^5.0.2",
-"@types/crypto-js": "^4.1.1",
-"@types/jquery": "^3.5.16",
-"@types/js-cookie": "^3.0.3",
-"@types/node": "^18.15.10",
+"tailwindcss": "^3.4.15",
+"vue": "^3.5.13"
+"@iconify/json": "^2.2.276",
+"@iconify/tailwind": "^1.1.3",
+"@rollup/plugin-replace": "^5.0.7",
+"@types/crypto-js": "^4.2.2",
+"@types/jquery": "^3.5.32",
+"@types/js-cookie": "^3.0.6",
+"@types/node": "^18.19.65",
 "@types/vue": "^2.0.0",
-"@vitejs/plugin-vue": "^4.0.0",
+"@vitejs/plugin-vue": "^4.6.2",
 "cross-env": "^7.0.3",
 "vite": "5.4.6"
 ```
