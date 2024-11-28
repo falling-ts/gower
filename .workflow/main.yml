@@ -16,7 +16,7 @@ triggers:
         - main
 stages:
   - name: stage-3833ed01
-    displayName: Run dev full
+    displayName: go test
     strategy: naturally
     trigger: auto
     executor: []
@@ -29,12 +29,11 @@ stages:
           - '# 设置NPM源，提升安装速度'
           - npm config set registry https://registry.npmmirror.com
           - ''
-          - '# 开启 pnpm'
-          - ''
+          - '# 安装 pnpm'
           - corepack enable pnpm
           - ''
           - '# 执行编译命令'
-          - pnpm i && npm run dev
+          - pnpm install && npm run dev
         caches:
           - ~/.npm
           - ~/.yarn
@@ -65,4 +64,3 @@ stages:
         notify: []
         strategy:
           retry: '0'
-        dependsOn: build_nodejs
