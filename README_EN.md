@@ -4,11 +4,11 @@
 
 [Chinese](README.md)|[English](README_EN.md)
 
-[![version](https://img.shields.io/badge/version-0.8.2-yellow?style=flat-square&logo=V)]()
+[![version](https://img.shields.io/badge/version-0.8.3-yellow?style=flat-square&logo=V)]()
 
 ---
 
-It is recommended to use the [Go/Gin Gower Workspace](https://gitee.com/falling-ts/gower-work) workspace mode, which allows you to create multiple monolithic projects and uniformly manage the running, building, and deployment of multiple monolithic projects using Gradle.
+It is recommended to use the [Go/Gin Gower Workspace](https://gitee.com/falling-ts/gower-work) mode, which allows you to create multiple monolithic projects and uniformly manage the running, building, and deployment of multiple monolithic projects using Gradle.
 
 Gower is a quick-start framework for Web based on [Go/Gin](https://github.com/gin-gonic/gin), and has implemented IoC dependency injection at the method parameter level in controllers.
 
