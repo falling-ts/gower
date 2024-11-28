@@ -1,0 +1,23 @@
+#file: noinspection UndefinedAction
+name: Docker Image CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@main
+
+      - name: Chmod +x
+        run: sudo chmod +x ./docker/run-dev-full.sh
+
+      - name: Run dev full
+        run: ./docker/run-dev-full.sh
