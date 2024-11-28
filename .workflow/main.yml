@@ -1,0 +1,64 @@
+version: '1.0'
+name: main
+displayName: main
+triggers:
+  trigger: auto
+  push:
+    branches:
+      precise:
+        - main
+    tags:
+      prefix:
+        - v
+  pr:
+    branches:
+      precise:
+        - main
+stages:
+  - name: stage-3833ed01
+    displayName: Run dev full
+    strategy: naturally
+    trigger: auto
+    executor: []
+    steps:
+      - step: build@nodejs
+        name: build_nodejs
+        displayName: Nodejs 构建
+        nodeVersion: 18.16.0
+        commands:
+          - '# 设置NPM源，提升安装速度'
+          - npm config set registry https://registry.npmmirror.com
+          - ''
+          - '# 执行编译命令'
+          - npm install && npm run dev
+        caches:
+          - ~/.npm
+          - ~/.yarn
+        notify: []
+        strategy:
+          retry: '0'
+      - step: ut@golang
+        name: unit_test_go
+        displayName: Golang 单元测试
+        golangVersion: '1.22'
+        commands:
+          - '# 默认使用goproxy.cn用户可手动调整'
+          - export GOPROXY=https://goproxy.cn
+          - '# 默认的单元测试命令'
+          - '# 输出测试报告目录到当前工作目录，可自动上传并展示'
+          - mkdir -p golang-report
+          - '# 未使用Go Mod的用户需要打开一下注释'
+          - '# export GOFLAGS=-mod=vendor'
+          - go test -tags tmpl,static -v -json -cover -coverprofile cover.out ./... > golang-report/report.jsonl
+          - go tool cover -html=cover.out -o golang-report/index.html
+        report:
+          path: golang-report
+          file: report.jsonl
+          index: index.html
+        checkpoints: []
+        caches:
+          - /go/pkg/mod
+        notify: []
+        strategy:
+          retry: '0'
+        dependsOn: build_nodejs
