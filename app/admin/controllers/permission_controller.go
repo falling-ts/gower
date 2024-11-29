@@ -54,8 +54,8 @@ func (*PermissionController) Update(req *requests.PermissionRequest, model *mode
 	return res.Ok("修改成功"), nil
 }
 
-// Detail 获取详情
-func (*PermissionController) Detail(req *requests.PermissionRequest, model *models.AdminPermission) (services.Response, error) {
+// Show 获取详情
+func (*PermissionController) Show(req *requests.PermissionRequest, model *models.AdminPermission) (services.Response, error) {
 	return res.Ok("admin/permission/index", app.Data{
 		"model": model,
 	}), nil

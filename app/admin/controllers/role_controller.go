@@ -54,8 +54,8 @@ func (*RoleController) Update(req *requests.RoleRequest, model *models.AdminRole
 	return res.Ok("修改成功"), nil
 }
 
-// Detail 获取详情
-func (*RoleController) Detail(req *requests.RoleRequest, model *models.AdminRole) (services.Response, error) {
+// Show 获取详情
+func (*RoleController) Show(req *requests.RoleRequest, model *models.AdminRole) (services.Response, error) {
 	return res.Ok("admin/role/index", app.Data{
 		"model": model,
 	}), nil

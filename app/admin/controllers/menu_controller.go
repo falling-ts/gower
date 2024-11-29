@@ -54,8 +54,8 @@ func (*MenuController) Update(req *requests.MenuRequest, model *models.AdminMenu
 	return res.Ok("修改成功"), nil
 }
 
-// Detail 获取详情
-func (*MenuController) Detail(req *requests.MenuRequest, model *models.AdminMenu) (services.Response, error) {
+// Show 获取详情
+func (*MenuController) Show(req *requests.MenuRequest, model *models.AdminMenu) (services.Response, error) {
 	return res.Ok("admin/menu/index", app.Data{
 		"model": model,
 	}), nil

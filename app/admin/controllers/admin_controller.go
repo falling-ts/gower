@@ -48,7 +48,7 @@ func (*AdminController) Store(req *requests.AdminRequest, admin *models.AdminUse
 }
 
 // Edit 获取修改页面
-func (*AdminController) Edit(req *requests.AdminRequest, model *models.AdminUser) (services.Response, error) {
+func (*AdminController) Edit(model *models.AdminUser) (services.Response, error) {
 	return res.Ok("admin/user/index", app.Data{
 		"model": model,
 	}), nil
@@ -65,8 +65,8 @@ func (*AdminController) Update(req *requests.AdminRequest, model *models.AdminUs
 	return res.Ok("修改成功"), nil
 }
 
-// Detail 获取详情
-func (*AdminController) Detail(req *requests.AdminRequest, model *models.AdminUser) (services.Response, error) {
+// Show 获取详情
+func (*AdminController) Show(model *models.AdminUser) (services.Response, error) {
 	return res.Ok("admin/user/index", app.Data{
 		"model": model,
 	}), nil

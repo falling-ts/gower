@@ -1,10 +1,12 @@
 package route
 
 import (
+	"fmt"
 	"html/template"
 	"io/fs"
 	"net/http"
 	"path/filepath"
+	"reflect"
 
 	"gitee.com/falling-ts/gower/services"
 
@@ -199,6 +201,47 @@ func (s *Service) HEAD(relativePath string, handlers ...services.Handler) servic
 // Match 注册与您声明的指定方法匹配的路由.
 func (s *Service) Match(methods []string, relativePath string, handlers ...services.Handler) services.IRoutes {
 	s.Engine.Match(methods, relativePath, toGinHandlers(handlers)...)
+	return s
+}
+
+// Restful 注册一个资源路由.
+func (s *Service) Restful(resource string, controller any) services.IRoutes {
+	controllerValue := reflect.ValueOf(controller)
+
+	indexMethodValue := controllerValue.MethodByName("Index")
+	if indexMethodValue.IsValid() {
+		s.GET(fmt.Sprintf("/%s", resource), indexMethodValue.Interface())
+	}
+
+	createMethodValue := controllerValue.MethodByName("Create")
+	if createMethodValue.IsValid() {
+		s.GET(fmt.Sprintf("/%s/create", resource), createMethodValue.Interface())
+	}
+
+	storeMethodValue := controllerValue.MethodByName("Store")
+	if storeMethodValue.IsValid() {
+		s.POST(fmt.Sprintf("/%s", resource), storeMethodValue.Interface())
+	}
+
+	editMethodValue := controllerValue.MethodByName("Edit")
+	if editMethodValue.IsValid() {
+		s.GET(fmt.Sprintf("/%s/:id/edit", resource), editMethodValue.Interface())
+	}
+
+	updateMethodValue := controllerValue.MethodByName("Update")
+	if updateMethodValue.IsValid() {
+		s.PUT(fmt.Sprintf("/%s/:id", resource), updateMethodValue.Interface())
+	}
+
+	showMethodValue := controllerValue.MethodByName("Show")
+	if showMethodValue.IsValid() {
+		s.GET(fmt.Sprintf("/%s/:id", resource), showMethodValue.Interface())
+	}
+
+	destroyMethodValue := controllerValue.MethodByName("Destroy")
+	if destroyMethodValue.IsValid() {
+		s.DELETE(fmt.Sprintf("/%s/:id", resource), destroyMethodValue.Interface())
+	}
 	return s
 }
 

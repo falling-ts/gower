@@ -34,6 +34,7 @@ type IRoutes interface {
 	OPTIONS(string, ...Handler) IRoutes
 	HEAD(string, ...Handler) IRoutes
 	Match([]string, string, ...Handler) IRoutes
+	Restful(resource string, controller any) IRoutes
 
 	StaticFile(string, string) IRoutes
 	StaticFileFS(string, string, http.FileSystem) IRoutes
@@ -82,6 +83,7 @@ type RouteService interface {
 	OPTIONS(relativePath string, handlers ...Handler) IRoutes
 	HEAD(relativePath string, handlers ...Handler) IRoutes
 	Match(methods []string, relativePath string, handlers ...Handler) IRoutes
+	Restful(resource string, controller any) IRoutes
 
 	StaticFile(relativePath, filepath string) IRoutes
 	StaticFileFS(relativePath, filepath string, fs http.FileSystem) IRoutes

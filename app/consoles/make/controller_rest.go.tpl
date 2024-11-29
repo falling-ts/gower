@@ -56,8 +56,8 @@ func (*{{.UpCamel}}Controller) Update(req *requests.{{.UpCamel}}Request, model *
 	return res.Ok("修改成功"), nil
 }
 
-// Detail 获取详情
-func (*{{.UpCamel}}Controller) Detail(req *requests.{{.UpCamel}}Request, model *models.{{.UpCamel}}) (services.Response, error) {
+// Show 获取详情
+func (*{{.UpCamel}}Controller) Show(req *requests.{{.UpCamel}}Request, model *models.{{.UpCamel}}) (services.Response, error) {
 	return res.Ok("模板的 define 名称", app.Data{
 		"model": model,
 	}), nil
