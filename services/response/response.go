@@ -35,7 +35,7 @@ var (
 	config services.Config
 	db     services.DBService
 	cache  services.CacheService
-	excp   services.Exception
+	exc    services.Exception
 )
 
 // Mount 挂载响应体
@@ -56,7 +56,7 @@ func (s *Service) Init(args ...services.Service) services.Service {
 	config = args[3].(services.Config)
 	db = args[4].(services.DBService)
 	cache = args[5].(services.CacheService)
-	excp = args[6].(services.Exception)
+	exc = args[6].(services.Exception)
 	return s.Response
 }
 

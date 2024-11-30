@@ -11,22 +11,23 @@ type AdminController struct {
 	app.Controller
 }
 
-var Admin = new(AdminController)
+var (
+	Admin       = new(AdminController)
+	Breadcrumbs = []map[string]any{
+		{
+			"name": "系统设置",
+			"path": "#",
+		},
+		{
+			"name": "员工管理",
+			"path": "/admin/user",
+		},
+	}
+)
 
 // Index 获取列表页面
 func (*AdminController) Index() (services.Response, error) {
-	return res.Ok("admin/user/index", app.Data{
-		"breadcrumbs": []map[string]any{
-			{
-				"name": "系统设置",
-				"path": "#",
-			},
-			{
-				"name": "员工管理",
-				"path": "/admin/user",
-			},
-		},
-	}), nil
+	return res.Ok("admin/user/index", app.Data{}), nil
 }
 
 // Create 获取添加页面
@@ -41,7 +42,7 @@ func (*AdminController) Store(req *requests.AdminRequest, admin *models.AdminUse
 	admin.Username = req.Name
 	result := db.Create(admin)
 	if result.Error != nil {
-		return nil, excp.BadRequest(result.Error)
+		return nil, exc.BadRequest(result.Error)
 	}
 
 	return res.Created("创建成功"), nil
@@ -59,7 +60,7 @@ func (*AdminController) Update(req *requests.AdminRequest, model *models.AdminUs
 	model.Username = req.Name
 	result := db.Save(model)
 	if result.Error != nil {
-		return nil, excp.BadRequest(result.Error)
+		return nil, exc.BadRequest(result.Error)
 	}
 
 	return res.Ok("修改成功"), nil
@@ -76,7 +77,7 @@ func (*AdminController) Show(model *models.AdminUser) (services.Response, error)
 func (*AdminController) Destroy(model *models.AdminUser) (services.Response, error) {
 	result := db.Delete(model)
 	if result.Error != nil {
-		return nil, excp.BadRequest(result.Error)
+		return nil, exc.BadRequest(result.Error)
 	}
 
 	return res.NoContent("删除成功"), nil

@@ -38,13 +38,13 @@ func Auth(args ...any) services.Handler {
 			token = c.GetHeader(authKey)
 		}
 		if token == "" {
-			excp.Unauthorized("未登录").Handle(c)
+			exc.Unauthorized("未登录").Handle(c)
 			return
 		}
 
 		userId, newToken, err := auth.Check(token, c.RemoteIP())
 		if err != nil {
-			excp.Unauthorized(err).Handle(c)
+			exc.Unauthorized(err).Handle(c)
 			return
 		}
 		if newToken != "" {
@@ -59,7 +59,7 @@ func Auth(args ...any) services.Handler {
 
 		model, err := fn(userId)
 		if err != nil {
-			excp.Unauthorized(err).Handle(c)
+			exc.Unauthorized(err).Handle(c)
 			return
 		}
 

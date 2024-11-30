@@ -30,11 +30,11 @@ func (a *AuthController) Register(req *requests.RegisterRequest, user *models.Us
 		"_skips": app.Skips{},
 	})
 	if err != nil {
-		return nil, excp.BadRequest(err)
+		return nil, exc.BadRequest(err)
 	}
 
 	if err = model.(*models.User).Register(); err != nil {
-		return nil, excp.BadRequest(err)
+		return nil, exc.BadRequest(err)
 	}
 
 	return res.Ok("注册成功"), nil
@@ -50,17 +50,17 @@ func (a *AuthController) LoginForm() (string, app.Data) {
 // Login 执行登录
 func (a *AuthController) Login(req *requests.LoginRequest, user *models.User) (services.Response, error) {
 	if err := user.From(*req.Username); err != nil {
-		return nil, excp.BadRequest(err)
+		return nil, exc.BadRequest(err)
 	}
 
 	err := passwd.Check(req.Password, user.Password)
 	if err != nil {
-		return nil, excp.BadRequest(err, "密码错误")
+		return nil, exc.BadRequest(err, "密码错误")
 	}
 
 	token, err := user.Login(req.RemoteIP())
 	if err != nil {
-		return nil, excp.BadRequest(err, "登录失败")
+		return nil, exc.BadRequest(err, "登录失败")
 	}
 
 	return res.Ok("登录成功", token), nil
@@ -82,7 +82,7 @@ func (a *AuthController) Logout(c *gin.Context) (services.Response, error) {
 	}
 
 	if err := auth.Black(token); err != nil {
-		return nil, excp.BadRequest(err)
+		return nil, exc.BadRequest(err)
 	}
 	return res.Ok("退出成功"), nil
 }

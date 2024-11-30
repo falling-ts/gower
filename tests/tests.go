@@ -11,7 +11,7 @@ var (
 	cache    = app.Cache()
 	config   = app.Config()
 	db       = app.DB()
-	excp     = app.Exception()
+	exc      = app.Exception()
 	passwd   = app.Passwd()
 	res      = app.Response()
 	route    = app.Route()

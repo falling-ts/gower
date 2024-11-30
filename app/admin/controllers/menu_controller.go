@@ -30,7 +30,7 @@ func (*MenuController) Store(req *requests.MenuRequest, model *models.AdminMenu)
 	model.Name = *req.Name
 	result := db.Create(model)
 	if result.Error != nil {
-		return nil, excp.BadRequest(result.Error)
+		return nil, exc.BadRequest(result.Error)
 	}
 
 	return res.Created("创建成功"), nil
@@ -48,7 +48,7 @@ func (*MenuController) Update(req *requests.MenuRequest, model *models.AdminMenu
 	model.Name = *req.Name
 	result := db.Save(model)
 	if result.Error != nil {
-		return nil, excp.BadRequest(result.Error)
+		return nil, exc.BadRequest(result.Error)
 	}
 
 	return res.Ok("修改成功"), nil
@@ -65,7 +65,7 @@ func (*MenuController) Show(req *requests.MenuRequest, model *models.AdminMenu) 
 func (*MenuController) Destroy(model *models.AdminMenu) (services.Response, error) {
 	result := db.Delete(model)
 	if result.Error != nil {
-		return nil, excp.BadRequest(result.Error)
+		return nil, exc.BadRequest(result.Error)
 	}
 
 	return res.NoContent("删除成功"), nil

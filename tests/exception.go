@@ -13,13 +13,13 @@ func TestException(t *testing.T) {
 	assert := getAssert(t)
 	msg := "test message"
 	err := errors.New(msg)
-	exception := excp.BadRequest(err).(*exceptions.Exception)
+	exception := exc.BadRequest(err).(*exceptions.Exception)
 
 	assert.Equal(exception.Error(), msg)
 	assert.Equal(exception.Service.RawErr, err)
 
-	assert.NotEqual(excp, exception)
-	assert.NotEqual(excp.Exception, exception.Exception)
+	assert.NotEqual(exc, exception)
+	assert.NotEqual(exc.Exception, exception.Exception)
 
 	fmt.Println("----------------TestException 结束----------------")
 }

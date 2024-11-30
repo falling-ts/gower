@@ -45,7 +45,7 @@ func (*HomeController) Index(auth *models.Auth) (services.Response, error) {
 			"app_title": "后台管理",
 		})
 		if err != nil {
-			return nil, excp.BadRequest(err)
+			return nil, exc.BadRequest(err)
 		}
 
 		data, _ = raw.(map[string]any)

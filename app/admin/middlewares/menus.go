@@ -16,7 +16,7 @@ func Menus() services.Handler {
 
 		result := db.Preload("Children").Where("parent_id = ?", 0).Find(&menuModels)
 		if result.Error != nil {
-			excp.New(http.StatusBadRequest, result.Error).Handle(c)
+			exc.New(http.StatusBadRequest, result.Error).Handle(c)
 			c.Abort()
 			return
 		}
@@ -36,7 +36,7 @@ func Menus() services.Handler {
 				},
 			})
 			if err != nil {
-				excp.New(http.StatusBadRequest, result.Error).Handle(c)
+				exc.New(http.StatusBadRequest, result.Error).Handle(c)
 				c.Abort()
 				return
 			}

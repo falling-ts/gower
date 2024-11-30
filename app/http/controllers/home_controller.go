@@ -44,7 +44,7 @@ func (h *HomeController) Index(auth *models.Auth) (services.Response, error) {
 			},
 		})
 		if err != nil {
-			return nil, excp.BadRequest(err)
+			return nil, exc.BadRequest(err)
 		}
 
 		data, _ = raw.(map[string]any)

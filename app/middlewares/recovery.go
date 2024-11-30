@@ -29,7 +29,7 @@ func Recovery() services.Handler {
 					zap.String("headers", strings.Join(headers, "|")),
 					zap.Stack("stack"))
 
-				excp.New(http.StatusInternalServerError, err).Handle(c)
+				exc.New(http.StatusInternalServerError, err).Handle(c)
 			}
 		}()
 		c.Next()

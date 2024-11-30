@@ -32,7 +32,7 @@ func (*{{.UpCamel}}Controller) Store(req *requests.{{.UpCamel}}Request, model *m
 	model.Name = req.Name
 	result := db.Create(model)
 	if result.Error != nil {
-		return nil, excp.BadRequest(result.Error)
+		return nil, exc.BadRequest(result.Error)
 	}
 
 	return res.Created("创建成功"), nil
@@ -50,7 +50,7 @@ func (*{{.UpCamel}}Controller) Update(req *requests.{{.UpCamel}}Request, model *
 	model.Name = req.Name
 	result := db.Save(model)
 	if result.Error != nil {
-		return nil, excp.BadRequest(result.Error)
+		return nil, exc.BadRequest(result.Error)
 	}
 
 	return res.Ok("修改成功"), nil
@@ -67,7 +67,7 @@ func (*{{.UpCamel}}Controller) Show(req *requests.{{.UpCamel}}Request, model *mo
 func (*{{.UpCamel}}Controller) Destroy(model *models.{{.UpCamel}}) (services.Response, error) {
 	result := db.Delete(model)
 	if result.Error != nil {
-		return nil, excp.BadRequest(result.Error)
+		return nil, exc.BadRequest(result.Error)
 	}
 
 	return res.NoContent("删除成功"), nil

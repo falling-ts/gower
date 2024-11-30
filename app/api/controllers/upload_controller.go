@@ -16,7 +16,7 @@ var Upload = new(UploadController)
 func (*UploadController) Image(c *gin.Context) (services.Response, error) {
 	path, url, err := upload.Image(c)
 	if err != nil {
-		return nil, excp.BadRequest(err)
+		return nil, exc.BadRequest(err)
 	}
 
 	return res.Created("上传成功", app.Data{

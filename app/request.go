@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	excp  = Exception()
+	exc   = Exception()
 	valid = Validator()
 )
 
@@ -29,14 +29,14 @@ func (r *Request) Validate(c *gin.Context, req RequestIFace) error {
 	var ok bool
 	if err := c.ShouldBind(req); err != nil {
 		if _, ok = err.(*validator.InvalidValidationError); ok {
-			return excp.BadRequest("验证器错误")
+			return exc.BadRequest("验证器错误")
 		}
 
 		errs, ok := err.(validator.ValidationErrors)
 		if !ok {
-			return excp.BadRequest(err)
+			return exc.BadRequest(err)
 		}
-		return excp.UnprocessableEntity(errs, errs[0].Translate(valid.GetTrans()), valid.Translate(errs))
+		return exc.UnprocessableEntity(errs, errs[0].Translate(valid.GetTrans()), valid.Translate(errs))
 	}
 
 	realToken := c.GetString("csrf_token")
@@ -46,16 +46,16 @@ func (r *Request) Validate(c *gin.Context, req RequestIFace) error {
 
 	csrfField := reflect.Indirect(reflect.ValueOf(req)).FieldByName("CsrfToken")
 	if !csrfField.IsValid() {
-		return excp.BadRequest("CSRF 校验失败")
+		return exc.BadRequest("CSRF 校验失败")
 	}
 
 	csrfToken, ok := csrfField.Interface().(string)
 	if !ok {
-		return excp.BadRequest("CSRF 校验失败")
+		return exc.BadRequest("CSRF 校验失败")
 	}
 
 	if subtle.ConstantTimeCompare([]byte(realToken), []byte(csrfToken)) == 0 {
-		return excp.NotAcceptable("CSRF 校验失败")
+		return exc.NotAcceptable("CSRF 校验失败")
 	}
 
 	return nil
