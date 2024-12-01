@@ -9,25 +9,57 @@ import (
 
 type AdminController struct {
 	app.Controller
+	resource    string
+	breadcrumbs []map[string]any
 }
 
 var (
-	Admin       = new(AdminController)
-	Breadcrumbs = []map[string]any{
-		{
-			"name": "系统设置",
-			"path": "#",
-		},
-		{
-			"name": "员工管理",
-			"path": "/admin/user",
+	Admin = &AdminController{
+		Controller: app.Controller{},
+		resource:   "/admin/user",
+		breadcrumbs: []map[string]any{
+			{
+				"name": "系统设置",
+				"path": "#",
+			},
+			{
+				"name": "员工管理",
+				"path": "/admin/user",
+			},
 		},
 	}
 )
 
 // Index 获取列表页面
-func (*AdminController) Index() (services.Response, error) {
-	return res.Ok("admin/user/index", app.Data{}), nil
+func (a *AdminController) Index() (services.Response, error) {
+	return res.Ok("admin/user/index", app.Data{
+		"breadcrumbs": a.breadcrumbs,
+		"grid": map[string]any{
+			"filter": map[string]any{
+				"action": a.resource,
+				"filters": []map[string]any{
+					{
+						"label": "用户名",
+						"name":  "username",
+						"value": "",
+						"type":  "text",
+					},
+					{
+						"label": "邮箱",
+						"name":  "email",
+						"value": "",
+						"type":  "text",
+					},
+					{
+						"label": "昵称",
+						"name":  "nickname",
+						"value": "",
+						"type":  "text",
+					},
+				},
+			},
+		},
+	}), nil
 }
 
 // Create 获取添加页面

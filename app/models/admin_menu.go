@@ -65,7 +65,5 @@ type AdminMenu struct {
 
 	Children []AdminMenu `gorm:"foreignKey:ParentID"`
 
-	Users []*AdminUser `gorm:"many2many:admin_menu_users;joinForeignKey:menu_id;joinReferences:user_id"`
-
 	Roles []*AdminRole `gorm:"many2many:admin_menu_roles;joinForeignKey:menu_id;joinReferences:role_id"`
 }

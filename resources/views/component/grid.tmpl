@@ -1,3 +1,7 @@
 {{define "component/grid"}}
-
+<div class="m-2">
+  {{if .filter}}
+  {{template "component/grid/filter" .filter}}
+  {{end}}
+</div>
 {{end}}

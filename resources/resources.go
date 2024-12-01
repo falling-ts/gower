@@ -33,12 +33,14 @@ func init() {
 	err := route.LoadHTMLGlobs(
 		"resources/views/*.tmpl",
 		"resources/views/**/*.tmpl",
-		"resources/views/**/**/*.tmpl")
+		"resources/views/**/**/*.tmpl",
+	)
 	if err != nil {
 		if Tmpl == nil {
 			panic("没有模板内容可加载")
 		}
-		route.LoadHTMLFS(Tmpl, "views/*.tmpl",
+		route.LoadHTMLFS(Tmpl,
+			"views/*.tmpl",
 			"views/**/*.tmpl",
 			"views/**/**/*.tmpl")
 	}

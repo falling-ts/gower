@@ -2,7 +2,6 @@
   <configuration default="false" name="gower" type="GoApplicationRunConfiguration" factoryName="Go Application">
     <module name="gower" />
     <working_directory value="$PROJECT_DIR$" />
-    <go_parameters value="-tags tmpl,static" />
     <parameters value="run" />
     <kind value="PACKAGE" />
     <package value="gitee.com/falling-ts/gower" />

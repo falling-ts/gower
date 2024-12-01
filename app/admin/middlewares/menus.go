@@ -12,8 +12,6 @@ func Menus() services.Handler {
 	return func(c *gin.Context) {
 		var menuModels []models.AdminMenu
 
-		menusKey := "admin_menus"
-
 		result := db.Preload("Children").Where("parent_id = ?", 0).Find(&menuModels)
 		if result.Error != nil {
 			exc.New(http.StatusBadRequest, result.Error).Handle(c)
@@ -44,7 +42,7 @@ func Menus() services.Handler {
 			menus[i] = tmp
 		}
 
-		c.Set(menusKey, menus)
+		c.Set("admin_menus", menus)
 		c.Next()
 	}
 }

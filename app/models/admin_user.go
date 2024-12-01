@@ -31,8 +31,6 @@ type AdminUser struct {
 	Avatar   *string `gorm:"type:string;default:'';comment:头像"`
 
 	Roles []*AdminRole `gorm:"many2many:admin_role_users;joinForeignKey:user_id;joinReferences:role_id"`
-
-	Menus []*AdminMenu `gorm:"many2many:admin_menu_users;joinForeignKey:user_id;joinReferences:menu_id"`
 }
 
 // From 从用户名获取数据

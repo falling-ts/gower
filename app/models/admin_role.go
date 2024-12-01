@@ -13,4 +13,6 @@ type AdminRole struct {
 	Users []*AdminUser `gorm:"many2many:admin_role_users;joinForeignKey:role_id;joinReferences:user_id"`
 
 	Menus []*AdminMenu `gorm:"many2many:admin_menu_roles;joinForeignKey:role_id;joinReferences:menu_id"`
+
+	Permissions []*AdminPermission `gorm:"many2many:admin_permission_roles;joinForeignKey:role_id;joinReferences:permission_id"`
 }
