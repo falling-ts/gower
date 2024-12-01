@@ -28,6 +28,13 @@ func init() {
 				return []any{}
 			}
 		},
+		"until": func(n int) []int {
+			res := make([]int, n)
+			for i := range res {
+				res[i] = i + 1
+			}
+			return res
+		},
 	})
 
 	err := route.LoadHTMLGlobs(

@@ -1,6 +1,6 @@
 {{define "home/index"}}
     {{template "head" .}}
-    <div id="home-index" class="isolate bg-gray-100 h-full"
+    <div id="home-index" class="isolate bg-base-300 h-full"
          data-simplebar>
       <div class="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu blur-3xl sm:top-[-20rem] bottom-0">
         <svg
@@ -18,7 +18,7 @@
             </a>
           </div>
           <div class="flex lg:hidden">
-            <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+            <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-base-700">
               <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                    aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
@@ -28,20 +28,20 @@
           <div class="hidden lg:flex lg:gap-x-12 animate__animated animate__fadeInDown">
             <a href="https://gitee.com/falling-ts/gower"
                target="_blank"
-               class="text-sm font-semibold leading-6 text-gray-900 cursor-pointer">Gitee</a>
+               class="text-sm font-semibold leading-6 text-base-900 cursor-pointer">Gitee</a>
             <a href="https://github.com/falling-ts/gower"
                target="_blank"
-               class="text-sm font-semibold leading-6 text-gray-900 cursor-pointer">GitHub</a>
+               class="text-sm font-semibold leading-6 text-base-900 cursor-pointer">GitHub</a>
             <a target="_blank"
-               class="text-sm font-semibold leading-6 text-gray-900 cursor-pointer"
+               class="text-sm font-semibold leading-6 text-base-900 cursor-pointer"
                @click="apiHello">接口测试</a>
             <a href="/admin"
                target="_blank"
-               class="text-sm font-semibold leading-6 text-gray-900 cursor-pointer">后台管理</a>
+               class="text-sm font-semibold leading-6 text-base-900 cursor-pointer">后台管理</a>
             <a
               v-if="upload.url"
               :href="upload.url"
-              class="text-sm font-semibold leading-6 text-gray-900 cursor-pointer"
+              class="text-sm font-semibold leading-6 text-base-900 cursor-pointer"
               target="_blank">查看文件</a>
             <input
               type="file"
@@ -343,12 +343,12 @@
 
         {{/* mobile main */}}
         <div role="dialog" aria-modal="true">
-          <div class="fixed inset-0 z-10 overflow-y-auto bg-white px-6 py-6 lg:hidden">
+          <div class="fixed inset-0 z-10 overflow-y-auto bg-base-300 px-6 py-6 lg:hidden">
             <div class="flex items-center justify-between">
               <a href="#" class="-m-1.5 p-1.5">
                 <img class="h-8" src="/public/static/images/favicon.png" alt="">
               </a>
-              <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700">
+              <button type="button" class="-m-2.5 rounded-md p-2.5 text-base-700">
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                      aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
@@ -359,18 +359,18 @@
               <div class="-my-6 divide-y divide-gray-500/10">
                 <div class="space-y-2 py-6">
                   <a href="https://gitee.com/falling-ts/gower" target="_blank"
-                     class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10 cursor-pointer">Gitee</a>
+                     class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-base-900 hover:bg-base-400/10 cursor-pointer">Gitee</a>
                   <a href="https://github.com/falling-ts/gower" target="_blank"
-                     class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10 cursor-pointer">GitHub</a>
+                     class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-base-900 hover:bg-base-400/10 cursor-pointer">GitHub</a>
                   <a target="_blank"
-                     class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10 cursor-pointer"
+                     class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-base-900 hover:bg-base-400/10 cursor-pointer"
                      @click="apiHello">接口测试</a>
                   <a href="/admin" target="_blank"
-                     class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10 cursor-pointer">后台管理</a>
+                     class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-base-900 hover:bg-base-400/10 cursor-pointer">后台管理</a>
                   <a
                     v-if="upload.url"
                     :href="upload.url"
-                    class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-400/10 cursor-pointer"
+                    class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-base-900 hover:bg-base-400/10 cursor-pointer"
                     target="_blank">查看文件</a>
                   <input
                     type="file"
@@ -412,6 +412,7 @@
                       <input
                         type="radio"
                         name="theme-dropdown"
+                        data-set-theme="cupcake"
                         class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
                         aria-label="Cupcake"
                         value="cupcake" />
@@ -678,7 +679,7 @@
           <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
             <div class="hidden sm:mb-8 sm:flex sm:justify-center"></div>
             <div class="text-center">
-              <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Go/Gin Gower Web 启动框架</h1>
+              <h1 class="text-4xl font-bold tracking-tight text-base-900 sm:text-6xl">Go/Gin Gower Web 启动框架</h1>
               <p class="mt-6 text-lg leading-8 text-gray-600">Go 语言开发 Web 应用的快速入门目录，默认使用模板集成模式，不使用前后端分离。</p>
               <div class="mt-10 flex items-center justify-center gap-x-6">
                 <a href="https://gitee.com/falling-ts/gower-work" class="btn btn-primary">快速开始</a>

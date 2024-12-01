@@ -31,7 +31,7 @@ var (
 )
 
 // Index 获取列表页面
-func (a *AdminController) Index() (services.Response, error) {
+func (a *AdminController) Index(req *requests.AdminIndexRequest) (services.Response, error) {
 	return res.Ok("admin/user/index", app.Data{
 		"breadcrumbs": a.breadcrumbs,
 		"grid": map[string]any{
@@ -41,22 +41,25 @@ func (a *AdminController) Index() (services.Response, error) {
 					{
 						"label": "用户名",
 						"name":  "username",
-						"value": "",
+						"value": req.Username,
 						"type":  "text",
 					},
 					{
 						"label": "邮箱",
 						"name":  "email",
-						"value": "",
+						"value": req.Email,
 						"type":  "text",
 					},
 					{
 						"label": "昵称",
 						"name":  "nickname",
-						"value": "",
+						"value": req.Nickname,
 						"type":  "text",
 					},
 				},
+			},
+			"tools": map[string]any{
+				"disableCreateButton": false,
 			},
 		},
 	}), nil

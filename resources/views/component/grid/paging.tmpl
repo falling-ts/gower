@@ -1,0 +1,11 @@
+{{define "component/grid/paging"}}
+<div class="join">
+  <button class="page-first join-item btn"> << </button>
+  <button class="page-prev join-item btn"> < </button>
+  {{range $i := until 10}}
+  <button class="page-{{$i}} join-item btn">{{$i}}</button>
+  {{end}}
+  <button class="page-next join-item btn"> > </button>
+  <button class="page-last join-item btn"> >> </button>
+</div>
+{{end}}

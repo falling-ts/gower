@@ -1,7 +1,7 @@
 {{define "admin/head"}}
 {{template "head" .}}
-<div class="w-full h-full layout bg-no-repeat bg-cover relative">
-  <img src="/public/static/images/admin-bg.jpg" alt="" class="absolute opacity-10 w-full h-full">
+<div class="w-full h-full layout bg-base-300 relative">
+  <img src="/public/static/images/admin-bg.jpg" alt="" class="absolute w-full h-full opacity-10">
   <ul class="menu p-2 w-56 absolute top-[5rem] left-1 bottom-1 z-10 rounded-box ring-1 hidden lg:block animate__animated">
     {{range .admin_menus}}
     <li>
@@ -45,7 +45,7 @@
     </li>
     {{end}}
   </ul>
-  <div class="content py-2 absolute top-[5rem] right-1 bottom-1 lg:left-[14.35rem] left-1 rounded-md ring-1 animate__animated animate__headShake"
+  <div class="content py-2 absolute top-[5rem] right-1 bottom-1 lg:left-[14.35rem] left-1 rounded-md ring-1 overflow-hidden animate__animated animate__headShake"
        data-simplebar>
     <div class="text-sm breadcrumbs px-4">
       {{with .breadcrumbs}}
@@ -385,7 +385,7 @@
 </div>
 {{template "foot" .}}
 <script type="module">
-  import { $, util, msg, api, cookie } from "/public/static/main.js"
+  import { $, msg, api, cookie } from "/public/static/main.js"
   const { admin } = api
 
   $(() => {

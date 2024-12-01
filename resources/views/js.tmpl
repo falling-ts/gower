@@ -1,3 +1,11 @@
 {{define "js"}}
   <script src="/public/static/main.umd.cjs"></script>
+  <script type="module">
+    import { $ } from '/public/static/main.js'
+    $(async () => {
+      $('.theme-controller').on('click', function () {
+        localStorage.setItem('theme', $(this).val())
+      })
+    })
+  </script>
 {{end}}

@@ -1,0 +1,16 @@
+{{define "component/grid/tools"}}
+<button class="refresh btn btn-info">刷新</button>
+<div class="absolute right-0 flex">
+  {{if not .disableCreateButton}}
+  <button class="create btn btn-success">新增</button>
+  {{end}}
+</div>
+<script type="module">
+  import { $ } from "/public/static/main.js"
+  $(() => {
+    $('.refresh').on('click', () => {
+      window.location.reload()
+    })
+  })
+</script>
+{{end}}

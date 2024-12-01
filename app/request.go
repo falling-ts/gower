@@ -22,6 +22,12 @@ type Request struct {
 	CsrfToken    string `form:"csrf_token" json:"csrf_token" xml:"csrf_token" uri:"csrf_token"`
 }
 
+type IndexRequest struct {
+	Request
+	Page    uint `form:"page,default=1" json:"page,default=1" binding:"numeric"`
+	PageNum uint `form:"page_num,default=10" json:"page_num,default=10" binding:"numeric"`
+}
+
 // Validate 执行验证
 func (r *Request) Validate(c *gin.Context, req RequestIFace) error {
 	r.Context = c

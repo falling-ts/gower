@@ -3,20 +3,20 @@
     {{template "loading" .}}
     <div id="auth-register" class="h-full flex loading-hidden">
       <img src="/public/static/images/register-bg.jpg" alt="" class="absolute w-full h-auto lg:h-full">
-      <div class="w-full lg:w-2/5 h-full px-8 lg:px-24 relative z-10 bg-white shadow-2xl animate__animated animate__fadeInLeft"
+      <div class="w-full lg:w-2/5 h-full px-8 lg:px-24 relative z-10 bg-base-300 shadow-2xl animate__animated animate__fadeInLeft"
            data-simplebar>
         <div class="h-full flex flex-col justify-center">
           <a href="/">
             <img class="h-16" src="/public/static/images/logo.png" alt="">
           </a>
           <div class="mt-4">
-            <span class="text-4xl text-black font-bold">注册新的账户</span>
+            <span class="text-4xl text-base-900 font-bold">注册新的账户</span>
           </div>
           <div class="divider my-4">账户信息</div>
           <div class="form-control w-full">
             <input type="hidden" name="csrf_token" value="{{.csrf_token}}">
             <label class="label" for="email">
-              <span class="label-text text-black text-2xl">邮箱</span>
+              <span class="label-text text-base-900 text-2xl">邮箱</span>
             </label>
             <input
               id="email"
@@ -27,7 +27,7 @@
           </div>
           <div class="form-control w-full">
             <label class="label" for="username">
-              <span class="label-text text-black text-2xl">用户名</span>
+              <span class="label-text text-base-900 text-2xl">用户名</span>
             </label>
             <input
               id="username"
@@ -38,7 +38,7 @@
           </div>
           <div class="form-control w-full">
             <label class="label" for="password">
-              <span class="label-text text-black text-2xl">密码</span>
+              <span class="label-text text-base-900 text-2xl">密码</span>
             </label>
             <input
               id="password"
@@ -50,7 +50,7 @@
           </div>
           <div class="form-control w-full">
             <label class="label" for="password-rep">
-              <span class="label-text text-black text-2xl">重复密码</span>
+              <span class="label-text text-base-900 text-2xl">重复密码</span>
             </label>
             <input
               id="password-rep"

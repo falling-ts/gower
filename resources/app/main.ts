@@ -31,3 +31,4 @@ import "simplebar/dist/simplebar.css"
 // Tailwindcss 开发模式
 import "./lib/tailwindcss.dev.js"
 import "daisyui/dist/full.css"
+import "./lib/theme-change.js"
