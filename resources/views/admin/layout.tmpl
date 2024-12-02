@@ -2,11 +2,11 @@
 {{template "head" .}}
 <div class="w-full h-full layout bg-base-300 relative">
   <img src="/public/static/images/admin-bg.jpg" alt="" class="absolute w-full h-full opacity-10">
-  <ul class="menu p-2 w-56 absolute top-[5rem] left-1 bottom-1 z-10 rounded-box ring-1 hidden lg:block animate__animated">
+  <ul class="menu p-2 w-56 absolute top-[5rem] left-1 bottom-1 z-10 rounded-box ring-1 bg-base-300 hidden lg:block animate__animated">
     {{range .admin_menus}}
     <li>
       {{if .children}}
-      <details open>
+      <details>
         <summary>
           <a class="flex items-center" id="menu-{{.id}}" data-id="{{.id}}" {{with .path}}data-href="{{.}}"{{end}}>
             {{with .icon}}
@@ -104,7 +104,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Light"
-              value="light" />
+              data-set-theme="light" />
           </li>
           <li>
             <input
@@ -112,7 +112,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Dark"
-              value="dark" />
+              data-set-theme="dark" />
           </li>
           <li>
             <input
@@ -120,7 +120,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Cupcake"
-              value="cupcake" />
+              data-set-theme="cupcake" />
           </li>
           <li>
             <input
@@ -128,7 +128,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Bumblebee"
-              value="bumblebee" />
+              data-set-theme="bumblebee" />
           </li>
           <li>
             <input
@@ -136,7 +136,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Emerald"
-              value="emerald" />
+              data-set-theme="emerald" />
           </li>
           <li>
             <input
@@ -144,7 +144,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Corporate"
-              value="corporate" />
+              data-set-theme="corporate" />
           </li>
           <li>
             <input
@@ -152,7 +152,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Synthwave"
-              value="synthwave" />
+              data-set-theme="synthwave" />
           </li>
           <li>
             <input
@@ -160,7 +160,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Retro"
-              value="retro" />
+              data-set-theme="retro" />
           </li>
           <li>
             <input
@@ -168,7 +168,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Cyberpunk"
-              value="cyberpunk" />
+              data-set-theme="cyberpunk" />
           </li>
           <li>
             <input
@@ -176,7 +176,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Valentine"
-              value="valentine" />
+              data-set-theme="valentine" />
           </li>
           <li>
             <input
@@ -184,7 +184,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Halloween"
-              value="halloween" />
+              data-set-theme="halloween" />
           </li>
           <li>
             <input
@@ -192,7 +192,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Garden"
-              value="garden" />
+              data-set-theme="garden" />
           </li>
           <li>
             <input
@@ -200,7 +200,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Forest"
-              value="forest" />
+              data-set-theme="forest" />
           </li>
           <li>
             <input
@@ -208,7 +208,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Aqua"
-              value="aqua" />
+              data-set-theme="aqua" />
           </li>
           <li>
             <input
@@ -216,7 +216,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Lofi"
-              value="lofi" />
+              data-set-theme="lofi" />
           </li>
           <li>
             <input
@@ -224,7 +224,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Pastel"
-              value="pastel" />
+              data-set-theme="pastel" />
           </li>
           <li>
             <input
@@ -232,7 +232,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Fantasy"
-              value="fantasy" />
+              data-set-theme="fantasy" />
           </li>
           <li>
             <input
@@ -240,7 +240,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Wireframe"
-              value="wireframe" />
+              data-set-theme="wireframe" />
           </li>
           <li>
             <input
@@ -248,7 +248,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Black"
-              value="black" />
+              data-set-theme="black" />
           </li>
           <li>
             <input
@@ -256,7 +256,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Luxury"
-              value="luxury" />
+              data-set-theme="luxury" />
           </li>
           <li>
             <input
@@ -264,7 +264,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Dracula"
-              value="dracula" />
+              data-set-theme="dracula" />
           </li>
           <li>
             <input
@@ -272,7 +272,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Cmyk"
-              value="cmyk" />
+              data-set-theme="cmyk" />
           </li>
           <li>
             <input
@@ -280,7 +280,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Autumn"
-              value="autumn" />
+              data-set-theme="autumn" />
           </li>
           <li>
             <input
@@ -288,7 +288,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Business"
-              value="business" />
+              data-set-theme="business" />
           </li>
           <li>
             <input
@@ -296,7 +296,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Acid"
-              value="acid" />
+              data-set-theme="acid" />
           </li>
           <li>
             <input
@@ -304,7 +304,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Lemonade"
-              value="lemonade" />
+              data-set-theme="lemonade" />
           </li>
           <li>
             <input
@@ -312,7 +312,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Night"
-              value="night" />
+              data-set-theme="night" />
           </li>
           <li>
             <input
@@ -320,7 +320,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Coffee"
-              value="coffee" />
+              data-set-theme="coffee" />
           </li>
           <li>
             <input
@@ -328,7 +328,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Winter"
-              value="winter" />
+              data-set-theme="winter" />
           </li>
           <li>
             <input
@@ -336,7 +336,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Dim"
-              value="dim" />
+              data-set-theme="dim" />
           </li>
           <li>
             <input
@@ -344,7 +344,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Nord"
-              value="nord" />
+              data-set-theme="nord" />
           </li>
           <li>
             <input
@@ -352,7 +352,7 @@
               name="theme-dropdown"
               class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
               aria-label="Sunset"
-              value="sunset" />
+              data-set-theme="sunset" />
           </li>
         </ul>
       </div>
@@ -385,22 +385,18 @@
 </div>
 {{template "foot" .}}
 <script type="module">
-  import { $, msg, api, cookie } from "/public/static/main.js"
+  import { $, util, msg, api, cookie } from "/public/static/main.js"
   const { admin } = api
 
   $(() => {
-    const id = localStorage.getItem("menu-active")
+    $(`.menu a[data-href="${window.location.pathname}"]`).parents('details').attr('open', true)
 
+    const id = localStorage.getItem("menu-active")
     if (id) {
-      $(`#menu-${id}`)
-        .addClass("active")
-        .parents("ul")
-        .siblings("a")
-        .addClass("active")
+      $(`#menu-${id}`).addClass("active")
     } else {
       $(`#menu-1`).addClass("active")
     }
-
   })
 
   $(".logout").on("click", () => {
@@ -414,6 +410,30 @@
         }, 2000)
       }
     })
+  })
+
+  $(".menu-ctrl").on("click", () => {
+    const menu = $(".menu"), content = $(".content")
+    if (menu.hasClass("animate__fadeInUp")) {
+      menu.removeClass("animate__fadeInUp").addClass("animate__fadeOutLeft")
+      if (!util.isPhone()) {
+        setTimeout(() => {
+          content.addClass("animate__jackInTheBox")
+        })
+        content.removeClass("lg:left-[14.35rem]").removeClass("animate__jackInTheBox")
+      }
+      if (util.isPhone() && menu.hasClass("hidden")) {
+        menu.removeClass("hidden").removeClass("animate__fadeOutLeft").addClass("animate__fadeInUp")
+      }
+    } else {
+      menu.removeClass("hidden").removeClass("animate__fadeOutLeft").addClass("animate__fadeInUp")
+      if (!util.isPhone()) {
+        setTimeout(() => {
+          content.addClass("animate__jackInTheBox")
+        })
+        content.addClass("lg:left-[14.35rem]").removeClass("animate__jackInTheBox")
+      }
+    }
   })
 
   $(".menu a").on("click", function () {

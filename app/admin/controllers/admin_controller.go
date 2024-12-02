@@ -61,6 +61,10 @@ func (a *AdminController) Index(req *requests.AdminIndexRequest) (services.Respo
 			"tools": map[string]any{
 				"disableCreateButton": false,
 			},
+			"table": map[string]any{
+				"pinRow": true,
+				"pinCol": false,
+			},
 		},
 	}), nil
 }

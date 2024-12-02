@@ -3,12 +3,11 @@ package route
 import (
 	"errors"
 	"gitee.com/falling-ts/gower/services"
+	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"net/http"
 	"path"
 	"reflect"
-
-	"github.com/gin-gonic/gin"
 )
 
 func transHandler(handler services.Handler) gin.HandlerFunc {
@@ -215,9 +214,10 @@ func handleResults(results []reflect.Value, c *gin.Context) bool {
 }
 
 func handleError(err error, c *gin.Context) bool {
-	if e, ok := err.(services.Exception); ok {
+	var e services.Exception
+	if errors.As(err, &e) {
 		return e.Handle(c)
-	} else {
-		return exception.New(http.StatusBadRequest, err).Handle(c)
 	}
+
+	return exception.New(http.StatusBadRequest, err).Handle(c)
 }

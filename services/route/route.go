@@ -1,6 +1,7 @@
 package route
 
 import (
+	"errors"
 	"fmt"
 	"html/template"
 	"io/fs"
@@ -35,7 +36,7 @@ func New() services.RouteService {
 // Init 初始化
 func (s *Service) Init(args ...services.Service) services.Service {
 	config = args[0].(services.Config)
-	exception = args[1].(services.Exception)
+	errors.As(args[1].(services.Exception), &exception)
 	db = args[2].(services.DBService)
 	response = args[3].(services.Response)
 	util = args[4].(services.UtilService)

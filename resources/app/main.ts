@@ -5,6 +5,7 @@ import msg from "./lib/msg"
 import util from "./lib/util"
 import cookie from "js-cookie"
 import hash from "./lib/hash"
+import { themeChange } from "theme-change"
 // @ts-ignore
 import { createApp } from "vue/dist/vue.esm-browser.prod"
 import ResizeObserver from "resize-observer-polyfill"
@@ -18,7 +19,8 @@ export {
     msg,
     cookie,
     hash,
-    util
+    util,
+    themeChange
 }
 
 // 样式
@@ -31,4 +33,3 @@ import "simplebar/dist/simplebar.css"
 // Tailwindcss 开发模式
 import "./lib/tailwindcss.dev.js"
 import "daisyui/dist/full.css"
-import "./lib/theme-change.js"

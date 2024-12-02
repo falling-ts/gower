@@ -41,10 +41,11 @@
         <img src="/public/static/images/login-bg.jpg" class="max-w-sm rounded-lg shadow-2xl w-full"  alt=""/>
         <div>
           <h1 class="text-5xl font-bold">Go/Gin Gower 文档</h1>
-          <p class="py-6">
+          <p class="mt-6">
             Go 语言开发 Web 应用的快速入门目录，默认使用模板集成模式，不使用前后端分离。
           </p>
-          <a href="https://falling-ts.github.io/gower-docs/" class="btn btn-primary">快速开始</a>
+          <p class="mt-6">设备类型: {{if .is_mobile}}Mobile{{else}}PC{{end}}</p>
+          <a href="https://falling-ts.github.io/gower-docs/" class="btn btn-primary mt-6">快速开始</a>
         </div>
       </div>
     </div>

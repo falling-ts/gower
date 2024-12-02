@@ -1,6 +1,7 @@
 package response
 
 import (
+	"errors"
 	"net/http"
 	"reflect"
 	"strings"
@@ -33,7 +34,6 @@ var (
 	cookie services.CookieService
 	util   services.UtilService
 	config services.Config
-	db     services.DBService
 	cache  services.CacheService
 	exc    services.Exception
 )
@@ -54,9 +54,8 @@ func (s *Service) Init(args ...services.Service) services.Service {
 	cookie = args[1].(services.CookieService)
 	util = args[2].(services.UtilService)
 	config = args[3].(services.Config)
-	db = args[4].(services.DBService)
-	cache = args[5].(services.CacheService)
-	exc = args[6].(services.Exception)
+	cache = args[4].(services.CacheService)
+	errors.As(args[5].(services.Exception), &exc)
 	return s.Response
 }
 
@@ -159,12 +158,12 @@ func (s *Service) csrfTokenAndCommonData(c *gin.Context) {
 				data.SetMapIndex(reflect.ValueOf(themeKey), reflect.ValueOf(theme))
 			}
 
-			excpKey, err := cookie.Get(c, "exception")
+			excKey, err := cookie.Get(c, "exception")
 			if err == nil {
 				exceptionKey := "app_exceptions"
 				exceptionVal := data.MapIndex(reflect.ValueOf(exceptionKey))
 				if !exceptionVal.IsValid() {
-					if exception, ok := cache.Flash(excpKey); ok {
+					if exception, ok := cache.Flash(excKey); ok {
 						data.SetMapIndex(reflect.ValueOf(exceptionKey), reflect.ValueOf(exception))
 					}
 				}
@@ -183,6 +182,14 @@ func (s *Service) adminData(c *gin.Context) {
 			if !menusVal.IsValid() {
 				if menus, ok := c.Get(menusKey); ok {
 					data.SetMapIndex(reflect.ValueOf(menusKey), reflect.ValueOf(menus))
+				}
+			}
+
+			agentKey := "is_mobile"
+			agentVal := data.MapIndex(reflect.ValueOf(agentKey))
+			if !agentVal.IsValid() {
+				if agent, ok := c.Get(agentKey); ok {
+					data.SetMapIndex(reflect.ValueOf(agentKey), reflect.ValueOf(agent))
 				}
 			}
 

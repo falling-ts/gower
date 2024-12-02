@@ -1,5 +1,5 @@
 {{define "component/grid/table"}}
-<table class="table table-pin-rows table-pin-cols">
+<table class="table {{if .pinRow}}table-pin-rows{{end}} {{if .pinCol}}table-pin-cols{{end}}">
   <!-- head -->
   <thead>
     <tr>
@@ -236,7 +236,5 @@
     </tr>
   </tbody>
 </table>
-<div class="mt-2 mb-20 flex justify-end">
-  {{template "component/grid/paging" .}}
-</div>
+<div class="divider mt-2 mb-16">我是有底线的</div>
 {{end}}

@@ -1,6 +1,9 @@
 package passwd
 
-import "gitee.com/falling-ts/gower/services"
+import (
+	"errors"
+	"gitee.com/falling-ts/gower/services"
+)
 
 type Service struct {
 	services.Passwd
@@ -18,7 +21,7 @@ func New() *Service {
 // Init 初始化
 func (s *Service) Init(args ...services.Service) services.Service {
 	config = args[0].(services.Config)
-	exception = args[1].(services.Exception)
+	errors.As(args[1].(services.Exception), &exception)
 
 	var ok bool
 	s.Passwd, ok = map[string]services.Passwd{

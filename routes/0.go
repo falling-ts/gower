@@ -16,7 +16,8 @@ func init() {
 	route.Use(mws.Recovery()).
 		Use(mws.Logger()).
 		Use(mws.Cors()).
-		Use(mws.CsrfToken())
+		Use(mws.CsrfToken()).
+		Use(mws.Agent())
 
 	route.NoRoute([]any{
 		"exc/404", app.Data{

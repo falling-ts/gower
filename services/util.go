@@ -11,7 +11,7 @@ type UtilService interface {
 	SetEnv(env, key, value string) error
 	SecretKey(length int) (string, error)
 
-	ExcpKey() string
+	ExcKey() string
 	BlackTokenKey(nanoid string) string
 
 	Ptr(v any) any

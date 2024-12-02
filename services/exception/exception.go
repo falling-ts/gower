@@ -108,7 +108,7 @@ func (s *Service) decideType(arg any) {
 }
 
 func (s *Service) saveException(c *gin.Context) {
-	key := util.ExcpKey()
+	key := util.ExcKey()
 	cache.SetDefault(key, s.Exception)
 	cookie.Set(c, "exception", key, 300)
 }

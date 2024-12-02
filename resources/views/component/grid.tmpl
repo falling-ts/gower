@@ -6,11 +6,11 @@
   <div class="flex items-center mt-2 relative">
     {{template "component/grid/tools" .tools}}
   </div>
-  <div class="mt-2 flex justify-end">
-    {{template "component/grid/paging" .paging}}
-  </div>
   <div class="mt-2 flex-[0.9] overflow-auto">
     {{template "component/grid/table" .table}}
+  </div>
+  <div class="mt-2 flex justify-end absolute right-0 bottom-14">
+    {{template "component/grid/paging" .paging}}
   </div>
 </div>
 {{end}}

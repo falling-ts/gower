@@ -41,6 +41,9 @@ importers:
       tailwindcss:
         specifier: ^3.4.15
         version: 3.4.15
+      theme-change:
+        specifier: ^2.5.0
+        version: 2.5.0
       vue:
         specifier: ^3.5.13
         version: 3.5.13
@@ -979,6 +982,9 @@ packages:
     engines: {node: '>=14.0.0'}
     hasBin: true
 
+  theme-change@2.5.0:
+    resolution: {integrity: sha512-B/UdsgdHAGhSKHTAQnxg/etN0RaMDpehuJmZIjLMDVJ6DGIliRHGD6pODi1CXLQAN9GV0GSyB3G6yCuK05PkPQ==}
+
   thenify-all@1.6.0:
     resolution: {integrity: sha512-RNxQH/qI8/t3thXJDwcstUO4zeqo64+Uy/+sNVRBx4Xn2OX+OZ9oP+iJnNFqplFra2ZUVeKCSa2oVWi3T4uVmA==}
     engines: {node: '>=0.8'}
@@ -1885,6 +1891,8 @@ snapshots:
       sucrase: 3.35.0
     transitivePeerDependencies:
       - ts-node
+
+  theme-change@2.5.0: {}
 
   thenify-all@1.6.0:
     dependencies:

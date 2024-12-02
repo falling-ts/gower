@@ -108,9 +108,9 @@ func DB() services.DBService {
 
 // Exception 获取异常服务
 func Exception() *exceptions.Exception {
-	excp, ok := Get("exception").(*exceptions.Exception)
+	exc, ok := Get("exception").(*exceptions.Exception)
 	if ok {
-		return excp
+		return exc
 	}
 
 	return (*exceptions.Exception)(nil)
