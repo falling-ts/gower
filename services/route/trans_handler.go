@@ -137,6 +137,8 @@ func useReflect(handler services.Handler, c *gin.Context) bool {
 				default:
 					return false
 				}
+			default:
+				return false
 			}
 		default:
 			return false

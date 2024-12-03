@@ -2,14 +2,29 @@
 <button class="refresh btn btn-info">刷新</button>
 <div class="absolute right-0 flex">
   {{if not .disableCreateButton}}
-  <button class="create btn btn-success">新增</button>
+  <a class="create btn btn-success" href="{{if .modalCreate}}#modalCreate{{else}}{{.resource}}/create{{end}}">新增</a>
+  <div class="modal" role="dialog" id="modalCreate">
+    <div class="modal-box w-11/12 max-w-5xl h-5/6 max-h-full">
+      <a class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" href="#">✕</a>
+      <h3 class="text-lg font-bold">新增</h3>
+      <iframe src="" class="w-full h-full"></iframe>
+    </div>
+  </div>
   {{end}}
 </div>
 <script type="module">
   import { $ } from "/public/static/main.js"
   $(() => {
+    const url = window.location.href
+    if (url.includes('#modalCreate')) {
+      $('#modalCreate iframe').attr('src', '{{.resource}}/create?isModal=true')
+    }
+
     $('.refresh').on('click', () => {
       window.location.reload()
+    })
+    $('.create').on('click', () => {
+      $('#modalCreate iframe').attr('src', '{{.resource}}/create?isModal=true')
     })
   })
 </script>

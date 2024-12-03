@@ -2,7 +2,7 @@
 <form
   class="rounded ring-2 px-4 py-2 flex flex-wrap"
   method="GET"
-  action="{{.action}}">
+  action="{{.resource}}">
   {{range .filters}}
   {{if eq .type "checkbox"}}
   <div class="flex items-center mt-1 w-full lg:w-1/3">

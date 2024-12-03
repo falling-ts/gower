@@ -4,7 +4,6 @@ import "gitee.com/falling-ts/gower/app"
 
 type AdminRequest struct {
 	app.Request
-	Name *string `form:"name" json:"name" binding:"required"`
 }
 
 type AdminIndexRequest struct {
@@ -12,4 +11,8 @@ type AdminIndexRequest struct {
 	Username string `form:"username" json:"username"`
 	Email    string `form:"email" json:"email"`
 	Nickname string `form:"nickname" json:"nickname"`
+}
+
+type AdminCreateRequest struct {
+	app.ModalRequest
 }

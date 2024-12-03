@@ -42,7 +42,7 @@ func (*HomeController) Index(auth *models.Auth) (services.Response, error) {
 
 				return config.App.Url + path
 			},
-			"app_title": "后台管理",
+			"appTitle": "后台管理",
 		})
 		if err != nil {
 			return nil, exc.BadRequest(err)

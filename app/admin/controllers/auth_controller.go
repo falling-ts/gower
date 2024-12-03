@@ -17,7 +17,7 @@ var Auth = new(AuthController)
 // LoginForm 获取登录页面
 func (*AuthController) LoginForm() (services.Response, error) {
 	return res.Ok("admin/login", app.Data{
-		"app_title": "后台登录",
+		"appTitle": "后台登录",
 	}), nil
 }
 

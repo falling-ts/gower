@@ -13,13 +13,13 @@ func CsrfToken() services.Handler {
 			return
 		}
 
-		csrfToken, _ := cookie.Get(c, "csrf_token")
+		csrfToken, _ := cookie.Get(c, "csrfToken")
 		if csrfToken == "" {
 			c.Next()
 			return
 		}
 
-		c.Set("csrf_token", csrfToken)
+		c.Set("csrfToken", csrfToken)
 		c.Next()
 	}
 }

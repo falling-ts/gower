@@ -1,16 +1,16 @@
 {{define "component/grid"}}
 <div class="m-2 h-full flex flex-col">
-  {{if .filter}}
-  {{template "component/grid/filter" .filter}}
+  {{if .filters}}
+  {{template "component/grid/filter" .}}
   {{end}}
   <div class="flex items-center mt-2 relative">
-    {{template "component/grid/tools" .tools}}
+    {{template "component/grid/tools" .}}
   </div>
   <div class="mt-2 flex-[0.9] overflow-auto">
-    {{template "component/grid/table" .table}}
+    {{template "component/grid/table" .}}
   </div>
   <div class="mt-2 flex justify-end absolute right-0 bottom-14">
-    {{template "component/grid/paging" .paging}}
+    {{template "component/grid/paging" .}}
   </div>
 </div>
 {{end}}

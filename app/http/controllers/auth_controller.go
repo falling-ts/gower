@@ -17,7 +17,7 @@ var Auth = new(AuthController)
 // RegisterForm 注册页面
 func (a *AuthController) RegisterForm() (string, app.Data) {
 	return "auth/register", app.Data{
-		"app_title": "注册",
+		"appTitle": "注册",
 	}
 }
 
@@ -43,7 +43,7 @@ func (a *AuthController) Register(req *requests.RegisterRequest, user *models.Us
 // LoginForm 登录页面
 func (a *AuthController) LoginForm() (string, app.Data) {
 	return "auth/login", app.Data{
-		"app_title": "登录",
+		"appTitle": "登录",
 	}
 }
 
@@ -69,7 +69,7 @@ func (a *AuthController) Login(req *requests.LoginRequest, user *models.User) (s
 // Me 获取个人信息
 func (a *AuthController) Me() (services.Response, error) {
 	return res.Ok("auth/me", app.Data{
-		"app_title": "我",
+		"appTitle": "我",
 	}), nil
 }
 

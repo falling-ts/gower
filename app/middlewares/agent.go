@@ -9,7 +9,7 @@ import (
 func Agent() services.Handler {
 	return func(c *gin.Context) {
 		if isMobile(c.GetHeader("User-Agent")) {
-			c.Set("is_mobile", true)
+			c.Set("isMobile", true)
 		}
 	}
 }

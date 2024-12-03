@@ -274,6 +274,66 @@ func setGoLandRun(dir string, project string) error {
 	}
 
 	newRunFile := filepath.Join(dir, ".run", fmt.Sprintf("%s.run.xml", project))
+	err = os.Rename(runFile, newRunFile)
+	if err != nil {
+		return err
+	}
+
+	runFile = filepath.Join(dir, ".run", "gower-dev.run.xml")
+
+	content, err = os.ReadFile(runFile)
+	if err != nil {
+		return err
+	}
+
+	contentStr = string(content)
+	newContent = strings.Replace(contentStr, "name=\"gower-dev\"", fmt.Sprintf("name=\"%s-dev\"", project), -1)
+	err = os.WriteFile(runFile, []byte(newContent), 0644)
+	if err != nil {
+		return err
+	}
+
+	newRunFile = filepath.Join(dir, ".run", fmt.Sprintf("%s-dev.run.xml", project))
+	err = os.Rename(runFile, newRunFile)
+	if err != nil {
+		return err
+	}
+
+	runFile = filepath.Join(dir, ".run", "gower-test.run.xml")
+
+	content, err = os.ReadFile(runFile)
+	if err != nil {
+		return err
+	}
+
+	contentStr = string(content)
+	newContent = strings.Replace(contentStr, "name=\"gower-test\"", fmt.Sprintf("name=\"%s-test\"", project), -1)
+	err = os.WriteFile(runFile, []byte(newContent), 0644)
+	if err != nil {
+		return err
+	}
+
+	newRunFile = filepath.Join(dir, ".run", fmt.Sprintf("%s-test.run.xml", project))
+	err = os.Rename(runFile, newRunFile)
+	if err != nil {
+		return err
+	}
+
+	runFile = filepath.Join(dir, ".run", "gower-prod.run.xml")
+
+	content, err = os.ReadFile(runFile)
+	if err != nil {
+		return err
+	}
+
+	contentStr = string(content)
+	newContent = strings.Replace(contentStr, "name=\"gower-prod\"", fmt.Sprintf("name=\"%s-prod\"", project), -1)
+	err = os.WriteFile(runFile, []byte(newContent), 0644)
+	if err != nil {
+		return err
+	}
+
+	newRunFile = filepath.Join(dir, ".run", fmt.Sprintf("%s-prod.run.xml", project))
 	return os.Rename(runFile, newRunFile)
 }
 

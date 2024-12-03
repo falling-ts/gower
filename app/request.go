@@ -19,13 +19,18 @@ type RequestIFace interface {
 
 type Request struct {
 	*gin.Context `json:"-" xml:"-" form:"-" query:"-" protobuf:"-" msgpack:"-" yaml:"-" uri:"-" header:"-" toml:"-"`
-	CsrfToken    string `form:"csrf_token" json:"csrf_token" xml:"csrf_token" uri:"csrf_token"`
+	CsrfToken    string `form:"csrfToken" json:"csrfToken" xml:"csrfToken" uri:"csrfToken"`
 }
 
 type IndexRequest struct {
 	Request
 	Page    uint `form:"page,default=1" json:"page,default=1" binding:"numeric"`
-	PageNum uint `form:"page_num,default=10" json:"page_num,default=10" binding:"numeric"`
+	PageNum uint `form:"pageNum,default=10" json:"pageNum,default=10" binding:"numeric"`
+}
+
+type ModalRequest struct {
+	Request
+	IsModal bool `form:"isModal,default=false" json:"isModal,default=false" binding:"boolean"`
 }
 
 // Validate 执行验证
@@ -45,7 +50,7 @@ func (r *Request) Validate(c *gin.Context, req RequestIFace) error {
 		return exc.UnprocessableEntity(errs, errs[0].Translate(valid.GetTrans()), valid.Translate(errs))
 	}
 
-	realToken := c.GetString("csrf_token")
+	realToken := c.GetString("csrfToken")
 	if realToken == "" {
 		return nil
 	}

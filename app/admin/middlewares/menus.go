@@ -42,7 +42,7 @@ func Menus() services.Handler {
 			menus[i] = tmp
 		}
 
-		c.Set("admin_menus", menus)
+		c.Set("adminMenus", menus)
 		c.Next()
 	}
 }

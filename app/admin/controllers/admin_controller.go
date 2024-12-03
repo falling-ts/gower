@@ -35,50 +35,52 @@ func (a *AdminController) Index(req *requests.AdminIndexRequest) (services.Respo
 	return res.Ok("admin/user/index", app.Data{
 		"breadcrumbs": a.breadcrumbs,
 		"grid": map[string]any{
-			"filter": map[string]any{
-				"action": a.resource,
-				"filters": []map[string]any{
-					{
-						"label": "用户名",
-						"name":  "username",
-						"value": req.Username,
-						"type":  "text",
-					},
-					{
-						"label": "邮箱",
-						"name":  "email",
-						"value": req.Email,
-						"type":  "text",
-					},
-					{
-						"label": "昵称",
-						"name":  "nickname",
-						"value": req.Nickname,
-						"type":  "text",
-					},
+			"resource": a.resource,
+			"filters": []map[string]any{
+				{
+					"label": "用户名",
+					"name":  "username",
+					"value": req.Username,
+					"type":  "text",
+				},
+				{
+					"label": "邮箱",
+					"name":  "email",
+					"value": req.Email,
+					"type":  "text",
+				},
+				{
+					"label": "昵称",
+					"name":  "nickname",
+					"value": req.Nickname,
+					"type":  "text",
 				},
 			},
-			"tools": map[string]any{
-				"disableCreateButton": false,
-			},
-			"table": map[string]any{
-				"pinRow": true,
-				"pinCol": false,
-			},
+			"disableCreateButton": false,
+			"modalCreate":         true,
+			"pinRow":              true,
+			"pinCol":              false,
 		},
 	}), nil
 }
 
 // Create 获取添加页面
-func (*AdminController) Create(req *requests.AdminRequest) (services.Response, error) {
-	return res.Ok("admin/user/index", app.Data{
-		"name": req.Name,
+func (a *AdminController) Create(req *requests.AdminCreateRequest) (services.Response, error) {
+	return res.Ok("admin/user/create", app.Data{
+		"isModal": req.IsModal,
+		"breadcrumbs": append(a.breadcrumbs, map[string]any{
+			"name": "新增",
+			"path": "/admin/user/create",
+		}),
+		"form": map[string]any{
+			"test": 1,
+		},
 	}), nil
 }
 
 // Store 添加数据
 func (*AdminController) Store(req *requests.AdminRequest, admin *models.AdminUser) (services.Response, error) {
-	admin.Username = req.Name
+
 	result := db.Create(admin)
 	if result.Error != nil {
 		return nil, exc.BadRequest(result.Error)
@@ -96,7 +98,7 @@ func (*AdminController) Edit(model *models.AdminUser) (services.Response, error)
 
 // Update 修改数据
 func (*AdminController) Update(req *requests.AdminRequest, model *models.AdminUser) (services.Response, error) {
-	model.Username = req.Name
+
 	result := db.Save(model)
 	if result.Error != nil {
 		return nil, exc.BadRequest(result.Error)

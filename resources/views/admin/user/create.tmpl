@@ -1,0 +1,12 @@
+{{define "admin/user/create"}}
+
+{{if .isModal}}
+{{template "admin/head" .}}
+{{end}}
+
+{{template "component/grid/form" .form}}
+
+{{if .isModal}}
+{{template "admin/foot" .}}
+{{end}}
+{{end}}

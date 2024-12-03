@@ -141,10 +141,10 @@ func (s *Service) csrfTokenAndCommonData(c *gin.Context) {
 		data := reflect.Indirect(reflect.ValueOf(s.config.HTMLData))
 		if data.Kind() == reflect.Map {
 			csrfToken := util.Nanoid()
-			data.SetMapIndex(reflect.ValueOf("csrf_token"), reflect.ValueOf(csrfToken))
-			cookie.Set(c, "csrf_token", csrfToken)
+			data.SetMapIndex(reflect.ValueOf("csrfToken"), reflect.ValueOf(csrfToken))
+			cookie.Set(c, "csrfToken", csrfToken)
 
-			titleKey := "app_title"
+			titleKey := "appTitle"
 			titleVal := data.MapIndex(reflect.ValueOf(titleKey))
 			if !titleVal.IsValid() {
 				title := config.Get("app.name", "Gower").(string)
@@ -177,7 +177,7 @@ func (s *Service) adminData(c *gin.Context) {
 	if mime == binding.MIMEHTML && strings.HasPrefix(c.FullPath(), "/admin") {
 		data := reflect.Indirect(reflect.ValueOf(s.config.HTMLData))
 		if data.Kind() == reflect.Map {
-			menusKey := "admin_menus"
+			menusKey := "adminMenus"
 			menusVal := data.MapIndex(reflect.ValueOf(menusKey))
 			if !menusVal.IsValid() {
 				if menus, ok := c.Get(menusKey); ok {
@@ -185,7 +185,7 @@ func (s *Service) adminData(c *gin.Context) {
 				}
 			}
 
-			agentKey := "is_mobile"
+			agentKey := "isMobile"
 			agentVal := data.MapIndex(reflect.ValueOf(agentKey))
 			if !agentVal.IsValid() {
 				if agent, ok := c.Get(agentKey); ok {
