@@ -73,7 +73,21 @@ func (a *AdminController) Create(req *requests.AdminCreateRequest) (services.Res
 			"path": "/admin/user/create",
 		}),
 		"form": map[string]any{
-			"test": 1,
+			"resource": a.resource,
+			"forms": []map[string]any{
+				{
+					"label": "用户名",
+					"name":  "username",
+					"value": "",
+					"type":  "text",
+				},
+				{
+					"label": "密码",
+					"name":  "password",
+					"value": "",
+					"type":  "password",
+				},
+			},
 		},
 	}), nil
 }

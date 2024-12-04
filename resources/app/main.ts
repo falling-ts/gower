@@ -7,13 +7,24 @@ import cookie from "js-cookie"
 import hash from "./lib/hash"
 import { themeChange } from "theme-change"
 // @ts-ignore
-import { createApp } from "vue/dist/vue.esm-browser.prod"
+import { createApp, ref, reactive, computed, onBeforeMount, onMounted, onBeforeUpdate, onUpdated, onBeforeUnmount, onUnmounted, watch, watchEffect } from "vue/dist/vue.esm-browser.prod"
 import ResizeObserver from "resize-observer-polyfill"
 
 window.ResizeObserver = ResizeObserver
 
 export {
     createApp,
+    ref,
+    reactive,
+    computed,
+    onBeforeMount,
+    onMounted,
+    onBeforeUpdate,
+    onUpdated,
+    onBeforeUnmount,
+    onUnmounted,
+    watch,
+    watchEffect,
     $,
     api,
     msg,

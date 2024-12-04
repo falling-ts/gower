@@ -694,33 +694,30 @@
     </div>
     {{template "foot" .}}
     <script type="module">
-      import { createApp, api, msg, cookie } from "/public/static/main.js"
+      import { createApp, ref, api, msg, cookie } from "/public/static/main.js"
       const { auth, v1 } = api
 
       createApp({
         compilerOptions: {
           delimiters: ['${', '}']
         },
-        data() {
-          return {
-            helloData: {
-              test: '123',
-              name: 'Gower'
-            },
-            upload: {
-              path: '',
-              url: ''
-            }
-          }
-        },
-        methods: {
-          async apiHello() {
-            const res = await v1.hello(this.helloData)
+        setup() {
+          const helloData = ref({
+            test: '123',
+            name: 'Gower'
+          }), upload = ref({
+            path: '',
+            url: ''
+          })
+
+          const apiHello = async () => {
+            const res = await v1.hello(helloData.value)
             if (!res.code) {
               msg.info(res.msg)
             }
-          },
-          logout() {
+          }
+
+          const logout = () => {
             msg.confirm("是否退出", async () => {
               const res = await auth.logout()
               if (!res.code) {
@@ -731,21 +728,28 @@
                 }, 2000)
               }
             })
-          },
-          async onFileChange(event) {
+          }
+
+          const onFileChange = async (event) => {
             const formData = new FormData();
             formData.append("image", event.target.files[0])
 
             const res = await v1.image(formData)
             if (!res.code) {
               msg.success(res.msg)
-              console.log(res)
-
-              this.upload = res.data
+              upload.value = res.data
             }
           }
+
+          return {
+            helloData,
+            upload,
+            apiHello,
+            logout,
+            onFileChange
+          }
         }
-      }).mount("#home-index")
+      }).mount("#app")
     </script>
 {{end}}
 

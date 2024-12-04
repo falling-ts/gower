@@ -1,3 +1,62 @@
 {{define "component/grid/form"}}
-test
+<form
+  class="rounded ring-2 mx-4 my-2 px-4 pt-2 pb-12 flex flex-col relative"
+  method="POST"
+  action="{{.resource}}">
+  {{range .forms}}
+  {{if eq .type "checkbox"}}
+  <div class="flex items-center mt-1 w-full lg:w-1/3">
+    <label for="filter-{{.name}}" class="label cursor-pointer min-w-fit w-1/3 flex justify-end mr-2">{{.label}}</label>
+    <input id="filter-{{.name}}" name="{{.name}}" type="checkbox" {{if .value}}checked{{end}} class="checkbox" />
+  </div>
+  {{else if eq .type "file"}}
+  <div class="flex items-center mt-1 w-full lg:w-1/3">
+    <label for="filter-{{.name}}" class="label cursor-pointer min-w-fit w-1/3 flex justify-end mr-2">{{.label}}</label>
+    <input id="filter-{{.name}}" name="{{.name}}" type="file" class="file-input file-input-bordered w-full max-w-xs" />
+  </div>
+  {{else if eq .type "select"}}
+  <div class="flex items-center mt-1 w-full lg:w-1/3">
+    <label for="filter-{{.name}}" class="label cursor-pointer min-w-fit w-1/3 flex justify-end mr-2">{{.label}}</label>
+    <select id="filter-{{.name}}" name="{{.name}}" class="select select-bordered select-sm w-full max-w-xs">
+      {{range .options}}
+      <option value="{{.op_value}}" {{if eq .op_value .value}}selected{{end}}>{{.op_label}}</option>
+      {{end}}
+    </select>
+  </div>
+  {{else if eq .type "text"}}
+  <div class="flex items-center mt-1 w-full lg:w-1/3">
+    <label for="filter-{{.name}}" class="label cursor-pointer min-w-fit w-1/3 flex justify-end mr-2">{{.label}}</label>
+    <input id="filter-{{.name}}" name="{{.name}}" value="{{.value}}" type="text" placeholder="请输入{{.label}}" class="input input-bordered w-full max-w-xs" />
+  </div>
+  {{else if eq .type "password"}}
+  <div class="flex items-center mt-1 w-full lg:w-1/3">
+    <label for="filter-{{.name}}" class="label cursor-pointer min-w-fit w-1/3 flex justify-end mr-2">{{.label}}</label>
+    <input id="filter-{{.name}}" name="{{.name}}" value="{{.value}}" type="password" placeholder="请输入{{.label}}" class="input input-bordered w-full max-w-xs" />
+  </div>
+  {{else if eq .type "textarea"}}
+  <div class="flex items-center mt-1 w-full lg:w-1/3">
+    <label for="filter-{{.name}}" class="label cursor-pointer min-w-fit w-1/3 flex justify-end mr-2">{{.label}}</label>
+    <textarea id="filter-{{.name}}" name="{{.name}}" class="textarea textarea-bordered" placeholder="Bio">{{.value}}</textarea>
+  </div>
+  {{else if eq .type "toggle"}}
+  <div class="flex items-center mt-1 w-full lg:w-1/3">
+    <label for="filter-{{.name}}" class="label cursor-pointer min-w-fit w-1/3 flex justify-end mr-2">{{.label}}</label>
+    <input id="filter-{{.name}}" name="{{.name}}" {{if .value}}checked{{end}} type="checkbox" class="toggle" />
+  </div>
+  {{end}}
+  {{end}}
+  <div class="absolute w-full h-fit bottom-2 right-4 flex justify-end">
+    <button class="submit btn btn-primary btn-outline" type="submit">提交</button>
+    <button class="reset btn ml-2" type="button">重置</button>
+  </div>
+</form>
+<script type="module">
+  import { $ } from "/public/static/main.js"
+
+  $(() => {
+    $('.reset').on('click', () => {
+      window.location.reload()
+    })
+  })
+</script>
 {{end}}

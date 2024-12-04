@@ -151,7 +151,7 @@ func (s *Service) csrfTokenAndCommonData(c *gin.Context) {
 				data.SetMapIndex(reflect.ValueOf(titleKey), reflect.ValueOf(title))
 			}
 
-			themeKey := "app_theme"
+			themeKey := "appTheme"
 			themeVal := data.MapIndex(reflect.ValueOf(themeKey))
 			if !themeVal.IsValid() {
 				theme := config.Get("view.theme", "lofi").(string)
