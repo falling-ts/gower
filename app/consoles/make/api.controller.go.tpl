@@ -20,7 +20,6 @@ func (*{{.UpCamel}}Controller) Index(req *requests.{{.UpCamel}}Request) (service
 
 // Store 添加数据
 func (*{{.UpCamel}}Controller) Store(req *requests.{{.UpCamel}}Request, model *models.{{.UpCamel}}) (services.Response, error) {
-	model.Name = req.Name
 	result := db.Create(model)
 	if result.Error != nil {
 		return nil, exc.BadRequest(result.Error)
@@ -31,7 +30,6 @@ func (*{{.UpCamel}}Controller) Store(req *requests.{{.UpCamel}}Request, model *m
 
 // Update 修改数据
 func (*{{.UpCamel}}Controller) Update(req *requests.{{.UpCamel}}Request, model *models.{{.UpCamel}}) (services.Response, error) {
-	model.Name = req.Name
 	result := db.Save(model)
 	if result.Error != nil {
 		return nil, exc.BadRequest(result.Error)

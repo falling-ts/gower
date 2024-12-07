@@ -13,7 +13,12 @@ async function logout(data: Data | object = {}, option: RequestInit = {}) {
     return await client.post("/admin/auth/logout", data, option)
 }
 
+async function image(data: FormData, option: RequestInit = {}) {
+    return await client.post("/admin/upload/image", data, option)
+}
+
 export default {
     login,
-    logout
+    logout,
+    image
 }

@@ -41,6 +41,12 @@ func init() {
 		"resources/views/*.tmpl",
 		"resources/views/**/*.tmpl",
 		"resources/views/**/**/*.tmpl",
+		"resources/views/**/**/**/*.tmpl",
+		"resources/views/**/**/**/**/**/*.tmpl",
+		"resources/views/**/**/**/**/**/**/*.tmpl",
+		"resources/views/**/**/**/**/**/**/**/*.tmpl",
+		"resources/views/**/**/**/**/**/**/**/**/*.tmpl",
+		"resources/views/**/**/**/**/**/**/**/**/**/*.tmpl",
 	)
 	if err != nil {
 		if Tmpl == nil {
@@ -49,6 +55,12 @@ func init() {
 		route.LoadHTMLFS(Tmpl,
 			"views/*.tmpl",
 			"views/**/*.tmpl",
-			"views/**/**/*.tmpl")
+			"views/**/**/*.tmpl",
+			"views/**/**/**/*.tmpl",
+			"views/**/**/**/**/*.tmpl",
+			"views/**/**/**/**/**/**/*.tmpl",
+			"views/**/**/**/**/**/**/**/*.tmpl",
+			"views/**/**/**/**/**/**/**/**/*.tmpl",
+			"views/**/**/**/**/**/**/**/**/**/*.tmpl")
 	}
 }

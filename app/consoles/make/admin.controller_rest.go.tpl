@@ -16,20 +16,19 @@ var {{.UpCamel}} = new({{.UpCamel}}Controller)
 // Index 获取列表页面
 func (*{{.UpCamel}}Controller) Index(req *requests.{{.UpCamel}}Request) (services.Response, error) {
 	return res.Ok("模板的 define 名称", app.Data{
-		"name": req.Name,
+		"name": "",
 	}), nil
 }
 
 // Create 获取添加页面
 func (*{{.UpCamel}}Controller) Create(req *requests.{{.UpCamel}}Request) (services.Response, error) {
 	return res.Ok("模板的 define 名称", app.Data{
-		"name": req.Name,
+		"name": "",
 	}), nil
 }
 
 // Store 添加数据
 func (*{{.UpCamel}}Controller) Store(req *requests.{{.UpCamel}}Request, model *models.{{.UpCamel}}) (services.Response, error) {
-	model.Name = req.Name
 	result := db.Create(model)
 	if result.Error != nil {
 		return nil, exc.BadRequest(result.Error)
@@ -47,7 +46,6 @@ func (*{{.UpCamel}}Controller) Edit(req *requests.{{.UpCamel}}Request, model *mo
 
 // Update 修改数据
 func (*{{.UpCamel}}Controller) Update(req *requests.{{.UpCamel}}Request, model *models.{{.UpCamel}}) (services.Response, error) {
-	model.Name = req.Name
 	result := db.Save(model)
 	if result.Error != nil {
 		return nil, exc.BadRequest(result.Error)

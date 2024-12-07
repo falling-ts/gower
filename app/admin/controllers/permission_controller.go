@@ -15,12 +15,12 @@ var Permission = new(PermissionController)
 
 // Index 获取列表页面
 func (*PermissionController) Index() (services.Response, error) {
-	return res.Ok("admin/permission/index", app.Data{}), nil
+	return res.Ok("admin/system/permission/index", app.Data{}), nil
 }
 
 // Create 获取添加页面
 func (*PermissionController) Create(req *requests.PermissionRequest) (services.Response, error) {
-	return res.Ok("admin/permission/index", app.Data{
+	return res.Ok("admin/system/permission/index", app.Data{
 		"name": req.Name,
 	}), nil
 }
@@ -38,7 +38,7 @@ func (*PermissionController) Store(req *requests.PermissionRequest, model *model
 
 // Edit 获取修改页面
 func (*PermissionController) Edit(req *requests.PermissionRequest, model *models.AdminPermission) (services.Response, error) {
-	return res.Ok("admin/permission/index", app.Data{
+	return res.Ok("admin/system/permission/index", app.Data{
 		"model": model,
 	}), nil
 }
@@ -56,7 +56,7 @@ func (*PermissionController) Update(req *requests.PermissionRequest, model *mode
 
 // Show 获取详情
 func (*PermissionController) Show(req *requests.PermissionRequest, model *models.AdminPermission) (services.Response, error) {
-	return res.Ok("admin/permission/index", app.Data{
+	return res.Ok("admin/system/permission/index", app.Data{
 		"model": model,
 	}), nil
 }

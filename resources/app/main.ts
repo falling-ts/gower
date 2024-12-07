@@ -12,6 +12,13 @@ import ResizeObserver from "resize-observer-polyfill"
 
 window.ResizeObserver = ResizeObserver
 
+$.fn.extend({
+    handle: function (callback: Function) {
+        callback(this)
+        return this
+    }
+})
+
 export {
     createApp,
     ref,

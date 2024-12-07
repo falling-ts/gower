@@ -161,6 +161,7 @@ func (s *Service) Ptr(v any) any {
 	case reflect.String:
 		val := v.(string)
 		return &val
+	default:
 	}
 
 	return v

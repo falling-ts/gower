@@ -1,25 +1,33 @@
 package routes
 
 import (
-	admin "gitee.com/falling-ts/gower/app/admin/controllers"
+	adm "gitee.com/falling-ts/gower/app/admin/controllers"
 	mws "gitee.com/falling-ts/gower/app/admin/middlewares"
 )
 
 func init() {
-	ar := route.Group("/admin", mws.Default(), mws.Menus())
+	admin := route.Group("/admin", mws.Default(), mws.Menus())
 	{
-		ar.GET("/", mws.Auth(), admin.Home.Index)
+		admin.GET("/", mws.Auth(), adm.Home.Index)
 
-		auth := ar.Group("/auth")
+		upload := admin.Group("/upload", mws.Auth())
 		{
-			auth.GET("/login", admin.Auth.LoginForm)
-			auth.POST("/login", admin.Auth.Login)
-			auth.POST("/logout", mws.Auth(), admin.Auth.Logout)
+			upload.POST("/image", adm.Api.Image)
 		}
 
-		ar.Restful("user", admin.Admin)
-		ar.Restful("role", admin.Role)
-		ar.Restful("permission", admin.Permission)
-		ar.Restful("menu", admin.Menu)
+		auth := admin.Group("/auth")
+		{
+			auth.GET("/login", adm.Auth.LoginForm)
+			auth.POST("/login", adm.Auth.Login)
+			auth.POST("/logout", mws.Auth(), adm.Auth.Logout)
+		}
+
+		setting := admin.Group("/system", mws.Auth())
+		{
+			setting.Resource("user", adm.Admin)
+			setting.Resource("role", adm.Role)
+			setting.Resource("permission", adm.Permission)
+			setting.Resource("menu", adm.Menu)
+		}
 	}
 }

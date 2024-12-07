@@ -18,6 +18,8 @@ interface Client {
     del(path: string, data: object, option: RequestInit): Promise<Res>
 }
 
+const admin = new RegExp(`^\/admin`)
+
 class client implements Client {
     baseUri: string
     option: RequestInit
@@ -53,7 +55,7 @@ class client implements Client {
                 url += `?${toQueryString(data)}`
             }
 
-            await this._setToken()
+            await this._setToken(path)
 
             if (!isEmptyObject(option)) {
                 this.setOption(option)
@@ -63,21 +65,21 @@ class client implements Client {
 
             if (res.code) {
                 msg.error(res.msg)
-                console.log('Error : ', res)
+                console.log("Error : ", res)
                 await unauthorized(res, path)
             }
 
-            await handleToken(res)
+            await handleToken(res, path)
             return res
         } catch (error) {
             msg.error(error as string)
-            console.log('Error : ', error)
+            console.log("Error : ", error)
             throw error
         }
     }
     async post(path: string, data: object, option: RequestInit = {}): Promise<Res> {
         try {
-            await this._setToken()
+            await this._setToken(path)
             const body: BodyInit = await this._body(data)
 
             if (!isEmptyObject(option)) {
@@ -92,22 +94,22 @@ class client implements Client {
 
             if (res.code) {
                 msg.error(res.msg)
-                console.log('Error : ', res)
+                console.log("Error : ", res)
                 await unauthorized(res, path)
             }
 
-            await handleToken(res)
+            await handleToken(res, path)
             return res
         } catch (error) {
             msg.error(error as string)
-            console.log('Error : ', error)
+            console.log("Error : ", error)
             throw error
         }
     }
     async put(path: string, data: object, option: RequestInit = {}): Promise<Res> {
         try {
 
-            await this._setToken()
+            await this._setToken(path)
             const body: BodyInit = await this._body(data)
             if (!isEmptyObject(option)) {
                 this.setOption(option)
@@ -122,22 +124,22 @@ class client implements Client {
 
             if (res.code) {
                 msg.error(res.msg)
-                console.log('Error : ', res)
+                console.log("Error : ", res)
                 await unauthorized(res, path)
             }
 
-            await handleToken(res)
+            await handleToken(res, path)
             return res
         } catch (error) {
             msg.error(error as string)
-            console.log('Error : ', error)
+            console.log("Error : ", error)
             throw error
         }
     }
     async del(path: string, data: object = {}, option: RequestInit = {}): Promise<Res> {
         try {
 
-            await this._setToken()
+            await this._setToken(path)
             const body: BodyInit = await this._body(data)
             if (!isEmptyObject(option)) {
                 this.setOption(option)
@@ -152,27 +154,30 @@ class client implements Client {
 
             if (res.code) {
                 msg.error(res.msg)
-                console.log('Error : ', res)
+                console.log("Error : ", res)
                 await unauthorized(res, path)
             }
 
-            await handleToken(res)
+            await handleToken(res, path)
             return res
         } catch (error) {
             msg.error(error as string)
-            console.log('Error : ', error)
+            console.log("Error : ", error)
             throw error
         }
     }
-    async _setToken() {
-        let auth: string | null = localStorage.getItem("auth")
-        if (auth === null) {
-            auth = ""
+    async _setToken(path: string) {
+        if (admin.test(path)) {
+            return this.setOption({
+                headers: {
+                    "Admin-Authorization": localStorage.getItem("admin-auth") || ""
+                }
+            })
         }
 
         this.setOption({
             headers: {
-                Authorization: auth
+                Authorization: localStorage.getItem("auth") || ""
             }
         })
     }
@@ -202,25 +207,29 @@ function toQueryString(params: Record<string, any>): string {
 
 async function unauthorized(res: Res, path: string) {
     if (res.code == http.Unauthorized) {
-        await cookie.remove("token")
-        await cookie.remove("admin-token")
-        localStorage.removeItem("auth")
-
         setTimeout(() => {
-            const admin = new RegExp(`^\/admin`)
             if (admin.test(path)) {
+                cookie.remove("admin-token")
+                localStorage.removeItem("admin-auth")
                 window.location.href = "/admin/auth/login"
                 return
             }
+
+            cookie.remove("token")
+            localStorage.removeItem("auth")
             window.location.href = "/auth/login"
-        }, 2000)
+        }, 1000)
     }
 }
 
-async function handleToken(res: Res) {
-    if (res.token !== "") {
-        localStorage.setItem("auth", res.token)
+async function handleToken(res: Res, path: string) {
+    if (!res.token) {
+        return
     }
+    if (admin.test(path)) {
+        return localStorage.setItem("admin-auth", res.token)
+    }
+    localStorage.setItem("auth", res.token)
 }
 
 export default new client()

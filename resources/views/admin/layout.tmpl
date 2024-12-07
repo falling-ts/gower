@@ -389,7 +389,7 @@
   const { admin } = api
 
   $(() => {
-    $(`.menu a[data-href="${window.location.pathname}"]`).parents('details').attr('open', true)
+    $(`.menu a[data-href="${window.location.pathname}"]`).parents("details").attr("open", true)
 
     const id = localStorage.getItem("menu-active")
     if (id) {

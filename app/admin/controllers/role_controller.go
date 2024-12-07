@@ -15,12 +15,12 @@ var Role = new(RoleController)
 
 // Index 获取列表页面
 func (*RoleController) Index() (services.Response, error) {
-	return res.Ok("admin/role/index", app.Data{}), nil
+	return res.Ok("admin/system/role/index", app.Data{}), nil
 }
 
 // Create 获取添加页面
 func (*RoleController) Create(req *requests.RoleRequest) (services.Response, error) {
-	return res.Ok("admin/role/index", app.Data{
+	return res.Ok("admin/system/role/index", app.Data{
 		"name": req.Name,
 	}), nil
 }
@@ -38,7 +38,7 @@ func (*RoleController) Store(req *requests.RoleRequest, model *models.AdminRole)
 
 // Edit 获取修改页面
 func (*RoleController) Edit(req *requests.RoleRequest, model *models.AdminRole) (services.Response, error) {
-	return res.Ok("admin/role/index", app.Data{
+	return res.Ok("admin/system/role/index", app.Data{
 		"model": model,
 	}), nil
 }
@@ -56,7 +56,7 @@ func (*RoleController) Update(req *requests.RoleRequest, model *models.AdminRole
 
 // Show 获取详情
 func (*RoleController) Show(req *requests.RoleRequest, model *models.AdminRole) (services.Response, error) {
-	return res.Ok("admin/role/index", app.Data{
+	return res.Ok("admin/system/role/index", app.Data{
 		"model": model,
 	}), nil
 }

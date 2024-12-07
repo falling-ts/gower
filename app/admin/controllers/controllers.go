@@ -10,4 +10,5 @@ var (
 	auth   = app.Auth()
 	cookie = app.Cookie()
 	db     = app.DB()
+	upload = app.Upload()
 )

@@ -95,6 +95,7 @@ func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 
 						r[fieldName] = fieldName
 					}
+				default:
 				}
 			} else {
 				for _, key := range keys {
@@ -109,11 +110,13 @@ func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 						if !srcField.IsValid() {
 							continue
 						}
+					default:
 					}
 
 					r[fieldName] = fieldName
 				}
 			}
+		default:
 		}
 
 		delete(r, "_skips")
@@ -339,6 +342,7 @@ func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 					if err = trans(destValue.Elem(), srcValue, _r); err != nil {
 						return err
 					}
+				default:
 				}
 			}
 		case reflect.String:
@@ -385,15 +389,19 @@ func destNoSkips(destType reflect.Type, dest reflect.Value, src reflect.Value, s
 			if !srcField.IsValid() {
 				continue
 			}
-			if field.Kind() != srcField.Kind() {
-				continue
-			}
+
+			fieldElem := field.Type()
 			if field.Kind() == reflect.Ptr {
-				fieldElem := field.Type().Elem()
-				srcFieldElem := srcField.Type().Elem()
-				if fieldElem.Kind() != srcFieldElem.Kind() {
-					continue
-				}
+				fieldElem = field.Type().Elem()
+			}
+
+			srcFieldElem := srcField.Type()
+			if srcField.Kind() == reflect.Ptr {
+				srcFieldElem = srcField.Type().Elem()
+			}
+
+			if fieldElem.Kind() != srcFieldElem.Kind() {
+				continue
 			}
 		case reflect.Map:
 			convFieldName := str.Conv(fieldName)
@@ -414,6 +422,7 @@ func destNoSkips(destType reflect.Type, dest reflect.Value, src reflect.Value, s
 			}
 
 			continue
+		default:
 		}
 
 		r[fieldName] = fieldName
@@ -484,6 +493,7 @@ func valueByKey(v reflect.Value, k string) (reflect.Value, error) {
 		result = reflect.ValueOf(new(any)).Elem()
 	case reflect.Struct:
 		result = v.FieldByName(k)
+	default:
 	}
 	if result.IsValid() {
 		return result, nil
@@ -494,9 +504,10 @@ func valueByKey(v reflect.Value, k string) (reflect.Value, error) {
 
 func setValue(dest reflect.Value, destValue reflect.Value, k string, v reflect.Value) {
 	k = str.Conv(k).UpCamel()
-	destValue.Set(v)
 
-	if dest.Kind() == reflect.Map {
+	switch dest.Kind() {
+	case reflect.Map:
+		destValue.Set(v)
 		switch config.Res.KeyType {
 		case "CamelType":
 			dest.SetMapIndex(reflect.ValueOf(k), destValue)
@@ -505,5 +516,14 @@ func setValue(dest reflect.Value, destValue reflect.Value, k string, v reflect.V
 		default:
 			dest.SetMapIndex(reflect.ValueOf(str.Conv(k).Snake()), destValue)
 		}
+	case reflect.Struct:
+		if destValue.Kind() == reflect.Ptr && v.Kind() != reflect.Ptr {
+			destValue.Set(v.Addr())
+		} else if destValue.Kind() != reflect.Ptr && v.Kind() == reflect.Ptr {
+			destValue.Set(v.Elem())
+		} else {
+			destValue.Set(v)
+		}
+	default:
 	}
 }

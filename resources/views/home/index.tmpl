@@ -699,15 +699,15 @@
 
       createApp({
         compilerOptions: {
-          delimiters: ['${', '}']
+          delimiters: ["${", "}"]
         },
         setup() {
           const helloData = ref({
-            test: '123',
-            name: 'Gower'
+            test: "123",
+            name: "Gower"
           }), upload = ref({
-            path: '',
-            url: ''
+            path: "",
+            url: ""
           })
 
           const apiHello = async () => {

@@ -158,9 +158,17 @@ func (s *Service) csrfTokenAndCommonData(c *gin.Context) {
 				data.SetMapIndex(reflect.ValueOf(themeKey), reflect.ValueOf(theme))
 			}
 
+			agentKey := "isMobile"
+			agentVal := data.MapIndex(reflect.ValueOf(agentKey))
+			if !agentVal.IsValid() {
+				if agent, ok := c.Get(agentKey); ok {
+					data.SetMapIndex(reflect.ValueOf(agentKey), reflect.ValueOf(agent))
+				}
+			}
+
 			excKey, err := cookie.Get(c, "exception")
 			if err == nil {
-				exceptionKey := "app_exceptions"
+				exceptionKey := "appExceptions"
 				exceptionVal := data.MapIndex(reflect.ValueOf(exceptionKey))
 				if !exceptionVal.IsValid() {
 					if exception, ok := cache.Flash(excKey); ok {
@@ -184,15 +192,6 @@ func (s *Service) adminData(c *gin.Context) {
 					data.SetMapIndex(reflect.ValueOf(menusKey), reflect.ValueOf(menus))
 				}
 			}
-
-			agentKey := "isMobile"
-			agentVal := data.MapIndex(reflect.ValueOf(agentKey))
-			if !agentVal.IsValid() {
-				if agent, ok := c.Get(agentKey); ok {
-					data.SetMapIndex(reflect.ValueOf(agentKey), reflect.ValueOf(agent))
-				}
-			}
-
 		}
 	}
 }

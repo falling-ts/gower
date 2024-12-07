@@ -2,6 +2,7 @@ package app
 
 import (
 	"crypto/subtle"
+	"errors"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"reflect"
@@ -39,11 +40,13 @@ func (r *Request) Validate(c *gin.Context, req RequestIFace) error {
 
 	var ok bool
 	if err := c.ShouldBind(req); err != nil {
-		if _, ok = err.(*validator.InvalidValidationError); ok {
+		var invalidValidationError *validator.InvalidValidationError
+		if ok = errors.As(err, &invalidValidationError); ok {
 			return exc.BadRequest("验证器错误")
 		}
 
-		errs, ok := err.(validator.ValidationErrors)
+		var errs validator.ValidationErrors
+		ok := errors.As(err, &errs)
 		if !ok {
 			return exc.BadRequest(err)
 		}

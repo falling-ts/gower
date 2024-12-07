@@ -205,43 +205,43 @@ func (s *Service) Match(methods []string, relativePath string, handlers ...servi
 	return s
 }
 
-// Restful 注册一个资源路由.
-func (s *Service) Restful(resource string, controller any) services.IRoutes {
+// Resource 注册一个资源路由.
+func (s *Service) Resource(resource string, controller any, handlers ...services.Handler) services.IRoutes {
 	controllerValue := reflect.ValueOf(controller)
 
 	indexMethodValue := controllerValue.MethodByName("Index")
 	if indexMethodValue.IsValid() {
-		s.GET(fmt.Sprintf("/%s", resource), indexMethodValue.Interface())
+		s.GET(fmt.Sprintf("/%s", resource), append(handlers, indexMethodValue.Interface())...)
 	}
 
 	createMethodValue := controllerValue.MethodByName("Create")
 	if createMethodValue.IsValid() {
-		s.GET(fmt.Sprintf("/%s/create", resource), createMethodValue.Interface())
+		s.GET(fmt.Sprintf("/%s/create", resource), append(handlers, createMethodValue.Interface())...)
 	}
 
 	storeMethodValue := controllerValue.MethodByName("Store")
 	if storeMethodValue.IsValid() {
-		s.POST(fmt.Sprintf("/%s", resource), storeMethodValue.Interface())
+		s.POST(fmt.Sprintf("/%s", resource), append(handlers, storeMethodValue.Interface())...)
 	}
 
 	editMethodValue := controllerValue.MethodByName("Edit")
 	if editMethodValue.IsValid() {
-		s.GET(fmt.Sprintf("/%s/:id/edit", resource), editMethodValue.Interface())
+		s.GET(fmt.Sprintf("/%s/:id/edit", resource), append(handlers, editMethodValue.Interface())...)
 	}
 
 	updateMethodValue := controllerValue.MethodByName("Update")
 	if updateMethodValue.IsValid() {
-		s.PUT(fmt.Sprintf("/%s/:id", resource), updateMethodValue.Interface())
+		s.PUT(fmt.Sprintf("/%s/:id", resource), append(handlers, updateMethodValue.Interface())...)
 	}
 
 	showMethodValue := controllerValue.MethodByName("Show")
 	if showMethodValue.IsValid() {
-		s.GET(fmt.Sprintf("/%s/:id", resource), showMethodValue.Interface())
+		s.GET(fmt.Sprintf("/%s/:id", resource), append(handlers, showMethodValue.Interface())...)
 	}
 
 	destroyMethodValue := controllerValue.MethodByName("Destroy")
 	if destroyMethodValue.IsValid() {
-		s.DELETE(fmt.Sprintf("/%s/:id", resource), destroyMethodValue.Interface())
+		s.DELETE(fmt.Sprintf("/%s/:id", resource), append(handlers, destroyMethodValue.Interface())...)
 	}
 	return s
 }

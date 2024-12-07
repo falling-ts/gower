@@ -15,12 +15,12 @@ var Menu = new(MenuController)
 
 // Index 获取列表页面
 func (*MenuController) Index() (services.Response, error) {
-	return res.Ok("admin/menu/index", app.Data{}), nil
+	return res.Ok("admin/system/menu/index", app.Data{}), nil
 }
 
 // Create 获取添加页面
 func (*MenuController) Create(req *requests.MenuRequest) (services.Response, error) {
-	return res.Ok("admin/menu/index", app.Data{
+	return res.Ok("admin/system/menu/index", app.Data{
 		"name": req.Name,
 	}), nil
 }
@@ -38,7 +38,7 @@ func (*MenuController) Store(req *requests.MenuRequest, model *models.AdminMenu)
 
 // Edit 获取修改页面
 func (*MenuController) Edit(req *requests.MenuRequest, model *models.AdminMenu) (services.Response, error) {
-	return res.Ok("admin/menu/index", app.Data{
+	return res.Ok("admin/system/menu/index", app.Data{
 		"model": model,
 	}), nil
 }
@@ -56,7 +56,7 @@ func (*MenuController) Update(req *requests.MenuRequest, model *models.AdminMenu
 
 // Show 获取详情
 func (*MenuController) Show(req *requests.MenuRequest, model *models.AdminMenu) (services.Response, error) {
-	return res.Ok("admin/menu/index", app.Data{
+	return res.Ok("admin/system/menu/index", app.Data{
 		"model": model,
 	}), nil
 }

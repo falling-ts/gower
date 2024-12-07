@@ -16,15 +16,15 @@
   import { $ } from "/public/static/main.js"
   $(() => {
     const url = window.location.href
-    if (url.includes('#modalCreate')) {
-      $('#modalCreate iframe').attr('src', '{{.resource}}/create?isModal=true')
+    if (url.includes("#modalCreate")) {
+      $("#modalCreate iframe").attr("src", "{{.resource}}/create?isModal=true")
     }
 
-    $('.refresh').on('click', () => {
+    $(".refresh").on("click", () => {
       window.location.reload()
     })
-    $('.create').on('click', () => {
-      $('#modalCreate iframe').attr('src', '{{.resource}}/create?isModal=true')
+    $(".create").on("click", () => {
+      $("#modalCreate iframe").attr("src", "{{.resource}}/create?isModal=true")
     })
   })
 </script>

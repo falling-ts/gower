@@ -8,6 +8,9 @@ class message {
     default(msg: string) {
         alert("default", msg)
     }
+    loading(msg: string) {
+        return alert("loading", msg)
+    }
     info(msg: string) {
         alert("info", msg)
     }
@@ -20,6 +23,7 @@ class message {
     error(msg: string) {
         alert("error", msg)
     }
+
     confirm(msg: string, ok: Confirm) {
         confirm(msg, ok)
     }
@@ -32,7 +36,8 @@ function alert(type: string, msg: string) {
             "info": infoElem(msg),
             "success": successElem(msg),
             "warning": warningElem(msg),
-            "error": errorElem(msg)
+            "error": errorElem(msg),
+            "loading": loadingElem(msg)
         }[type]
         if (result === undefined) {
             result = defaultElem(msg)
@@ -41,7 +46,17 @@ function alert(type: string, msg: string) {
         return result
     })(type, msg), alert = $(elem)
 
-    alert.appendTo('#alert-box').addClass("animate__fadeInDown").on("click", () => {
+    if (type === "loading") {
+        alert.appendTo("#alert-box").addClass("animate__fadeInDown")
+        const mask = $(`<div class="fixed inset-0 z-10 bg-base-300 opacity-80"></div>`)
+        mask.appendTo("#app")
+        return () => {
+            alert.detach()
+            mask.detach()
+        }
+    }
+
+    alert.appendTo("#alert-box").addClass("animate__fadeInDown").on("click", () => {
         alert.addClass("animate__rotateOutDownLeft")
         setTimeout(() => {
             alert.detach()
@@ -59,7 +74,7 @@ function alert(type: string, msg: string) {
 function confirm(msg: string, ok: Confirm) {
     const elem = confirmElem(msg), confirm: JQuery<HTMLElement> = $(elem)
 
-    confirm.appendTo('#alert-box').addClass("animate__fadeInDown")
+    confirm.appendTo("#alert-box").addClass("animate__fadeInDown")
     confirm.on("click", ".btn-ghost", () => {
         confirm.addClass("animate__rotateOutDownLeft")
         setTimeout(() => {
@@ -82,6 +97,18 @@ function defaultElem(msg: string): HTMLElement {
     </div>
     `
 
+    return elem
+}
+
+function loadingElem(msg: string): HTMLElement {
+    const elem = document.createElement("div")
+    elem.className = "w-full h-20 alert alert-default shadow-lg animate__animated mt-10 flex justify-center"
+    elem.innerHTML = `
+    <div class="flex items-center">
+        <i class="icon-[svg-spinners--pulse-3]" role="img" aria-hidden="true"></i>
+        <span class="ml-2">${msg}</span>
+    </div>
+    `
     return elem
 }
 
@@ -148,5 +175,9 @@ function confirmElem(msg: string): HTMLElement {
   `;
     return elem
 }
+
+
+
+
 
 export default new message()

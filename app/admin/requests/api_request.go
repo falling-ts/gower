@@ -1,8 +1,8 @@
 package requests
 
-import "{{.Module}}/app"
+import "gitee.com/falling-ts/gower/app"
 
-type {{.UpCamel}}Request struct {
+type ApiRequest struct {
 	app.Request
 
 	// Name *string `form:"name" json:"name" binding:"required"`
