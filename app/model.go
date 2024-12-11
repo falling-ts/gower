@@ -3,6 +3,7 @@ package app
 import (
 	"errors"
 	"reflect"
+	"strings"
 	"time"
 
 	"gitee.com/falling-ts/gower/utils/slice"
@@ -346,9 +347,11 @@ func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 				}
 			}
 		case reflect.String:
-			srcValue, err = valueByKey(src, v.(string))
+			vStr, def := getSrcKeyAndDefault(k, v.(string))
+			srcValue, err = valueByKey(src, vStr)
+
 			if err != nil {
-				setValue(dest, destValue, k, rule)
+				setValue(dest, destValue, k, def)
 				break
 			}
 			if Format := srcValue.MethodByName("Format"); Format.IsValid() {
@@ -363,6 +366,22 @@ func trans(dest reflect.Value, src reflect.Value, r map[string]any) error {
 	}
 
 	return nil
+}
+
+func getSrcKeyAndDefault(descKey string, srcKey string) (string, reflect.Value) {
+	if srcKey == "" {
+		return descKey, reflect.ValueOf("")
+	}
+
+	parts := strings.Split(srcKey, "||")
+	if parts[0] == "" {
+		return descKey, reflect.ValueOf(parts[1])
+	}
+	if len(parts) > 1 {
+		return parts[0], reflect.ValueOf(parts[1])
+	}
+
+	return srcKey, reflect.ValueOf(srcKey)
 }
 
 func destNoSkips(destType reflect.Type, dest reflect.Value, src reflect.Value, skips slice.Strings, r Rule) {

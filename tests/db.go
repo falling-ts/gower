@@ -142,8 +142,18 @@ func TestDB(t *testing.T) {
 
 	out, err := user.SetModel(user).Out(app.Rule{
 		"_skips": app.Skips{"password", "deleted_at"},
+		"test":   "||",
+		"test2":  "||0",
+		"test3":  "||0.2",
+		"test4":  "||test-test",
 		"user_info": app.Rule{
 			"nickname": "Nickname",
+			"test":     "||",
+			"test2":    "||0",
+			"test3":    "||0.2",
+			"test4":    "||test-test",
+			"test5":    "nickname||test",
+			"test6":    "nickname_a||test",
 			"avatar": struct {
 				Args []string
 				Func func(avatar string) string
