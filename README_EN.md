@@ -4,7 +4,7 @@
 
 [Chinese](README.md)|[English](README_EN.md)
 
-[![version](https://img.shields.io/badge/version-0.9.1-yellow?style=flat-square&logo=V)]()
+[![version](https://img.shields.io/badge/version-0.9.2-yellow?style=flat-square&logo=V)]()
 
 ---
 
